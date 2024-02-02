@@ -32,10 +32,10 @@
             tabPage1 = new TabPage();
             groupBox1 = new GroupBox();
             lvOrders = new ListView();
-            tabPage2 = new TabPage();
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
             columnHeader3 = new ColumnHeader();
+            tabPage2 = new TabPage();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox1.SuspendLayout();
@@ -76,23 +76,13 @@
             // lvOrders
             // 
             lvOrders.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3 });
-            lvOrders.Location = new Point(6, 26);
+            lvOrders.Location = new Point(6, 63);
             lvOrders.MultiSelect = false;
             lvOrders.Name = "lvOrders";
-            lvOrders.Size = new Size(1130, 284);
+            lvOrders.Size = new Size(1130, 290);
             lvOrders.TabIndex = 0;
             lvOrders.UseCompatibleStateImageBehavior = false;
             lvOrders.View = View.Details;
-            // 
-            // tabPage2
-            // 
-            tabPage2.Location = new Point(4, 29);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1158, 500);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
-            tabPage2.UseVisualStyleBackColor = true;
             // 
             // columnHeader1
             // 
@@ -105,6 +95,16 @@
             // columnHeader3
             // 
             columnHeader3.Text = "Sipariş Tarihi";
+            // 
+            // tabPage2
+            // 
+            tabPage2.Location = new Point(4, 29);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new Padding(3);
+            tabPage2.Size = new Size(1158, 500);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "tabPage2";
+            tabPage2.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
