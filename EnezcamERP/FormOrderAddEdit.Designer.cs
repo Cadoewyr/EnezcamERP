@@ -29,7 +29,14 @@
         private void InitializeComponent()
         {
             gbOrder = new GroupBox();
+            lblTotalProduced = new Label();
+            lblTotalCount = new Label();
             gbOrderDetails = new GroupBox();
+            btnCancel = new Button();
+            btnSaveChanges = new Button();
+            btnDeleteOrderDetail = new Button();
+            btnEditOrderDetail = new Button();
+            btnAddOrderDetail = new Button();
             lvOrderDetails = new ListView();
             clmProductName = new ColumnHeader();
             clmType = new ColumnHeader();
@@ -43,36 +50,39 @@
             txtCustomer = new TextBox();
             txtProfitPercentage = new TextBox();
             txtProfit = new TextBox();
+            txtTotalProduced = new TextBox();
+            txtTotalCount = new TextBox();
             txtTotalCost = new TextBox();
             txtTotalPrice = new TextBox();
             lblProfitPercentage = new Label();
             txtJobNo = new TextBox();
             lblProfit = new Label();
-            label1 = new Label();
+            lblIssueDate = new Label();
             lblTotalCost = new Label();
             lblCustomer = new Label();
             lblTotalPrice = new Label();
             lblJobNo = new Label();
-            btnAddOrderDetail = new Button();
-            btnEditOrderDetail = new Button();
-            btnDeleteOrderDetail = new Button();
             gbOrder.SuspendLayout();
             gbOrderDetails.SuspendLayout();
             SuspendLayout();
             // 
             // gbOrder
             // 
+            gbOrder.Controls.Add(lblTotalProduced);
+            gbOrder.Controls.Add(lblTotalCount);
             gbOrder.Controls.Add(gbOrderDetails);
             gbOrder.Controls.Add(dtpIssueDate);
             gbOrder.Controls.Add(txtCustomer);
             gbOrder.Controls.Add(txtProfitPercentage);
             gbOrder.Controls.Add(txtProfit);
+            gbOrder.Controls.Add(txtTotalProduced);
+            gbOrder.Controls.Add(txtTotalCount);
             gbOrder.Controls.Add(txtTotalCost);
             gbOrder.Controls.Add(txtTotalPrice);
             gbOrder.Controls.Add(lblProfitPercentage);
             gbOrder.Controls.Add(txtJobNo);
             gbOrder.Controls.Add(lblProfit);
-            gbOrder.Controls.Add(label1);
+            gbOrder.Controls.Add(lblIssueDate);
             gbOrder.Controls.Add(lblTotalCost);
             gbOrder.Controls.Add(lblCustomer);
             gbOrder.Controls.Add(lblTotalPrice);
@@ -84,8 +94,28 @@
             gbOrder.TabStop = false;
             gbOrder.Text = "Sipariş Detayları";
             // 
+            // lblTotalProduced
+            // 
+            lblTotalProduced.AutoSize = true;
+            lblTotalProduced.Location = new Point(810, 106);
+            lblTotalProduced.Name = "lblTotalProduced";
+            lblTotalProduced.Size = new Size(118, 20);
+            lblTotalProduced.TabIndex = 7;
+            lblTotalProduced.Text = "Toplam Üretilen:";
+            // 
+            // lblTotalCount
+            // 
+            lblTotalCount.AutoSize = true;
+            lblTotalCount.Location = new Point(513, 106);
+            lblTotalCount.Name = "lblTotalCount";
+            lblTotalCount.Size = new Size(98, 20);
+            lblTotalCount.TabIndex = 7;
+            lblTotalCount.Text = "Toplam Adet:";
+            // 
             // gbOrderDetails
             // 
+            gbOrderDetails.Controls.Add(btnCancel);
+            gbOrderDetails.Controls.Add(btnSaveChanges);
             gbOrderDetails.Controls.Add(btnDeleteOrderDetail);
             gbOrderDetails.Controls.Add(btnEditOrderDetail);
             gbOrderDetails.Controls.Add(btnAddOrderDetail);
@@ -97,13 +127,64 @@
             gbOrderDetails.TabStop = false;
             gbOrderDetails.Text = "Sipariş Detayları";
             // 
+            // btnCancel
+            // 
+            btnCancel.Location = new Point(951, 29);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(94, 29);
+            btnCancel.TabIndex = 6;
+            btnCancel.Text = "İptal";
+            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
+            // 
+            // btnSaveChanges
+            // 
+            btnSaveChanges.Location = new Point(1051, 29);
+            btnSaveChanges.Name = "btnSaveChanges";
+            btnSaveChanges.Size = new Size(94, 29);
+            btnSaveChanges.TabIndex = 7;
+            btnSaveChanges.Text = "Kaydet";
+            btnSaveChanges.UseVisualStyleBackColor = true;
+            btnSaveChanges.Click += btnSaveChanges_Click;
+            // 
+            // btnDeleteOrderDetail
+            // 
+            btnDeleteOrderDetail.Location = new Point(206, 29);
+            btnDeleteOrderDetail.Name = "btnDeleteOrderDetail";
+            btnDeleteOrderDetail.Size = new Size(94, 29);
+            btnDeleteOrderDetail.TabIndex = 5;
+            btnDeleteOrderDetail.Text = "Sil";
+            btnDeleteOrderDetail.UseVisualStyleBackColor = true;
+            btnDeleteOrderDetail.Click += btnDeleteOrderDetail_Click;
+            // 
+            // btnEditOrderDetail
+            // 
+            btnEditOrderDetail.Location = new Point(106, 29);
+            btnEditOrderDetail.Name = "btnEditOrderDetail";
+            btnEditOrderDetail.Size = new Size(94, 29);
+            btnEditOrderDetail.TabIndex = 4;
+            btnEditOrderDetail.Text = "Düzenle";
+            btnEditOrderDetail.UseVisualStyleBackColor = true;
+            btnEditOrderDetail.Click += btnEditOrderDetail_Click;
+            // 
+            // btnAddOrderDetail
+            // 
+            btnAddOrderDetail.Location = new Point(6, 29);
+            btnAddOrderDetail.Name = "btnAddOrderDetail";
+            btnAddOrderDetail.Size = new Size(94, 29);
+            btnAddOrderDetail.TabIndex = 3;
+            btnAddOrderDetail.Text = "Ekle";
+            btnAddOrderDetail.UseVisualStyleBackColor = true;
+            btnAddOrderDetail.Click += btnAddOrderDetail_Click;
+            // 
             // lvOrderDetails
             // 
             lvOrderDetails.Columns.AddRange(new ColumnHeader[] { clmProductName, clmType, clmQuantity, clmUnitCode, clmUnitPrice, clmUnitCost, clmProfit, clmProfitPercentage });
             lvOrderDetails.Location = new Point(6, 64);
+            lvOrderDetails.MultiSelect = false;
             lvOrderDetails.Name = "lvOrderDetails";
             lvOrderDetails.Size = new Size(1139, 262);
-            lvOrderDetails.TabIndex = 0;
+            lvOrderDetails.TabIndex = 8;
             lvOrderDetails.UseCompatibleStateImageBehavior = false;
             lvOrderDetails.View = View.Details;
             // 
@@ -144,42 +225,76 @@
             dtpIssueDate.Location = new Point(104, 103);
             dtpIssueDate.Name = "dtpIssueDate";
             dtpIssueDate.Size = new Size(250, 27);
-            dtpIssueDate.TabIndex = 5;
+            dtpIssueDate.TabIndex = 2;
+            dtpIssueDate.ValueChanged += Changed;
             // 
             // txtCustomer
             // 
             txtCustomer.Location = new Point(104, 70);
             txtCustomer.Name = "txtCustomer";
             txtCustomer.Size = new Size(250, 27);
-            txtCustomer.TabIndex = 4;
+            txtCustomer.TabIndex = 1;
+            txtCustomer.TextChanged += Changed;
             // 
             // txtProfitPercentage
             // 
-            txtProfitPercentage.Location = new Point(887, 70);
+            txtProfitPercentage.Location = new Point(934, 70);
+            txtProfitPercentage.MaxLength = 50;
             txtProfitPercentage.Name = "txtProfitPercentage";
+            txtProfitPercentage.ReadOnly = true;
             txtProfitPercentage.Size = new Size(158, 27);
-            txtProfitPercentage.TabIndex = 3;
+            txtProfitPercentage.TabIndex = 7;
+            txtProfitPercentage.TabStop = false;
             // 
             // txtProfit
             // 
-            txtProfit.Location = new Point(887, 37);
+            txtProfit.Location = new Point(934, 37);
+            txtProfit.MaxLength = 50;
             txtProfit.Name = "txtProfit";
+            txtProfit.ReadOnly = true;
             txtProfit.Size = new Size(158, 27);
-            txtProfit.TabIndex = 3;
+            txtProfit.TabIndex = 6;
+            txtProfit.TabStop = false;
+            // 
+            // txtTotalProduced
+            // 
+            txtTotalProduced.Location = new Point(934, 103);
+            txtTotalProduced.MaxLength = 50;
+            txtTotalProduced.Name = "txtTotalProduced";
+            txtTotalProduced.ReadOnly = true;
+            txtTotalProduced.Size = new Size(158, 27);
+            txtTotalProduced.TabIndex = 3;
+            txtTotalProduced.TabStop = false;
+            // 
+            // txtTotalCount
+            // 
+            txtTotalCount.Location = new Point(631, 103);
+            txtTotalCount.MaxLength = 50;
+            txtTotalCount.Name = "txtTotalCount";
+            txtTotalCount.ReadOnly = true;
+            txtTotalCount.Size = new Size(158, 27);
+            txtTotalCount.TabIndex = 5;
+            txtTotalCount.TabStop = false;
             // 
             // txtTotalCost
             // 
-            txtTotalCost.Location = new Point(557, 70);
+            txtTotalCost.Location = new Point(631, 70);
+            txtTotalCost.MaxLength = 50;
             txtTotalCost.Name = "txtTotalCost";
+            txtTotalCost.ReadOnly = true;
             txtTotalCost.Size = new Size(158, 27);
-            txtTotalCost.TabIndex = 3;
+            txtTotalCost.TabIndex = 4;
+            txtTotalCost.TabStop = false;
             // 
             // txtTotalPrice
             // 
-            txtTotalPrice.Location = new Point(557, 37);
+            txtTotalPrice.Location = new Point(631, 37);
+            txtTotalPrice.MaxLength = 50;
             txtTotalPrice.Name = "txtTotalPrice";
+            txtTotalPrice.ReadOnly = true;
             txtTotalPrice.Size = new Size(158, 27);
             txtTotalPrice.TabIndex = 3;
+            txtTotalPrice.TabStop = false;
             // 
             // lblProfitPercentage
             // 
@@ -195,7 +310,8 @@
             txtJobNo.Location = new Point(104, 37);
             txtJobNo.Name = "txtJobNo";
             txtJobNo.Size = new Size(250, 27);
-            txtJobNo.TabIndex = 3;
+            txtJobNo.TabIndex = 0;
+            txtJobNo.TextChanged += Changed;
             // 
             // lblProfit
             // 
@@ -205,26 +321,24 @@
             lblProfit.Size = new Size(31, 20);
             lblProfit.TabIndex = 0;
             lblProfit.Text = "Kar";
-            lblProfit.Click += lblTotalCost_Click;
             // 
-            // label1
+            // lblIssueDate
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(6, 103);
-            label1.Name = "label1";
-            label1.Size = new Size(92, 20);
-            label1.TabIndex = 2;
-            label1.Text = "Sipariş Tarihi";
+            lblIssueDate.AutoSize = true;
+            lblIssueDate.Location = new Point(6, 106);
+            lblIssueDate.Name = "lblIssueDate";
+            lblIssueDate.Size = new Size(92, 20);
+            lblIssueDate.TabIndex = 2;
+            lblIssueDate.Text = "Sipariş Tarihi";
             // 
             // lblTotalCost
             // 
             lblTotalCost.AutoSize = true;
-            lblTotalCost.Location = new Point(439, 73);
+            lblTotalCost.Location = new Point(513, 73);
             lblTotalCost.Name = "lblTotalCost";
             lblTotalCost.Size = new Size(112, 20);
             lblTotalCost.TabIndex = 0;
             lblTotalCost.Text = "Toplam Maliyet";
-            lblTotalCost.Click += lblTotalCost_Click;
             // 
             // lblCustomer
             // 
@@ -238,7 +352,7 @@
             // lblTotalPrice
             // 
             lblTotalPrice.AutoSize = true;
-            lblTotalPrice.Location = new Point(439, 40);
+            lblTotalPrice.Location = new Point(513, 40);
             lblTotalPrice.Name = "lblTotalPrice";
             lblTotalPrice.Size = new Size(97, 20);
             lblTotalPrice.TabIndex = 0;
@@ -253,41 +367,19 @@
             lblJobNo.TabIndex = 0;
             lblJobNo.Text = "Sipariş No";
             // 
-            // btnAddOrderDetail
-            // 
-            btnAddOrderDetail.Location = new Point(6, 29);
-            btnAddOrderDetail.Name = "btnAddOrderDetail";
-            btnAddOrderDetail.Size = new Size(94, 29);
-            btnAddOrderDetail.TabIndex = 1;
-            btnAddOrderDetail.Text = "Ekle";
-            btnAddOrderDetail.UseVisualStyleBackColor = true;
-            // 
-            // btnEditOrderDetail
-            // 
-            btnEditOrderDetail.Location = new Point(106, 29);
-            btnEditOrderDetail.Name = "btnEditOrderDetail";
-            btnEditOrderDetail.Size = new Size(94, 29);
-            btnEditOrderDetail.TabIndex = 1;
-            btnEditOrderDetail.Text = "Düzenle";
-            btnEditOrderDetail.UseVisualStyleBackColor = true;
-            // 
-            // btnDeleteOrderDetail
-            // 
-            btnDeleteOrderDetail.Location = new Point(206, 29);
-            btnDeleteOrderDetail.Name = "btnDeleteOrderDetail";
-            btnDeleteOrderDetail.Size = new Size(94, 29);
-            btnDeleteOrderDetail.TabIndex = 1;
-            btnDeleteOrderDetail.Text = "Sil";
-            btnDeleteOrderDetail.UseVisualStyleBackColor = true;
-            // 
             // FormOrderAddEdit
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1187, 498);
             Controls.Add(gbOrder);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Name = "FormOrderAddEdit";
-            Text = "Order Details";
+            ShowIcon = false;
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Sipariş Detayı";
+            Shown += FormOrderAddEdit_Shown;
             gbOrder.ResumeLayout(false);
             gbOrder.PerformLayout();
             gbOrderDetails.ResumeLayout(false);
@@ -300,7 +392,7 @@
         private DateTimePicker dtpIssueDate;
         private TextBox txtCustomer;
         private TextBox txtJobNo;
-        private Label label1;
+        private Label lblIssueDate;
         private Label lblCustomer;
         private Label lblJobNo;
         private GroupBox gbOrderDetails;
@@ -324,5 +416,11 @@
         private Button btnDeleteOrderDetail;
         private Button btnEditOrderDetail;
         private Button btnAddOrderDetail;
+        private Label lblTotalCount;
+        private TextBox txtTotalCount;
+        private Label lblTotalProduced;
+        private TextBox txtTotalProduced;
+        private Button btnCancel;
+        private Button btnSaveChanges;
     }
 }

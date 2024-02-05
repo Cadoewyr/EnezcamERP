@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata.Ecma335;
 
 namespace DAL.DTO.Entities
 {
@@ -7,34 +8,46 @@ namespace DAL.DTO.Entities
         public int JobNo { get; set; }
         public DateTime IssueDate { get; set; }
         public DateOnly DeliveryDate { get; set; }
-        public string Customer { get; set; }
-        public List<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+        public string Customer { get; set; } = string.Empty;
+        public List<OrderDetail> OrderDetails { get; set; } = [];
+
+        [NotMapped]
+        public decimal ProductCount
+        {
+            get => OrderDetails.Sum(x => x.Quantity);
+        }
+
+        [NotMapped]
+        public decimal ProducedProductCount
+        {
+            get => OrderDetails.Sum(x => x.ProducedOrders.Sum(w=>w.ProducedOrderCount));
+        }
 
         //Satış
         #region
 
         [NotMapped]
-        public decimal TotalPrice
+        public decimal Price
         {
             get => OrderDetails.Sum(x => x.TotalPrice);
         }
 
         [NotMapped]
-        public decimal TotalCost
+        public decimal Cost
         {
             get => OrderDetails.Sum(x => x.TotalCost);
         }
 
         [NotMapped]
-        public decimal TotalProfit
+        public decimal Profit
         {
-            get => TotalPrice - TotalCost;
+            get => Price - Cost;
         }
 
         [NotMapped]
-        public decimal TotalProfitPercentage
+        public decimal ProfitPercentage
         {
-            get => (TotalPrice - TotalCost) / TotalCost;
+            get => (Price - Cost) / Cost;
         }
 
         #endregion
@@ -43,38 +56,29 @@ namespace DAL.DTO.Entities
         #region
 
         [NotMapped]
-        public decimal TotalProducedCost
+        public decimal ProducedCost
         {
             get => OrderDetails.Sum(x => x.TotalProducedCost);
         }
 
         [NotMapped]
-        public decimal TotalProducedPrice
+        public decimal ProducedPrice
         {
             get => OrderDetails.Sum(x => x.TotalProducedPrice);
         }
 
         [NotMapped]
-        public decimal TotalProducedProfit
+        public decimal ProducedProfit
         {
-            get => TotalProducedPrice - TotalCost;
+            get => ProducedPrice - Cost;
         }
 
         [NotMapped]
-        public decimal TotalProducedProfitPercentage
+        public decimal ProducedProfitPercentage
         {
-            get => (TotalProducedPrice - TotalProducedCost) / TotalProducedCost;
+            get => (ProducedPrice - ProducedCost) / ProducedCost;
         }
 
         #endregion
-
-
-
-
-
-
-
-
-
     }
 }

@@ -5,13 +5,13 @@ namespace DAL.DTO.Entities
 {
     public record OrderDetail : BaseEntity
     {
-        public string Name { get; set; } = string.Empty;
-        public Product Product { get; set; }
-        public UnitCode Code { get; set; }
+        public Order Order { get; set; }
+        public Product Product { get; set; } = new();
+        public UnitCode UnitCode { get; set; }
         public decimal UnitPrice { get; set; } = 0;
         public decimal UnitCost { get; set; } = 0;
         public decimal Quantity { get; set; } = 0;
-        public List<ProducedOrder> ProducedOrders { get; set; } = new List<ProducedOrder>();
+        public List<ProducedOrder> ProducedOrders { get; set; } = [];
 
         //Satış
         #region

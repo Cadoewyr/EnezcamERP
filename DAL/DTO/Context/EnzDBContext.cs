@@ -8,7 +8,17 @@ namespace DAL.DTO.Context
         public EnzDBContext()
         {
             Database.EnsureCreated();
-            
+        }
+
+        private static EnzDBContext? _context;
+
+        public static EnzDBContext GetInstance
+        {
+            get
+            {
+                _context ??= new EnzDBContext();
+                return _context;
+            }
         }
 
         public DbSet<Order> Orders { get; set; }
