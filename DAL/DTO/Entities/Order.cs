@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection.Metadata.Ecma335;
 
 namespace DAL.DTO.Entities
 {
@@ -7,7 +6,7 @@ namespace DAL.DTO.Entities
     {
         public int JobNo { get; set; }
         public DateTime IssueDate { get; set; }
-        public DateOnly DeliveryDate { get; set; }
+        public DateTime DeliveryDate { get; set; }
         public string Customer { get; set; } = string.Empty;
         public List<OrderDetail> OrderDetails { get; set; } = [];
 
@@ -20,7 +19,7 @@ namespace DAL.DTO.Entities
         [NotMapped]
         public decimal ProducedProductCount
         {
-            get => OrderDetails.Sum(x => x.ProducedOrders.Sum(w=>w.ProducedOrderCount));
+            get => OrderDetails.Sum(x => x.ProducedOrders.Sum(w => w.ProducedOrderCount));
         }
 
         //Satış
@@ -29,25 +28,49 @@ namespace DAL.DTO.Entities
         [NotMapped]
         public decimal Price
         {
-            get => OrderDetails.Sum(x => x.TotalPrice);
+            get
+            {
+                if (OrderDetails.Any())
+                    return OrderDetails.Sum(x => x.TotalPrice);
+                else
+                    return 0;
+            }
         }
 
         [NotMapped]
         public decimal Cost
         {
-            get => OrderDetails.Sum(x => x.TotalCost);
+            get
+            {
+                if(OrderDetails.Any())
+                    return OrderDetails.Sum(x => x.TotalCost);
+                else
+                    return 0;
+            }
         }
 
         [NotMapped]
         public decimal Profit
         {
-            get => Price - Cost;
+            get
+            {
+                if (OrderDetails.Any())
+                    return Price - Cost;
+                else
+                    return 0;
+            }
         }
 
         [NotMapped]
         public decimal ProfitPercentage
         {
-            get => (Price - Cost) / Cost;
+            get
+            {
+                if (OrderDetails.Any())
+                    return (Price - Cost) / Cost;
+                else
+                    return 0;
+            }
         }
 
         #endregion
@@ -58,25 +81,49 @@ namespace DAL.DTO.Entities
         [NotMapped]
         public decimal ProducedCost
         {
-            get => OrderDetails.Sum(x => x.TotalProducedCost);
+            get
+            {
+                if (OrderDetails.Any())
+                    return OrderDetails.Sum(x => x.TotalProducedCost);
+                else
+                    return 0;
+            }
         }
 
         [NotMapped]
         public decimal ProducedPrice
         {
-            get => OrderDetails.Sum(x => x.TotalProducedPrice);
+            get
+            {
+                if(OrderDetails.Any())
+                    return OrderDetails.Sum(x => x.TotalProducedPrice);
+                else
+                    return 0;
+            }
         }
 
         [NotMapped]
         public decimal ProducedProfit
         {
-            get => ProducedPrice - Cost;
+            get
+            {
+                if (OrderDetails.Any())
+                    return ProducedPrice - Cost;
+                else
+                    return 0;
+            }
         }
 
         [NotMapped]
         public decimal ProducedProfitPercentage
         {
-            get => (ProducedPrice - ProducedCost) / ProducedCost;
+            get
+            {
+                if (OrderDetails.Any())
+                    return (ProducedPrice - ProducedCost) / ProducedCost;
+                else
+                    return 0;
+            }
         }
 
         #endregion

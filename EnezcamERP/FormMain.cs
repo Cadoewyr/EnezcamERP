@@ -52,8 +52,7 @@ namespace EnezcamERP
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            FormOrderAddEdit form = new();
-            form.ShowDialog(this);
+
 
             FillList(lvOrders);
         }
@@ -62,8 +61,7 @@ namespace EnezcamERP
         {
             if (lvOrders.SelectedItems.Count > 0)
             {
-                FormOrderAddEdit form = new(lvOrders.SelectedItems[0].Tag as Order);
-                form.ShowDialog(this);
+
 
                 FillList(lvOrders);
             }
