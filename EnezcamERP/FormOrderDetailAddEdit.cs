@@ -91,22 +91,25 @@ namespace EnezcamERP
         //Done
         private void btnDeleteOrderDetail_Click(object sender, EventArgs e)
         {
-            StringBuilder sb = new();
-            sb.Append($"{orderDetail.Order.JobNo} numaralı siparişe ait {orderDetail.Product}|{orderDetail.Quantity} sipariş detayı silinecektir?");
-            sb.AppendLine("Onaylıyor musunuz?");
-
-            if (MessageBox.Show(sb.ToString(), $"{orderDetail.Order.JobNo}|{orderDetail.ID}", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if(orderDetail != null)
             {
-                orderDetailDB.Delete(orderDetail);
-                orderDetailDB.Save();
-                this.Close();
+                StringBuilder sb = new();
+                sb.Append($"{orderDetail.Order.JobNo} numaralı siparişe ait {orderDetail.Product}|{orderDetail.Quantity} sipariş detayı silinecektir?");
+                sb.AppendLine("Onaylıyor musunuz?");
+
+                if (MessageBox.Show(sb.ToString(), $"{orderDetail.Order.JobNo}|{orderDetail.ID}", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    orderDetailDB.Delete(orderDetail);
+                    orderDetailDB.Save();
+                    this.Close();
+                }
             }
         }
 
         //Done
         private void btnSaveOrderDetail_Click(object sender, EventArgs e)
         {
-            if (cbProduct.SelectedItem != null)
+            if (cbProduct.SelectedItem != null && orderDetail != null)
             {
                 orderDetail.Product = cbProduct.SelectedItem as Product;
                 orderDetail.UnitPrice = nudPrice.Value;
@@ -120,11 +123,15 @@ namespace EnezcamERP
         //Done
         private void btnAddProduceHistory_Click(object sender, EventArgs e)
         {
-            producedOrderDB.Add(new ProducedOrder()
+            if(orderDetail != null && order != null)
             {
-                ProducedDate = dtpIssueDateAdd.Value,
-                ProducedOrderCount = nudProducedCountAdd.Value
-            });
+                producedOrderDB.Add(new ProducedOrder()
+                {
+                    ProducedDate = dtpIssueDateAdd.Value,
+                    ProducedOrderCount = nudProducedCountAdd.Value,
+                    OrderDetail = this.orderDetail
+                });
+            }
         }
 
         //Done

@@ -1,37 +1,26 @@
 ﻿using BL.Repositories;
 using DAL.DTO.Context;
 using DAL.DTO.Entities;
-using EnezcamERP.Enums;
 
 namespace EnezcamERP
 {
     public partial class FormOrderAddEdit : Form
     {
-        public FormOrderAddEdit(FormType formType)
+        public FormOrderAddEdit()
         {
             InitializeComponent();
-            SetConfirmButtonText(formType);
         }
 
-        public FormOrderAddEdit(Order order, FormType formType)
+        public FormOrderAddEdit(Order order)
         {
             InitializeComponent();
             this.order = order;
-            SetConfirmButtonText(formType);
         }
 
         Order order;
         GenericRepository<OrderDetail> orderDetailDB = new(EnzDBContext.GetInstance);
         bool isChanged = false;
 
-        void SetConfirmButtonText(FormType formType)
-        {
-            if (formType == FormType.Add)
-                btnSaveChanges.Text = "Ekle";
-
-            else if (formType == FormType.Edit)
-                btnSaveChanges.Text = "Kaydet";
-        }
         void FillList(Order order)
         {
             lvOrderDetails.Items.Clear();

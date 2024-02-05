@@ -1,7 +1,6 @@
 using BL.Repositories;
 using DAL.DTO.Context;
 using DAL.DTO.Entities;
-using EnezcamERP.Enums;
 
 namespace EnezcamERP
 {
@@ -53,7 +52,7 @@ namespace EnezcamERP
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            FormOrderAddEdit form = new(FormType.Add);
+            FormOrderAddEdit form = new();
             form.ShowDialog(this);
 
             FillList(lvOrders);
@@ -63,7 +62,7 @@ namespace EnezcamERP
         {
             if (lvOrders.SelectedItems.Count > 0)
             {
-                FormOrderAddEdit form = new(lvOrders.SelectedItems[0].Tag as Order, FormType.Edit);
+                FormOrderAddEdit form = new(lvOrders.SelectedItems[0].Tag as Order);
                 form.ShowDialog(this);
 
                 FillList(lvOrders);
