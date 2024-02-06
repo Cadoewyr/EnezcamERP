@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             tabPage1 = new TabPage();
-            groupBox1 = new GroupBox();
+            gbOrders = new GroupBox();
             btnDelete = new Button();
             btnEdit = new Button();
             btnAdd = new Button();
@@ -46,34 +46,40 @@
             clmProfit = new ColumnHeader();
             clmProfitPercentage = new ColumnHeader();
             tabControl1 = new TabControl();
+            tabPage2 = new TabPage();
+            gbProducts = new GroupBox();
+            lvProducts = new ListView();
             tabPage1.SuspendLayout();
-            groupBox1.SuspendLayout();
+            gbOrders.SuspendLayout();
             tabControl1.SuspendLayout();
+            tabPage2.SuspendLayout();
+            gbProducts.SuspendLayout();
             SuspendLayout();
             // 
             // tabPage1
             // 
-            tabPage1.Controls.Add(groupBox1);
+            tabPage1.Controls.Add(gbOrders);
             tabPage1.Location = new Point(4, 29);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1158, 354);
+            tabPage1.Size = new Size(944, 490);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Siparişler";
             tabPage1.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
+            // gbOrders
             // 
-            groupBox1.Controls.Add(btnDelete);
-            groupBox1.Controls.Add(btnEdit);
-            groupBox1.Controls.Add(btnAdd);
-            groupBox1.Controls.Add(lvOrders);
-            groupBox1.Location = new Point(8, 6);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(1142, 341);
-            groupBox1.TabIndex = 0;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Siparişler";
+            gbOrders.Controls.Add(btnDelete);
+            gbOrders.Controls.Add(btnEdit);
+            gbOrders.Controls.Add(btnAdd);
+            gbOrders.Controls.Add(lvOrders);
+            gbOrders.Dock = DockStyle.Fill;
+            gbOrders.Location = new Point(3, 3);
+            gbOrders.Name = "gbOrders";
+            gbOrders.Size = new Size(938, 484);
+            gbOrders.TabIndex = 0;
+            gbOrders.TabStop = false;
+            gbOrders.Text = "Siparişler";
             // 
             // btnDelete
             // 
@@ -107,11 +113,12 @@
             // 
             // lvOrders
             // 
+            lvOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lvOrders.Columns.AddRange(new ColumnHeader[] { clmJobNo, clmCustomer, clmIssueDate, clmCount, clmProducedCount, clmPrice, clmProducedPrice, clmCost, clmProducedCost, clmProfit, clmProfitPercentage });
-            lvOrders.Location = new Point(6, 63);
+            lvOrders.Location = new Point(3, 63);
             lvOrders.MultiSelect = false;
             lvOrders.Name = "lvOrders";
-            lvOrders.Size = new Size(1130, 272);
+            lvOrders.Size = new Size(932, 418);
             lvOrders.TabIndex = 4;
             lvOrders.UseCompatibleStateImageBehavior = false;
             lvOrders.View = View.Details;
@@ -163,37 +170,71 @@
             // tabControl1
             // 
             tabControl1.Controls.Add(tabPage1);
+            tabControl1.Controls.Add(tabPage2);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1166, 387);
+            tabControl1.Size = new Size(952, 523);
             tabControl1.TabIndex = 0;
+            // 
+            // tabPage2
+            // 
+            tabPage2.Controls.Add(gbProducts);
+            tabPage2.Location = new Point(4, 29);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new Padding(3);
+            tabPage2.Size = new Size(944, 490);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "Stok Kartı";
+            tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // gbProducts
+            // 
+            gbProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbProducts.Controls.Add(lvProducts);
+            gbProducts.Location = new Point(6, 6);
+            gbProducts.Name = "gbProducts";
+            gbProducts.Size = new Size(930, 476);
+            gbProducts.TabIndex = 0;
+            gbProducts.TabStop = false;
+            gbProducts.Text = "Stok Kartları";
+            // 
+            // lvProducts
+            // 
+            lvProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            lvProducts.Location = new Point(6, 26);
+            lvProducts.Name = "lvProducts";
+            lvProducts.Size = new Size(918, 332);
+            lvProducts.TabIndex = 0;
+            lvProducts.UseCompatibleStateImageBehavior = false;
             // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1166, 387);
+            ClientSize = new Size(952, 523);
             Controls.Add(tabControl1);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MdiChildrenMinimizedAnchorBottom = false;
+            MinimumSize = new Size(970, 570);
             Name = "FormMain";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Enezcam ERP";
             Load += Main_Load;
             tabPage1.ResumeLayout(false);
-            groupBox1.ResumeLayout(false);
+            gbOrders.ResumeLayout(false);
             tabControl1.ResumeLayout(false);
+            tabPage2.ResumeLayout(false);
+            gbProducts.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
         private TabPage tabPage1;
-        private GroupBox groupBox1;
+        private GroupBox gbOrders;
         private Button btnDelete;
         private Button btnEdit;
         private Button btnAdd;
@@ -210,5 +251,8 @@
         private ColumnHeader clmProfit;
         private ColumnHeader clmProfitPercentage;
         private TabControl tabControl1;
+        private TabPage tabPage2;
+        private GroupBox gbProducts;
+        private ListView lvProducts;
     }
 }

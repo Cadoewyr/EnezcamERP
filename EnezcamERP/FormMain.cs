@@ -52,8 +52,6 @@ namespace EnezcamERP
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-
-
             FillList(lvOrders);
         }
 
@@ -61,8 +59,6 @@ namespace EnezcamERP
         {
             if (lvOrders.SelectedItems.Count > 0)
             {
-
-
                 FillList(lvOrders);
             }
         }
