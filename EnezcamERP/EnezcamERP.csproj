@@ -13,7 +13,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Forms\Product Forms\" />
     <Folder Include="Forms\Order Forms\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.9.0" />
   </ItemGroup>
 
 </Project>

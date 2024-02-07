@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(EnzDBContext))]
-    [Migration("20240205123715_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240207073510_M1")]
+    partial class M1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,50 @@ namespace DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("DAL.DTO.Entities.Customer", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Customers");
+                });
 
             modelBuilder.Entity("DAL.DTO.Entities.Order", b =>
                 {
@@ -36,12 +80,11 @@ namespace DAL.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Customer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CustomerID")
+                        .HasColumnType("int");
 
-                    b.Property<DateOnly>("DeliveryDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("DeliveryDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("IssueDate")
                         .HasColumnType("datetime2");
@@ -50,6 +93,8 @@ namespace DAL.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("CustomerID");
 
                     b.ToTable("Orders");
                 });
@@ -109,8 +154,8 @@ namespace DAL.Migrations
                     b.Property<DateTime>("ProducedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("ProducedOrderCount")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("ProducedOrderCount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ID");
 
@@ -140,6 +185,17 @@ namespace DAL.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("DAL.DTO.Entities.Order", b =>
+                {
+                    b.HasOne("DAL.DTO.Entities.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("DAL.DTO.Entities.OrderDetail", b =>

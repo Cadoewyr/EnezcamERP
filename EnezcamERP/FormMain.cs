@@ -23,7 +23,7 @@ namespace EnezcamERP
                 {
                     Text = order.JobNo.ToString()
                 };
-                lvi.SubItems.Add(order.Customer);
+                lvi.SubItems.Add(order.Customer.Name);
                 lvi.SubItems.Add(order.IssueDate.ToShortDateString());
                 lvi.SubItems.Add(order.ProductCount.ToString());
                 lvi.SubItems.Add(order.ProducedProductCount.ToString());

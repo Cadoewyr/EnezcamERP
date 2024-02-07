@@ -49,11 +49,19 @@
             tabPage2 = new TabPage();
             gbProducts = new GroupBox();
             lvProducts = new ListView();
+            tabPage3 = new TabPage();
+            gbCustomers = new GroupBox();
+            lvCustomers = new ListView();
+            btnAddProduct = new Button();
+            btnUpdateProduct = new Button();
+            btnDeleteProduct = new Button();
             tabPage1.SuspendLayout();
             gbOrders.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage2.SuspendLayout();
             gbProducts.SuspendLayout();
+            tabPage3.SuspendLayout();
+            gbCustomers.SuspendLayout();
             SuspendLayout();
             // 
             // tabPage1
@@ -171,6 +179,7 @@
             // 
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
+            tabControl1.Controls.Add(tabPage3);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
@@ -192,6 +201,9 @@
             // gbProducts
             // 
             gbProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbProducts.Controls.Add(btnDeleteProduct);
+            gbProducts.Controls.Add(btnUpdateProduct);
+            gbProducts.Controls.Add(btnAddProduct);
             gbProducts.Controls.Add(lvProducts);
             gbProducts.Location = new Point(6, 6);
             gbProducts.Name = "gbProducts";
@@ -209,13 +221,69 @@
             lvProducts.TabIndex = 0;
             lvProducts.UseCompatibleStateImageBehavior = false;
             // 
+            // tabPage3
+            // 
+            tabPage3.Controls.Add(gbCustomers);
+            tabPage3.Location = new Point(4, 29);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Padding = new Padding(3);
+            tabPage3.Size = new Size(944, 490);
+            tabPage3.TabIndex = 2;
+            tabPage3.Text = "Cari Kartı";
+            tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // gbCustomers
+            // 
+            gbCustomers.Controls.Add(lvCustomers);
+            gbCustomers.Location = new Point(6, 6);
+            gbCustomers.Name = "gbCustomers";
+            gbCustomers.Size = new Size(932, 476);
+            gbCustomers.TabIndex = 0;
+            gbCustomers.TabStop = false;
+            gbCustomers.Text = "Cariler";
+            // 
+            // lvCustomers
+            // 
+            lvCustomers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            lvCustomers.Location = new Point(6, 26);
+            lvCustomers.Name = "lvCustomers";
+            lvCustomers.Size = new Size(918, 332);
+            lvCustomers.TabIndex = 0;
+            lvCustomers.UseCompatibleStateImageBehavior = false;
+            // 
+            // btnAddProduct
+            // 
+            btnAddProduct.Location = new Point(6, 364);
+            btnAddProduct.Name = "btnAddProduct";
+            btnAddProduct.Size = new Size(94, 29);
+            btnAddProduct.TabIndex = 1;
+            btnAddProduct.Text = "Ekle";
+            btnAddProduct.UseVisualStyleBackColor = true;
+            // 
+            // btnUpdateProduct
+            // 
+            btnUpdateProduct.Location = new Point(106, 364);
+            btnUpdateProduct.Name = "btnUpdateProduct";
+            btnUpdateProduct.Size = new Size(94, 29);
+            btnUpdateProduct.TabIndex = 1;
+            btnUpdateProduct.Text = "Güncelle";
+            btnUpdateProduct.UseVisualStyleBackColor = true;
+            // 
+            // btnDeleteProduct
+            // 
+            btnDeleteProduct.Location = new Point(206, 364);
+            btnDeleteProduct.Name = "btnDeleteProduct";
+            btnDeleteProduct.Size = new Size(94, 29);
+            btnDeleteProduct.TabIndex = 1;
+            btnDeleteProduct.Text = "Sil";
+            btnDeleteProduct.UseVisualStyleBackColor = true;
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(952, 523);
             Controls.Add(tabControl1);
-            MaximizeBox = false;
             MdiChildrenMinimizedAnchorBottom = false;
             MinimumSize = new Size(970, 570);
             Name = "FormMain";
@@ -228,6 +296,8 @@
             tabControl1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             gbProducts.ResumeLayout(false);
+            tabPage3.ResumeLayout(false);
+            gbCustomers.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -254,5 +324,11 @@
         private TabPage tabPage2;
         private GroupBox gbProducts;
         private ListView lvProducts;
+        private TabPage tabPage3;
+        private GroupBox gbCustomers;
+        private ListView lvCustomers;
+        private Button btnDeleteProduct;
+        private Button btnUpdateProduct;
+        private Button btnAddProduct;
     }
 }

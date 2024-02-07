@@ -7,7 +7,7 @@ namespace DAL.DTO.Entities
         public int JobNo { get; set; }
         public DateTime IssueDate { get; set; }
         public DateTime DeliveryDate { get; set; }
-        public string Customer { get; set; } = string.Empty;
+        public Customer Customer { get; set; } = new();
         public List<OrderDetail> OrderDetails { get; set; } = [];
 
         [NotMapped]
