@@ -1,6 +1,7 @@
 using BL.Repositories;
 using DAL.DTO.Context;
 using DAL.DTO.Entities;
+using EnezcamERP.Forms.Customer_Forms;
 
 namespace EnezcamERP
 {
@@ -23,6 +24,7 @@ namespace EnezcamERP
                 {
                     Text = order.JobNo.ToString()
                 };
+
                 lvi.SubItems.Add(order.Customer.Name);
                 lvi.SubItems.Add(order.IssueDate.ToShortDateString());
                 lvi.SubItems.Add(order.ProductCount.ToString());
@@ -40,7 +42,7 @@ namespace EnezcamERP
 
                 lvOrders.Items.Add(lvi);
             }
-            
+
             listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
@@ -50,12 +52,15 @@ namespace EnezcamERP
             FillList(lvOrders);
         }
 
-        private void btnAdd_Click(object sender, EventArgs e)
+
+        //Order buttons
+        #region
+        private void btnAddOrder_Click(object sender, EventArgs e)
         {
             FillList(lvOrders);
         }
 
-        private void btnEdit_Click(object sender, EventArgs e)
+        private void btnUpdateOrder_Click(object sender, EventArgs e)
         {
             if (lvOrders.SelectedItems.Count > 0)
             {
@@ -63,14 +68,25 @@ namespace EnezcamERP
             }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        private void btnDeleteOrder_Click(object sender, EventArgs e)
         {
-            if(lvOrders.SelectedItems.Count > 0) {
+            if (lvOrders.SelectedItems.Count > 0)
+            {
                 ordersDB.Delete(lvOrders.SelectedItems[0].Tag as Order);
                 ordersDB.Save();
 
                 FillList(lvOrders);
             }
         }
+        #endregion
+
+        //Customer buttons
+        #region
+        private void btnAddCustomer_Click(object sender, EventArgs e)
+        {
+            AddCustomer form = new();
+            form.ShowDialog();
+        }
+        #endregion
     }
 }

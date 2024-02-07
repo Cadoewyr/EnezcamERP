@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(EnzDBContext))]
-    [Migration("20240207073510_M1")]
+    [Migration("20240207213751_M1")]
     partial class M1
     {
         /// <inheritdoc />

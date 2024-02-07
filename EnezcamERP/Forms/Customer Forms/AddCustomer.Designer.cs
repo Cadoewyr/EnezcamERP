@@ -29,28 +29,28 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
-            lblCustomerName = new Label();
-            lblCountry = new Label();
-            lblCity = new Label();
-            lblAddress = new Label();
-            lblDescription = new Label();
-            lblContactName = new Label();
-            lblContactPhone = new Label();
-            txtCustomerName = new TextBox();
-            txtCountry = new TextBox();
-            txtCity = new TextBox();
-            txtAddress = new RichTextBox();
-            txtDescription = new RichTextBox();
-            txtContactName = new TextBox();
-            maskedTextBox1 = new MaskedTextBox();
             btnAddCustomer = new Button();
+            txtContactPhone = new MaskedTextBox();
+            txtDescription = new RichTextBox();
+            txtAddress = new RichTextBox();
+            txtContactName = new TextBox();
+            txtCity = new TextBox();
+            txtCountry = new TextBox();
+            txtCustomerName = new TextBox();
+            lblContactPhone = new Label();
+            lblContactName = new Label();
+            lblDescription = new Label();
+            lblAddress = new Label();
+            lblCity = new Label();
+            lblCountry = new Label();
+            lblCustomerName = new Label();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
             // 
             groupBox1.Controls.Add(btnAddCustomer);
-            groupBox1.Controls.Add(maskedTextBox1);
+            groupBox1.Controls.Add(txtContactPhone);
             groupBox1.Controls.Add(txtDescription);
             groupBox1.Controls.Add(txtAddress);
             groupBox1.Controls.Add(txtContactName);
@@ -64,147 +64,158 @@
             groupBox1.Controls.Add(lblCity);
             groupBox1.Controls.Add(lblCountry);
             groupBox1.Controls.Add(lblCustomerName);
-            groupBox1.Location = new Point(12, 12);
+            groupBox1.Location = new Point(10, 9);
+            groupBox1.Margin = new Padding(3, 2, 3, 2);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(535, 426);
+            groupBox1.Padding = new Padding(3, 2, 3, 2);
+            groupBox1.Size = new Size(468, 304);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Cari Bilgileri";
             // 
-            // lblCustomerName
+            // btnAddCustomer
             // 
-            lblCustomerName.AutoSize = true;
-            lblCustomerName.Location = new Point(6, 37);
-            lblCustomerName.Name = "lblCustomerName";
-            lblCustomerName.Size = new Size(62, 20);
-            lblCustomerName.TabIndex = 0;
-            lblCustomerName.Text = "Cari Adı";
+            btnAddCustomer.Location = new Point(158, 273);
+            btnAddCustomer.Margin = new Padding(3, 2, 3, 2);
+            btnAddCustomer.Name = "btnAddCustomer";
+            btnAddCustomer.Size = new Size(196, 22);
+            btnAddCustomer.TabIndex = 4;
+            btnAddCustomer.Text = "Ekle";
+            btnAddCustomer.UseVisualStyleBackColor = true;
+            btnAddCustomer.Click += btnAddCustomer_Click;
             // 
-            // lblCountry
+            // txtContactPhone
             // 
-            lblCountry.AutoSize = true;
-            lblCountry.Location = new Point(6, 70);
-            lblCountry.Name = "lblCountry";
-            lblCountry.Size = new Size(38, 20);
-            lblCountry.TabIndex = 0;
-            lblCountry.Text = "Ülke";
+            txtContactPhone.Location = new Point(158, 246);
+            txtContactPhone.Margin = new Padding(3, 2, 3, 2);
+            txtContactPhone.Mask = "(999) 000-0000";
+            txtContactPhone.Name = "txtContactPhone";
+            txtContactPhone.Size = new Size(196, 23);
+            txtContactPhone.TabIndex = 3;
             // 
-            // lblCity
+            // txtDescription
             // 
-            lblCity.AutoSize = true;
-            lblCity.Location = new Point(6, 103);
-            lblCity.Name = "lblCity";
-            lblCity.Size = new Size(42, 20);
-            lblCity.TabIndex = 0;
-            lblCity.Text = "Şehir";
+            txtDescription.Location = new Point(158, 160);
+            txtDescription.Margin = new Padding(3, 2, 3, 2);
+            txtDescription.MaxLength = 300;
+            txtDescription.Name = "txtDescription";
+            txtDescription.Size = new Size(302, 57);
+            txtDescription.TabIndex = 2;
+            txtDescription.Text = "";
             // 
-            // lblAddress
+            // txtAddress
             // 
-            lblAddress.AutoSize = true;
-            lblAddress.Location = new Point(6, 136);
-            lblAddress.Name = "lblAddress";
-            lblAddress.Size = new Size(47, 20);
-            lblAddress.TabIndex = 0;
-            lblAddress.Text = "Adres";
+            txtAddress.Location = new Point(158, 100);
+            txtAddress.Margin = new Padding(3, 2, 3, 2);
+            txtAddress.MaxLength = 300;
+            txtAddress.Name = "txtAddress";
+            txtAddress.Size = new Size(302, 57);
+            txtAddress.TabIndex = 2;
+            txtAddress.Text = "";
             // 
-            // lblDescription
+            // txtContactName
             // 
-            lblDescription.AutoSize = true;
-            lblDescription.Location = new Point(6, 217);
-            lblDescription.Name = "lblDescription";
-            lblDescription.Size = new Size(70, 20);
-            lblDescription.TabIndex = 0;
-            lblDescription.Text = "Açıklama";
+            txtContactName.Location = new Point(158, 221);
+            txtContactName.Margin = new Padding(3, 2, 3, 2);
+            txtContactName.Name = "txtContactName";
+            txtContactName.Size = new Size(196, 23);
+            txtContactName.TabIndex = 1;
             // 
-            // lblContactName
+            // txtCity
             // 
-            lblContactName.AutoSize = true;
-            lblContactName.Location = new Point(6, 298);
-            lblContactName.Name = "lblContactName";
-            lblContactName.Size = new Size(48, 20);
-            lblContactName.TabIndex = 0;
-            lblContactName.Text = "Yetkili";
+            txtCity.Location = new Point(158, 75);
+            txtCity.Margin = new Padding(3, 2, 3, 2);
+            txtCity.Name = "txtCity";
+            txtCity.Size = new Size(196, 23);
+            txtCity.TabIndex = 1;
+            // 
+            // txtCountry
+            // 
+            txtCountry.Location = new Point(158, 50);
+            txtCountry.Margin = new Padding(3, 2, 3, 2);
+            txtCountry.Name = "txtCountry";
+            txtCountry.Size = new Size(196, 23);
+            txtCountry.TabIndex = 1;
+            // 
+            // txtCustomerName
+            // 
+            txtCustomerName.Location = new Point(158, 26);
+            txtCustomerName.Margin = new Padding(3, 2, 3, 2);
+            txtCustomerName.Name = "txtCustomerName";
+            txtCustomerName.Size = new Size(196, 23);
+            txtCustomerName.TabIndex = 1;
             // 
             // lblContactPhone
             // 
             lblContactPhone.AutoSize = true;
-            lblContactPhone.Location = new Point(6, 331);
+            lblContactPhone.Location = new Point(5, 248);
             lblContactPhone.Name = "lblContactPhone";
-            lblContactPhone.Size = new Size(168, 20);
+            lblContactPhone.Size = new Size(133, 15);
             lblContactPhone.TabIndex = 0;
             lblContactPhone.Text = "Yetkili Telefon Numarası";
             // 
-            // txtCustomerName
+            // lblContactName
             // 
-            txtCustomerName.Location = new Point(180, 34);
-            txtCustomerName.Name = "txtCustomerName";
-            txtCustomerName.Size = new Size(223, 27);
-            txtCustomerName.TabIndex = 1;
+            lblContactName.AutoSize = true;
+            lblContactName.Location = new Point(5, 224);
+            lblContactName.Name = "lblContactName";
+            lblContactName.Size = new Size(38, 15);
+            lblContactName.TabIndex = 0;
+            lblContactName.Text = "Yetkili";
             // 
-            // txtCountry
+            // lblDescription
             // 
-            txtCountry.Location = new Point(180, 67);
-            txtCountry.Name = "txtCountry";
-            txtCountry.Size = new Size(223, 27);
-            txtCountry.TabIndex = 1;
+            lblDescription.AutoSize = true;
+            lblDescription.Location = new Point(5, 163);
+            lblDescription.Name = "lblDescription";
+            lblDescription.Size = new Size(56, 15);
+            lblDescription.TabIndex = 0;
+            lblDescription.Text = "Açıklama";
             // 
-            // txtCity
+            // lblAddress
             // 
-            txtCity.Location = new Point(180, 100);
-            txtCity.Name = "txtCity";
-            txtCity.Size = new Size(223, 27);
-            txtCity.TabIndex = 1;
+            lblAddress.AutoSize = true;
+            lblAddress.Location = new Point(5, 102);
+            lblAddress.Name = "lblAddress";
+            lblAddress.Size = new Size(37, 15);
+            lblAddress.TabIndex = 0;
+            lblAddress.Text = "Adres";
             // 
-            // txtAddress
+            // lblCity
             // 
-            txtAddress.Location = new Point(180, 133);
-            txtAddress.MaxLength = 300;
-            txtAddress.Name = "txtAddress";
-            txtAddress.Size = new Size(344, 75);
-            txtAddress.TabIndex = 2;
-            txtAddress.Text = "";
+            lblCity.AutoSize = true;
+            lblCity.Location = new Point(5, 77);
+            lblCity.Name = "lblCity";
+            lblCity.Size = new Size(33, 15);
+            lblCity.TabIndex = 0;
+            lblCity.Text = "Şehir";
             // 
-            // txtDescription
+            // lblCountry
             // 
-            txtDescription.Location = new Point(180, 214);
-            txtDescription.MaxLength = 300;
-            txtDescription.Name = "txtDescription";
-            txtDescription.Size = new Size(344, 75);
-            txtDescription.TabIndex = 2;
-            txtDescription.Text = "";
+            lblCountry.AutoSize = true;
+            lblCountry.Location = new Point(5, 52);
+            lblCountry.Name = "lblCountry";
+            lblCountry.Size = new Size(30, 15);
+            lblCountry.TabIndex = 0;
+            lblCountry.Text = "Ülke";
             // 
-            // txtContactName
+            // lblCustomerName
             // 
-            txtContactName.Location = new Point(180, 295);
-            txtContactName.Name = "txtContactName";
-            txtContactName.Size = new Size(223, 27);
-            txtContactName.TabIndex = 1;
-            // 
-            // maskedTextBox1
-            // 
-            maskedTextBox1.Location = new Point(180, 328);
-            maskedTextBox1.Mask = "(999) 000-0000";
-            maskedTextBox1.Name = "maskedTextBox1";
-            maskedTextBox1.Size = new Size(223, 27);
-            maskedTextBox1.TabIndex = 3;
-            // 
-            // btnAddCustomer
-            // 
-            btnAddCustomer.Anchor = AnchorStyles.None;
-            btnAddCustomer.Location = new Point(220, 380);
-            btnAddCustomer.Name = "btnAddCustomer";
-            btnAddCustomer.Size = new Size(94, 29);
-            btnAddCustomer.TabIndex = 4;
-            btnAddCustomer.Text = "Ekle";
-            btnAddCustomer.UseVisualStyleBackColor = true;
+            lblCustomerName.AutoSize = true;
+            lblCustomerName.Location = new Point(5, 28);
+            lblCustomerName.Name = "lblCustomerName";
+            lblCustomerName.Size = new Size(49, 15);
+            lblCustomerName.TabIndex = 0;
+            lblCustomerName.Text = "Cari Adı";
             // 
             // AddCustomer
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(560, 450);
+            ClientSize = new Size(490, 323);
             Controls.Add(groupBox1);
             FormBorderStyle = FormBorderStyle.FixedDialog;
+            Margin = new Padding(3, 2, 3, 2);
             MaximizeBox = false;
             Name = "AddCustomer";
             ShowIcon = false;
@@ -230,7 +241,7 @@
         private TextBox txtCity;
         private TextBox txtCountry;
         private TextBox txtCustomerName;
-        private MaskedTextBox maskedTextBox1;
+        private MaskedTextBox txtContactPhone;
         private RichTextBox txtDescription;
         private RichTextBox txtAddress;
         private TextBox txtContactName;

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnezcamERP", "EnezcamERP\EnezcamERP.csproj", "{8214E491-0D29-42E5-9E64-BB611684F676}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnezcamERP", "EnezcamERP\EnezcamERP.csproj", "{8214E491-0D29-42E5-9E64-BB611684F676}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{67370932-3C1C-413B-8388-04DDB4EABDB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{67370932-3C1C-413B-8388-04DDB4EABDB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "BL\BL.csproj", "{010929E4-14EB-49C4-8393-5581A74B8145}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "BL\BL.csproj", "{010929E4-14EB-49C4-8393-5581A74B8145}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
