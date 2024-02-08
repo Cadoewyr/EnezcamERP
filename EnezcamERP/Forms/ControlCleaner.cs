@@ -13,7 +13,7 @@
                 else if (control is MaskedTextBox)
                     ((MaskedTextBox)control).Clear();
                 else if (control is ComboBox)
-                    (control as ComboBox).SelectedIndex = -1;
+                    (control as ComboBox).SelectedIndex = 0;
                 else if (control is ListBox)
                     (control as ListBox).Items.Clear();
                 else if (control is ListView)

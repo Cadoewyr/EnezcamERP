@@ -143,7 +143,7 @@ namespace EnezcamERP
         {
             if (lvProducts.SelectedItems.Count > 0)
             {
-                UpdateProduct form = new(lvProducts.SelectedItems[0].Tag as Product);
+                UpdateProduct form = new(this, lvProducts.SelectedItems[0].Tag as Product);
                 form.ShowDialog();
                 RefreshProducts(ColumnHeaderAutoResizeStyle.HeaderSize);
             }
@@ -200,9 +200,5 @@ namespace EnezcamERP
             RefreshCustomers(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         #endregion
-
-
-
-        
     }
 }

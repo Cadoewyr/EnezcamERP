@@ -9,32 +9,25 @@ namespace EnezcamERP.Forms.Product_Forms
 {
     public partial class UpdateProduct : Form
     {
-        public UpdateProduct(Product product)
+        public UpdateProduct(Form parentForm, Product product)
         {
             InitializeComponent();
             this.product = product;
+            this.parentForm = parentForm;
             FillControls();
         }
 
         GenericRepository<Product> productDB = new GenericRepository<Product>(EnzDBContext.GetInstance);
         Product product;
+        Form parentForm;
 
         void FillControls()
         {
+            cbProductType.Items.Clear();
+            cbProductType.DataSource = Enum.GetValues(typeof(ProductType));
+            cbProductType.SelectedIndex = cbProductType.Items.IndexOf(product.Type);
+
             txtProductName.Text = product.Name;
-            cbProductType.SelectedIndex = cbProductType.Items.IndexOf(product.Type.ToString());
-        }
-
-        private void ClearControls()
-        {
-            foreach (var control in this.Controls)
-            {
-                if (control is TextBox)
-                    (control as TextBox).Clear();
-
-                else if (control is CheckBox)
-                    (control as ComboBox).SelectedIndex = 0;
-            }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -42,7 +35,7 @@ namespace EnezcamERP.Forms.Product_Forms
             Product newProduct = new()
             {
                 Name = txtProductName.Text,
-                Type = Enum.Parse<ProductType>(cbProductType.SelectedText)
+                Type = (ProductType)Enum.Parse(typeof(ProductType), cbProductType.SelectedItem.ToString())
             };
 
             var res = new ProductValidator().Validate(newProduct);
@@ -51,6 +44,7 @@ namespace EnezcamERP.Forms.Product_Forms
             {
                 productDB.Update(newProduct, product.ID);
                 productDB.Save();
+                (parentForm as FormMain).RefreshProducts(ColumnHeaderAutoResizeStyle.HeaderSize);
                 ControlCleaner.Clear(this.Controls);
                 (sender as Button).Enabled = false;
             }

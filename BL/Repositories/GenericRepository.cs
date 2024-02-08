@@ -68,10 +68,21 @@ namespace BL.Repositories
             try
             {
                 var oldEntity = Get(id);
-                table.Entry(oldEntity).CurrentValues.SetValues(entity);
+
+                var entityType = typeof(T);
+
+                foreach(var prop in entityType.GetProperties())
+                {
+                    if(prop.Name != "ID")
+                        prop.SetValue(oldEntity, prop.GetValue(entity));
+                }
+
                 return true;
             }
-            catch { return false; }
+            catch
+            {
+                return false;
+            }
         }
 
         public void Save()
