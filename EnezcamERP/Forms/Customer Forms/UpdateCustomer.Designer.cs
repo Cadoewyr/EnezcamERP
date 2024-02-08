@@ -1,6 +1,6 @@
 ﻿namespace EnezcamERP.Forms.Customer_Forms
 {
-    partial class AddCustomer
+    partial class UpdateCustomer
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@
         {
             groupBox1 = new GroupBox();
             btnCancel = new Button();
-            btnAddCustomer = new Button();
+            btnUpdateCustomer = new Button();
             txtContactPhone = new MaskedTextBox();
             txtDescription = new RichTextBox();
             txtAddress = new RichTextBox();
@@ -51,7 +51,7 @@
             // groupBox1
             // 
             groupBox1.Controls.Add(btnCancel);
-            groupBox1.Controls.Add(btnAddCustomer);
+            groupBox1.Controls.Add(btnUpdateCustomer);
             groupBox1.Controls.Add(txtContactPhone);
             groupBox1.Controls.Add(txtDescription);
             groupBox1.Controls.Add(txtAddress);
@@ -83,15 +83,16 @@
             btnCancel.UseVisualStyleBackColor = true;
             btnCancel.Click += btnCancel_Click;
             // 
-            // btnAddCustomer
+            // btnUpdateCustomer
             // 
-            btnAddCustomer.Location = new Point(181, 364);
-            btnAddCustomer.Name = "btnAddCustomer";
-            btnAddCustomer.Size = new Size(224, 29);
-            btnAddCustomer.TabIndex = 4;
-            btnAddCustomer.Text = "Ekle";
-            btnAddCustomer.UseVisualStyleBackColor = true;
-            btnAddCustomer.Click += btnAddCustomer_Click;
+            btnUpdateCustomer.Enabled = false;
+            btnUpdateCustomer.Location = new Point(181, 364);
+            btnUpdateCustomer.Name = "btnUpdateCustomer";
+            btnUpdateCustomer.Size = new Size(224, 29);
+            btnUpdateCustomer.TabIndex = 4;
+            btnUpdateCustomer.Text = "Kaydet";
+            btnUpdateCustomer.UseVisualStyleBackColor = true;
+            btnUpdateCustomer.Click += btnUpdateCustomer_Click;
             // 
             // txtContactPhone
             // 
@@ -100,6 +101,7 @@
             txtContactPhone.Name = "txtContactPhone";
             txtContactPhone.Size = new Size(223, 27);
             txtContactPhone.TabIndex = 3;
+            txtContactPhone.TextChanged += ControlTextChanged;
             // 
             // txtDescription
             // 
@@ -109,6 +111,7 @@
             txtDescription.Size = new Size(345, 75);
             txtDescription.TabIndex = 2;
             txtDescription.Text = "";
+            txtDescription.TextChanged += ControlTextChanged;
             // 
             // txtAddress
             // 
@@ -118,6 +121,7 @@
             txtAddress.Size = new Size(345, 75);
             txtAddress.TabIndex = 2;
             txtAddress.Text = "";
+            txtAddress.TextChanged += ControlTextChanged;
             // 
             // txtContactName
             // 
@@ -125,6 +129,7 @@
             txtContactName.Name = "txtContactName";
             txtContactName.Size = new Size(223, 27);
             txtContactName.TabIndex = 1;
+            txtContactName.TextChanged += ControlTextChanged;
             // 
             // txtCity
             // 
@@ -132,6 +137,7 @@
             txtCity.Name = "txtCity";
             txtCity.Size = new Size(223, 27);
             txtCity.TabIndex = 1;
+            txtCity.TextChanged += ControlTextChanged;
             // 
             // txtCountry
             // 
@@ -139,6 +145,7 @@
             txtCountry.Name = "txtCountry";
             txtCountry.Size = new Size(223, 27);
             txtCountry.TabIndex = 1;
+            txtCountry.TextChanged += ControlTextChanged;
             // 
             // txtCustomerName
             // 
@@ -146,6 +153,7 @@
             txtCustomerName.Name = "txtCustomerName";
             txtCustomerName.Size = new Size(223, 27);
             txtCustomerName.TabIndex = 1;
+            txtCustomerName.TextChanged += ControlTextChanged;
             // 
             // lblContactPhone
             // 
@@ -210,16 +218,16 @@
             lblCustomerName.TabIndex = 0;
             lblCustomerName.Text = "Cari Adı";
             // 
-            // AddCustomer
+            // UpdateCustomer
             // 
-            AcceptButton = btnAddCustomer;
+            AcceptButton = btnUpdateCustomer;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(560, 472);
             Controls.Add(groupBox1);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
-            Name = "AddCustomer";
+            Name = "UpdateCustomer";
             ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
@@ -246,7 +254,7 @@
         private RichTextBox txtDescription;
         private RichTextBox txtAddress;
         private TextBox txtContactName;
-        private Button btnAddCustomer;
+        private Button btnUpdateCustomer;
         private Button btnCancel;
     }
 }

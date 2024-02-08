@@ -6,18 +6,32 @@ using System.Text;
 
 namespace EnezcamERP.Forms.Customer_Forms
 {
-    public partial class AddCustomer : Form
+    public partial class UpdateCustomer : Form
     {
-        public AddCustomer()
+        public UpdateCustomer(Customer customer)
         {
             InitializeComponent();
+            this.customer = customer;
+            FillControls();
         }
 
         GenericRepository<Customer> customerDB = new(EnzDBContext.GetInstance);
+        Customer customer;
 
-        private void btnAddCustomer_Click(object sender, EventArgs e)
+        void FillControls()
         {
-            Customer customer = new()
+            txtCustomerName.Text = customer.Name;
+            txtCountry.Text = customer.Country;
+            txtCity.Text = customer.City;
+            txtDescription.Text = customer.Description;
+            txtAddress.Text = customer.Address;
+            txtContactName.Text = customer.ContactName;
+            txtContactPhone.Text = customer.ContactPhone;
+        }
+
+        private void btnUpdateCustomer_Click(object sender, EventArgs e)
+        {
+            Customer newCustomer = new()
             {
                 Name = txtCustomerName.Text,
                 Country = txtCountry.Text,
@@ -32,9 +46,10 @@ namespace EnezcamERP.Forms.Customer_Forms
 
             if (res.IsValid)
             {
-                customerDB.Add(customer);
+                customerDB.Update(newCustomer, customer.ID);
                 customerDB.Save();
                 ControlCleaner.Clear(this.Controls);
+                (sender as Button).Enabled = false;
             }
             else
             {
@@ -53,6 +68,11 @@ namespace EnezcamERP.Forms.Customer_Forms
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void ControlTextChanged(object sender, EventArgs e)
+        {
+            btnUpdateCustomer.Enabled = true;
         }
     }
 }

@@ -13,12 +13,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Forms\Product Forms\" />
     <Folder Include="Forms\Order Forms\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Forms\Customer Forms\UpdateCustomer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\Product Forms\UpdateProduct.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>
