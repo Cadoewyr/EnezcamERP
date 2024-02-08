@@ -17,8 +17,9 @@ namespace EnezcamERP
         GenericRepository<Product> productsDB = new(EnzDBContext.GetInstance);
         GenericRepository<Customer> customersDB = new(EnzDBContext.GetInstance);
 
-        void RefreshOrders(ListView listView, ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
+        public void RefreshOrders(ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
         {
+            ListView listView = lvOrders;
             listView.Items.Clear();
 
             foreach (var item in ordersDB.GetAll())
@@ -45,8 +46,9 @@ namespace EnezcamERP
                 listView.Items.Add(lvi);
             }
         }
-        void RefreshProducts(ListView listView, ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
+        public void RefreshProducts(ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
         {
+            ListView listView = lvProducts;
             listView.Items.Clear();
 
             foreach (var item in productsDB.GetAll())
@@ -62,8 +64,9 @@ namespace EnezcamERP
                 listView.Items.Add(lvi);
             }
         }
-        void RefreshCustomers(ListView listView, ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
+        public void RefreshCustomers(ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
         {
+            ListView listView = lvCustomers;
             listView.Items.Clear();
 
             foreach (var item in customersDB.GetAll())
@@ -89,30 +92,28 @@ namespace EnezcamERP
 
         void InitialLists(ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
         {
-            RefreshOrders(lvOrders, columnHeaderAutoResizeStyle);
-            RefreshProducts(lvProducts, columnHeaderAutoResizeStyle);
-            RefreshCustomers(lvCustomers, columnHeaderAutoResizeStyle);
+            RefreshOrders(columnHeaderAutoResizeStyle);
+            RefreshProducts(columnHeaderAutoResizeStyle);
+            RefreshCustomers(columnHeaderAutoResizeStyle);
         }
-
 
         private void Main_Load(object sender, EventArgs e)
         {
             InitialLists(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
-
         //Order buttons
         #region
         private void btnAddOrder_Click(object sender, EventArgs e)
         {
-            RefreshOrders(lvOrders, ColumnHeaderAutoResizeStyle.HeaderSize);
+            RefreshOrders(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         private void btnUpdateOrder_Click(object sender, EventArgs e)
         {
             if (lvOrders.SelectedItems.Count > 0)
             {
-                RefreshOrders(lvOrders, ColumnHeaderAutoResizeStyle.HeaderSize);
+                RefreshOrders(ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
 
@@ -123,7 +124,7 @@ namespace EnezcamERP
                 ordersDB.Delete(lvOrders.SelectedItems[0].Tag as Order);
                 ordersDB.Save();
 
-                RefreshOrders(lvOrders, ColumnHeaderAutoResizeStyle.HeaderSize);
+                RefreshOrders(ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
         #endregion
@@ -133,9 +134,9 @@ namespace EnezcamERP
         #region
         private void btnAddProduct_Click(object sender, EventArgs e)
         {
-            AddProduct form = new();
+            AddProduct form = new(this);
             form.ShowDialog();
-            RefreshProducts(lvProducts, ColumnHeaderAutoResizeStyle.HeaderSize);
+            RefreshProducts(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         private void btnUpdateProduct_Click(object sender, EventArgs e)
@@ -144,7 +145,7 @@ namespace EnezcamERP
             {
                 UpdateProduct form = new(lvProducts.SelectedItems[0].Tag as Product);
                 form.ShowDialog();
-                RefreshProducts(lvProducts, ColumnHeaderAutoResizeStyle.HeaderSize);
+                RefreshProducts(ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
 
@@ -154,13 +155,13 @@ namespace EnezcamERP
             {
                 productsDB.Delete(lvProducts.SelectedItems[0].Tag as Product);
                 productsDB.Save();
-                RefreshProducts(lvProducts, ColumnHeaderAutoResizeStyle.HeaderSize);
+                RefreshProducts(ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
 
         private void btnRefreshStock_Click(object sender, EventArgs e)
         {
-            RefreshProducts(lvProducts, ColumnHeaderAutoResizeStyle.HeaderSize);
+            RefreshProducts(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         #endregion
 
@@ -171,7 +172,7 @@ namespace EnezcamERP
         {
             AddCustomer form = new();
             form.ShowDialog();
-            RefreshCustomers(lvCustomers, ColumnHeaderAutoResizeStyle.HeaderSize);
+            RefreshCustomers(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         private void btnUpdateCustomer_Click(object sender, EventArgs e)
@@ -180,7 +181,7 @@ namespace EnezcamERP
             {
                 UpdateCustomer form = new(lvCustomers.SelectedItems[0].Tag as Customer);
                 form.ShowDialog();
-                RefreshCustomers(lvCustomers, ColumnHeaderAutoResizeStyle.HeaderSize);
+                RefreshCustomers(ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
 
@@ -190,13 +191,13 @@ namespace EnezcamERP
             {
                 customersDB.Delete(lvCustomers.SelectedItems[0].Tag as Customer);
                 customersDB.Save();
-                RefreshCustomers(lvCustomers, ColumnHeaderAutoResizeStyle.HeaderSize);
+                RefreshCustomers(ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
 
         private void btnRefreshCustomer_Click(object sender, EventArgs e)
         {
-            RefreshCustomers(lvCustomers, ColumnHeaderAutoResizeStyle.HeaderSize);
+            RefreshCustomers(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         #endregion
 

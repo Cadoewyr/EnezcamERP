@@ -9,19 +9,21 @@ namespace EnezcamERP.Forms.Product_Forms
 {
     public partial class AddProduct : Form
     {
-        public AddProduct()
+        public AddProduct(Form parentForm)
         {
             InitializeComponent();
             FillControls();
+            this.ParentForm = parentForm;
         }
 
         GenericRepository<Product> productDB = new GenericRepository<Product>(EnzDBContext.GetInstance);
+        private Form ParentForm;
 
         void FillControls()
         {
             cbProductType.Items.Clear();
 
-            cbProductType.Items.AddRange(Enum.GetNames(typeof(ProductType)));
+            cbProductType.DataSource = Enum.GetValues(typeof(ProductType));
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -29,7 +31,7 @@ namespace EnezcamERP.Forms.Product_Forms
             Product p = new()
             {
                 Name = txtProductName.Text,
-                Type = Enum.Parse<ProductType>(cbProductType.SelectedText)
+                Type = (ProductType)Enum.Parse(typeof(ProductType), cbProductType.SelectedItem.ToString())
             };
 
             var res = new ProductValidator().Validate(p);
@@ -38,6 +40,7 @@ namespace EnezcamERP.Forms.Product_Forms
             {
                 productDB.Add(p);
                 productDB.Save();
+                (ParentForm as FormMain).RefreshProducts(ColumnHeaderAutoResizeStyle.HeaderSize);
                 ControlCleaner.Clear(this.Controls);
             }
             else
