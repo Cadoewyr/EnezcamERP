@@ -136,7 +136,6 @@ namespace EnezcamERP
         #endregion
 
         //Product controls
-        //Done
         #region
         private void btnAddProduct_Click(object sender, EventArgs e)
         {
@@ -169,10 +168,22 @@ namespace EnezcamERP
         {
             RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
+
+        private void txtSearchProduct_TextChanged(object sender, EventArgs e)
+        {
+            var control = (sender as TextBox);
+
+            if (!string.IsNullOrEmpty(control.Text))
+            {
+                var res = productsDB.GetAll(control.Text.ToLower());
+                RefreshProducts(res.ToArray(), ColumnHeaderAutoResizeStyle.HeaderSize);
+            }
+            else
+                RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
         #endregion
 
         //Customer controls
-        //Done
         #region
         private void btnAddCustomer_Click(object sender, EventArgs e)
         {
@@ -219,7 +230,5 @@ namespace EnezcamERP
                 RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         #endregion
-
-
     }
 }

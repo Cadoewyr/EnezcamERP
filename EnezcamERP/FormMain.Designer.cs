@@ -30,6 +30,9 @@
         {
             tabOrders = new TabPage();
             gbOrders = new GroupBox();
+            lblSearchOrder = new Label();
+            txtSearchOrder = new TextBox();
+            btnRefreshOrder = new Button();
             btnDeleteOrder = new Button();
             btnUpdateOrder = new Button();
             btnAddOrder = new Button();
@@ -48,6 +51,8 @@
             tabControlMain = new TabControl();
             tabStock = new TabPage();
             gbProducts = new GroupBox();
+            lblSearchProduct = new Label();
+            txtSearchProduct = new TextBox();
             btnAddProduct = new Button();
             btnUpdateProduct = new Button();
             btnRefreshStock = new Button();
@@ -57,6 +62,8 @@
             clmProductType = new ColumnHeader();
             tabCustomer = new TabPage();
             gbCustomers = new GroupBox();
+            lblSearchCustomer = new Label();
+            txtSearchCustomer = new TextBox();
             btnRefreshCustomer = new Button();
             btnDeleteCustomer = new Button();
             btnUpdateCustomer = new Button();
@@ -68,8 +75,6 @@
             clmDescription = new ColumnHeader();
             clmContactName = new ColumnHeader();
             clmContactPhone = new ColumnHeader();
-            txtSearchCustomer = new TextBox();
-            lblSearchCustomer = new Label();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             tabControlMain.SuspendLayout();
@@ -85,28 +90,58 @@
             tabOrders.Location = new Point(4, 29);
             tabOrders.Name = "tabOrders";
             tabOrders.Padding = new Padding(3);
-            tabOrders.Size = new Size(946, 498);
+            tabOrders.Size = new Size(993, 521);
             tabOrders.TabIndex = 0;
             tabOrders.Text = "Siparişler";
             tabOrders.UseVisualStyleBackColor = true;
             // 
             // gbOrders
             // 
+            gbOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbOrders.Controls.Add(lblSearchOrder);
+            gbOrders.Controls.Add(txtSearchOrder);
+            gbOrders.Controls.Add(btnRefreshOrder);
             gbOrders.Controls.Add(btnDeleteOrder);
             gbOrders.Controls.Add(btnUpdateOrder);
             gbOrders.Controls.Add(btnAddOrder);
             gbOrders.Controls.Add(lvOrders);
-            gbOrders.Dock = DockStyle.Fill;
-            gbOrders.Location = new Point(3, 3);
+            gbOrders.Location = new Point(6, 5);
             gbOrders.Name = "gbOrders";
-            gbOrders.Size = new Size(940, 492);
+            gbOrders.Size = new Size(980, 507);
             gbOrders.TabIndex = 0;
             gbOrders.TabStop = false;
             gbOrders.Text = "Siparişler";
             // 
+            // lblSearchOrder
+            // 
+            lblSearchOrder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblSearchOrder.AutoSize = true;
+            lblSearchOrder.Location = new Point(738, 29);
+            lblSearchOrder.Name = "lblSearchOrder";
+            lblSearchOrder.Size = new Size(32, 20);
+            lblSearchOrder.TabIndex = 10;
+            lblSearchOrder.Text = "Ara";
+            // 
+            // txtSearchOrder
+            // 
+            txtSearchOrder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtSearchOrder.Location = new Point(776, 26);
+            txtSearchOrder.Name = "txtSearchOrder";
+            txtSearchOrder.Size = new Size(198, 27);
+            txtSearchOrder.TabIndex = 9;
+            // 
+            // btnRefreshOrder
+            // 
+            btnRefreshOrder.Location = new Point(306, 24);
+            btnRefreshOrder.Name = "btnRefreshOrder";
+            btnRefreshOrder.Size = new Size(94, 29);
+            btnRefreshOrder.TabIndex = 5;
+            btnRefreshOrder.Text = "Yenile";
+            btnRefreshOrder.UseVisualStyleBackColor = true;
+            // 
             // btnDeleteOrder
             // 
-            btnDeleteOrder.Location = new Point(206, 28);
+            btnDeleteOrder.Location = new Point(206, 24);
             btnDeleteOrder.Name = "btnDeleteOrder";
             btnDeleteOrder.Size = new Size(94, 29);
             btnDeleteOrder.TabIndex = 3;
@@ -116,17 +151,17 @@
             // 
             // btnUpdateOrder
             // 
-            btnUpdateOrder.Location = new Point(106, 28);
+            btnUpdateOrder.Location = new Point(106, 24);
             btnUpdateOrder.Name = "btnUpdateOrder";
             btnUpdateOrder.Size = new Size(94, 29);
             btnUpdateOrder.TabIndex = 2;
-            btnUpdateOrder.Text = "Düzenle";
+            btnUpdateOrder.Text = "Güncelle";
             btnUpdateOrder.UseVisualStyleBackColor = true;
             btnUpdateOrder.Click += btnUpdateOrder_Click;
             // 
             // btnAddOrder
             // 
-            btnAddOrder.Location = new Point(6, 28);
+            btnAddOrder.Location = new Point(6, 24);
             btnAddOrder.Name = "btnAddOrder";
             btnAddOrder.Size = new Size(94, 29);
             btnAddOrder.TabIndex = 1;
@@ -138,10 +173,12 @@
             // 
             lvOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lvOrders.Columns.AddRange(new ColumnHeader[] { clmJobNo, clmCustomer, clmIssueDate, clmCount, clmProducedCount, clmPrice, clmProducedPrice, clmCost, clmProducedCost, clmProfit, clmProfitPercentage });
-            lvOrders.Location = new Point(3, 63);
+            lvOrders.FullRowSelect = true;
+            lvOrders.GridLines = true;
+            lvOrders.Location = new Point(6, 59);
             lvOrders.MultiSelect = false;
             lvOrders.Name = "lvOrders";
-            lvOrders.Size = new Size(934, 425);
+            lvOrders.Size = new Size(968, 442);
             lvOrders.TabIndex = 4;
             lvOrders.UseCompatibleStateImageBehavior = false;
             lvOrders.View = View.Details;
@@ -199,7 +236,7 @@
             tabControlMain.Location = new Point(0, 0);
             tabControlMain.Name = "tabControlMain";
             tabControlMain.SelectedIndex = 0;
-            tabControlMain.Size = new Size(954, 531);
+            tabControlMain.Size = new Size(1001, 554);
             tabControlMain.TabIndex = 0;
             // 
             // tabStock
@@ -208,7 +245,7 @@
             tabStock.Location = new Point(4, 29);
             tabStock.Name = "tabStock";
             tabStock.Padding = new Padding(3);
-            tabStock.Size = new Size(946, 498);
+            tabStock.Size = new Size(993, 521);
             tabStock.TabIndex = 1;
             tabStock.Text = "Stok Kartı";
             tabStock.UseVisualStyleBackColor = true;
@@ -216,6 +253,8 @@
             // gbProducts
             // 
             gbProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbProducts.Controls.Add(lblSearchProduct);
+            gbProducts.Controls.Add(txtSearchProduct);
             gbProducts.Controls.Add(btnAddProduct);
             gbProducts.Controls.Add(btnUpdateProduct);
             gbProducts.Controls.Add(btnRefreshStock);
@@ -223,15 +262,33 @@
             gbProducts.Controls.Add(lvProducts);
             gbProducts.Location = new Point(6, 5);
             gbProducts.Name = "gbProducts";
-            gbProducts.Size = new Size(933, 484);
+            gbProducts.Size = new Size(980, 507);
             gbProducts.TabIndex = 0;
             gbProducts.TabStop = false;
             gbProducts.Text = "Stok Kartları";
             // 
+            // lblSearchProduct
+            // 
+            lblSearchProduct.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblSearchProduct.AutoSize = true;
+            lblSearchProduct.Location = new Point(738, 29);
+            lblSearchProduct.Name = "lblSearchProduct";
+            lblSearchProduct.Size = new Size(32, 20);
+            lblSearchProduct.TabIndex = 8;
+            lblSearchProduct.Text = "Ara";
+            // 
+            // txtSearchProduct
+            // 
+            txtSearchProduct.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtSearchProduct.Location = new Point(776, 26);
+            txtSearchProduct.Name = "txtSearchProduct";
+            txtSearchProduct.Size = new Size(198, 27);
+            txtSearchProduct.TabIndex = 7;
+            txtSearchProduct.TextChanged += txtSearchProduct_TextChanged;
+            // 
             // btnAddProduct
             // 
-            btnAddProduct.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            btnAddProduct.Location = new Point(6, 373);
+            btnAddProduct.Location = new Point(6, 24);
             btnAddProduct.Name = "btnAddProduct";
             btnAddProduct.Size = new Size(94, 29);
             btnAddProduct.TabIndex = 1;
@@ -241,8 +298,7 @@
             // 
             // btnUpdateProduct
             // 
-            btnUpdateProduct.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            btnUpdateProduct.Location = new Point(106, 373);
+            btnUpdateProduct.Location = new Point(106, 24);
             btnUpdateProduct.Name = "btnUpdateProduct";
             btnUpdateProduct.Size = new Size(94, 29);
             btnUpdateProduct.TabIndex = 1;
@@ -252,8 +308,7 @@
             // 
             // btnRefreshStock
             // 
-            btnRefreshStock.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnRefreshStock.Location = new Point(833, 373);
+            btnRefreshStock.Location = new Point(306, 24);
             btnRefreshStock.Name = "btnRefreshStock";
             btnRefreshStock.Size = new Size(94, 29);
             btnRefreshStock.TabIndex = 2;
@@ -263,8 +318,7 @@
             // 
             // btnDeleteProduct
             // 
-            btnDeleteProduct.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            btnDeleteProduct.Location = new Point(206, 373);
+            btnDeleteProduct.Location = new Point(206, 24);
             btnDeleteProduct.Name = "btnDeleteProduct";
             btnDeleteProduct.Size = new Size(94, 29);
             btnDeleteProduct.TabIndex = 1;
@@ -276,9 +330,11 @@
             // 
             lvProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lvProducts.Columns.AddRange(new ColumnHeader[] { clmName, clmProductType });
-            lvProducts.Location = new Point(6, 27);
+            lvProducts.FullRowSelect = true;
+            lvProducts.GridLines = true;
+            lvProducts.Location = new Point(6, 59);
             lvProducts.Name = "lvProducts";
-            lvProducts.Size = new Size(921, 340);
+            lvProducts.Size = new Size(968, 442);
             lvProducts.TabIndex = 0;
             lvProducts.UseCompatibleStateImageBehavior = false;
             lvProducts.View = View.Details;
@@ -297,7 +353,7 @@
             tabCustomer.Location = new Point(4, 29);
             tabCustomer.Name = "tabCustomer";
             tabCustomer.Padding = new Padding(3);
-            tabCustomer.Size = new Size(946, 498);
+            tabCustomer.Size = new Size(993, 521);
             tabCustomer.TabIndex = 2;
             tabCustomer.Text = "Cari Kartı";
             tabCustomer.UseVisualStyleBackColor = true;
@@ -314,15 +370,33 @@
             gbCustomers.Controls.Add(lvCustomers);
             gbCustomers.Location = new Point(6, 5);
             gbCustomers.Name = "gbCustomers";
-            gbCustomers.Size = new Size(933, 484);
+            gbCustomers.Size = new Size(980, 507);
             gbCustomers.TabIndex = 0;
             gbCustomers.TabStop = false;
             gbCustomers.Text = "Cariler";
             // 
+            // lblSearchCustomer
+            // 
+            lblSearchCustomer.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblSearchCustomer.AutoSize = true;
+            lblSearchCustomer.Location = new Point(738, 29);
+            lblSearchCustomer.Name = "lblSearchCustomer";
+            lblSearchCustomer.Size = new Size(32, 20);
+            lblSearchCustomer.TabIndex = 6;
+            lblSearchCustomer.Text = "Ara";
+            // 
+            // txtSearchCustomer
+            // 
+            txtSearchCustomer.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtSearchCustomer.Location = new Point(776, 26);
+            txtSearchCustomer.Name = "txtSearchCustomer";
+            txtSearchCustomer.Size = new Size(198, 27);
+            txtSearchCustomer.TabIndex = 5;
+            txtSearchCustomer.TextChanged += txtSearchCustomer_TextChanged;
+            // 
             // btnRefreshCustomer
             // 
-            btnRefreshCustomer.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnRefreshCustomer.Location = new Point(833, 414);
+            btnRefreshCustomer.Location = new Point(306, 24);
             btnRefreshCustomer.Name = "btnRefreshCustomer";
             btnRefreshCustomer.Size = new Size(94, 29);
             btnRefreshCustomer.TabIndex = 2;
@@ -332,8 +406,7 @@
             // 
             // btnDeleteCustomer
             // 
-            btnDeleteCustomer.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            btnDeleteCustomer.Location = new Point(207, 414);
+            btnDeleteCustomer.Location = new Point(206, 24);
             btnDeleteCustomer.Name = "btnDeleteCustomer";
             btnDeleteCustomer.Size = new Size(94, 29);
             btnDeleteCustomer.TabIndex = 2;
@@ -343,8 +416,7 @@
             // 
             // btnUpdateCustomer
             // 
-            btnUpdateCustomer.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            btnUpdateCustomer.Location = new Point(107, 414);
+            btnUpdateCustomer.Location = new Point(106, 24);
             btnUpdateCustomer.Name = "btnUpdateCustomer";
             btnUpdateCustomer.Size = new Size(94, 29);
             btnUpdateCustomer.TabIndex = 3;
@@ -354,8 +426,7 @@
             // 
             // btnAddCustomer
             // 
-            btnAddCustomer.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            btnAddCustomer.Location = new Point(7, 414);
+            btnAddCustomer.Location = new Point(6, 24);
             btnAddCustomer.Name = "btnAddCustomer";
             btnAddCustomer.Size = new Size(94, 29);
             btnAddCustomer.TabIndex = 4;
@@ -367,9 +438,11 @@
             // 
             lvCustomers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lvCustomers.Columns.AddRange(new ColumnHeader[] { clmCustomerName, clmCountry, clmCity, clmDescription, clmContactName, clmContactPhone });
-            lvCustomers.Location = new Point(6, 68);
+            lvCustomers.FullRowSelect = true;
+            lvCustomers.GridLines = true;
+            lvCustomers.Location = new Point(5, 59);
             lvCustomers.Name = "lvCustomers";
-            lvCustomers.Size = new Size(921, 340);
+            lvCustomers.Size = new Size(968, 442);
             lvCustomers.TabIndex = 0;
             lvCustomers.UseCompatibleStateImageBehavior = false;
             lvCustomers.View = View.Details;
@@ -398,28 +471,11 @@
             // 
             clmContactPhone.Text = "Yetkili Numarası";
             // 
-            // txtSearchCustomer
-            // 
-            txtSearchCustomer.Location = new Point(729, 35);
-            txtSearchCustomer.Name = "txtSearchCustomer";
-            txtSearchCustomer.Size = new Size(198, 27);
-            txtSearchCustomer.TabIndex = 5;
-            txtSearchCustomer.TextChanged += txtSearchCustomer_TextChanged;
-            // 
-            // lblSearchCustomer
-            // 
-            lblSearchCustomer.AutoSize = true;
-            lblSearchCustomer.Location = new Point(691, 38);
-            lblSearchCustomer.Name = "lblSearchCustomer";
-            lblSearchCustomer.Size = new Size(32, 20);
-            lblSearchCustomer.TabIndex = 6;
-            lblSearchCustomer.Text = "Ara";
-            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(954, 531);
+            ClientSize = new Size(1001, 554);
             Controls.Add(tabControlMain);
             MdiChildrenMinimizedAnchorBottom = false;
             MinimumSize = new Size(970, 567);
@@ -430,9 +486,11 @@
             Load += Main_Load;
             tabOrders.ResumeLayout(false);
             gbOrders.ResumeLayout(false);
+            gbOrders.PerformLayout();
             tabControlMain.ResumeLayout(false);
             tabStock.ResumeLayout(false);
             gbProducts.ResumeLayout(false);
+            gbProducts.PerformLayout();
             tabCustomer.ResumeLayout(false);
             gbCustomers.ResumeLayout(false);
             gbCustomers.PerformLayout();
@@ -483,5 +541,10 @@
         private Button btnRefreshCustomer;
         private TextBox txtSearchCustomer;
         private Label lblSearchCustomer;
+        private Label lblSearchProduct;
+        private TextBox txtSearchProduct;
+        private Button btnRefreshOrder;
+        private Label lblSearchOrder;
+        private TextBox txtSearchOrder;
     }
 }
