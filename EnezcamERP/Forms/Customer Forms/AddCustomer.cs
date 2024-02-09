@@ -8,12 +8,14 @@ namespace EnezcamERP.Forms.Customer_Forms
 {
     public partial class AddCustomer : Form
     {
-        public AddCustomer()
+        public AddCustomer(Form parentForm)
         {
             InitializeComponent();
+            this.parentForm = parentForm;
         }
 
         GenericRepository<Customer> customerDB = new(EnzDBContext.GetInstance);
+        Form parentForm;
 
         private void btnAddCustomer_Click(object sender, EventArgs e)
         {
@@ -35,6 +37,7 @@ namespace EnezcamERP.Forms.Customer_Forms
                 customerDB.Add(customer);
                 customerDB.Save();
                 ControlCleaner.Clear(this.Controls);
+                (parentForm as FormMain).RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
             else
             {

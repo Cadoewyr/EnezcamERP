@@ -68,6 +68,8 @@
             clmDescription = new ColumnHeader();
             clmContactName = new ColumnHeader();
             clmContactPhone = new ColumnHeader();
+            txtSearchCustomer = new TextBox();
+            lblSearchCustomer = new Label();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             tabControlMain.SuspendLayout();
@@ -303,6 +305,8 @@
             // gbCustomers
             // 
             gbCustomers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbCustomers.Controls.Add(lblSearchCustomer);
+            gbCustomers.Controls.Add(txtSearchCustomer);
             gbCustomers.Controls.Add(btnRefreshCustomer);
             gbCustomers.Controls.Add(btnDeleteCustomer);
             gbCustomers.Controls.Add(btnUpdateCustomer);
@@ -318,7 +322,7 @@
             // btnRefreshCustomer
             // 
             btnRefreshCustomer.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnRefreshCustomer.Location = new Point(833, 373);
+            btnRefreshCustomer.Location = new Point(833, 414);
             btnRefreshCustomer.Name = "btnRefreshCustomer";
             btnRefreshCustomer.Size = new Size(94, 29);
             btnRefreshCustomer.TabIndex = 2;
@@ -329,7 +333,7 @@
             // btnDeleteCustomer
             // 
             btnDeleteCustomer.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            btnDeleteCustomer.Location = new Point(207, 373);
+            btnDeleteCustomer.Location = new Point(207, 414);
             btnDeleteCustomer.Name = "btnDeleteCustomer";
             btnDeleteCustomer.Size = new Size(94, 29);
             btnDeleteCustomer.TabIndex = 2;
@@ -340,7 +344,7 @@
             // btnUpdateCustomer
             // 
             btnUpdateCustomer.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            btnUpdateCustomer.Location = new Point(107, 373);
+            btnUpdateCustomer.Location = new Point(107, 414);
             btnUpdateCustomer.Name = "btnUpdateCustomer";
             btnUpdateCustomer.Size = new Size(94, 29);
             btnUpdateCustomer.TabIndex = 3;
@@ -351,7 +355,7 @@
             // btnAddCustomer
             // 
             btnAddCustomer.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            btnAddCustomer.Location = new Point(7, 373);
+            btnAddCustomer.Location = new Point(7, 414);
             btnAddCustomer.Name = "btnAddCustomer";
             btnAddCustomer.Size = new Size(94, 29);
             btnAddCustomer.TabIndex = 4;
@@ -363,7 +367,7 @@
             // 
             lvCustomers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lvCustomers.Columns.AddRange(new ColumnHeader[] { clmCustomerName, clmCountry, clmCity, clmDescription, clmContactName, clmContactPhone });
-            lvCustomers.Location = new Point(6, 27);
+            lvCustomers.Location = new Point(6, 68);
             lvCustomers.Name = "lvCustomers";
             lvCustomers.Size = new Size(921, 340);
             lvCustomers.TabIndex = 0;
@@ -394,6 +398,23 @@
             // 
             clmContactPhone.Text = "Yetkili Numarası";
             // 
+            // txtSearchCustomer
+            // 
+            txtSearchCustomer.Location = new Point(729, 35);
+            txtSearchCustomer.Name = "txtSearchCustomer";
+            txtSearchCustomer.Size = new Size(198, 27);
+            txtSearchCustomer.TabIndex = 5;
+            txtSearchCustomer.TextChanged += txtSearchCustomer_TextChanged;
+            // 
+            // lblSearchCustomer
+            // 
+            lblSearchCustomer.AutoSize = true;
+            lblSearchCustomer.Location = new Point(691, 38);
+            lblSearchCustomer.Name = "lblSearchCustomer";
+            lblSearchCustomer.Size = new Size(32, 20);
+            lblSearchCustomer.TabIndex = 6;
+            lblSearchCustomer.Text = "Ara";
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -414,6 +435,7 @@
             gbProducts.ResumeLayout(false);
             tabCustomer.ResumeLayout(false);
             gbCustomers.ResumeLayout(false);
+            gbCustomers.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -459,5 +481,7 @@
         private ColumnHeader clmContactName;
         private ColumnHeader clmContactPhone;
         private Button btnRefreshCustomer;
+        private TextBox txtSearchCustomer;
+        private Label lblSearchCustomer;
     }
 }

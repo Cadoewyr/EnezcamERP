@@ -8,15 +8,17 @@ namespace EnezcamERP.Forms.Customer_Forms
 {
     public partial class UpdateCustomer : Form
     {
-        public UpdateCustomer(Customer customer)
+        public UpdateCustomer(Form parentForm, Customer customer)
         {
             InitializeComponent();
             this.customer = customer;
+            this.parentForm = parentForm;
             FillControls();
         }
 
         GenericRepository<Customer> customerDB = new(EnzDBContext.GetInstance);
         Customer customer;
+        Form parentForm;
 
         void FillControls()
         {
@@ -48,7 +50,7 @@ namespace EnezcamERP.Forms.Customer_Forms
             {
                 customerDB.Update(newCustomer, customer.ID);
                 customerDB.Save();
-                ControlCleaner.Clear(this.Controls);
+                (parentForm as FormMain).RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
                 (sender as Button).Enabled = false;
             }
             else

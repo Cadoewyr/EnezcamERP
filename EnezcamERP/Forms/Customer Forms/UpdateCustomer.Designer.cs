@@ -78,7 +78,7 @@
             btnCancel.Location = new Point(181, 399);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(223, 29);
-            btnCancel.TabIndex = 5;
+            btnCancel.TabIndex = 8;
             btnCancel.Text = "İptal";
             btnCancel.UseVisualStyleBackColor = true;
             btnCancel.Click += btnCancel_Click;
@@ -89,7 +89,7 @@
             btnUpdateCustomer.Location = new Point(181, 364);
             btnUpdateCustomer.Name = "btnUpdateCustomer";
             btnUpdateCustomer.Size = new Size(224, 29);
-            btnUpdateCustomer.TabIndex = 4;
+            btnUpdateCustomer.TabIndex = 7;
             btnUpdateCustomer.Text = "Kaydet";
             btnUpdateCustomer.UseVisualStyleBackColor = true;
             btnUpdateCustomer.Click += btnUpdateCustomer_Click;
@@ -100,7 +100,7 @@
             txtContactPhone.Mask = "(999) 000-0000";
             txtContactPhone.Name = "txtContactPhone";
             txtContactPhone.Size = new Size(223, 27);
-            txtContactPhone.TabIndex = 3;
+            txtContactPhone.TabIndex = 6;
             txtContactPhone.TextChanged += ControlTextChanged;
             // 
             // txtDescription
@@ -109,7 +109,7 @@
             txtDescription.MaxLength = 300;
             txtDescription.Name = "txtDescription";
             txtDescription.Size = new Size(345, 75);
-            txtDescription.TabIndex = 2;
+            txtDescription.TabIndex = 4;
             txtDescription.Text = "";
             txtDescription.TextChanged += ControlTextChanged;
             // 
@@ -119,7 +119,7 @@
             txtAddress.MaxLength = 300;
             txtAddress.Name = "txtAddress";
             txtAddress.Size = new Size(345, 75);
-            txtAddress.TabIndex = 2;
+            txtAddress.TabIndex = 3;
             txtAddress.Text = "";
             txtAddress.TextChanged += ControlTextChanged;
             // 
@@ -128,7 +128,7 @@
             txtContactName.Location = new Point(181, 295);
             txtContactName.Name = "txtContactName";
             txtContactName.Size = new Size(223, 27);
-            txtContactName.TabIndex = 1;
+            txtContactName.TabIndex = 5;
             txtContactName.TextChanged += ControlTextChanged;
             // 
             // txtCity
@@ -136,7 +136,7 @@
             txtCity.Location = new Point(181, 100);
             txtCity.Name = "txtCity";
             txtCity.Size = new Size(223, 27);
-            txtCity.TabIndex = 1;
+            txtCity.TabIndex = 2;
             txtCity.TextChanged += ControlTextChanged;
             // 
             // txtCountry
@@ -152,7 +152,7 @@
             txtCustomerName.Location = new Point(181, 35);
             txtCustomerName.Name = "txtCustomerName";
             txtCustomerName.Size = new Size(223, 27);
-            txtCustomerName.TabIndex = 1;
+            txtCustomerName.TabIndex = 0;
             txtCustomerName.TextChanged += ControlTextChanged;
             // 
             // lblContactPhone

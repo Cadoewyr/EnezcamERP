@@ -54,6 +54,39 @@ namespace BL.Repositories
             catch { return null; }
         }
 
+        public IEnumerable<T> GetAll(string filter)
+        {
+            try
+            {
+                ICollection<T> results = [];
+
+                foreach(var entity in GetAll())
+                {
+                    foreach (var prop in typeof(T).GetProperties())
+                    {
+                        var value = prop.GetValue(entity).ToString().ToLower();
+
+                        if (value.Contains(filter.ToLower()) && !results.Contains(entity))
+                        {
+                            results.Add(entity);
+                            continue;
+                        }
+                    }
+                }
+                return results;
+            }
+            catch { return null; }
+        }
+
+        public IEnumerable<T> GetAll(Func<T,bool> predicate)
+        {
+            try
+            {
+                return table.Where(predicate);
+            }
+            catch { return null; }
+        }
+
         public IEnumerable<T> GetAll()
         {
             try
