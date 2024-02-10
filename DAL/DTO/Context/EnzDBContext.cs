@@ -7,6 +7,7 @@ namespace DAL.DTO.Context
     {
         public EnzDBContext()
         {
+            //this.ChangeTracker.LazyLoadingEnabled = false;
             Database.EnsureCreated();
         }
 
@@ -29,7 +30,7 @@ namespace DAL.DTO.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=.;Database=EnezcamERP;Trusted_Connection=True;TrustServerCertificate=True;");
+            optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll).UseSqlServer("Server=.;Database=EnezcamERP;Trusted_Connection=True;TrustServerCertificate=True;");
         }
     }
 }

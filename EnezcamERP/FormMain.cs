@@ -2,6 +2,7 @@ using BL.Repositories;
 using DAL.DTO.Context;
 using DAL.DTO.Entities;
 using EnezcamERP.Forms.Customer_Forms;
+using EnezcamERP.Forms.Order_Forms;
 using EnezcamERP.Forms.Product_Forms;
 
 namespace EnezcamERP
@@ -22,7 +23,7 @@ namespace EnezcamERP
             ListView listView = lvOrders;
             listView.Items.Clear();
 
-            var items = orders ?? ordersDB.GetAll();
+            var items = orders ?? ordersDB.GetAll(x => x.OrderDetails, x => x.Customer);
 
             foreach (var item in items)
             {
@@ -34,19 +35,18 @@ namespace EnezcamERP
 
                 lvi.SubItems.Add(item.Customer.Name);
                 lvi.SubItems.Add(item.IssueDate.ToShortDateString());
-                lvi.SubItems.Add(item.ProductCount.ToString());
-                lvi.SubItems.Add(item.ProducedProductCount.ToString());
-                lvi.SubItems.Add(item.Price.ToString());
-                lvi.SubItems.Add(item.ProducedPrice.ToString());
-                lvi.SubItems.Add(item.Cost.ToString());
-                lvi.SubItems.Add(item.ProducedCost.ToString());
-                lvi.SubItems.Add(item.Profit.ToString());
-                lvi.SubItems.Add(item.ProducedProfit.ToString());
-                lvi.SubItems.Add(item.ProfitPercentage.ToString());
-                lvi.SubItems.Add(item.ProducedProfitPercentage.ToString());
+                lvi.SubItems.Add(item.ProductCount.ToString("N2"));
+                lvi.SubItems.Add(item.ProducedProductCount.ToString("N2"));
+                lvi.SubItems.Add(item.Price.ToString("N2"));
+                lvi.SubItems.Add(item.Cost.ToString("N2"));
+                lvi.SubItems.Add(item.Profit.ToString("N2"));
+                lvi.SubItems.Add(item.ProfitPercentage.ToString("P2"));
 
                 listView.Items.Add(lvi);
             }
+
+            if (columnHeaderAutoResizeStyle != null)
+                listView.AutoResizeColumns(columnHeaderAutoResizeStyle.Value);
         }
         public void RefreshProducts(ICollection<Product>? products, ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
         {
@@ -67,6 +67,9 @@ namespace EnezcamERP
 
                 listView.Items.Add(lvi);
             }
+
+            if (columnHeaderAutoResizeStyle != null)
+                listView.AutoResizeColumns(columnHeaderAutoResizeStyle.Value);
         }
         public void RefreshCustomers(ICollection<Customer>? customers, ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
         {
@@ -103,7 +106,7 @@ namespace EnezcamERP
             RefreshCustomers(null, columnHeaderAutoResizeStyle);
         }
 
-        private void Main_Load(object sender, EventArgs e)
+        private async void Main_Load(object sender, EventArgs e)
         {
             InitialLists(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
@@ -112,6 +115,8 @@ namespace EnezcamERP
         #region
         private void btnAddOrder_Click(object sender, EventArgs e)
         {
+            AddOrder form = new();
+            form.ShowDialog();
             RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
@@ -119,6 +124,7 @@ namespace EnezcamERP
         {
             if (lvOrders.SelectedItems.Count > 0)
             {
+                // Update logic
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
@@ -132,6 +138,13 @@ namespace EnezcamERP
 
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
+        }
+
+        private void btnRefreshOrder_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show(EnzDBContext.GetInstance.Orders.FirstOrDefault().JobNo.ToString());
+            //MessageBox.Show(EnzDBContext.GetInstance.Orders.FirstOrDefault().OrderDetails.Count.ToString());
+            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         #endregion
 
@@ -230,5 +243,7 @@ namespace EnezcamERP
                 RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         #endregion
+
+
     }
 }

@@ -13,11 +13,11 @@ namespace EnezcamERP.Forms.Product_Forms
         {
             InitializeComponent();
             FillControls();
-            this.ParentForm = parentForm;
+            this.parentForm = parentForm;
         }
 
-        GenericRepository<Product> productDB = new GenericRepository<Product>(EnzDBContext.GetInstance);
-        private Form ParentForm;
+        GenericRepository<Product> productDB = new(EnzDBContext.GetInstance);
+        private Form parentForm;
 
         void FillControls()
         {

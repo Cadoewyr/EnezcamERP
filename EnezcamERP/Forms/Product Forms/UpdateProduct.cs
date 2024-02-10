@@ -17,7 +17,7 @@ namespace EnezcamERP.Forms.Product_Forms
             FillControls();
         }
 
-        GenericRepository<Product> productDB = new GenericRepository<Product>(EnzDBContext.GetInstance);
+        GenericRepository<Product> productDB = new(EnzDBContext.GetInstance);
         Product product;
         Form parentForm;
 

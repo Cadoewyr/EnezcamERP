@@ -8,7 +8,7 @@ namespace DAL.DTO.Entities
         public DateTime IssueDate { get; set; }
         public DateTime DeliveryDate { get; set; }
         public Customer Customer { get; set; } = new();
-        public List<OrderDetail> OrderDetails { get; set; } = [];
+        public ICollection<OrderDetail> OrderDetails { get; set; } = [];
 
         [NotMapped]
         public decimal ProductCount
@@ -30,8 +30,8 @@ namespace DAL.DTO.Entities
         {
             get
             {
-                if (OrderDetails.Any())
-                    return OrderDetails.Sum(x => x.TotalPrice);
+                if (OrderDetails.Count > 0)
+                    return OrderDetails.Sum(x => x.Price);
                 else
                     return 0;
             }
@@ -42,8 +42,8 @@ namespace DAL.DTO.Entities
         {
             get
             {
-                if(OrderDetails.Any())
-                    return OrderDetails.Sum(x => x.TotalCost);
+                if(OrderDetails.Count > 0)
+                    return OrderDetails.Sum(x => x.Cost);
                 else
                     return 0;
             }
@@ -54,7 +54,7 @@ namespace DAL.DTO.Entities
         {
             get
             {
-                if (OrderDetails.Any())
+                if (OrderDetails.Count > 0)
                     return Price - Cost;
                 else
                     return 0;
@@ -66,8 +66,8 @@ namespace DAL.DTO.Entities
         {
             get
             {
-                if (OrderDetails.Any())
-                    return (Price - Cost) / Cost;
+                if (OrderDetails.Count > 0 & Cost > 0)
+                    return Profit / Price;
                 else
                     return 0;
             }
@@ -83,8 +83,8 @@ namespace DAL.DTO.Entities
         {
             get
             {
-                if (OrderDetails.Any())
-                    return OrderDetails.Sum(x => x.TotalProducedCost);
+                if (OrderDetails.Count > 0)
+                    return OrderDetails.Sum(x => x.ProducedCost);
                 else
                     return 0;
             }
@@ -95,8 +95,8 @@ namespace DAL.DTO.Entities
         {
             get
             {
-                if(OrderDetails.Any())
-                    return OrderDetails.Sum(x => x.TotalProducedPrice);
+                if(OrderDetails.Count > 0)
+                    return OrderDetails.Sum(x => x.ProducedPrice);
                 else
                     return 0;
             }
@@ -107,7 +107,7 @@ namespace DAL.DTO.Entities
         {
             get
             {
-                if (OrderDetails.Any())
+                if (OrderDetails.Count > 0)
                     return ProducedPrice - Cost;
                 else
                     return 0;
@@ -119,7 +119,7 @@ namespace DAL.DTO.Entities
         {
             get
             {
-                if (OrderDetails.Any())
+                if (OrderDetails.Count > 0 & ProducedCost > 0)
                     return (ProducedPrice - ProducedCost) / ProducedCost;
                 else
                     return 0;

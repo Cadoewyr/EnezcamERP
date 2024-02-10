@@ -40,12 +40,10 @@
             clmJobNo = new ColumnHeader();
             clmCustomer = new ColumnHeader();
             clmIssueDate = new ColumnHeader();
-            clmCount = new ColumnHeader();
-            clmProducedCount = new ColumnHeader();
+            clmQuantity = new ColumnHeader();
+            clmProducedQuantity = new ColumnHeader();
             clmPrice = new ColumnHeader();
-            clmProducedPrice = new ColumnHeader();
             clmCost = new ColumnHeader();
-            clmProducedCost = new ColumnHeader();
             clmProfit = new ColumnHeader();
             clmProfitPercentage = new ColumnHeader();
             tabControlMain = new TabControl();
@@ -138,6 +136,7 @@
             btnRefreshOrder.TabIndex = 5;
             btnRefreshOrder.Text = "Yenile";
             btnRefreshOrder.UseVisualStyleBackColor = true;
+            btnRefreshOrder.Click += btnRefreshOrder_Click;
             // 
             // btnDeleteOrder
             // 
@@ -172,7 +171,7 @@
             // lvOrders
             // 
             lvOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lvOrders.Columns.AddRange(new ColumnHeader[] { clmJobNo, clmCustomer, clmIssueDate, clmCount, clmProducedCount, clmPrice, clmProducedPrice, clmCost, clmProducedCost, clmProfit, clmProfitPercentage });
+            lvOrders.Columns.AddRange(new ColumnHeader[] { clmJobNo, clmCustomer, clmIssueDate, clmQuantity, clmProducedQuantity, clmPrice, clmCost, clmProfit, clmProfitPercentage });
             lvOrders.FullRowSelect = true;
             lvOrders.GridLines = true;
             lvOrders.Location = new Point(6, 59);
@@ -195,29 +194,21 @@
             // 
             clmIssueDate.Text = "Sipariş Tarihi";
             // 
-            // clmCount
+            // clmQuantity
             // 
-            clmCount.Text = "Sipariş Adedi";
+            clmQuantity.Text = "Sipariş Adedi";
             // 
-            // clmProducedCount
+            // clmProducedQuantity
             // 
-            clmProducedCount.Text = "Üretim";
+            clmProducedQuantity.Text = "Üretim";
             // 
             // clmPrice
             // 
             clmPrice.Text = "Tutar";
             // 
-            // clmProducedPrice
-            // 
-            clmProducedPrice.Text = "Üretim Tutarı";
-            // 
             // clmCost
             // 
             clmCost.Text = "Maliyet";
-            // 
-            // clmProducedCost
-            // 
-            clmProducedCost.Text = "Üretim Maliyeti";
             // 
             // clmProfit
             // 
@@ -508,12 +499,10 @@
         private ColumnHeader clmJobNo;
         private ColumnHeader clmCustomer;
         private ColumnHeader clmIssueDate;
-        private ColumnHeader clmCount;
-        private ColumnHeader clmProducedCount;
+        private ColumnHeader clmQuantity;
+        private ColumnHeader clmProducedQuantity;
         private ColumnHeader clmPrice;
-        private ColumnHeader clmProducedPrice;
         private ColumnHeader clmCost;
-        private ColumnHeader clmProducedCost;
         private ColumnHeader clmProfit;
         private ColumnHeader clmProfitPercentage;
         private TabControl tabControlMain;

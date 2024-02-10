@@ -1,4 +1,5 @@
 ﻿using DAL.DTO.Entities.Enums;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL.DTO.Entities
@@ -11,62 +12,62 @@ namespace DAL.DTO.Entities
         public decimal UnitPrice { get; set; } = 0;
         public decimal UnitCost { get; set; } = 0;
         public decimal Quantity { get; set; } = 0;
-        public List<ProducedOrder> ProducedOrders { get; set; } = [];
-
-        //Satış
-        #region
-
-        [NotMapped]
-        public decimal TotalProducedPrice
-        {
-            get => UnitPrice * ProducedOrders.Sum(x => x.ProducedOrderCount);
-        }
-
-        [NotMapped]
-        public decimal TotalProducedCost
-        {
-            get => UnitCost * ProducedOrders.Sum(x => x.ProducedOrderCount);
-        }
-
-        [NotMapped]
-        public decimal TotalProducedProfit
-        {
-            get => TotalProducedPrice - TotalProducedCost;
-        }
-
-        [NotMapped]
-        public decimal TotalProducedProfitPercentage
-        {
-            get => (TotalProducedPrice - TotalProducedCost) / TotalProducedCost;
-        }
-
-        #endregion
+        public ICollection<ProducedOrder> ProducedOrders { get; set; } = [];
 
         //Üretim
         #region
 
         [NotMapped]
-        public decimal TotalCost
+        public decimal ProducedPrice
+        {
+            get => UnitPrice * ProducedOrders.Sum(x => x.ProducedOrderCount);
+        }
+
+        [NotMapped]
+        public decimal ProducedCost
+        {
+            get => UnitCost * ProducedOrders.Sum(x => x.ProducedOrderCount);
+        }
+
+        [NotMapped]
+        public decimal ProducedProfit
+        {
+            get => ProducedPrice - ProducedCost;
+        }
+
+        [NotMapped]
+        public decimal ProducedProfitPercentage
+        {
+            get => (ProducedPrice - ProducedCost) / ProducedCost;
+        }
+
+        #endregion
+
+        //Satış
+        #region
+
+        [NotMapped]
+        public decimal Cost
         {
             get => UnitCost * Quantity;
         }
 
         [NotMapped]
-        public decimal TotalPrice
+        public decimal Price
         {
             get => UnitPrice * Quantity;
         }
 
         [NotMapped]
-        public decimal TotalProfit
+        public decimal Profit
         {
-            get => TotalPrice - TotalCost;
+            get => Price - Cost;
         }
 
         [NotMapped]
         public decimal ProfitPercentage
         {
-            get => (TotalPrice - TotalCost) / TotalCost;
+            get => (Price - Cost) / Cost;
         }
 
         #endregion

@@ -16,8 +16,8 @@
                     (control as ComboBox).SelectedIndex = 0;
                 else if (control is ListBox)
                     (control as ListBox).Items.Clear();
-                else if (control is ListView)
-                    (control as ListView).Items.Clear();
+                //else if (control is ListView)
+                //    (control as ListView).
 
                 if (control.Controls.Count > 0)
                 {

@@ -1,6 +1,7 @@
 ﻿using BL.Models.Interfaces;
 using DAL.DTO.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace BL.Repositories
 {
@@ -78,11 +79,62 @@ namespace BL.Repositories
             catch { return null; }
         }
 
+        /// <summary>
+        /// The navigated properties that would be included to the entity. By default, lazy loading won't load related entities.
+        /// </summary>
+        /// <param name="includeProperties"></param>
+        /// <returns></returns>
+        public IEnumerable<T> GetAll(string filter, params Expression<Func<T, object>>[] includeProperties)
+        {
+            try
+            {
+                ICollection<T> results = [];
+                IQueryable<T> query = table;
+
+                foreach (var entity in GetAll(includeProperties))
+                {
+                    foreach (var prop in typeof(T).GetProperties())
+                    {
+                        var value = prop.GetValue(entity).ToString().ToLower();
+
+                        if (value.Contains(filter.ToLower()) && !results.Contains(entity))
+                        {
+                            results.Add(entity);
+                            continue;
+                        }
+                    }
+                }
+                return results;
+            }
+            catch { return null; }
+        }
+
         public IEnumerable<T> GetAll(Func<T,bool> predicate)
         {
             try
             {
                 return table.Where(predicate);
+            }
+            catch { return null; }
+        }
+
+        /// <summary>
+        /// The navigated properties that would be included to the entity. By default, lazy loading won't load related entities.
+        /// </summary>
+        /// <param name="includeProperties"></param>
+        /// <returns></returns>
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
+        {
+            try
+            {
+                IQueryable<T> query = table;
+
+                foreach(var includeProperty in includeProperties)
+                {
+                    query = query.Include(includeProperty);
+                }
+
+                return query.Where(predicate);
             }
             catch { return null; }
         }
@@ -94,6 +146,30 @@ namespace BL.Repositories
                 return table.ToList();
             }
             catch { return null; }
+        }
+
+        /// <summary>
+        /// The navigated properties that would be included to the entity. By default, lazy loading won't load related entities.
+        /// </summary>
+        /// <param name="includeProperties"></param>
+        /// <returns></returns>
+        public IEnumerable<T> GetAll(params Expression<Func<T, object>>[] includeProperties)
+        {
+            try
+            {
+                IQueryable<T> query = table;
+
+                foreach (var includeProperty in includeProperties)
+                {
+                    query = query.Include(includeProperty);
+                }
+
+                return query.ToList();
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public bool Update(T entity, int id)
