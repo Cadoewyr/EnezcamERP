@@ -3,15 +3,7 @@ using DAL.DTO.Context;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
 using EnezcamERP.Validators;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace EnezcamERP.Forms.Order_Forms
@@ -150,7 +142,7 @@ namespace EnezcamERP.Forms.Order_Forms
         {
             if (lvOrderDetails.Items.Count > 0)
             {
-                order.JobNo =  !string.IsNullOrEmpty(txtJobNo.Text) ? Convert.ToInt32(txtJobNo.Text.Trim()) : -1;
+                order.JobNo = !string.IsNullOrEmpty(txtJobNo.Text) ? Convert.ToInt32(txtJobNo.Text.Trim()) : -1;
                 order.Customer = cbCustomers.SelectedItem as Customer;
                 order.IssueDate = dtpOrderDate.Value;
                 order.DeliveryDate = dtpDeliveryDate.Value;
@@ -160,10 +152,18 @@ namespace EnezcamERP.Forms.Order_Forms
 
                 if (res.IsValid)
                 {
-                    orderDB.Add(order);
-                    orderDB.Save();
-                    orderDetailDB.Save();
-                    this.Close();
+                    try
+                    {
+                        orderDB.Add(order);
+                        orderDB.Save();
+                        orderDetailDB.Save();
+                        this.Close();
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        ControlCleaner.Clear(this.Controls);
+                    }
                 }
                 else
                 {
@@ -181,7 +181,7 @@ namespace EnezcamERP.Forms.Order_Forms
 
         private void txtSearchProduct_TextChanged(object sender, EventArgs e)
         {
-            RefreshProducts(productDB.GetAll((sender as TextBox).Text.ToLower().Trim()).ToArray());
+            RefreshProducts(productDB.GetAll((sender as TextBox).Text.ToLower().Trim() ?? null).ToArray());
         }
     }
 }

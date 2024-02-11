@@ -14,8 +14,8 @@
                     ((MaskedTextBox)control).Clear();
                 else if (control is ComboBox)
                     (control as ComboBox).SelectedIndex = 0;
-                else if (control is ListBox)
-                    (control as ListBox).Items.Clear();
+                //else if (control is ListBox)
+                //    (control as ListBox).Items.Clear();
                 //else if (control is ListView)
                 //    (control as ListView).
 
@@ -23,6 +23,12 @@
                 {
                     Clear(control.Controls);
                 }
+            }
+
+            for(int i=0;i< controls.Count; i++)
+            {
+                if (controls[i] is TextBox | controls[i] is RichTextBox | controls[i] is MaskedTextBox | controls[i] is ComboBox | controls[i] is ListBox)
+                    controls[i].Focus();
             }
         }
     }

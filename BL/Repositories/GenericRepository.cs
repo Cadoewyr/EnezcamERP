@@ -1,6 +1,7 @@
 ﻿using BL.Models.Interfaces;
 using DAL.DTO.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using System.Linq.Expressions;
 
 namespace BL.Repositories
@@ -18,12 +19,14 @@ namespace BL.Repositories
 
         public bool Add(T entity)
         {
-            try
-            {
+            if (entity is not Order)
                 table.Add(entity);
-                return true;
-            }
-            catch { return false; }
+            else if (!table.Any(x => (x as Order).JobNo == (entity as Order).JobNo))
+                table.Add(entity);
+            else
+                throw new Exception($"{(entity as Order).JobNo} numaralı başka bir sipariş bulunuyor. Aynı numara ile birden fazla sipariş oluşturulamaz.");
+
+            return true;
         }
 
         public bool Delete(T entity)
@@ -55,13 +58,46 @@ namespace BL.Repositories
             catch { return null; }
         }
 
+        public IEnumerable<T> GetAll()
+        {
+            try
+            {
+                return table.ToList();
+            }
+            catch { return null; }
+        }
+
+        /// <summary>
+        /// The navigated properties that would be included to the entity. By default, lazy loading won't load related entities.
+        /// </summary>
+        /// <param name="includeProperties"></param>
+        /// <returns></returns>
+        public IEnumerable<T> GetAll(params Expression<Func<T, object>>[] includeProperties)
+        {
+            try
+            {
+                IQueryable<T> query = table;
+
+                foreach (var includeProperty in includeProperties)
+                {
+                    query = query.Include(includeProperty);
+                }
+
+                return query.ToList();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public IEnumerable<T> GetAll(string filter)
         {
             try
             {
                 ICollection<T> results = [];
 
-                foreach(var entity in GetAll())
+                foreach (var entity in GetAll())
                 {
                     foreach (var prop in typeof(T).GetProperties())
                     {
@@ -109,7 +145,7 @@ namespace BL.Repositories
             catch { return null; }
         }
 
-        public IEnumerable<T> GetAll(Func<T,bool> predicate)
+        public IEnumerable<T> GetAll(Func<T, bool> predicate)
         {
             try
             {
@@ -129,7 +165,7 @@ namespace BL.Repositories
             {
                 IQueryable<T> query = table;
 
-                foreach(var includeProperty in includeProperties)
+                foreach (var includeProperty in includeProperties)
                 {
                     query = query.Include(includeProperty);
                 }
@@ -137,39 +173,6 @@ namespace BL.Repositories
                 return query.Where(predicate);
             }
             catch { return null; }
-        }
-
-        public IEnumerable<T> GetAll()
-        {
-            try
-            {
-                return table.ToList();
-            }
-            catch { return null; }
-        }
-
-        /// <summary>
-        /// The navigated properties that would be included to the entity. By default, lazy loading won't load related entities.
-        /// </summary>
-        /// <param name="includeProperties"></param>
-        /// <returns></returns>
-        public IEnumerable<T> GetAll(params Expression<Func<T, object>>[] includeProperties)
-        {
-            try
-            {
-                IQueryable<T> query = table;
-
-                foreach (var includeProperty in includeProperties)
-                {
-                    query = query.Include(includeProperty);
-                }
-
-                return query.ToList();
-            }
-            catch
-            {
-                return null;
-            }
         }
 
         public bool Update(T entity, int id)
@@ -180,9 +183,9 @@ namespace BL.Repositories
 
                 var entityType = typeof(T);
 
-                foreach(var prop in entityType.GetProperties())
+                foreach (var prop in entityType.GetProperties())
                 {
-                    if(prop.Name != "ID")
+                    if (prop.Name != "ID")
                         prop.SetValue(oldEntity, prop.GetValue(entity));
                 }
 

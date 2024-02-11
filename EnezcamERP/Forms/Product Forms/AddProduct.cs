@@ -40,7 +40,7 @@ namespace EnezcamERP.Forms.Product_Forms
             {
                 productDB.Add(p);
                 productDB.Save();
-                (ParentForm as FormMain).RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+                (parentForm as FormMain).RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
                 ControlCleaner.Clear(this.Controls);
             }
             else
