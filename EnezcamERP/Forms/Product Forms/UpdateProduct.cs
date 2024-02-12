@@ -18,16 +18,24 @@ namespace EnezcamERP.Forms.Product_Forms
         }
 
         GenericRepository<Product> productDB = new(EnzDBContext.GetInstance);
+
         Product product;
         Form parentForm;
 
+        void RefreshProcessTypes()
+        {
+            cbProcessTypes.Items.Clear();
+            cbProcessTypes.DataSource = Enum.GetValues(typeof(ProcessType));
+            cbProcessTypes.SelectedIndex = cbProcessTypes.Items.IndexOf(product.Type);
+        }
+
         void FillControls()
         {
-            cbProductType.Items.Clear();
-            cbProductType.DataSource = Enum.GetValues(typeof(ProductType));
-            cbProductType.SelectedIndex = cbProductType.Items.IndexOf(product.Type);
+            RefreshProcessTypes();
 
             txtProductName.Text = product.Name;
+
+            cbIsCounting.Checked = product.IsCounting;
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -35,7 +43,8 @@ namespace EnezcamERP.Forms.Product_Forms
             Product newProduct = new()
             {
                 Name = txtProductName.Text,
-                Type = (ProductType)Enum.Parse(typeof(ProductType), cbProductType.SelectedItem.ToString())
+                Type = (ProcessType)Enum.Parse(typeof(ProcessType), cbProcessTypes.SelectedItem.ToString()),
+                IsCounting = cbIsCounting.Checked
             };
 
             var res = new ProductValidator().Validate(newProduct);
@@ -49,14 +58,7 @@ namespace EnezcamERP.Forms.Product_Forms
             }
             else
             {
-                StringBuilder sb = new();
-
-                foreach (var err in res.Errors)
-                {
-                    sb.AppendLine(err.ErrorMessage);
-                }
-
-                MessageBox.Show(sb.ToString());
+                MessageBox.Show(ErrorStringify.Stringify(res.Errors));
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using DAL.DTO.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.Serialization.DataContracts;
 
 namespace DAL.DTO.Context
 {
@@ -7,7 +8,7 @@ namespace DAL.DTO.Context
     {
         public EnzDBContext()
         {
-            //this.ChangeTracker.LazyLoadingEnabled = false;
+            this.ChangeTracker.LazyLoadingEnabled = false;
             Database.EnsureCreated();
         }
 
@@ -27,10 +28,16 @@ namespace DAL.DTO.Context
         public DbSet<Product> Products { get; set; }
         public DbSet<ProducedOrder> ProducedOrders { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<PriceHistory> PricesHistory { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll).UseSqlServer("Server=.;Database=EnezcamERP;Trusted_Connection=True;TrustServerCertificate=True;");
+        }
+
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+            configurationBuilder.Properties<decimal>().HavePrecision(18, 6);
         }
     }
 }

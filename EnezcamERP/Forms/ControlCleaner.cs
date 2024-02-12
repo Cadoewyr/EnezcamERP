@@ -8,16 +8,18 @@
             {
                 if (control is TextBox)
                     control.Text = string.Empty;
+
                 else if (control is RichTextBox)
                     ((RichTextBox)control).Clear();
+
                 else if (control is MaskedTextBox)
                     ((MaskedTextBox)control).Clear();
+
                 else if (control is ComboBox)
                     (control as ComboBox).SelectedIndex = 0;
-                //else if (control is ListBox)
-                //    (control as ListBox).Items.Clear();
-                //else if (control is ListView)
-                //    (control as ListView).
+
+                else if (control is CheckBox)
+                    (control as CheckBox).Checked = false;
 
                 if (control.Controls.Count > 0)
                 {

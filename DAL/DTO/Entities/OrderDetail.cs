@@ -1,5 +1,4 @@
 ﻿using DAL.DTO.Entities.Enums;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL.DTO.Entities
@@ -9,14 +8,13 @@ namespace DAL.DTO.Entities
         public Order Order { get; set; }
         public Product Product { get; set; } = new();
         public UnitCode UnitCode { get; set; }
-        public decimal UnitPrice { get; set; } = 0;
-        public decimal UnitCost { get; set; } = 0;
+        public decimal UnitPrice { get; set; }
+        public decimal UnitCost { get; set; }
         public decimal Quantity { get; set; } = 0;
         public ICollection<ProducedOrder> ProducedOrders { get; set; } = [];
 
         //Üretim
         #region
-
         [NotMapped]
         public decimal ProducedPrice
         {
@@ -36,16 +34,20 @@ namespace DAL.DTO.Entities
         }
 
         [NotMapped]
-        public decimal ProducedProfitPercentage
+        public decimal ProducedProfitRatio
         {
             get => (ProducedPrice - ProducedCost) / ProducedCost;
         }
 
+        [NotMapped]
+        public decimal ProducedProfitMargin
+        {
+            get => (ProducedPrice - ProducedCost) / ProducedPrice;
+        }
         #endregion
 
         //Satış
         #region
-
         [NotMapped]
         public decimal Cost
         {
@@ -65,11 +67,16 @@ namespace DAL.DTO.Entities
         }
 
         [NotMapped]
-        public decimal ProfitPercentage
+        public decimal ProfitRatio
         {
             get => (Price - Cost) / Cost;
         }
 
+        [NotMapped]
+        public decimal ProfitMargin
+        {
+            get => (Price - Cost) / Price;
+        }
         #endregion
     }
 }

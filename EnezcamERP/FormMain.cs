@@ -23,7 +23,12 @@ namespace EnezcamERP
             ListView listView = lvOrders;
             listView.Items.Clear();
 
-            var items = orders ?? ordersDB.GetAll(x => x.OrderDetails, x => x.Customer);
+            IEnumerable<Order> items;
+
+            if (orders != null)
+                items = orders;
+            else
+                items = ordersDB.GetAll(x => x.OrderDetails, x => x.Customer);
 
             foreach (var item in items)
             {
@@ -40,7 +45,7 @@ namespace EnezcamERP
                 lvi.SubItems.Add(item.Price.ToString("N2"));
                 lvi.SubItems.Add(item.Cost.ToString("N2"));
                 lvi.SubItems.Add(item.Profit.ToString("N2"));
-                lvi.SubItems.Add(item.ProfitPercentage.ToString("P2"));
+                lvi.SubItems.Add(item.ProfitRatio.ToString("P2"));
 
                 listView.Items.Add(lvi);
             }
@@ -64,6 +69,7 @@ namespace EnezcamERP
                 };
 
                 lvi.SubItems.Add(item.Type.ToString());
+                lvi.SubItems.Add(item.IsCounting == true ? "Evet" : "Hayýr");
 
                 listView.Items.Add(lvi);
             }
@@ -115,7 +121,7 @@ namespace EnezcamERP
         #region
         private void btnAddOrder_Click(object sender, EventArgs e)
         {
-            AddOrder form = new();
+            AddUpdateOrder form = new(null);
             form.ShowDialog();
             RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
@@ -124,7 +130,8 @@ namespace EnezcamERP
         {
             if (lvOrders.SelectedItems.Count > 0)
             {
-                // Update logic
+                AddUpdateOrder form = new(lvOrders.SelectedItems[0].Tag as Order);
+                form.ShowDialog();
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
@@ -142,8 +149,6 @@ namespace EnezcamERP
 
         private void btnRefreshOrder_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show(EnzDBContext.GetInstance.Orders.FirstOrDefault().JobNo.ToString());
-            //MessageBox.Show(EnzDBContext.GetInstance.Orders.FirstOrDefault().OrderDetails.Count.ToString());
             RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         #endregion
@@ -243,7 +248,5 @@ namespace EnezcamERP
                 RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         #endregion
-
-
     }
 }

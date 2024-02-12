@@ -3,7 +3,6 @@ using DAL.DTO.Context;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
 using EnezcamERP.Validators;
-using System.Text;
 
 namespace EnezcamERP.Forms.Product_Forms
 {
@@ -17,13 +16,18 @@ namespace EnezcamERP.Forms.Product_Forms
         }
 
         GenericRepository<Product> productDB = new(EnzDBContext.GetInstance);
+
         private Form parentForm;
+
+        void RefreshProcessTypes()
+        {
+            cbProcessTypes.Items.Clear();
+            cbProcessTypes.DataSource = Enum.GetValues(typeof(ProcessType));
+        }
 
         void FillControls()
         {
-            cbProductType.Items.Clear();
-
-            cbProductType.DataSource = Enum.GetValues(typeof(ProductType));
+            RefreshProcessTypes();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -31,7 +35,8 @@ namespace EnezcamERP.Forms.Product_Forms
             Product p = new()
             {
                 Name = txtProductName.Text,
-                Type = (ProductType)Enum.Parse(typeof(ProductType), cbProductType.SelectedItem.ToString())
+                Type = (ProcessType)Enum.Parse(typeof(ProcessType), cbProcessTypes.SelectedItem.ToString()),
+                IsCounting = cbIsCounting.Checked
             };
 
             var res = new ProductValidator().Validate(p);
@@ -41,19 +46,12 @@ namespace EnezcamERP.Forms.Product_Forms
                 productDB.Add(p);
                 productDB.Save();
                 (parentForm as FormMain).RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
-                ControlCleaner.Clear(this.Controls);
             }
             else
             {
-                StringBuilder sb = new();
-
-                foreach (var err in res.Errors)
-                {
-                    sb.AppendLine(err.ErrorMessage);
-                }
-
-                MessageBox.Show(sb.ToString());
+                MessageBox.Show(ErrorStringify.Stringify(res.Errors));
             }
+            ControlCleaner.Clear(this.Controls);
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

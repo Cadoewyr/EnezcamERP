@@ -31,66 +31,66 @@
             gbProduct = new GroupBox();
             btnCancel = new Button();
             btnUpdate = new Button();
-            cbProductType = new ComboBox();
+            cbProcessTypes = new ComboBox();
             lblProductType = new Label();
             txtProductName = new TextBox();
             lblProductName = new Label();
+            cbIsCounting = new CheckBox();
             gbProduct.SuspendLayout();
             SuspendLayout();
             // 
             // gbProduct
             // 
+            gbProduct.Controls.Add(cbIsCounting);
             gbProduct.Controls.Add(btnCancel);
             gbProduct.Controls.Add(btnUpdate);
-            gbProduct.Controls.Add(cbProductType);
+            gbProduct.Controls.Add(cbProcessTypes);
             gbProduct.Controls.Add(lblProductType);
             gbProduct.Controls.Add(txtProductName);
             gbProduct.Controls.Add(lblProductName);
             gbProduct.Location = new Point(12, 12);
             gbProduct.Name = "gbProduct";
-            gbProduct.Size = new Size(270, 191);
-            gbProduct.TabIndex = 1;
+            gbProduct.Size = new Size(270, 193);
+            gbProduct.TabIndex = 2;
             gbProduct.TabStop = false;
             gbProduct.Text = "Ürün Bilgileri";
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(111, 146);
+            btnCancel.Location = new Point(111, 147);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(153, 29);
-            btnCancel.TabIndex = 3;
+            btnCancel.TabIndex = 4;
             btnCancel.Text = "İptal";
             btnCancel.UseVisualStyleBackColor = true;
             btnCancel.Click += btnCancel_Click;
             // 
             // btnUpdate
             // 
-            btnUpdate.Enabled = false;
             btnUpdate.Location = new Point(111, 111);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(153, 29);
-            btnUpdate.TabIndex = 2;
+            btnUpdate.TabIndex = 3;
             btnUpdate.Text = "Kaydet";
             btnUpdate.UseVisualStyleBackColor = true;
             btnUpdate.Click += btnUpdate_Click;
             // 
-            // cbProductType
+            // cbProcessTypes
             // 
-            cbProductType.FormattingEnabled = true;
-            cbProductType.Location = new Point(111, 77);
-            cbProductType.Name = "cbProductType";
-            cbProductType.Size = new Size(153, 28);
-            cbProductType.TabIndex = 1;
-            cbProductType.TextChanged += ControlTextChanged;
+            cbProcessTypes.FormattingEnabled = true;
+            cbProcessTypes.Location = new Point(111, 77);
+            cbProcessTypes.Name = "cbProcessTypes";
+            cbProcessTypes.Size = new Size(153, 28);
+            cbProcessTypes.TabIndex = 1;
             // 
             // lblProductType
             // 
             lblProductType.AutoSize = true;
             lblProductType.Location = new Point(6, 80);
             lblProductType.Name = "lblProductType";
-            lblProductType.Size = new Size(69, 20);
+            lblProductType.Size = new Size(73, 20);
             lblProductType.TabIndex = 0;
-            lblProductType.Text = "Ürün Tipi";
+            lblProductType.Text = "İşlem Tipi";
             // 
             // txtProductName
             // 
@@ -109,11 +109,23 @@
             lblProductName.TabIndex = 0;
             lblProductName.Text = "Ürün Adı";
             // 
+            // cbIsCounting
+            // 
+            cbIsCounting.AutoSize = true;
+            cbIsCounting.Location = new Point(6, 114);
+            cbIsCounting.Name = "cbIsCounting";
+            cbIsCounting.Size = new Size(90, 24);
+            cbIsCounting.TabIndex = 2;
+            cbIsCounting.Text = "Adet Say";
+            cbIsCounting.UseVisualStyleBackColor = true;
+            // 
             // UpdateProduct
             // 
+            AcceptButton = btnUpdate;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(294, 214);
+            CancelButton = btnCancel;
+            ClientSize = new Size(294, 217);
             Controls.Add(gbProduct);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
@@ -132,9 +144,10 @@
         private GroupBox gbProduct;
         private Button btnCancel;
         private Button btnUpdate;
-        private ComboBox cbProductType;
+        private ComboBox cbProcessTypes;
         private Label lblProductType;
         private TextBox txtProductName;
         private Label lblProductName;
+        private CheckBox cbIsCounting;
     }
 }

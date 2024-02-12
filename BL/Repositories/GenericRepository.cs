@@ -19,12 +19,7 @@ namespace BL.Repositories
 
         public bool Add(T entity)
         {
-            if (entity is not Order)
-                table.Add(entity);
-            else if (!table.Any(x => (x as Order).JobNo == (entity as Order).JobNo))
-                table.Add(entity);
-            else
-                throw new Exception($"{(entity as Order).JobNo} numaralı başka bir sipariş bulunuyor. Aynı numara ile birden fazla sipariş oluşturulamaz.");
+            table.Add(entity);
 
             return true;
         }

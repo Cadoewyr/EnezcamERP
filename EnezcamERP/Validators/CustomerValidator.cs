@@ -1,4 +1,5 @@
-﻿using DAL.DTO.Entities;
+﻿using BL.Repositories;
+using DAL.DTO.Entities;
 using FluentValidation;
 
 namespace EnezcamERP.Validators
@@ -7,9 +8,9 @@ namespace EnezcamERP.Validators
     {
         public CustomerValidator()
         {
-            RuleFor(x => x.Name).NotEmpty().WithMessage("Cari adını girin.");
-            RuleFor(x => x.ContactName).NotEmpty().WithMessage("Yetkili adını girin.");
-            RuleFor(x => x.ContactPhone).NotEmpty().WithMessage("Yetkili telefon numarasını girin.");
+            RuleFor(x => x.Name)
+                .NotEmpty().WithMessage("Cari adını girin.")
+                .MinimumLength(3).WithMessage("Cari adı en az 3 karakter uzunluğunda olmalı.");
         }
     }
 }

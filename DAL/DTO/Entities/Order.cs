@@ -10,20 +10,13 @@ namespace DAL.DTO.Entities
         public Customer Customer { get; set; } = new();
         public ICollection<OrderDetail> OrderDetails { get; set; } = [];
 
+        //Satış
+        #region
         [NotMapped]
         public decimal ProductCount
         {
-            get => OrderDetails.Sum(x => x.Quantity);
+            get => OrderDetails.Where(x => x.Product.IsCounting).Sum(x => x.Quantity);
         }
-
-        [NotMapped]
-        public decimal ProducedProductCount
-        {
-            get => OrderDetails.Sum(x => x.ProducedOrders.Sum(w => w.ProducedOrderCount));
-        }
-
-        //Satış
-        #region
 
         [NotMapped]
         public decimal Price
@@ -42,7 +35,7 @@ namespace DAL.DTO.Entities
         {
             get
             {
-                if(OrderDetails.Count > 0)
+                if (OrderDetails.Count > 0)
                     return OrderDetails.Sum(x => x.Cost);
                 else
                     return 0;
@@ -62,21 +55,36 @@ namespace DAL.DTO.Entities
         }
 
         [NotMapped]
-        public decimal ProfitPercentage
+        public decimal ProfitRatio
         {
             get
             {
                 if (OrderDetails.Count > 0 & Cost > 0)
-                    return Profit / Price;
+                    return (Price - Cost) / Cost;
                 else
                     return 0;
             }
         }
 
+        [NotMapped]
+        public decimal ProditMargin
+        {
+            get
+            {
+                if (OrderDetails.Count > 0 & Cost > 0)
+                    return (Price - Cost) / Price;
+                else return 0;
+            }
+        }
         #endregion
 
         //Üretim
         #region
+        [NotMapped]
+        public decimal ProducedProductCount
+        {
+            get => OrderDetails.Where(x => x.Product.IsCounting).Sum(x => x.ProducedOrders.Sum(w => w.ProducedOrderCount));
+        }
 
         [NotMapped]
         public decimal ProducedCost
@@ -95,7 +103,7 @@ namespace DAL.DTO.Entities
         {
             get
             {
-                if(OrderDetails.Count > 0)
+                if (OrderDetails.Count > 0)
                     return OrderDetails.Sum(x => x.ProducedPrice);
                 else
                     return 0;
@@ -115,7 +123,7 @@ namespace DAL.DTO.Entities
         }
 
         [NotMapped]
-        public decimal ProducedProfitPercentage
+        public decimal ProducedProfitRatio
         {
             get
             {
@@ -126,6 +134,17 @@ namespace DAL.DTO.Entities
             }
         }
 
+        [NotMapped]
+        public decimal ProducedProfitMargin
+        {
+            get
+            {
+                if (OrderDetails.Count > 0 & ProducedCost > 0)
+                    return (ProducedPrice - ProducedCost) / ProducedPrice;
+                else
+                    return 0;
+            }
+        }
         #endregion
     }
 }

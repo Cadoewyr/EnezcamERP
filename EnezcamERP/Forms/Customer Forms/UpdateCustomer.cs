@@ -55,14 +55,7 @@ namespace EnezcamERP.Forms.Customer_Forms
             }
             else
             {
-                StringBuilder sb = new();
-
-                foreach (var err in res.Errors)
-                {
-                    sb.AppendLine(err.ErrorMessage);
-                }
-
-                MessageBox.Show(sb.ToString());
+                MessageBox.Show(ErrorStringify.Stringify(res.Errors));
             }
 
         }

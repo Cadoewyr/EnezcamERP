@@ -31,97 +31,102 @@
             gbProduct = new GroupBox();
             btnCancel = new Button();
             btnAdd = new Button();
-            cbProductType = new ComboBox();
+            cbProcessTypes = new ComboBox();
             lblProductType = new Label();
             txtProductName = new TextBox();
             lblProductName = new Label();
+            cbIsCounting = new CheckBox();
             gbProduct.SuspendLayout();
             SuspendLayout();
             // 
             // gbProduct
             // 
+            gbProduct.Controls.Add(cbIsCounting);
             gbProduct.Controls.Add(btnCancel);
             gbProduct.Controls.Add(btnAdd);
-            gbProduct.Controls.Add(cbProductType);
+            gbProduct.Controls.Add(cbProcessTypes);
             gbProduct.Controls.Add(lblProductType);
             gbProduct.Controls.Add(txtProductName);
             gbProduct.Controls.Add(lblProductName);
-            gbProduct.Location = new Point(10, 9);
-            gbProduct.Margin = new Padding(3, 2, 3, 2);
+            gbProduct.Location = new Point(11, 12);
             gbProduct.Name = "gbProduct";
-            gbProduct.Padding = new Padding(3, 2, 3, 2);
-            gbProduct.Size = new Size(236, 143);
+            gbProduct.Size = new Size(270, 193);
             gbProduct.TabIndex = 1;
             gbProduct.TabStop = false;
             gbProduct.Text = "Ürün Bilgileri";
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(97, 110);
-            btnCancel.Margin = new Padding(3, 2, 3, 2);
+            btnCancel.Location = new Point(111, 147);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(134, 22);
-            btnCancel.TabIndex = 3;
+            btnCancel.Size = new Size(153, 29);
+            btnCancel.TabIndex = 4;
             btnCancel.Text = "İptal";
             btnCancel.UseVisualStyleBackColor = true;
             btnCancel.Click += btnCancel_Click;
             // 
             // btnAdd
             // 
-            btnAdd.Location = new Point(97, 83);
-            btnAdd.Margin = new Padding(3, 2, 3, 2);
+            btnAdd.Location = new Point(111, 111);
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(134, 22);
-            btnAdd.TabIndex = 2;
+            btnAdd.Size = new Size(153, 29);
+            btnAdd.TabIndex = 3;
             btnAdd.Text = "Ekle";
             btnAdd.UseVisualStyleBackColor = true;
             btnAdd.Click += btnAdd_Click;
             // 
-            // cbProductType
+            // cbProcessTypes
             // 
-            cbProductType.FormattingEnabled = true;
-            cbProductType.Location = new Point(97, 58);
-            cbProductType.Margin = new Padding(3, 2, 3, 2);
-            cbProductType.Name = "cbProductType";
-            cbProductType.Size = new Size(134, 23);
-            cbProductType.TabIndex = 1;
+            cbProcessTypes.FormattingEnabled = true;
+            cbProcessTypes.Location = new Point(111, 77);
+            cbProcessTypes.Name = "cbProcessTypes";
+            cbProcessTypes.Size = new Size(153, 28);
+            cbProcessTypes.TabIndex = 1;
             // 
             // lblProductType
             // 
             lblProductType.AutoSize = true;
-            lblProductType.Location = new Point(5, 60);
+            lblProductType.Location = new Point(6, 80);
             lblProductType.Name = "lblProductType";
-            lblProductType.Size = new Size(55, 15);
+            lblProductType.Size = new Size(73, 20);
             lblProductType.TabIndex = 0;
-            lblProductType.Text = "Ürün Tipi";
+            lblProductType.Text = "İşlem Tipi";
             // 
             // txtProductName
             // 
-            txtProductName.Location = new Point(97, 33);
-            txtProductName.Margin = new Padding(3, 2, 3, 2);
+            txtProductName.Location = new Point(111, 44);
             txtProductName.Name = "txtProductName";
-            txtProductName.Size = new Size(134, 23);
+            txtProductName.Size = new Size(153, 27);
             txtProductName.TabIndex = 0;
             // 
             // lblProductName
             // 
             lblProductName.AutoSize = true;
-            lblProductName.Location = new Point(5, 35);
+            lblProductName.Location = new Point(6, 47);
             lblProductName.Name = "lblProductName";
-            lblProductName.Size = new Size(54, 15);
+            lblProductName.Size = new Size(67, 20);
             lblProductName.TabIndex = 0;
             lblProductName.Text = "Ürün Adı";
+            // 
+            // cbIsCounting
+            // 
+            cbIsCounting.AutoSize = true;
+            cbIsCounting.Location = new Point(6, 114);
+            cbIsCounting.Name = "cbIsCounting";
+            cbIsCounting.Size = new Size(90, 24);
+            cbIsCounting.TabIndex = 2;
+            cbIsCounting.Text = "Adet Say";
+            cbIsCounting.UseVisualStyleBackColor = true;
             // 
             // AddProduct
             // 
             AcceptButton = btnAdd;
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnCancel;
-            ClientSize = new Size(257, 160);
+            ClientSize = new Size(294, 217);
             Controls.Add(gbProduct);
             FormBorderStyle = FormBorderStyle.FixedDialog;
-            Margin = new Padding(3, 2, 3, 2);
             MaximizeBox = false;
             Name = "AddProduct";
             ShowIcon = false;
@@ -138,9 +143,10 @@
         private GroupBox gbProduct;
         private Button btnCancel;
         private Button btnAdd;
-        private ComboBox cbProductType;
+        private ComboBox cbProcessTypes;
         private Label lblProductType;
         private TextBox txtProductName;
         private Label lblProductName;
+        private CheckBox cbIsCounting;
     }
 }

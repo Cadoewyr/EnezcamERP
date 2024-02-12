@@ -215,6 +215,7 @@
             AcceptButton = btnAddCustomer;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = btnCancel;
             ClientSize = new Size(560, 472);
             Controls.Add(groupBox1);
             FormBorderStyle = FormBorderStyle.FixedDialog;

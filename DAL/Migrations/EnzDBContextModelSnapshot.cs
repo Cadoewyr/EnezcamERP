@@ -114,16 +114,19 @@ namespace DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 6)
+                        .HasColumnType("decimal(18,6)");
 
                     b.Property<int>("UnitCode")
                         .HasColumnType("int");
 
                     b.Property<decimal>("UnitCost")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 6)
+                        .HasColumnType("decimal(18,6)");
 
                     b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 6)
+                        .HasColumnType("decimal(18,6)");
 
                     b.HasKey("ID");
 
@@ -132,6 +135,30 @@ namespace DAL.Migrations
                     b.HasIndex("ProductID");
 
                     b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("DAL.DTO.Entities.PriceHistory", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("LastCost")
+                        .HasPrecision(18, 6)
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<decimal>("LastPrice")
+                        .HasPrecision(18, 6)
+                        .HasColumnType("decimal(18,6)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("PricesHistory");
                 });
 
             modelBuilder.Entity("DAL.DTO.Entities.ProducedOrder", b =>
@@ -152,7 +179,8 @@ namespace DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("ProducedOrderCount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 6)
+                        .HasColumnType("decimal(18,6)");
 
                     b.HasKey("ID");
 
@@ -172,14 +200,22 @@ namespace DAL.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsCounting")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PriceHistoryID")
+                        .HasColumnType("int");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("PriceHistoryID");
 
                     b.ToTable("Products");
                 });
@@ -223,6 +259,17 @@ namespace DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("OrderDetail");
+                });
+
+            modelBuilder.Entity("DAL.DTO.Entities.Product", b =>
+                {
+                    b.HasOne("DAL.DTO.Entities.PriceHistory", "PriceHistory")
+                        .WithMany()
+                        .HasForeignKey("PriceHistoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PriceHistory");
                 });
 
             modelBuilder.Entity("DAL.DTO.Entities.Order", b =>

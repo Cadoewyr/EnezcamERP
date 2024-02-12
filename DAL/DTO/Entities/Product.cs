@@ -1,10 +1,10 @@
-﻿using DAL.DTO.Entities.Enums;
-
-namespace DAL.DTO.Entities
+﻿namespace DAL.DTO.Entities
 {
     public record Product : BaseEntity
     {
         public string Name { get; set; } = string.Empty;
-        public ProductType Type { get; set; }
+        public Enums.ProcessType Type { get; set; }
+        public PriceHistory PriceHistory { get; set; } = new() { LastCost = 0 , LastPrice = 0 };
+        public bool IsCounting { get; set; }
     }
 }
