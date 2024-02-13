@@ -41,7 +41,14 @@ namespace EnezcamERP.Forms.Product_Forms
 
             if (res.IsValid)
             {
-                productDB.Add(p);
+                try
+                {
+                    productDB.Add(p);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
                 (parentForm as FormMain).RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
             else

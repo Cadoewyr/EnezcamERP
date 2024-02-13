@@ -30,6 +30,7 @@
         {
             tabOrders = new TabPage();
             gbOrders = new GroupBox();
+            button1 = new Button();
             lblSearchOrder = new Label();
             txtSearchOrder = new TextBox();
             btnRefreshOrder = new Button();
@@ -74,6 +75,10 @@
             clmDescription = new ColumnHeader();
             clmContactName = new ColumnHeader();
             clmContactPhone = new ColumnHeader();
+            clmLastCost = new ColumnHeader();
+            clmLastPrice = new ColumnHeader();
+            clmLastProfit = new ColumnHeader();
+            clmLastProfitRatio = new ColumnHeader();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             tabControlMain.SuspendLayout();
@@ -97,6 +102,7 @@
             // gbOrders
             // 
             gbOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbOrders.Controls.Add(button1);
             gbOrders.Controls.Add(lblSearchOrder);
             gbOrders.Controls.Add(txtSearchOrder);
             gbOrders.Controls.Add(btnRefreshOrder);
@@ -110,6 +116,15 @@
             gbOrders.TabIndex = 0;
             gbOrders.TabStop = false;
             gbOrders.Text = "Siparişler";
+            // 
+            // button1
+            // 
+            button1.Location = new Point(406, 24);
+            button1.Name = "button1";
+            button1.Size = new Size(94, 29);
+            button1.TabIndex = 11;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
             // 
             // lblSearchOrder
             // 
@@ -182,6 +197,7 @@
             lvOrders.TabIndex = 4;
             lvOrders.UseCompatibleStateImageBehavior = false;
             lvOrders.View = View.Details;
+            lvOrders.DoubleClick += btnUpdateOrder_Click;
             // 
             // clmJobNo
             // 
@@ -321,7 +337,7 @@
             // lvProducts
             // 
             lvProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lvProducts.Columns.AddRange(new ColumnHeader[] { clmName, clmProcessType, clmIsCounting });
+            lvProducts.Columns.AddRange(new ColumnHeader[] { clmName, clmProcessType, clmIsCounting, clmLastCost, clmLastPrice, clmLastProfit, clmLastProfitRatio });
             lvProducts.FullRowSelect = true;
             lvProducts.GridLines = true;
             lvProducts.Location = new Point(6, 59);
@@ -467,6 +483,22 @@
             // 
             clmContactPhone.Text = "Yetkili Numarası";
             // 
+            // clmLastCost
+            // 
+            clmLastCost.Text = "Son Maliyet";
+            // 
+            // clmLastPrice
+            // 
+            clmLastPrice.Text = "Son Fiyat";
+            // 
+            // clmLastProfit
+            // 
+            clmLastProfit.Text = "Son Kar";
+            // 
+            // clmLastProfitRatio
+            // 
+            clmLastProfitRatio.Text = "Son Kar Oranı";
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -541,5 +573,10 @@
         private Label lblSearchOrder;
         private TextBox txtSearchOrder;
         private ColumnHeader clmIsCounting;
+        private Button button1;
+        private ColumnHeader clmLastCost;
+        private ColumnHeader clmLastPrice;
+        private ColumnHeader clmLastProfit;
+        private ColumnHeader clmLastProfitRatio;
     }
 }

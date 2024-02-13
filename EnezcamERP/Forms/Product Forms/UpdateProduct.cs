@@ -49,7 +49,15 @@ namespace EnezcamERP.Forms.Product_Forms
 
             if (res.IsValid)
             {
-                productDB.Update(newProduct, product.ID);
+                try
+                {
+                    productDB.Update(newProduct, product.ID);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
                 (parentForm as FormMain).RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
                 (sender as Button).Enabled = false;
             }

@@ -83,6 +83,5 @@ namespace BL.Repositories.Repositories
             else
                 throw new Exception($"{entity.JobNo} numaralı başka bir sipariş oluşturulmuş. Aynı sipariş numarası ile birden fazla sipariş oluşturulamaz.");
         }
-
     }
 }

@@ -64,6 +64,10 @@ namespace EnezcamERP
 
                 lvi.SubItems.Add(item.Type.ToString());
                 lvi.SubItems.Add(item.IsCounting == true ? "Evet" : "Hayýr");
+                lvi.SubItems.Add(item.PriceHistory.LastCost.ToString("N2"));
+                lvi.SubItems.Add(item.PriceHistory.LastPrice.ToString("N2"));
+                lvi.SubItems.Add(item.PriceHistory.LastProfit.ToString("N2"));
+                lvi.SubItems.Add(item.PriceHistory.LastProfitRatio.ToString("P2"));
 
                 listView.Items.Add(lvi);
             }
@@ -134,7 +138,14 @@ namespace EnezcamERP
         {
             if (lvOrders.SelectedItems.Count > 0)
             {
-                ordersDB.Delete(lvOrders.SelectedItems[0].Tag as Order);
+                try
+                {
+                    ordersDB.Delete(lvOrders.SelectedItems[0].Tag as Order);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
 
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
@@ -169,7 +180,15 @@ namespace EnezcamERP
         {
             if (lvProducts.SelectedItems.Count > 0)
             {
-                productsDB.Delete(lvProducts.SelectedItems[0].Tag as Product);
+                try
+                {
+                    productsDB.Delete(lvProducts.SelectedItems[0].Tag as Product);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
                 RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
@@ -216,7 +235,15 @@ namespace EnezcamERP
         {
             if (lvCustomers.SelectedItems.Count > 0)
             {
-                customersDB.Delete(lvCustomers.SelectedItems[0].Tag as Customer);
+                try
+                {
+                    customersDB.Delete(lvCustomers.SelectedItems[0].Tag as Customer);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
                 RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }

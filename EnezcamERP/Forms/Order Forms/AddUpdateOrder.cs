@@ -87,6 +87,8 @@ namespace EnezcamERP.Forms.Order_Forms
             dtpOrderDate.Value = order.IssueDate;
             dtpDeliveryDate.Value = order.DeliveryDate;
 
+            UpdateOrderTotals(order);
+
             RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
@@ -173,7 +175,7 @@ namespace EnezcamERP.Forms.Order_Forms
                     {
                         MessageBox.Show(ex.Message);
 
-                        if(!IsUpdate)
+                        if (!IsUpdate)
                             ControlCleaner.Clear(this.Controls);
                     }
                 }

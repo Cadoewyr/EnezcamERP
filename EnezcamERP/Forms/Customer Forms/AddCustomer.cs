@@ -32,7 +32,15 @@ namespace EnezcamERP.Forms.Customer_Forms
 
             if (res.IsValid)
             {
-                customerDB.Add(customer);
+                try
+                {
+                    customerDB.Add(customer);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
                 ControlCleaner.Clear(this.Controls);
                 (parentForm as FormMain).RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }

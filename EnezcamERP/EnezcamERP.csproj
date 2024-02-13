@@ -25,4 +25,8 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Forms\Produced Product Forms\" />
+  </ItemGroup>
+
 </Project>

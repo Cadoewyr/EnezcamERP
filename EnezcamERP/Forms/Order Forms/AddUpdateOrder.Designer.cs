@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             gbOrderHeader = new GroupBox();
             txtJobNo = new TextBox();
             dtpOrderDate = new DateTimePicker();
@@ -77,6 +78,8 @@
             clmTotalPrice = new ColumnHeader();
             clmTotalProfit = new ColumnHeader();
             clmTotalProfitPercentage = new ColumnHeader();
+            cmsOrderDetail = new ContextMenuStrip(components);
+            miDelete = new ToolStripMenuItem();
             gbOrderHeader.SuspendLayout();
             gbOrderDetails.SuspendLayout();
             gbOrderTotals.SuspendLayout();
@@ -84,6 +87,7 @@
             ((System.ComponentModel.ISupportInitialize)nudQuantity).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudPrice).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudCost).BeginInit();
+            cmsOrderDetail.SuspendLayout();
             SuspendLayout();
             // 
             // gbOrderHeader
@@ -195,9 +199,9 @@
             gbOrderTotals.Controls.Add(lvlTotalOrderCost);
             gbOrderTotals.Controls.Add(btnCancel);
             gbOrderTotals.Controls.Add(btnSaveOrder);
-            gbOrderTotals.Location = new Point(498, 239);
+            gbOrderTotals.Location = new Point(633, 239);
             gbOrderTotals.Name = "gbOrderTotals";
-            gbOrderTotals.Size = new Size(733, 244);
+            gbOrderTotals.Size = new Size(598, 244);
             gbOrderTotals.TabIndex = 2;
             gbOrderTotals.TabStop = false;
             gbOrderTotals.Text = "Sipariş Toplamları";
@@ -299,7 +303,7 @@
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(533, 209);
+            btnCancel.Location = new Point(398, 209);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(94, 29);
             btnCancel.TabIndex = 14;
@@ -309,7 +313,7 @@
             // 
             // btnSaveOrder
             // 
-            btnSaveOrder.Location = new Point(633, 209);
+            btnSaveOrder.Location = new Point(498, 209);
             btnSaveOrder.Name = "btnSaveOrder";
             btnSaveOrder.Size = new Size(94, 29);
             btnSaveOrder.TabIndex = 15;
@@ -334,14 +338,14 @@
             gbAddProductDetail.Controls.Add(lblProducts);
             gbAddProductDetail.Location = new Point(6, 239);
             gbAddProductDetail.Name = "gbAddProductDetail";
-            gbAddProductDetail.Size = new Size(486, 244);
+            gbAddProductDetail.Size = new Size(621, 244);
             gbAddProductDetail.TabIndex = 1;
             gbAddProductDetail.TabStop = false;
             gbAddProductDetail.Text = "Ürün Ekle";
             // 
             // btnDeleteOrderDetail
             // 
-            btnDeleteOrderDetail.Location = new Point(162, 209);
+            btnDeleteOrderDetail.Location = new Point(307, 209);
             btnDeleteOrderDetail.Name = "btnDeleteOrderDetail";
             btnDeleteOrderDetail.Size = new Size(151, 29);
             btnDeleteOrderDetail.TabIndex = 12;
@@ -351,7 +355,7 @@
             // 
             // btnAddOrderDetail
             // 
-            btnAddOrderDetail.Location = new Point(319, 209);
+            btnAddOrderDetail.Location = new Point(464, 209);
             btnAddOrderDetail.Name = "btnAddOrderDetail";
             btnAddOrderDetail.Size = new Size(151, 29);
             btnAddOrderDetail.TabIndex = 13;
@@ -362,7 +366,7 @@
             // nudQuantity
             // 
             nudQuantity.DecimalPlaces = 2;
-            nudQuantity.Location = new Point(162, 115);
+            nudQuantity.Location = new Point(307, 115);
             nudQuantity.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nudQuantity.Name = "nudQuantity";
             nudQuantity.Size = new Size(151, 27);
@@ -372,7 +376,7 @@
             // lblQuantity
             // 
             lblQuantity.AutoSize = true;
-            lblQuantity.Location = new Point(162, 92);
+            lblQuantity.Location = new Point(307, 92);
             lblQuantity.Name = "lblQuantity";
             lblQuantity.Size = new Size(51, 20);
             lblQuantity.TabIndex = 9;
@@ -381,7 +385,7 @@
             // nudPrice
             // 
             nudPrice.DecimalPlaces = 2;
-            nudPrice.Location = new Point(319, 115);
+            nudPrice.Location = new Point(464, 115);
             nudPrice.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nudPrice.Name = "nudPrice";
             nudPrice.Size = new Size(151, 27);
@@ -391,7 +395,7 @@
             // lblPrice
             // 
             lblPrice.AutoSize = true;
-            lblPrice.Location = new Point(319, 92);
+            lblPrice.Location = new Point(464, 92);
             lblPrice.Name = "lblPrice";
             lblPrice.Size = new Size(40, 20);
             lblPrice.TabIndex = 7;
@@ -400,7 +404,7 @@
             // nudCost
             // 
             nudCost.DecimalPlaces = 2;
-            nudCost.Location = new Point(319, 57);
+            nudCost.Location = new Point(464, 57);
             nudCost.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nudCost.Name = "nudCost";
             nudCost.Size = new Size(151, 27);
@@ -410,7 +414,7 @@
             // lblCost
             // 
             lblCost.AutoSize = true;
-            lblCost.Location = new Point(319, 35);
+            lblCost.Location = new Point(464, 35);
             lblCost.Name = "lblCost";
             lblCost.Size = new Size(58, 20);
             lblCost.TabIndex = 5;
@@ -419,7 +423,7 @@
             // cbUnitCode
             // 
             cbUnitCode.FormattingEnabled = true;
-            cbUnitCode.Location = new Point(162, 57);
+            cbUnitCode.Location = new Point(307, 57);
             cbUnitCode.Name = "cbUnitCode";
             cbUnitCode.Size = new Size(151, 28);
             cbUnitCode.TabIndex = 7;
@@ -427,7 +431,7 @@
             // lblUnitCode
             // 
             lblUnitCode.AutoSize = true;
-            lblUnitCode.Location = new Point(162, 35);
+            lblUnitCode.Location = new Point(307, 35);
             lblUnitCode.Name = "lblUnitCode";
             lblUnitCode.Size = new Size(83, 20);
             lblUnitCode.TabIndex = 3;
@@ -438,16 +442,16 @@
             txtSearchProduct.Location = new Point(6, 211);
             txtSearchProduct.MaxLength = 200;
             txtSearchProduct.Name = "txtSearchProduct";
-            txtSearchProduct.Size = new Size(150, 27);
+            txtSearchProduct.Size = new Size(295, 27);
             txtSearchProduct.TabIndex = 6;
             txtSearchProduct.TextChanged += txtSearchProduct_TextChanged;
             // 
             // lbProducts
             // 
             lbProducts.FormattingEnabled = true;
-            lbProducts.Location = new Point(6, 57);
+            lbProducts.Location = new Point(6, 58);
             lbProducts.Name = "lbProducts";
-            lbProducts.Size = new Size(150, 144);
+            lbProducts.Size = new Size(295, 144);
             lbProducts.TabIndex = 5;
             lbProducts.SelectedIndexChanged += lbProducts_SelectedIndexChanged;
             // 
@@ -464,6 +468,7 @@
             // 
             lvOrderDetails.AllowColumnReorder = true;
             lvOrderDetails.Columns.AddRange(new ColumnHeader[] { clmProductName, clmUnitCost, clmUnitPrice, clmProductUnitCode, clmQuantity, clmProducedQuantity, clmRemainingQuantity, clmTotalCost, clmTotalPrice, clmTotalProfit, clmTotalProfitPercentage });
+            lvOrderDetails.ContextMenuStrip = cmsOrderDetail;
             lvOrderDetails.FullRowSelect = true;
             lvOrderDetails.GridLines = true;
             lvOrderDetails.Location = new Point(6, 27);
@@ -521,6 +526,21 @@
             // 
             clmTotalProfitPercentage.Text = "Toplam Kar Oranı";
             // 
+            // cmsOrderDetail
+            // 
+            cmsOrderDetail.ImageScalingSize = new Size(20, 20);
+            cmsOrderDetail.Items.AddRange(new ToolStripItem[] { miDelete });
+            cmsOrderDetail.Name = "cmsOrderDetail";
+            cmsOrderDetail.ShowImageMargin = false;
+            cmsOrderDetail.Size = new Size(123, 28);
+            // 
+            // miDelete
+            // 
+            miDelete.Name = "miDelete";
+            miDelete.ShortcutKeys = Keys.Delete;
+            miDelete.Size = new Size(122, 24);
+            miDelete.Text = "Sil";
+            // 
             // AddUpdateOrder
             // 
             AcceptButton = btnSaveOrder;
@@ -547,6 +567,7 @@
             ((System.ComponentModel.ISupportInitialize)nudQuantity).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudPrice).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudCost).EndInit();
+            cmsOrderDetail.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -601,5 +622,7 @@
         private Label lvlProfit;
         private Button btnCancel;
         private Button btnDeleteOrderDetail;
+        private ContextMenuStrip cmsOrderDetail;
+        private ToolStripMenuItem miDelete;
     }
 }

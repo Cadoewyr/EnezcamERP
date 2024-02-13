@@ -46,7 +46,15 @@ namespace EnezcamERP.Forms.Customer_Forms
 
             if (res.IsValid)
             {
-                customerDB.Update(newCustomer, customer.ID);
+                try
+                {
+                    customerDB.Update(newCustomer, customer.ID);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
                 (parentForm as FormMain).RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
                 (sender as Button).Enabled = false;
             }
