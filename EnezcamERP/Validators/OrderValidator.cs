@@ -1,5 +1,4 @@
-﻿using BL.Repositories;
-using DAL.DTO.Entities;
+﻿using DAL.DTO.Entities;
 using FluentValidation;
 
 namespace EnezcamERP.Validators

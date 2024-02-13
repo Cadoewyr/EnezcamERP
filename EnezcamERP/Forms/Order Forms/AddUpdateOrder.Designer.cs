@@ -52,6 +52,7 @@
             btnCancel = new Button();
             btnSaveOrder = new Button();
             gbAddProductDetail = new GroupBox();
+            btnDeleteOrderDetail = new Button();
             btnAddOrderDetail = new Button();
             nudQuantity = new NumericUpDown();
             lblQuantity = new Label();
@@ -76,7 +77,6 @@
             clmTotalPrice = new ColumnHeader();
             clmTotalProfit = new ColumnHeader();
             clmTotalProfitPercentage = new ColumnHeader();
-            btnDeleteOrderDetail = new Button();
             gbOrderHeader.SuspendLayout();
             gbOrderDetails.SuspendLayout();
             gbOrderTotals.SuspendLayout();
@@ -302,7 +302,7 @@
             btnCancel.Location = new Point(533, 209);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(94, 29);
-            btnCancel.TabIndex = 12;
+            btnCancel.TabIndex = 14;
             btnCancel.Text = "İptal";
             btnCancel.UseVisualStyleBackColor = true;
             btnCancel.Click += btnSaveOrder_Click;
@@ -312,7 +312,7 @@
             btnSaveOrder.Location = new Point(633, 209);
             btnSaveOrder.Name = "btnSaveOrder";
             btnSaveOrder.Size = new Size(94, 29);
-            btnSaveOrder.TabIndex = 13;
+            btnSaveOrder.TabIndex = 15;
             btnSaveOrder.Text = "Kaydet";
             btnSaveOrder.UseVisualStyleBackColor = true;
             btnSaveOrder.Click += btnSaveOrder_Click;
@@ -339,12 +339,22 @@
             gbAddProductDetail.TabStop = false;
             gbAddProductDetail.Text = "Ürün Ekle";
             // 
+            // btnDeleteOrderDetail
+            // 
+            btnDeleteOrderDetail.Location = new Point(162, 209);
+            btnDeleteOrderDetail.Name = "btnDeleteOrderDetail";
+            btnDeleteOrderDetail.Size = new Size(151, 29);
+            btnDeleteOrderDetail.TabIndex = 12;
+            btnDeleteOrderDetail.Text = "Sil";
+            btnDeleteOrderDetail.UseVisualStyleBackColor = true;
+            btnDeleteOrderDetail.Click += btnDeleteOrderDetail_Click;
+            // 
             // btnAddOrderDetail
             // 
             btnAddOrderDetail.Location = new Point(319, 209);
             btnAddOrderDetail.Name = "btnAddOrderDetail";
             btnAddOrderDetail.Size = new Size(151, 29);
-            btnAddOrderDetail.TabIndex = 11;
+            btnAddOrderDetail.TabIndex = 13;
             btnAddOrderDetail.Text = "Ekle";
             btnAddOrderDetail.UseVisualStyleBackColor = true;
             btnAddOrderDetail.Click += btnAddOrderDetail_Click;
@@ -364,9 +374,9 @@
             lblQuantity.AutoSize = true;
             lblQuantity.Location = new Point(162, 92);
             lblQuantity.Name = "lblQuantity";
-            lblQuantity.Size = new Size(41, 20);
+            lblQuantity.Size = new Size(51, 20);
             lblQuantity.TabIndex = 9;
-            lblQuantity.Text = "Adet";
+            lblQuantity.Text = "Miktar";
             // 
             // nudPrice
             // 
@@ -375,7 +385,7 @@
             nudPrice.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nudPrice.Name = "nudPrice";
             nudPrice.Size = new Size(151, 27);
-            nudPrice.TabIndex = 10;
+            nudPrice.TabIndex = 11;
             nudPrice.ThousandsSeparator = true;
             // 
             // lblPrice
@@ -394,7 +404,7 @@
             nudCost.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nudCost.Name = "nudCost";
             nudCost.Size = new Size(151, 27);
-            nudCost.TabIndex = 9;
+            nudCost.TabIndex = 10;
             nudCost.ThousandsSeparator = true;
             // 
             // lblCost
@@ -510,16 +520,6 @@
             // clmTotalProfitPercentage
             // 
             clmTotalProfitPercentage.Text = "Toplam Kar Oranı";
-            // 
-            // btnDeleteOrderDetail
-            // 
-            btnDeleteOrderDetail.Location = new Point(162, 209);
-            btnDeleteOrderDetail.Name = "btnDeleteOrderDetail";
-            btnDeleteOrderDetail.Size = new Size(151, 29);
-            btnDeleteOrderDetail.TabIndex = 11;
-            btnDeleteOrderDetail.Text = "Sil";
-            btnDeleteOrderDetail.UseVisualStyleBackColor = true;
-            btnDeleteOrderDetail.Click += btnDeleteOrderDetail_Click;
             // 
             // AddUpdateOrder
             // 

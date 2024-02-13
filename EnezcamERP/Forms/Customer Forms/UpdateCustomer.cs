@@ -1,8 +1,6 @@
-﻿using BL.Repositories;
-using DAL.DTO.Context;
+﻿using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 using EnezcamERP.Validators;
-using System.Text;
 
 namespace EnezcamERP.Forms.Customer_Forms
 {
@@ -16,7 +14,7 @@ namespace EnezcamERP.Forms.Customer_Forms
             FillControls();
         }
 
-        GenericRepository<Customer> customerDB = new(EnzDBContext.GetInstance);
+        CustomerRepository customerDB = new();
         Customer customer;
         Form parentForm;
 
@@ -49,7 +47,6 @@ namespace EnezcamERP.Forms.Customer_Forms
             if (res.IsValid)
             {
                 customerDB.Update(newCustomer, customer.ID);
-                customerDB.Save();
                 (parentForm as FormMain).RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
                 (sender as Button).Enabled = false;
             }

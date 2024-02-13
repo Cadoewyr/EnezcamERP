@@ -7,13 +7,13 @@ namespace DAL.DTO.Entities
         public int JobNo { get; set; }
         public DateTime IssueDate { get; set; }
         public DateTime DeliveryDate { get; set; }
-        public Customer Customer { get; set; } = new();
-        public ICollection<OrderDetail> OrderDetails { get; set; } = [];
+        public virtual Customer Customer { get; set; } = new();
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; } = [];
 
         //Satış
         #region
         [NotMapped]
-        public decimal ProductCount
+        public decimal ProductQuantity
         {
             get => OrderDetails.Where(x => x.Product.IsCounting).Sum(x => x.Quantity);
         }
@@ -81,7 +81,7 @@ namespace DAL.DTO.Entities
         //Üretim
         #region
         [NotMapped]
-        public decimal ProducedProductCount
+        public decimal ProducedProductQuantity
         {
             get => OrderDetails.Where(x => x.Product.IsCounting).Sum(x => x.ProducedOrders.Sum(w => w.ProducedOrderCount));
         }
@@ -143,6 +143,15 @@ namespace DAL.DTO.Entities
                     return (ProducedPrice - ProducedCost) / ProducedPrice;
                 else
                     return 0;
+            }
+        }
+
+        [NotMapped]
+        public bool IsDone
+        {
+            get
+            {
+                return ProducedProductQuantity == ProductQuantity;
             }
         }
         #endregion

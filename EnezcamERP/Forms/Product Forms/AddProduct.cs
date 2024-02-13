@@ -1,5 +1,4 @@
-﻿using BL.Repositories;
-using DAL.DTO.Context;
+﻿using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
 using EnezcamERP.Validators;
@@ -15,8 +14,7 @@ namespace EnezcamERP.Forms.Product_Forms
             this.parentForm = parentForm;
         }
 
-        GenericRepository<Product> productDB = new(EnzDBContext.GetInstance);
-
+        ProductRepository productDB = new();
         private Form parentForm;
 
         void RefreshProcessTypes()
@@ -44,7 +42,6 @@ namespace EnezcamERP.Forms.Product_Forms
             if (res.IsValid)
             {
                 productDB.Add(p);
-                productDB.Save();
                 (parentForm as FormMain).RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
             else

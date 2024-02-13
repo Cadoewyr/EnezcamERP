@@ -8,7 +8,7 @@ namespace EnezcamERP.Validators
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-            foreach(var error in errors)
+            foreach (var error in errors)
             {
                 stringBuilder.AppendLine(error.ErrorMessage);
             }

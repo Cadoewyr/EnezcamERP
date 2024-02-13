@@ -1,5 +1,4 @@
-using BL.Repositories;
-using DAL.DTO.Context;
+using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 using EnezcamERP.Forms.Customer_Forms;
 using EnezcamERP.Forms.Order_Forms;
@@ -14,21 +13,16 @@ namespace EnezcamERP
             InitializeComponent();
         }
 
-        GenericRepository<Order> ordersDB = new(EnzDBContext.GetInstance);
-        GenericRepository<Product> productsDB = new(EnzDBContext.GetInstance);
-        GenericRepository<Customer> customersDB = new(EnzDBContext.GetInstance);
+        OrderRepository ordersDB = new();
+        ProductRepository productsDB = new();
+        CustomerRepository customersDB = new();
 
         public void RefreshOrders(ICollection<Order>? orders, ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
         {
             ListView listView = lvOrders;
             listView.Items.Clear();
 
-            IEnumerable<Order> items;
-
-            if (orders != null)
-                items = orders;
-            else
-                items = ordersDB.GetAll(x => x.OrderDetails, x => x.Customer);
+            var items = orders ?? ordersDB.GetAll();
 
             foreach (var item in items)
             {
@@ -40,8 +34,8 @@ namespace EnezcamERP
 
                 lvi.SubItems.Add(item.Customer.Name);
                 lvi.SubItems.Add(item.IssueDate.ToShortDateString());
-                lvi.SubItems.Add(item.ProductCount.ToString("N2"));
-                lvi.SubItems.Add(item.ProducedProductCount.ToString("N2"));
+                lvi.SubItems.Add(item.ProductQuantity.ToString("N2"));
+                lvi.SubItems.Add(item.ProducedProductQuantity.ToString("N2"));
                 lvi.SubItems.Add(item.Price.ToString("N2"));
                 lvi.SubItems.Add(item.Cost.ToString("N2"));
                 lvi.SubItems.Add(item.Profit.ToString("N2"));
@@ -141,7 +135,6 @@ namespace EnezcamERP
             if (lvOrders.SelectedItems.Count > 0)
             {
                 ordersDB.Delete(lvOrders.SelectedItems[0].Tag as Order);
-                ordersDB.Save();
 
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
@@ -177,7 +170,6 @@ namespace EnezcamERP
             if (lvProducts.SelectedItems.Count > 0)
             {
                 productsDB.Delete(lvProducts.SelectedItems[0].Tag as Product);
-                productsDB.Save();
                 RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
@@ -225,7 +217,6 @@ namespace EnezcamERP
             if (lvCustomers.SelectedItems.Count > 0)
             {
                 customersDB.Delete(lvCustomers.SelectedItems[0].Tag as Customer);
-                customersDB.Save();
                 RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }

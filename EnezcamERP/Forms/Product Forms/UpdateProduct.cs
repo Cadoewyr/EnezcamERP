@@ -1,9 +1,7 @@
-﻿using BL.Repositories;
-using DAL.DTO.Context;
+﻿using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
 using EnezcamERP.Validators;
-using System.Text;
 
 namespace EnezcamERP.Forms.Product_Forms
 {
@@ -17,7 +15,7 @@ namespace EnezcamERP.Forms.Product_Forms
             FillControls();
         }
 
-        GenericRepository<Product> productDB = new(EnzDBContext.GetInstance);
+        ProductRepository productDB = new();
 
         Product product;
         Form parentForm;
@@ -52,7 +50,6 @@ namespace EnezcamERP.Forms.Product_Forms
             if (res.IsValid)
             {
                 productDB.Update(newProduct, product.ID);
-                productDB.Save();
                 (parentForm as FormMain).RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
                 (sender as Button).Enabled = false;
             }

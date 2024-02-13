@@ -3,14 +3,14 @@ using DAL.DTO.Entities;
 
 namespace BL.Repositories.Repositories
 {
-    public class ProductRepository : GenericRepository<Product>, IRepository<Product>
+    public class CustomerRepository : GenericRepository<Customer>, IRepository<Customer>
     {
-        public override bool Add(Product entity)
+        public override bool Add(Customer entity)
         {
             if (!table.Any(x => x == entity))
                 return base.Add(entity);
             else
-                throw new Exception("Aynı üründen birden fazla oluşturulamaz.");
+                throw new Exception("Aynı cariden birden fazla oluşturulamaz.");
         }
     }
 }

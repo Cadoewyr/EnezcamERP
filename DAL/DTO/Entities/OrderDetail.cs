@@ -5,13 +5,13 @@ namespace DAL.DTO.Entities
 {
     public record OrderDetail : BaseEntity
     {
-        public Order Order { get; set; }
-        public Product Product { get; set; } = new();
+        public virtual Order Order { get; set; }
+        public virtual Product Product { get; set; } = new();
         public UnitCode UnitCode { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal UnitCost { get; set; }
         public decimal Quantity { get; set; } = 0;
-        public ICollection<ProducedOrder> ProducedOrders { get; set; } = [];
+        public virtual ICollection<ProducedOrder> ProducedOrders { get; set; } = [];
 
         //Üretim
         #region

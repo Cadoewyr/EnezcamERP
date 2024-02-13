@@ -1,5 +1,4 @@
-﻿using BL.Repositories;
-using DAL.DTO.Context;
+﻿using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
 using EnezcamERP.Validators;
@@ -36,13 +35,9 @@ namespace EnezcamERP.Forms.Order_Forms
             lbProducts.Items.Clear();
 
             if (products != null)
-            {
                 lbProducts.Items.AddRange(products);
-            }
             else
-            {
-                lbProducts.Items.AddRange(productDB.GetAll(x => x.PriceHistory).ToArray());
-            }
+                lbProducts.Items.AddRange(productDB.GetAll().ToArray());
 
             lbProducts.DisplayMember = "Name";
         }
@@ -108,13 +103,12 @@ namespace EnezcamERP.Forms.Order_Forms
             txtTotalPrice.Text = order.Price.ToString("N2");
             txtProfit.Text = order.Profit.ToString("N2");
             txtProfitRatio.Text = order.ProfitRatio.ToString("P2");
-            txtTotalQuantity.Text = order.ProductCount.ToString("N2");
+            txtTotalQuantity.Text = order.ProductQuantity.ToString("N2");
         }
 
-        GenericRepository<Customer> customerDB = new(EnzDBContext.GetInstance);
-        GenericRepository<Order> orderDB = new(EnzDBContext.GetInstance);
-        GenericRepository<Product> productDB = new(EnzDBContext.GetInstance);
-        GenericRepository<OrderDetail> orderDetailDB = new(EnzDBContext.GetInstance);
+        CustomerRepository customerDB = new();
+        OrderRepository orderDB = new();
+        ProductRepository productDB = new();
 
         Order order;
         bool IsUpdate;
@@ -147,9 +141,7 @@ namespace EnezcamERP.Forms.Order_Forms
                     UpdateOrderTotals(order);
                 }
                 else
-                {
                     MessageBox.Show(ErrorStringify.Stringify(res.Errors));
-                }
             }
         }
 
@@ -175,13 +167,14 @@ namespace EnezcamERP.Forms.Order_Forms
                         else
                             orderDB.Add(order);
 
-                        orderDB.Save();
                         this.Close();
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message);
-                        ControlCleaner.Clear(this.Controls);
+
+                        if(!IsUpdate)
+                            ControlCleaner.Clear(this.Controls);
                     }
                 }
                 else
