@@ -18,8 +18,8 @@
                 //else if (control is ComboBox)
                 //    (control as ComboBox).SelectedIndex = 0;
 
-                else if (control is CheckBox)
-                    (control as CheckBox).Checked = false;
+                //else if (control is CheckBox)
+                //    (control as CheckBox).Checked = false;
 
                 if (control.Controls.Count > 0)
                 {
