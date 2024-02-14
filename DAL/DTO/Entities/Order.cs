@@ -83,7 +83,7 @@ namespace DAL.DTO.Entities
         [NotMapped]
         public decimal ProducedProductQuantity
         {
-            get => OrderDetails.Where(x => x.Product.IsCounting).Sum(x => x.ProducedOrders.Sum(w => w.ProducedOrderCount));
+            get => OrderDetails.Where(x => x.Product.IsCounting).Sum(x => x.ProducedOrders.Sum(w => w.ProducedOrderQuantity));
         }
 
         [NotMapped]

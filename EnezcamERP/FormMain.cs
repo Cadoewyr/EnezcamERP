@@ -2,6 +2,7 @@ using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 using EnezcamERP.Forms.Customer_Forms;
 using EnezcamERP.Forms.Order_Forms;
+using EnezcamERP.Forms.Produced_Product_Forms;
 using EnezcamERP.Forms.Product_Forms;
 
 namespace EnezcamERP
@@ -24,7 +25,7 @@ namespace EnezcamERP
 
             var items = orders ?? ordersDB.GetAll();
 
-            foreach (var item in items)
+            foreach (var item in items.Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false))
             {
                 ListViewItem lvi = new()
                 {
@@ -154,6 +155,21 @@ namespace EnezcamERP
         private void btnRefreshOrder_Click(object sender, EventArgs e)
         {
             RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+
+        private void cbIsDone_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+
+        private void btnEditProducedOrders_Click(object sender, EventArgs e)
+        {
+            if (lvOrders.SelectedItems.Count > 0)
+            {
+                EditProducedOrders form = new(this, lvOrders.SelectedItems[0].Tag as Order);
+                form.ShowDialog();
+                RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+            }
         }
         #endregion
 

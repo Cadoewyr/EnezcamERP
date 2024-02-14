@@ -13,18 +13,30 @@ namespace DAL.DTO.Entities
         public decimal Quantity { get; set; } = 0;
         public virtual ICollection<ProducedOrder> ProducedOrders { get; set; } = [];
 
+        [NotMapped]
+        public decimal ProducedQuantity
+        {
+            get => ProducedOrders.Sum(x => x.ProducedOrderQuantity);
+        }
+
+        [NotMapped]
+        public decimal RemainingToProduceQuantity
+        {
+            get => Quantity - ProducedQuantity;
+        }
+
         //Üretim
         #region
         [NotMapped]
         public decimal ProducedPrice
         {
-            get => UnitPrice * ProducedOrders.Sum(x => x.ProducedOrderCount);
+            get => UnitPrice * ProducedOrders.Sum(x => x.ProducedOrderQuantity);
         }
 
         [NotMapped]
         public decimal ProducedCost
         {
-            get => UnitCost * ProducedOrders.Sum(x => x.ProducedOrderCount);
+            get => UnitCost * ProducedOrders.Sum(x => x.ProducedOrderQuantity);
         }
 
         [NotMapped]

@@ -30,7 +30,8 @@
         {
             tabOrders = new TabPage();
             gbOrders = new GroupBox();
-            button1 = new Button();
+            cbIsDone = new CheckBox();
+            btnEditProducedOrders = new Button();
             lblSearchOrder = new Label();
             txtSearchOrder = new TextBox();
             btnRefreshOrder = new Button();
@@ -60,6 +61,10 @@
             clmName = new ColumnHeader();
             clmProcessType = new ColumnHeader();
             clmIsCounting = new ColumnHeader();
+            clmLastCost = new ColumnHeader();
+            clmLastPrice = new ColumnHeader();
+            clmLastProfit = new ColumnHeader();
+            clmLastProfitRatio = new ColumnHeader();
             tabCustomer = new TabPage();
             gbCustomers = new GroupBox();
             lblSearchCustomer = new Label();
@@ -75,10 +80,6 @@
             clmDescription = new ColumnHeader();
             clmContactName = new ColumnHeader();
             clmContactPhone = new ColumnHeader();
-            clmLastCost = new ColumnHeader();
-            clmLastPrice = new ColumnHeader();
-            clmLastProfit = new ColumnHeader();
-            clmLastProfitRatio = new ColumnHeader();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             tabControlMain.SuspendLayout();
@@ -94,7 +95,7 @@
             tabOrders.Location = new Point(4, 29);
             tabOrders.Name = "tabOrders";
             tabOrders.Padding = new Padding(3);
-            tabOrders.Size = new Size(993, 522);
+            tabOrders.Size = new Size(1202, 522);
             tabOrders.TabIndex = 0;
             tabOrders.Text = "Siparişler";
             tabOrders.UseVisualStyleBackColor = true;
@@ -102,7 +103,8 @@
             // gbOrders
             // 
             gbOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            gbOrders.Controls.Add(button1);
+            gbOrders.Controls.Add(cbIsDone);
+            gbOrders.Controls.Add(btnEditProducedOrders);
             gbOrders.Controls.Add(lblSearchOrder);
             gbOrders.Controls.Add(txtSearchOrder);
             gbOrders.Controls.Add(btnRefreshOrder);
@@ -112,25 +114,37 @@
             gbOrders.Controls.Add(lvOrders);
             gbOrders.Location = new Point(6, 5);
             gbOrders.Name = "gbOrders";
-            gbOrders.Size = new Size(981, 507);
+            gbOrders.Size = new Size(1190, 507);
             gbOrders.TabIndex = 0;
             gbOrders.TabStop = false;
             gbOrders.Text = "Siparişler";
             // 
-            // button1
+            // cbIsDone
             // 
-            button1.Location = new Point(406, 24);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 11;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
+            cbIsDone.AutoSize = true;
+            cbIsDone.Location = new Point(634, 27);
+            cbIsDone.Name = "cbIsDone";
+            cbIsDone.Size = new Size(237, 24);
+            cbIsDone.TabIndex = 12;
+            cbIsDone.Text = "Tamamlanmış Siparişleri Listele";
+            cbIsDone.UseVisualStyleBackColor = true;
+            cbIsDone.CheckedChanged += cbIsDone_CheckedChanged;
+            // 
+            // btnEditProducedOrders
+            // 
+            btnEditProducedOrders.Location = new Point(406, 24);
+            btnEditProducedOrders.Name = "btnEditProducedOrders";
+            btnEditProducedOrders.Size = new Size(142, 29);
+            btnEditProducedOrders.TabIndex = 11;
+            btnEditProducedOrders.Text = "Üretim Geçmişi";
+            btnEditProducedOrders.UseVisualStyleBackColor = true;
+            btnEditProducedOrders.Click += btnEditProducedOrders_Click;
             // 
             // lblSearchOrder
             // 
             lblSearchOrder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblSearchOrder.AutoSize = true;
-            lblSearchOrder.Location = new Point(738, 29);
+            lblSearchOrder.Location = new Point(947, 29);
             lblSearchOrder.Name = "lblSearchOrder";
             lblSearchOrder.Size = new Size(32, 20);
             lblSearchOrder.TabIndex = 10;
@@ -139,7 +153,7 @@
             // txtSearchOrder
             // 
             txtSearchOrder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtSearchOrder.Location = new Point(776, 27);
+            txtSearchOrder.Location = new Point(985, 27);
             txtSearchOrder.Name = "txtSearchOrder";
             txtSearchOrder.Size = new Size(198, 27);
             txtSearchOrder.TabIndex = 9;
@@ -193,7 +207,7 @@
             lvOrders.Location = new Point(6, 59);
             lvOrders.MultiSelect = false;
             lvOrders.Name = "lvOrders";
-            lvOrders.Size = new Size(969, 441);
+            lvOrders.Size = new Size(1178, 441);
             lvOrders.TabIndex = 4;
             lvOrders.UseCompatibleStateImageBehavior = false;
             lvOrders.View = View.Details;
@@ -213,11 +227,11 @@
             // 
             // clmQuantity
             // 
-            clmQuantity.Text = "Sipariş Adedi";
+            clmQuantity.Text = "Sipariş Miktarı";
             // 
             // clmProducedQuantity
             // 
-            clmProducedQuantity.Text = "Üretim";
+            clmProducedQuantity.Text = "Üretim Miktarı";
             // 
             // clmPrice
             // 
@@ -244,7 +258,7 @@
             tabControlMain.Location = new Point(0, 0);
             tabControlMain.Name = "tabControlMain";
             tabControlMain.SelectedIndex = 0;
-            tabControlMain.Size = new Size(1001, 555);
+            tabControlMain.Size = new Size(1210, 555);
             tabControlMain.TabIndex = 0;
             // 
             // tabStock
@@ -253,7 +267,7 @@
             tabStock.Location = new Point(4, 29);
             tabStock.Name = "tabStock";
             tabStock.Padding = new Padding(3);
-            tabStock.Size = new Size(993, 522);
+            tabStock.Size = new Size(1202, 522);
             tabStock.TabIndex = 1;
             tabStock.Text = "Stok Kartı";
             tabStock.UseVisualStyleBackColor = true;
@@ -359,13 +373,29 @@
             // 
             clmIsCounting.Text = "Say";
             // 
+            // clmLastCost
+            // 
+            clmLastCost.Text = "Son Maliyet";
+            // 
+            // clmLastPrice
+            // 
+            clmLastPrice.Text = "Son Fiyat";
+            // 
+            // clmLastProfit
+            // 
+            clmLastProfit.Text = "Son Kar";
+            // 
+            // clmLastProfitRatio
+            // 
+            clmLastProfitRatio.Text = "Son Kar Oranı";
+            // 
             // tabCustomer
             // 
             tabCustomer.Controls.Add(gbCustomers);
             tabCustomer.Location = new Point(4, 29);
             tabCustomer.Name = "tabCustomer";
             tabCustomer.Padding = new Padding(3);
-            tabCustomer.Size = new Size(993, 522);
+            tabCustomer.Size = new Size(1202, 522);
             tabCustomer.TabIndex = 2;
             tabCustomer.Text = "Cari Kartı";
             tabCustomer.UseVisualStyleBackColor = true;
@@ -483,27 +513,11 @@
             // 
             clmContactPhone.Text = "Yetkili Numarası";
             // 
-            // clmLastCost
-            // 
-            clmLastCost.Text = "Son Maliyet";
-            // 
-            // clmLastPrice
-            // 
-            clmLastPrice.Text = "Son Fiyat";
-            // 
-            // clmLastProfit
-            // 
-            clmLastProfit.Text = "Son Kar";
-            // 
-            // clmLastProfitRatio
-            // 
-            clmLastProfitRatio.Text = "Son Kar Oranı";
-            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1001, 555);
+            ClientSize = new Size(1210, 555);
             Controls.Add(tabControlMain);
             MdiChildrenMinimizedAnchorBottom = false;
             MinimumSize = new Size(970, 564);
@@ -573,10 +587,11 @@
         private Label lblSearchOrder;
         private TextBox txtSearchOrder;
         private ColumnHeader clmIsCounting;
-        private Button button1;
+        private Button btnEditProducedOrders;
         private ColumnHeader clmLastCost;
         private ColumnHeader clmLastPrice;
         private ColumnHeader clmLastProfit;
         private ColumnHeader clmLastProfitRatio;
+        private CheckBox cbIsDone;
     }
 }

@@ -20,7 +20,7 @@ namespace DAL.DTO.Entities
             {
                 if (LastPrice > 0 && LastCost > 0)
                     return (LastPrice - LastCost) / LastPrice;
-                else 
+                else
                     return 0;
             }
         }
@@ -30,7 +30,7 @@ namespace DAL.DTO.Entities
         {
             get
             {
-                if(LastPrice > 0 && LastCost > 0)
+                if (LastPrice > 0 && LastCost > 0)
                     return (LastPrice - LastCost) / LastCost;
                 else return 0;
             }

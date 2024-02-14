@@ -80,6 +80,7 @@
             clmTotalProfitPercentage = new ColumnHeader();
             cmsOrderDetail = new ContextMenuStrip(components);
             miDelete = new ToolStripMenuItem();
+            miEditProducedQuantity = new ToolStripMenuItem();
             gbOrderHeader.SuspendLayout();
             gbOrderDetails.SuspendLayout();
             gbOrderTotals.SuspendLayout();
@@ -309,7 +310,7 @@
             btnCancel.TabIndex = 14;
             btnCancel.Text = "İptal";
             btnCancel.UseVisualStyleBackColor = true;
-            btnCancel.Click += btnSaveOrder_Click;
+            btnCancel.Click += btnCancelOrder_Click;
             // 
             // btnSaveOrder
             // 
@@ -485,17 +486,14 @@
             // 
             // clmUnitCost
             // 
-            clmUnitCost.DisplayIndex = 2;
             clmUnitCost.Text = "Birim Maliyet";
             // 
             // clmUnitPrice
             // 
-            clmUnitPrice.DisplayIndex = 3;
             clmUnitPrice.Text = "Birim Fiyat";
             // 
             // clmProductUnitCode
             // 
-            clmProductUnitCode.DisplayIndex = 1;
             clmProductUnitCode.Text = "Birim Kodu";
             // 
             // clmQuantity
@@ -529,17 +527,24 @@
             // cmsOrderDetail
             // 
             cmsOrderDetail.ImageScalingSize = new Size(20, 20);
-            cmsOrderDetail.Items.AddRange(new ToolStripItem[] { miDelete });
+            cmsOrderDetail.Items.AddRange(new ToolStripItem[] { miDelete, miEditProducedQuantity });
             cmsOrderDetail.Name = "cmsOrderDetail";
             cmsOrderDetail.ShowImageMargin = false;
-            cmsOrderDetail.Size = new Size(123, 28);
+            cmsOrderDetail.Size = new Size(243, 52);
             // 
             // miDelete
             // 
             miDelete.Name = "miDelete";
             miDelete.ShortcutKeys = Keys.Delete;
-            miDelete.Size = new Size(122, 24);
+            miDelete.Size = new Size(242, 24);
             miDelete.Text = "Sil";
+            // 
+            // miEditProducedQuantity
+            // 
+            miEditProducedQuantity.Name = "miEditProducedQuantity";
+            miEditProducedQuantity.ShortcutKeys = Keys.F2;
+            miEditProducedQuantity.Size = new Size(242, 24);
+            miEditProducedQuantity.Text = "Üretim Miktarını Düzenle";
             // 
             // AddUpdateOrder
             // 
@@ -624,5 +629,6 @@
         private Button btnDeleteOrderDetail;
         private ContextMenuStrip cmsOrderDetail;
         private ToolStripMenuItem miDelete;
+        private ToolStripMenuItem miEditProducedQuantity;
     }
 }
