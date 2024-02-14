@@ -24,6 +24,10 @@ namespace EnezcamERP.Validators
             RuleFor(x => x.UnitPrice)
                 .NotNull().NotEmpty().WithMessage("Fiyat boş bırakılamaz.")
                 .GreaterThan(0).WithMessage("Fiyat sıfıra eşit veya küçük olamaz.");
+
+            RuleFor(x => x.TaxRatio)
+                .GreaterThanOrEqualTo(0).WithMessage("Vergi oranı 0 veya daha büyük olmalı.")
+                .LessThanOrEqualTo(100).WithMessage("Vergi oranı 100 veya daha küçük olmalı.");
         }
     }
 }

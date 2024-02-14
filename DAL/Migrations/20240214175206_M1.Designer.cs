@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(EnzDBContext))]
-    [Migration("20240212133359_M1")]
+    [Migration("20240214175206_M1")]
     partial class M1
     {
         /// <inheritdoc />
@@ -181,7 +181,7 @@ namespace DAL.Migrations
                     b.Property<DateTime>("ProducedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("ProducedOrderCount")
+                    b.Property<decimal>("ProducedOrderQuantity")
                         .HasPrecision(18, 6)
                         .HasColumnType("decimal(18,6)");
 

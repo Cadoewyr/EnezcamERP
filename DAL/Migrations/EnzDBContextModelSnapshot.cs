@@ -178,7 +178,7 @@ namespace DAL.Migrations
                     b.Property<DateTime>("ProducedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("ProducedOrderCount")
+                    b.Property<decimal>("ProducedOrderQuantity")
                         .HasPrecision(18, 6)
                         .HasColumnType("decimal(18,6)");
 

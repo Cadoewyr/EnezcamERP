@@ -1,4 +1,5 @@
 ﻿using DAL.DTO.Entities.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL.DTO.Entities
@@ -11,6 +12,8 @@ namespace DAL.DTO.Entities
         public decimal UnitPrice { get; set; }
         public decimal UnitCost { get; set; }
         public decimal Quantity { get; set; } = 0;
+        [Range(0,100)]
+        public decimal TaxRatio { get; set; } = 0;
         public virtual ICollection<ProducedOrder> ProducedOrders { get; set; } = [];
 
         [NotMapped]
@@ -23,6 +26,18 @@ namespace DAL.DTO.Entities
         public decimal RemainingToProduceQuantity
         {
             get => Quantity - ProducedQuantity;
+        }
+
+        [NotMapped]
+        public decimal Tax
+        {
+            get => Price * (TaxRatio + 1);
+        }
+
+        [NotMapped]
+        public decimal PriceWithTax
+        {
+            get => Price + Tax;
         }
 
         //Üretim

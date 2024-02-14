@@ -37,8 +37,9 @@ namespace EnezcamERP
                 lvi.SubItems.Add(item.IssueDate.ToShortDateString());
                 lvi.SubItems.Add(item.ProductQuantity.ToString("N2"));
                 lvi.SubItems.Add(item.ProducedProductQuantity.ToString("N2"));
-                lvi.SubItems.Add(item.Price.ToString("N2"));
                 lvi.SubItems.Add(item.Cost.ToString("N2"));
+                lvi.SubItems.Add(item.Price.ToString("N2"));
+                lvi.SubItems.Add(item.OrderDetails.Sum(x => x.PriceWithTax).ToString("N2"));
                 lvi.SubItems.Add(item.Profit.ToString("N2"));
                 lvi.SubItems.Add(item.ProfitRatio.ToString("P2"));
 
@@ -96,6 +97,7 @@ namespace EnezcamERP
                 lvi.SubItems.Add(item.Description);
                 lvi.SubItems.Add(item.ContactName);
                 lvi.SubItems.Add(item.ContactPhone);
+                lvi.SubItems.Add(item.Address);
 
                 listView.Items.Add(lvi);
             }
