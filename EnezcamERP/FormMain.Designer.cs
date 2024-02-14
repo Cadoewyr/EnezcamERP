@@ -520,7 +520,7 @@
             ClientSize = new Size(1210, 555);
             Controls.Add(tabControlMain);
             MdiChildrenMinimizedAnchorBottom = false;
-            MinimumSize = new Size(970, 564);
+            MinimumSize = new Size(1228, 602);
             Name = "FormMain";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
