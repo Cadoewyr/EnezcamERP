@@ -12,33 +12,9 @@ namespace DAL.DTO.Entities
         public decimal UnitPrice { get; set; }
         public decimal UnitCost { get; set; }
         public decimal Quantity { get; set; } = 0;
-        [Range(0,100)]
+        [Range(0, 100)]
         public decimal TaxRatio { get; set; } = 0;
         public virtual ICollection<ProducedOrder> ProducedOrders { get; set; } = [];
-
-        [NotMapped]
-        public decimal ProducedQuantity
-        {
-            get => ProducedOrders.Sum(x => x.ProducedOrderQuantity);
-        }
-
-        [NotMapped]
-        public decimal RemainingToProduceQuantity
-        {
-            get => Quantity - ProducedQuantity;
-        }
-
-        [NotMapped]
-        public decimal Tax
-        {
-            get => Price * (TaxRatio + 1);
-        }
-
-        [NotMapped]
-        public decimal PriceWithTax
-        {
-            get => Price + Tax;
-        }
 
         //Üretim
         #region
@@ -70,6 +46,18 @@ namespace DAL.DTO.Entities
         public decimal ProducedProfitMargin
         {
             get => (ProducedPrice - ProducedCost) / ProducedPrice;
+        }
+
+        [NotMapped]
+        public decimal ProducedQuantity
+        {
+            get => ProducedOrders.Sum(x => x.ProducedOrderQuantity);
+        }
+
+        [NotMapped]
+        public decimal RemainingToProduceQuantity
+        {
+            get => Quantity - ProducedQuantity;
         }
         #endregion
 
@@ -103,6 +91,18 @@ namespace DAL.DTO.Entities
         public decimal ProfitMargin
         {
             get => (Price - Cost) / Price;
+        }
+
+        [NotMapped]
+        public decimal Tax
+        {
+            get => Price * (TaxRatio + 1);
+        }
+
+        [NotMapped]
+        public decimal PriceWithTax
+        {
+            get => Price + Tax;
         }
         #endregion
     }

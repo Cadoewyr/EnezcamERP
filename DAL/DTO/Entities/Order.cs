@@ -76,6 +76,18 @@ namespace DAL.DTO.Entities
                 else return 0;
             }
         }
+
+        [NotMapped]
+        public decimal Tax
+        {
+            get => OrderDetails.Sum(x => x.Tax);
+        }
+
+        [NotMapped]
+        public decimal PriceWithTax
+        {
+            get => Price + Tax;
+        }
         #endregion
 
         //Üretim
