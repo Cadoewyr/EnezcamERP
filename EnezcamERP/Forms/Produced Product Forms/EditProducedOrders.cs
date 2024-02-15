@@ -1,5 +1,6 @@
 ﻿using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
+using DAL.DTO.Entities.Enums;
 using EnezcamERP.Validators;
 
 namespace EnezcamERP.Forms.Produced_Product_Forms
@@ -24,9 +25,9 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
             if (orderDetail != null)
             {
                 txtProductName.Text = orderDetail.Product.Name;
-                txtQuantity.Text = orderDetail.Quantity.ToString("N3");
-                txtProducedQuantity.Text = orderDetail.ProducedQuantity.ToString("N3");
-                txtRemainigQuantity.Text = orderDetail.RemainingToProduceQuantity.ToString("N3");
+                txtQuantity.Text = orderDetail.Quantity.ToString(orderDetail.UnitCode == UnitCode.M2 ? "N3" : "N0");
+                txtProducedQuantity.Text = orderDetail.ProducedQuantity.ToString(orderDetail.UnitCode == UnitCode.M2 ? "N3" : "N0");
+                txtRemainigQuantity.Text = orderDetail.RemainingToProduceQuantity.ToString(orderDetail.UnitCode == UnitCode.M2 ? "N3" : "N0");
 
                 if (orderDetail.RemainingToProduceQuantity == 0)
                 {
@@ -42,6 +43,8 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                     nudProducedQuantity.Maximum = orderDetail.RemainingToProduceQuantity;
                     nudProducedQuantity.Enabled = true;
                 }
+
+                nudProducedQuantity.DecimalPlaces = orderDetail.UnitCode == UnitCode.M2 ? 3 : 0;
             }
             else
                 ControlCleaner.Clear(this.Controls);
@@ -62,9 +65,9 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 lvi.SubItems.Add(od.Cost.ToString("N3"));
                 lvi.SubItems.Add(od.Price.ToString("N3"));
                 lvi.SubItems.Add(od.UnitCode.ToString());
-                lvi.SubItems.Add(od.Quantity.ToString("N3"));
-                lvi.SubItems.Add(od.ProducedQuantity.ToString("N3"));
-                lvi.SubItems.Add(od.RemainingToProduceQuantity.ToString("N3"));
+                lvi.SubItems.Add(od.Quantity.ToString(od.UnitCode == UnitCode.M2 ? "N3" : "N0"));
+                lvi.SubItems.Add(od.ProducedQuantity.ToString(od.UnitCode == UnitCode.M2 ? "N3" : "N0"));
+                lvi.SubItems.Add(od.RemainingToProduceQuantity.ToString(od.UnitCode == UnitCode.M2 ? "N3" : "N0"));
 
                 listView.Items.Add(lvi);
             }
@@ -158,7 +161,7 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 RefreshAll();
             }
         }
-
+        
         private void lvOrderDetails_SelectedIndexChanged(object sender, EventArgs e)
         {
             if ((sender as ListView).SelectedItems.Count > 0)

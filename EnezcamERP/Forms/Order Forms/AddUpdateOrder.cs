@@ -106,7 +106,7 @@ namespace EnezcamERP.Forms.Order_Forms
             txtTotalPrice.Text = order.Price.ToString("N2");
             txtProfit.Text = order.Profit.ToString("N2");
             txtProfitRatio.Text = order.ProfitRatio.ToString("P2");
-            txtTotalQuantity.Text = string.Join(", ", order.ProductQuantity.Select(x => $"{x.Value.ToString("N3")} {x.Key}").ToArray());
+            txtTotalQuantity.Text = string.Join(", ", order.ProductQuantity.Select(x => $"{x.Value.ToString(x.Key == UnitCode.M2 ? "N3" : "N0")} {x.Key}").ToArray());
             txtPriceWithTax.Text = order.PriceWithTax.ToString("N2");
         }
 
