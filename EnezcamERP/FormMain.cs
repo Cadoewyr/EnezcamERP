@@ -1,5 +1,6 @@
 using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
+using DAL.DTO.Entities.Enums;
 using EnezcamERP.Forms.Customer_Forms;
 using EnezcamERP.Forms.Order_Forms;
 using EnezcamERP.Forms.Produced_Product_Forms;
@@ -35,8 +36,8 @@ namespace EnezcamERP
 
                 lvi.SubItems.Add(item.Customer.Name);
                 lvi.SubItems.Add(item.IssueDate.ToShortDateString());
-                lvi.SubItems.Add(item.ProductQuantity.ToString("N2"));
-                lvi.SubItems.Add(item.ProducedProductQuantity.ToString("N2"));
+                lvi.SubItems.Add(string.Join(", ", item.ProductQuantity.Select(x => $"{x.Value.ToString("N3")} {x.Key}").ToArray()));
+                lvi.SubItems.Add(string.Join(", ", item.ProducedProductQuantity.Select(x => $"{x.Value.ToString("N3")} {x.Key}").ToArray()));
                 lvi.SubItems.Add(item.Cost.ToString("N2"));
                 lvi.SubItems.Add(item.Price.ToString("N2"));
                 lvi.SubItems.Add(item.OrderDetails.Sum(x => x.PriceWithTax).ToString("N2"));

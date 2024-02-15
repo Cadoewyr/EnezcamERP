@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             gbOrderHeader = new GroupBox();
             txtJobNo = new TextBox();
             dtpOrderDate = new DateTimePicker();
@@ -40,6 +39,8 @@
             lblJobNo = new Label();
             gbOrderDetails = new GroupBox();
             gbOrderTotals = new GroupBox();
+            txtPriceWithTax = new TextBox();
+            lblPriceWithTax = new Label();
             txtProfitRatio = new TextBox();
             lblPercentage = new Label();
             txtProfit = new TextBox();
@@ -55,6 +56,8 @@
             gbAddProductDetail = new GroupBox();
             btnDeleteOrderDetail = new Button();
             btnAddOrderDetail = new Button();
+            nudTaxRatio = new NumericUpDown();
+            lblTaxRatio = new Label();
             nudQuantity = new NumericUpDown();
             lblQuantity = new Label();
             nudPrice = new NumericUpDown();
@@ -70,6 +73,7 @@
             clmProductName = new ColumnHeader();
             clmUnitCost = new ColumnHeader();
             clmUnitPrice = new ColumnHeader();
+            clmTaxRatio = new ColumnHeader();
             clmProductUnitCode = new ColumnHeader();
             clmQuantity = new ColumnHeader();
             clmProducedQuantity = new ColumnHeader();
@@ -78,17 +82,14 @@
             clmTotalPrice = new ColumnHeader();
             clmTotalProfit = new ColumnHeader();
             clmTotalProfitPercentage = new ColumnHeader();
-            cmsOrderDetail = new ContextMenuStrip(components);
-            miDelete = new ToolStripMenuItem();
-            miEditProducedQuantity = new ToolStripMenuItem();
             gbOrderHeader.SuspendLayout();
             gbOrderDetails.SuspendLayout();
             gbOrderTotals.SuspendLayout();
             gbAddProductDetail.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudTaxRatio).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudQuantity).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudPrice).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudCost).BeginInit();
-            cmsOrderDetail.SuspendLayout();
             SuspendLayout();
             // 
             // gbOrderHeader
@@ -188,6 +189,8 @@
             // 
             // gbOrderTotals
             // 
+            gbOrderTotals.Controls.Add(txtPriceWithTax);
+            gbOrderTotals.Controls.Add(lblPriceWithTax);
             gbOrderTotals.Controls.Add(txtProfitRatio);
             gbOrderTotals.Controls.Add(lblPercentage);
             gbOrderTotals.Controls.Add(txtProfit);
@@ -206,6 +209,25 @@
             gbOrderTotals.TabIndex = 2;
             gbOrderTotals.TabStop = false;
             gbOrderTotals.Text = "Sipariş Toplamları";
+            // 
+            // txtPriceWithTax
+            // 
+            txtPriceWithTax.Location = new Point(6, 174);
+            txtPriceWithTax.MaxLength = 200;
+            txtPriceWithTax.Name = "txtPriceWithTax";
+            txtPriceWithTax.ReadOnly = true;
+            txtPriceWithTax.Size = new Size(151, 27);
+            txtPriceWithTax.TabIndex = 18;
+            txtPriceWithTax.TabStop = false;
+            // 
+            // lblPriceWithTax
+            // 
+            lblPriceWithTax.AutoSize = true;
+            lblPriceWithTax.Location = new Point(7, 151);
+            lblPriceWithTax.Name = "lblPriceWithTax";
+            lblPriceWithTax.Size = new Size(117, 20);
+            lblPriceWithTax.TabIndex = 17;
+            lblPriceWithTax.Text = "Vergi Dahil Fiyat";
             // 
             // txtProfitRatio
             // 
@@ -247,7 +269,7 @@
             // 
             // txtTotalQuantity
             // 
-            txtTotalQuantity.Location = new Point(7, 172);
+            txtTotalQuantity.Location = new Point(165, 174);
             txtTotalQuantity.MaxLength = 200;
             txtTotalQuantity.Name = "txtTotalQuantity";
             txtTotalQuantity.ReadOnly = true;
@@ -258,7 +280,7 @@
             // lblTotalQuantity
             // 
             lblTotalQuantity.AutoSize = true;
-            lblTotalQuantity.Location = new Point(8, 149);
+            lblTotalQuantity.Location = new Point(166, 151);
             lblTotalQuantity.Name = "lblTotalQuantity";
             lblTotalQuantity.Size = new Size(105, 20);
             lblTotalQuantity.TabIndex = 5;
@@ -326,6 +348,8 @@
             // 
             gbAddProductDetail.Controls.Add(btnDeleteOrderDetail);
             gbAddProductDetail.Controls.Add(btnAddOrderDetail);
+            gbAddProductDetail.Controls.Add(nudTaxRatio);
+            gbAddProductDetail.Controls.Add(lblTaxRatio);
             gbAddProductDetail.Controls.Add(nudQuantity);
             gbAddProductDetail.Controls.Add(lblQuantity);
             gbAddProductDetail.Controls.Add(nudPrice);
@@ -363,6 +387,23 @@
             btnAddOrderDetail.Text = "Ekle";
             btnAddOrderDetail.UseVisualStyleBackColor = true;
             btnAddOrderDetail.Click += btnAddOrderDetail_Click;
+            // 
+            // nudTaxRatio
+            // 
+            nudTaxRatio.Location = new Point(307, 174);
+            nudTaxRatio.Name = "nudTaxRatio";
+            nudTaxRatio.Size = new Size(151, 27);
+            nudTaxRatio.TabIndex = 8;
+            nudTaxRatio.ThousandsSeparator = true;
+            // 
+            // lblTaxRatio
+            // 
+            lblTaxRatio.AutoSize = true;
+            lblTaxRatio.Location = new Point(307, 151);
+            lblTaxRatio.Name = "lblTaxRatio";
+            lblTaxRatio.Size = new Size(51, 20);
+            lblTaxRatio.TabIndex = 9;
+            lblTaxRatio.Text = "Miktar";
             // 
             // nudQuantity
             // 
@@ -468,8 +509,7 @@
             // lvOrderDetails
             // 
             lvOrderDetails.AllowColumnReorder = true;
-            lvOrderDetails.Columns.AddRange(new ColumnHeader[] { clmProductName, clmUnitCost, clmUnitPrice, clmProductUnitCode, clmQuantity, clmProducedQuantity, clmRemainingQuantity, clmTotalCost, clmTotalPrice, clmTotalProfit, clmTotalProfitPercentage });
-            lvOrderDetails.ContextMenuStrip = cmsOrderDetail;
+            lvOrderDetails.Columns.AddRange(new ColumnHeader[] { clmProductName, clmUnitCost, clmUnitPrice, clmTaxRatio, clmQuantity, clmProductUnitCode, clmProducedQuantity, clmRemainingQuantity, clmTotalCost, clmTotalPrice, clmTotalProfit, clmTotalProfitPercentage });
             lvOrderDetails.FullRowSelect = true;
             lvOrderDetails.GridLines = true;
             lvOrderDetails.Location = new Point(6, 27);
@@ -491,6 +531,10 @@
             // clmUnitPrice
             // 
             clmUnitPrice.Text = "Birim Fiyat";
+            // 
+            // clmTaxRatio
+            // 
+            clmTaxRatio.Text = "Vergi Oranı";
             // 
             // clmProductUnitCode
             // 
@@ -524,28 +568,6 @@
             // 
             clmTotalProfitPercentage.Text = "Toplam Kar Oranı";
             // 
-            // cmsOrderDetail
-            // 
-            cmsOrderDetail.ImageScalingSize = new Size(20, 20);
-            cmsOrderDetail.Items.AddRange(new ToolStripItem[] { miDelete, miEditProducedQuantity });
-            cmsOrderDetail.Name = "cmsOrderDetail";
-            cmsOrderDetail.ShowImageMargin = false;
-            cmsOrderDetail.Size = new Size(243, 52);
-            // 
-            // miDelete
-            // 
-            miDelete.Name = "miDelete";
-            miDelete.ShortcutKeys = Keys.Delete;
-            miDelete.Size = new Size(242, 24);
-            miDelete.Text = "Sil";
-            // 
-            // miEditProducedQuantity
-            // 
-            miEditProducedQuantity.Name = "miEditProducedQuantity";
-            miEditProducedQuantity.ShortcutKeys = Keys.F2;
-            miEditProducedQuantity.Size = new Size(242, 24);
-            miEditProducedQuantity.Text = "Üretim Miktarını Düzenle";
-            // 
             // AddUpdateOrder
             // 
             AcceptButton = btnSaveOrder;
@@ -569,10 +591,10 @@
             gbOrderTotals.PerformLayout();
             gbAddProductDetail.ResumeLayout(false);
             gbAddProductDetail.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nudTaxRatio).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudQuantity).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudPrice).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudCost).EndInit();
-            cmsOrderDetail.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -627,8 +649,10 @@
         private Label lvlProfit;
         private Button btnCancel;
         private Button btnDeleteOrderDetail;
-        private ContextMenuStrip cmsOrderDetail;
-        private ToolStripMenuItem miDelete;
-        private ToolStripMenuItem miEditProducedQuantity;
+        private ColumnHeader clmTaxRatio;
+        private NumericUpDown nudTaxRatio;
+        private Label lblTaxRatio;
+        private TextBox txtPriceWithTax;
+        private Label lblPriceWithTax;
     }
 }

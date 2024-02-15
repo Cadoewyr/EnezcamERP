@@ -96,7 +96,7 @@ namespace DAL.DTO.Entities
         [NotMapped]
         public decimal Tax
         {
-            get => Price * (TaxRatio + 1);
+            get => Price * (TaxRatio / 100);
         }
 
         [NotMapped]

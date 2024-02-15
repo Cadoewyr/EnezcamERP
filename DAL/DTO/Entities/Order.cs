@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using DAL.DTO.Entities.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL.DTO.Entities
 {
@@ -13,9 +14,20 @@ namespace DAL.DTO.Entities
         //Satış
         #region
         [NotMapped]
-        public decimal ProductQuantity
+        public Dictionary<UnitCode, decimal> ProductQuantity
         {
-            get => OrderDetails.Where(x => x.Product.IsCounting).Sum(x => x.Quantity);
+            get
+            {
+                Dictionary<UnitCode, decimal> quantities = new();
+                var unitCodes = OrderDetails.Select(x => x.UnitCode).Distinct().ToList();
+
+                foreach (var unitCode in unitCodes)
+                {
+                    quantities.Add(unitCode, OrderDetails.Where(x => x.UnitCode == unitCode & x.Product.IsCounting).Sum(x => x.Quantity));
+                }
+
+                return quantities;
+            }
         }
 
         [NotMapped]
@@ -93,9 +105,36 @@ namespace DAL.DTO.Entities
         //Üretim
         #region
         [NotMapped]
-        public decimal ProducedProductQuantity
+        public Dictionary<UnitCode, decimal> ProducedProductQuantity
         {
-            get => OrderDetails.Where(x => x.Product.IsCounting).Sum(x => x.ProducedOrders.Sum(w => w.ProducedOrderQuantity));
+            get
+            {
+                Dictionary<UnitCode, decimal> quantities = new();
+                var unitCodes = OrderDetails.Select(x => x.UnitCode).Distinct().ToList();
+
+                foreach (var unitCode in unitCodes)
+                {
+                    quantities.Add(unitCode, OrderDetails.Where(x => x.Product.IsCounting & x.UnitCode == unitCode).Sum(x => x.ProducedOrders.Sum(w => w.ProducedOrderQuantity)));
+                }
+
+                return quantities;
+            }
+        }
+
+        public Dictionary<UnitCode, decimal> RemainingProductQuantity
+        {
+            get
+            {
+                Dictionary<UnitCode, decimal> quantities = new();
+                var unitCodes = OrderDetails.Select(x => x.UnitCode).Distinct().ToList();
+
+                foreach (var unitCode in unitCodes)
+                {
+                    quantities.Add(unitCode, OrderDetails.Where(x => x.UnitCode == unitCode & x.Product.IsCounting).Sum(x => x.Quantity) - OrderDetails.Where(x => x.Product.IsCounting & x.UnitCode == unitCode).Sum(x => x.ProducedOrders.Sum(w => w.ProducedOrderQuantity)));
+                }
+
+                return quantities;
+            }
         }
 
         [NotMapped]
@@ -163,7 +202,18 @@ namespace DAL.DTO.Entities
         {
             get
             {
-                return ProducedProductQuantity == ProductQuantity;
+                bool isDone = true;
+
+                foreach (var item in RemainingProductQuantity)
+                {
+                    if (item.Value > 0)
+                    {
+                        isDone = false;
+                        break;
+                    }
+                }
+
+                return isDone;
             }
         }
         #endregion

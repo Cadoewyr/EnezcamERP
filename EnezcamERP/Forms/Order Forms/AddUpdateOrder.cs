@@ -63,9 +63,10 @@ namespace EnezcamERP.Forms.Order_Forms
 
                 lvi.SubItems.Add(item.UnitCost.ToString("N2"));
                 lvi.SubItems.Add(item.UnitPrice.ToString("N2"));
+                lvi.SubItems.Add(item.TaxRatio.ToString());
+                lvi.SubItems.Add(item.Quantity.ToString("N3"));
                 lvi.SubItems.Add(item.UnitCode.ToString());
-                lvi.SubItems.Add(item.Quantity.ToString("N2"));
-                lvi.SubItems.Add(item.ProducedOrders.Sum(x => x.ProducedOrderQuantity).ToString("N2"));
+                lvi.SubItems.Add(item.ProducedOrders.Sum(x => x.ProducedOrderQuantity).ToString("N3"));
                 lvi.SubItems.Add((item.Quantity - item.ProducedOrders.Sum(x => x.ProducedOrderQuantity)).ToString("N2"));
                 lvi.SubItems.Add(item.Cost.ToString("N2"));
                 lvi.SubItems.Add(item.Price.ToString("N2"));
@@ -105,7 +106,8 @@ namespace EnezcamERP.Forms.Order_Forms
             txtTotalPrice.Text = order.Price.ToString("N2");
             txtProfit.Text = order.Profit.ToString("N2");
             txtProfitRatio.Text = order.ProfitRatio.ToString("P2");
-            txtTotalQuantity.Text = order.ProductQuantity.ToString("N2");
+            txtTotalQuantity.Text = string.Join(", ", order.ProductQuantity.Select(x => $"{x.Value.ToString("N3")} {x.Key}").ToArray());
+            txtPriceWithTax.Text = order.PriceWithTax.ToString("N2");
         }
 
         CustomerRepository customerDB = new();
@@ -127,6 +129,7 @@ namespace EnezcamERP.Forms.Order_Forms
                     UnitPrice = nudPrice.Value,
                     Quantity = nudQuantity.Value,
                     UnitCode = (UnitCode)Enum.Parse(typeof(UnitCode), cbUnitCode.Text),
+                    TaxRatio = nudTaxRatio.Value
                 };
 
                 (lbProducts.SelectedItem as Product).PriceHistory.LastCost = nudCost.Value;

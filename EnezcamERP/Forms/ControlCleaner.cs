@@ -15,16 +15,8 @@
                 else if (control is MaskedTextBox)
                     ((MaskedTextBox)control).Clear();
 
-                //else if (control is ComboBox)
-                //    (control as ComboBox).SelectedIndex = 0;
-
-                //else if (control is CheckBox)
-                //    (control as CheckBox).Checked = false;
-
                 if (control.Controls.Count > 0)
-                {
                     Clear(control.Controls);
-                }
             }
 
             for (int i = 0; i < controls.Count; i++)
