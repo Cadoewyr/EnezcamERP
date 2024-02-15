@@ -56,6 +56,7 @@
             lblRemainingQuantity = new Label();
             lnlProductName = new Label();
             lblQuantity = new Label();
+            clmRemaningQuantity = new ColumnHeader();
             gbOrderDetail.SuspendLayout();
             gbProducedOrders.SuspendLayout();
             gbAddDeleteProducedOrders.SuspendLayout();
@@ -250,7 +251,7 @@
             // 
             // lvProduceHistory
             // 
-            lvProduceHistory.Columns.AddRange(new ColumnHeader[] { clmDate, clmProducedQuantity });
+            lvProduceHistory.Columns.AddRange(new ColumnHeader[] { clmDate, clmProducedQuantity, clmRemaningQuantity });
             lvProduceHistory.FullRowSelect = true;
             lvProduceHistory.GridLines = true;
             lvProduceHistory.Location = new Point(6, 29);
@@ -294,6 +295,10 @@
             lblQuantity.Size = new Size(51, 20);
             lblQuantity.TabIndex = 0;
             lblQuantity.Text = "Miktar";
+            // 
+            // clmRemaningQuantity
+            // 
+            clmRemaningQuantity.Text = "Kalan Üretim";
             // 
             // EditProducedOrders
             // 
@@ -347,5 +352,6 @@
         private ColumnHeader clmQuantity;
         private ColumnHeader clmProducedQuantity0;
         private ColumnHeader clmRemainingQuantity0;
+        private ColumnHeader clmRemaningQuantity;
     }
 }

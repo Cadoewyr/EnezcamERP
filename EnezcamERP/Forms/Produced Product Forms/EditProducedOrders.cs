@@ -89,6 +89,7 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 };
 
                 lvi.SubItems.Add(item.ProducedOrderQuantity.ToString("N3"));
+                lvi.SubItems.Add(item.OrderDetail.RemainingToProduceQuantity.ToString("N3"));
 
                 listView.Items.Add(lvi);
             }
