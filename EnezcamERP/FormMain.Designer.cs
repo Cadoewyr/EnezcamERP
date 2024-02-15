@@ -49,6 +49,7 @@
             clmPriceWithTax = new ColumnHeader();
             clmProfit = new ColumnHeader();
             clmProfitRatio = new ColumnHeader();
+            clmIsDone = new ColumnHeader();
             tabControlMain = new TabControl();
             tabStock = new TabPage();
             gbProducts = new GroupBox();
@@ -82,7 +83,6 @@
             clmContactName = new ColumnHeader();
             clmContactPhone = new ColumnHeader();
             clmAddress = new ColumnHeader();
-            clmIsDone = new ColumnHeader();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             tabControlMain.SuspendLayout();
@@ -125,6 +125,8 @@
             // cbIsDone
             // 
             cbIsDone.AutoSize = true;
+            cbIsDone.Checked = true;
+            cbIsDone.CheckState = CheckState.Checked;
             cbIsDone.Location = new Point(634, 27);
             cbIsDone.Name = "cbIsDone";
             cbIsDone.Size = new Size(237, 24);
@@ -255,6 +257,10 @@
             // clmProfitRatio
             // 
             clmProfitRatio.Text = "Kar Oranı";
+            // 
+            // clmIsDone
+            // 
+            clmIsDone.Text = "Durum";
             // 
             // tabControlMain
             // 
@@ -525,10 +531,6 @@
             // clmAddress
             // 
             clmAddress.Text = "Adres";
-            // 
-            // clmIsDone
-            // 
-            clmIsDone.Text = "Durum";
             // 
             // FormMain
             // 
