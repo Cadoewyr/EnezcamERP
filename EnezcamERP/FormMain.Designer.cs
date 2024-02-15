@@ -82,6 +82,7 @@
             clmContactName = new ColumnHeader();
             clmContactPhone = new ColumnHeader();
             clmAddress = new ColumnHeader();
+            clmIsDone = new ColumnHeader();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             tabControlMain.SuspendLayout();
@@ -96,7 +97,7 @@
             tabOrders.Controls.Add(gbOrders);
             tabOrders.Location = new Point(4, 29);
             tabOrders.Name = "tabOrders";
-            tabOrders.Padding = new Padding(3, 3, 3, 3);
+            tabOrders.Padding = new Padding(3);
             tabOrders.Size = new Size(1203, 530);
             tabOrders.TabIndex = 0;
             tabOrders.Text = "Siparişler";
@@ -203,7 +204,7 @@
             // lvOrders
             // 
             lvOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lvOrders.Columns.AddRange(new ColumnHeader[] { clmJobNo, clmCustomer, clmIssueDate, clmQuantity, clmProducedQuantity, clmCost, clmPrice, clmPriceWithTax, clmProfit, clmProfitRatio });
+            lvOrders.Columns.AddRange(new ColumnHeader[] { clmJobNo, clmCustomer, clmIssueDate, clmQuantity, clmProducedQuantity, clmCost, clmPrice, clmPriceWithTax, clmProfit, clmProfitRatio, clmIsDone });
             lvOrders.FullRowSelect = true;
             lvOrders.GridLines = true;
             lvOrders.Location = new Point(6, 59);
@@ -272,7 +273,7 @@
             tabStock.Controls.Add(gbProducts);
             tabStock.Location = new Point(4, 29);
             tabStock.Name = "tabStock";
-            tabStock.Padding = new Padding(3, 3, 3, 3);
+            tabStock.Padding = new Padding(3);
             tabStock.Size = new Size(1203, 530);
             tabStock.TabIndex = 1;
             tabStock.Text = "Stok Kartı";
@@ -401,7 +402,7 @@
             tabCustomer.Controls.Add(gbCustomers);
             tabCustomer.Location = new Point(4, 29);
             tabCustomer.Name = "tabCustomer";
-            tabCustomer.Padding = new Padding(3, 3, 3, 3);
+            tabCustomer.Padding = new Padding(3);
             tabCustomer.Size = new Size(1203, 530);
             tabCustomer.TabIndex = 2;
             tabCustomer.Text = "Cari Kartı";
@@ -525,6 +526,10 @@
             // 
             clmAddress.Text = "Adres";
             // 
+            // clmIsDone
+            // 
+            clmIsDone.Text = "Durum";
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -607,5 +612,6 @@
         private CheckBox cbIsDone;
         private ColumnHeader clmAddress;
         private ColumnHeader clmPriceWithTax;
+        private ColumnHeader clmIsDone;
     }
 }

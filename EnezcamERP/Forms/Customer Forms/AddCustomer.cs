@@ -19,13 +19,13 @@ namespace EnezcamERP.Forms.Customer_Forms
         {
             Customer customer = new()
             {
-                Name = txtCustomerName.Text,
-                Country = txtCountry.Text,
-                City = txtCity.Text,
-                Address = txtAddress.Text,
-                Description = txtDescription.Text,
-                ContactName = txtContactName.Text,
-                ContactPhone = txtContactPhone.Text
+                Name = txtCustomerName.Text.Trim(),
+                Country = txtCountry.Text.Trim(),
+                City = txtCity.Text.Trim(),
+                Address = txtAddress.Text.Trim(),
+                Description = txtDescription.Text.Trim(),
+                ContactName = txtContactName.Text.Trim(),
+                ContactPhone = txtContactPhone.Text.Trim()
             };
 
             var res = new CustomerValidator().Validate(customer);

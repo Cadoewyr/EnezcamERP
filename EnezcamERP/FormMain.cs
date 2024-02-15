@@ -43,6 +43,7 @@ namespace EnezcamERP
                 lvi.SubItems.Add(item.OrderDetails.Sum(x => x.PriceWithTax).ToString("N2"));
                 lvi.SubItems.Add(item.Profit.ToString("N2"));
                 lvi.SubItems.Add(item.ProfitRatio.ToString("P2"));
+                lvi.SubItems.Add(item.IsDone ? "Tamamlandý" : "Üretimde");
 
                 listView.Items.Add(lvi);
             }

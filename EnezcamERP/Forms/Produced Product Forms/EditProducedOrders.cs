@@ -12,6 +12,7 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
             InitializeComponent();
             this.order = order;
             this.parentForm = parentForm;
+            gbOrderDetail.Text += $" ({order.JobNo} - {order.Customer.Name})";
             RefreshOrderDetails();
         }
 
@@ -161,7 +162,7 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 RefreshAll();
             }
         }
-        
+
         private void lvOrderDetails_SelectedIndexChanged(object sender, EventArgs e)
         {
             if ((sender as ListView).SelectedItems.Count > 0)
@@ -169,6 +170,11 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 RefreshProduceHistory(((sender as ListView).SelectedItems[0].Tag as OrderDetail).ProducedOrders);
                 RefreshOrderDetailTotals((sender as ListView).SelectedItems[0].Tag as OrderDetail);
             }
+        }
+
+        private void gbOrderDetail_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

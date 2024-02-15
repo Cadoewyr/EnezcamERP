@@ -68,10 +68,11 @@
             gbOrderDetail.Controls.Add(gbProducedOrders);
             gbOrderDetail.Location = new Point(12, 12);
             gbOrderDetail.Name = "gbOrderDetail";
-            gbOrderDetail.Size = new Size(662, 492);
+            gbOrderDetail.Size = new Size(1004, 660);
             gbOrderDetail.TabIndex = 0;
             gbOrderDetail.TabStop = false;
             gbOrderDetail.Text = "Sipariş Detayı";
+            gbOrderDetail.Enter += gbOrderDetail_Enter;
             // 
             // lvOrderDetails
             // 
@@ -80,7 +81,7 @@
             lvOrderDetails.GridLines = true;
             lvOrderDetails.Location = new Point(6, 26);
             lvOrderDetails.Name = "lvOrderDetails";
-            lvOrderDetails.Size = new Size(650, 98);
+            lvOrderDetails.Size = new Size(992, 266);
             lvOrderDetails.TabIndex = 4;
             lvOrderDetails.UseCompatibleStateImageBehavior = false;
             lvOrderDetails.View = View.Details;
@@ -126,9 +127,9 @@
             gbProducedOrders.Controls.Add(lblRemainingQuantity);
             gbProducedOrders.Controls.Add(lnlProductName);
             gbProducedOrders.Controls.Add(lblQuantity);
-            gbProducedOrders.Location = new Point(6, 130);
+            gbProducedOrders.Location = new Point(6, 298);
             gbProducedOrders.Name = "gbProducedOrders";
-            gbProducedOrders.Size = new Size(650, 356);
+            gbProducedOrders.Size = new Size(992, 356);
             gbProducedOrders.TabIndex = 3;
             gbProducedOrders.TabStop = false;
             gbProducedOrders.Text = "Üretim Geçmişi";
@@ -141,9 +142,9 @@
             gbAddDeleteProducedOrders.Controls.Add(lblDate);
             gbAddDeleteProducedOrders.Controls.Add(btnDeleteProducedOrder);
             gbAddDeleteProducedOrders.Controls.Add(nudProducedQuantity);
-            gbAddDeleteProducedOrders.Location = new Point(308, 182);
+            gbAddDeleteProducedOrders.Location = new Point(644, 182);
             gbAddDeleteProducedOrders.Name = "gbAddDeleteProducedOrders";
-            gbAddDeleteProducedOrders.Size = new Size(336, 165);
+            gbAddDeleteProducedOrders.Size = new Size(342, 165);
             gbAddDeleteProducedOrders.TabIndex = 8;
             gbAddDeleteProducedOrders.TabStop = false;
             gbAddDeleteProducedOrders.Text = "Ekle / Sil";
@@ -204,7 +205,7 @@
             // 
             // txtRemainigQuantity
             // 
-            txtRemainigQuantity.Location = new Point(421, 125);
+            txtRemainigQuantity.Location = new Point(757, 125);
             txtRemainigQuantity.MaxLength = 200;
             txtRemainigQuantity.Name = "txtRemainigQuantity";
             txtRemainigQuantity.ReadOnly = true;
@@ -213,7 +214,7 @@
             // 
             // txtProducedQuantity
             // 
-            txtProducedQuantity.Location = new Point(421, 92);
+            txtProducedQuantity.Location = new Point(757, 92);
             txtProducedQuantity.MaxLength = 200;
             txtProducedQuantity.Name = "txtProducedQuantity";
             txtProducedQuantity.ReadOnly = true;
@@ -222,7 +223,7 @@
             // 
             // txtQuantity
             // 
-            txtQuantity.Location = new Point(421, 59);
+            txtQuantity.Location = new Point(757, 59);
             txtQuantity.MaxLength = 200;
             txtQuantity.Name = "txtQuantity";
             txtQuantity.ReadOnly = true;
@@ -231,7 +232,7 @@
             // 
             // txtProductName
             // 
-            txtProductName.Location = new Point(421, 26);
+            txtProductName.Location = new Point(757, 26);
             txtProductName.MaxLength = 200;
             txtProductName.Name = "txtProductName";
             txtProductName.ReadOnly = true;
@@ -241,7 +242,7 @@
             // lblProducedQuantity
             // 
             lblProducedQuantity.AutoSize = true;
-            lblProducedQuantity.Location = new Point(308, 95);
+            lblProducedQuantity.Location = new Point(644, 95);
             lblProducedQuantity.Name = "lblProducedQuantity";
             lblProducedQuantity.Size = new Size(107, 20);
             lblProducedQuantity.TabIndex = 0;
@@ -254,7 +255,7 @@
             lvProduceHistory.GridLines = true;
             lvProduceHistory.Location = new Point(6, 29);
             lvProduceHistory.Name = "lvProduceHistory";
-            lvProduceHistory.Size = new Size(296, 318);
+            lvProduceHistory.Size = new Size(632, 318);
             lvProduceHistory.TabIndex = 2;
             lvProduceHistory.UseCompatibleStateImageBehavior = false;
             lvProduceHistory.View = View.Details;
@@ -270,7 +271,7 @@
             // lblRemainingQuantity
             // 
             lblRemainingQuantity.AutoSize = true;
-            lblRemainingQuantity.Location = new Point(308, 128);
+            lblRemainingQuantity.Location = new Point(644, 128);
             lblRemainingQuantity.Name = "lblRemainingQuantity";
             lblRemainingQuantity.Size = new Size(92, 20);
             lblRemainingQuantity.TabIndex = 0;
@@ -279,7 +280,7 @@
             // lnlProductName
             // 
             lnlProductName.AutoSize = true;
-            lnlProductName.Location = new Point(308, 29);
+            lnlProductName.Location = new Point(644, 29);
             lnlProductName.Name = "lnlProductName";
             lnlProductName.Size = new Size(40, 20);
             lnlProductName.TabIndex = 0;
@@ -288,7 +289,7 @@
             // lblQuantity
             // 
             lblQuantity.AutoSize = true;
-            lblQuantity.Location = new Point(308, 62);
+            lblQuantity.Location = new Point(644, 62);
             lblQuantity.Name = "lblQuantity";
             lblQuantity.Size = new Size(51, 20);
             lblQuantity.TabIndex = 0;
@@ -298,7 +299,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(686, 516);
+            ClientSize = new Size(1028, 684);
             Controls.Add(gbOrderDetail);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;

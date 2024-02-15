@@ -32,7 +32,7 @@ namespace EnezcamERP.Forms.Product_Forms
         {
             Product p = new()
             {
-                Name = txtProductName.Text,
+                Name = txtProductName.Text.Trim(),
                 Type = (ProcessType)Enum.Parse(typeof(ProcessType), cbProcessTypes.SelectedItem.ToString()),
                 IsCounting = cbIsCounting.Checked
             };

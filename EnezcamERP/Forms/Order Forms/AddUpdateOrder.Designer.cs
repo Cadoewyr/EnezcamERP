@@ -74,8 +74,8 @@
             clmUnitCost = new ColumnHeader();
             clmUnitPrice = new ColumnHeader();
             clmTaxRatio = new ColumnHeader();
-            clmProductUnitCode = new ColumnHeader();
             clmQuantity = new ColumnHeader();
+            clmProductUnitCode = new ColumnHeader();
             clmProducedQuantity = new ColumnHeader();
             clmRemainingQuantity = new ColumnHeader();
             clmTotalCost = new ColumnHeader();
@@ -393,7 +393,7 @@
             nudTaxRatio.Location = new Point(307, 174);
             nudTaxRatio.Name = "nudTaxRatio";
             nudTaxRatio.Size = new Size(151, 27);
-            nudTaxRatio.TabIndex = 8;
+            nudTaxRatio.TabIndex = 9;
             nudTaxRatio.ThousandsSeparator = true;
             // 
             // lblTaxRatio
@@ -401,13 +401,13 @@
             lblTaxRatio.AutoSize = true;
             lblTaxRatio.Location = new Point(307, 151);
             lblTaxRatio.Name = "lblTaxRatio";
-            lblTaxRatio.Size = new Size(51, 20);
+            lblTaxRatio.Size = new Size(83, 20);
             lblTaxRatio.TabIndex = 9;
-            lblTaxRatio.Text = "Miktar";
+            lblTaxRatio.Text = "Vergi Oranı";
             // 
             // nudQuantity
             // 
-            nudQuantity.DecimalPlaces = 2;
+            nudQuantity.DecimalPlaces = 3;
             nudQuantity.Location = new Point(307, 115);
             nudQuantity.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nudQuantity.Name = "nudQuantity";
@@ -469,6 +469,7 @@
             cbUnitCode.Name = "cbUnitCode";
             cbUnitCode.Size = new Size(151, 28);
             cbUnitCode.TabIndex = 7;
+            cbUnitCode.SelectedIndexChanged += cbUnitCode_SelectedIndexChanged;
             // 
             // lblUnitCode
             // 
@@ -536,13 +537,13 @@
             // 
             clmTaxRatio.Text = "Vergi Oranı";
             // 
-            // clmProductUnitCode
-            // 
-            clmProductUnitCode.Text = "Birim Kodu";
-            // 
             // clmQuantity
             // 
             clmQuantity.Text = "Miktar";
+            // 
+            // clmProductUnitCode
+            // 
+            clmProductUnitCode.Text = "Birim Kodu";
             // 
             // clmProducedQuantity
             // 

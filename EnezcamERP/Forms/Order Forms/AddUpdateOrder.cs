@@ -63,7 +63,7 @@ namespace EnezcamERP.Forms.Order_Forms
 
                 lvi.SubItems.Add(item.UnitCost.ToString("N2"));
                 lvi.SubItems.Add(item.UnitPrice.ToString("N2"));
-                lvi.SubItems.Add(item.TaxRatio.ToString());
+                lvi.SubItems.Add(item.TaxRatio.ToString("P2"));
                 lvi.SubItems.Add(item.Quantity.ToString("N3"));
                 lvi.SubItems.Add(item.UnitCode.ToString());
                 lvi.SubItems.Add(item.ProducedOrders.Sum(x => x.ProducedOrderQuantity).ToString("N3"));
@@ -223,6 +223,14 @@ namespace EnezcamERP.Forms.Order_Forms
         private void btnCancelOrder_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void cbUnitCode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if ((UnitCode)Enum.Parse<UnitCode>((sender as ComboBox).Text) == UnitCode.AD)
+                nudQuantity.DecimalPlaces = 0;
+            else
+                nudQuantity.DecimalPlaces = 3;
         }
     }
 }
