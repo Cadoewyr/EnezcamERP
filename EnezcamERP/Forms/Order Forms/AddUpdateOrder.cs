@@ -22,7 +22,14 @@ namespace EnezcamERP.Forms.Order_Forms
                 IsUpdate = false;
         }
 
-        void RefreshCustomers()
+        public void InitializeForm()
+        {
+            RefreshCustomers();
+            RefreshProducts(null);
+            RefreshUnitCode();
+        }
+
+        public void RefreshCustomers()
         {
             cbCustomers.Items.Clear();
 
@@ -30,18 +37,31 @@ namespace EnezcamERP.Forms.Order_Forms
 
             cbCustomers.DisplayMember = "Name";
         }
-        void RefreshProducts(Product[]? products)
+        public void RefreshProducts(Product[]? products)
         {
-            lbProducts.Items.Clear();
+            lvProducts.Items.Clear();
 
-            if (products != null)
-                lbProducts.Items.AddRange(products);
-            else
-                lbProducts.Items.AddRange(productDB.GetAll().ToArray());
+            products ??= productDB.GetAll().ToArray();
 
-            lbProducts.DisplayMember = "Name";
+            foreach (var product in products)
+            {
+                ListViewItem lvi = new()
+                {
+                    Text = product.Name,
+                    Tag = product
+                };
+
+                lvi.SubItems.Add(product.Type.ToString());
+                lvi.SubItems.Add(product.PriceHistory.LastCost.ToString("C2"));
+                lvi.SubItems.Add(product.PriceHistory.LastPrice.ToString("C2"));
+                lvi.SubItems.Add(product.IsCounting ? "Dahil" : "Dahil Değil");
+
+                lvProducts.Items.Add(lvi);
+            }
+
+            lvProducts.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
-        void RefreshUnitCode()
+        public void RefreshUnitCode()
         {
             cbUnitCode.Items.Clear();
 
@@ -49,7 +69,7 @@ namespace EnezcamERP.Forms.Order_Forms
 
             cbUnitCode.SelectedIndex = 0;
         }
-        void RefreshOrderDetails(ColumnHeaderAutoResizeStyle columnHeaderAutoResizeStyle)
+        public void RefreshOrderDetails(ColumnHeaderAutoResizeStyle columnHeaderAutoResizeStyle)
         {
             lvOrderDetails.Items.Clear();
 
@@ -61,16 +81,16 @@ namespace EnezcamERP.Forms.Order_Forms
                     Text = item.Product.Name
                 };
 
-                lvi.SubItems.Add(item.UnitCost.ToString("N2"));
-                lvi.SubItems.Add(item.UnitPrice.ToString("N2"));
+                lvi.SubItems.Add(item.UnitCost.ToString("C2"));
+                lvi.SubItems.Add(item.UnitPrice.ToString("C2"));
                 lvi.SubItems.Add(item.TaxRatio.ToString("P2"));
-                lvi.SubItems.Add(item.Quantity.ToString("N3"));
+                lvi.SubItems.Add(item.Quantity.ToString("C2"));
                 lvi.SubItems.Add(item.UnitCode.ToString());
                 lvi.SubItems.Add(item.ProducedOrders.Sum(x => x.ProducedOrderQuantity).ToString("N3"));
-                lvi.SubItems.Add((item.Quantity - item.ProducedOrders.Sum(x => x.ProducedOrderQuantity)).ToString("N2"));
-                lvi.SubItems.Add(item.Cost.ToString("N2"));
-                lvi.SubItems.Add(item.Price.ToString("N2"));
-                lvi.SubItems.Add(item.Profit.ToString("N2"));
+                lvi.SubItems.Add((item.Quantity - item.ProducedOrders.Sum(x => x.ProducedOrderQuantity)).ToString("N3"));
+                lvi.SubItems.Add(item.Cost.ToString("C2"));
+                lvi.SubItems.Add(item.Price.ToString("C2"));
+                lvi.SubItems.Add(item.Profit.ToString("C2"));
                 lvi.SubItems.Add(item.ProfitRatio.ToString("P2"));
 
                 lvOrderDetails.Items.Add(lvi);
@@ -78,7 +98,7 @@ namespace EnezcamERP.Forms.Order_Forms
 
             lvOrderDetails.AutoResizeColumns(columnHeaderAutoResizeStyle);
         }
-        void LoadOrder(Order order)
+        public void LoadOrder(Order order)
         {
             this.Text = "Sipariş Güncelle";
             btnSaveOrder.Text = "Güncelle";
@@ -92,19 +112,11 @@ namespace EnezcamERP.Forms.Order_Forms
 
             RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
-
-        void InitializeForm()
+        public void UpdateOrderTotals(Order order)
         {
-            RefreshCustomers();
-            RefreshProducts(null);
-            RefreshUnitCode();
-        }
-
-        void UpdateOrderTotals(Order order)
-        {
-            txtTotalCost.Text = order.Cost.ToString("N2");
-            txtTotalPrice.Text = order.Price.ToString("N2");
-            txtProfit.Text = order.Profit.ToString("N2");
+            txtTotalCost.Text = order.Cost.ToString("C2");
+            txtTotalPrice.Text = order.Price.ToString("C2");
+            txtProfit.Text = order.Profit.ToString("C2");
             txtProfitRatio.Text = order.ProfitRatio.ToString("P2");
             txtTotalQuantity.Text = string.Join(", ", order.ProductQuantity.Select(x => $"{x.Value.ToString(x.Key == UnitCode.M2 ? "N3" : "N0")} {x.Key}").ToArray());
             txtPriceWithTax.Text = order.PriceWithTax.ToString("N2");
@@ -119,12 +131,12 @@ namespace EnezcamERP.Forms.Order_Forms
 
         private void btnAddOrderDetail_Click(object sender, EventArgs e)
         {
-            if (lbProducts.SelectedItems.Count > 0)
+            if (lvProducts.SelectedItems.Count > 0)
             {
                 OrderDetail od = new()
                 {
                     Order = order,
-                    Product = lbProducts.SelectedItem as Product,
+                    Product = lvProducts.SelectedItems[0].Tag as Product,
                     UnitCost = nudCost.Value,
                     UnitPrice = nudPrice.Value,
                     Quantity = nudQuantity.Value,
@@ -132,8 +144,8 @@ namespace EnezcamERP.Forms.Order_Forms
                     TaxRatio = nudTaxRatio.Value
                 };
 
-                (lbProducts.SelectedItem as Product).PriceHistory.LastCost = nudCost.Value;
-                (lbProducts.SelectedItem as Product).PriceHistory.LastPrice = nudPrice.Value;
+                (lvProducts.SelectedItems[0].Tag as Product).PriceHistory.LastCost = nudCost.Value;
+                (lvProducts.SelectedItems[0].Tag as Product).PriceHistory.LastPrice = nudPrice.Value;
 
                 OrderDetailValidator odv = new();
                 var res = odv.Validate(od);
@@ -194,22 +206,6 @@ namespace EnezcamERP.Forms.Order_Forms
             RefreshProducts(productDB.GetAll((sender as TextBox).Text.ToLower().Trim() ?? null).ToArray());
         }
 
-        private void lbProducts_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ListBox lb = sender as ListBox;
-
-            if (lb.SelectedItems.Count > 0)
-            {
-                Product p = lb.SelectedItems[0] as Product;
-
-                if (p != null)
-                {
-                    nudCost.Value = p.PriceHistory.LastCost;
-                    nudPrice.Value = p.PriceHistory.LastPrice;
-                }
-            }
-        }
-
         private void btnDeleteOrderDetail_Click(object sender, EventArgs e)
         {
             if (lvOrderDetails.SelectedItems.Count > 0)
@@ -231,6 +227,35 @@ namespace EnezcamERP.Forms.Order_Forms
                 nudQuantity.DecimalPlaces = 0;
             else
                 nudQuantity.DecimalPlaces = 3;
+        }
+
+        private void lvProducts_Click(object sender, EventArgs e)
+        {
+            ListView lv = sender as ListView;
+
+            if (lv.SelectedItems.Count > 0)
+            {
+                Product p = lv.SelectedItems[0].Tag as Product;
+
+                if (p != null)
+                {
+                    nudCost.Value = p.PriceHistory.LastCost;
+                    nudPrice.Value = p.PriceHistory.LastPrice;
+                }
+            }
+        }
+
+        private void lvOrderDetails_DoubleClick(object sender, EventArgs e)
+        {
+            if((sender as ListView).SelectedItems.Count > 0)
+            {
+                EditOrderDetail form = new(this, (sender as ListView).SelectedItems[0].Tag as OrderDetail);
+                form.ShowDialog();
+
+                RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
+                ControlCleaner.Clear(gbAddProductDetail.Controls);
+                UpdateOrderTotals(order);
+            }
         }
     }
 }

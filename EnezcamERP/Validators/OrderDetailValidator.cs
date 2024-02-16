@@ -28,6 +28,9 @@ namespace EnezcamERP.Validators
             RuleFor(x => x.TaxRatio)
                 .GreaterThanOrEqualTo(0).WithMessage("Vergi oranı 0 veya daha büyük olmalı.")
                 .LessThanOrEqualTo(100).WithMessage("Vergi oranı 100 veya daha küçük olmalı.");
+
+            RuleFor(x => x.ProducedQuantity)
+                .LessThanOrEqualTo(x => x.Quantity).WithMessage("Sipariş miktarı üretilen miktardan daha küçük olamaz.");
         }
     }
 }

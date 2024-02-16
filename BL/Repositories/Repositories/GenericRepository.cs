@@ -72,7 +72,7 @@ namespace BL.Repositories.Repositories
 
             var entityType = typeof(T);
 
-            foreach (var prop in entityType.GetProperties())
+            foreach (var prop in entityType.GetProperties().Where(x => x.SetMethod != null))
             {
                 if (prop.Name != "ID")
                     prop.SetValue(oldEntity, prop.GetValue(entity));
