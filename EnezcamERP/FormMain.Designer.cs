@@ -30,6 +30,9 @@
         {
             tabOrders = new TabPage();
             gbOrders = new GroupBox();
+            cbDateFilter = new CheckBox();
+            lblDateFilter = new Label();
+            mcDateFilter = new MonthCalendar();
             cbIsDone = new CheckBox();
             btnEditProducedOrders = new Button();
             lblSearchOrder = new Label();
@@ -83,6 +86,20 @@
             clmContactName = new ColumnHeader();
             clmContactPhone = new ColumnHeader();
             clmAddress = new ColumnHeader();
+            tabProductionReport = new TabPage();
+            gbProductionReportDetails = new GroupBox();
+            gbReportType = new GroupBox();
+            dtpDate = new DateTimePicker();
+            btnCreateProductionReport = new Button();
+            gbReportInterval = new GroupBox();
+            rbDaily = new RadioButton();
+            rbYearly = new RadioButton();
+            rbWeekly = new RadioButton();
+            rbMonthly = new RadioButton();
+            gbProductionReport = new GroupBox();
+            dgReport = new DataGridView();
+            rbSales = new RadioButton();
+            rbProduction = new RadioButton();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             tabControlMain.SuspendLayout();
@@ -90,6 +107,12 @@
             gbProducts.SuspendLayout();
             tabCustomer.SuspendLayout();
             gbCustomers.SuspendLayout();
+            tabProductionReport.SuspendLayout();
+            gbProductionReportDetails.SuspendLayout();
+            gbReportType.SuspendLayout();
+            gbReportInterval.SuspendLayout();
+            gbProductionReport.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgReport).BeginInit();
             SuspendLayout();
             // 
             // tabOrders
@@ -98,7 +121,7 @@
             tabOrders.Location = new Point(4, 29);
             tabOrders.Name = "tabOrders";
             tabOrders.Padding = new Padding(3);
-            tabOrders.Size = new Size(1203, 530);
+            tabOrders.Size = new Size(1414, 530);
             tabOrders.TabIndex = 0;
             tabOrders.Text = "Siparişler";
             tabOrders.UseVisualStyleBackColor = true;
@@ -106,6 +129,9 @@
             // gbOrders
             // 
             gbOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbOrders.Controls.Add(cbDateFilter);
+            gbOrders.Controls.Add(lblDateFilter);
+            gbOrders.Controls.Add(mcDateFilter);
             gbOrders.Controls.Add(cbIsDone);
             gbOrders.Controls.Add(btnEditProducedOrders);
             gbOrders.Controls.Add(lblSearchOrder);
@@ -117,20 +143,51 @@
             gbOrders.Controls.Add(lvOrders);
             gbOrders.Location = new Point(6, 5);
             gbOrders.Name = "gbOrders";
-            gbOrders.Size = new Size(1191, 515);
+            gbOrders.Size = new Size(1400, 515);
             gbOrders.TabIndex = 0;
             gbOrders.TabStop = false;
             gbOrders.Text = "Siparişler";
+            // 
+            // cbDateFilter
+            // 
+            cbDateFilter.AutoSize = true;
+            cbDateFilter.Location = new Point(1126, 307);
+            cbDateFilter.Name = "cbDateFilter";
+            cbDateFilter.Size = new Size(173, 24);
+            cbDateFilter.TabIndex = 8;
+            cbDateFilter.Text = "Tarih Filtresini Aktif Et";
+            cbDateFilter.UseVisualStyleBackColor = true;
+            cbDateFilter.CheckedChanged += cbDateFilter_CheckedChanged;
+            // 
+            // lblDateFilter
+            // 
+            lblDateFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblDateFilter.AutoSize = true;
+            lblDateFilter.Location = new Point(1126, 59);
+            lblDateFilter.Name = "lblDateFilter";
+            lblDateFilter.Size = new Size(88, 20);
+            lblDateFilter.TabIndex = 14;
+            lblDateFilter.Text = "Tarih Aralığı";
+            // 
+            // mcDateFilter
+            // 
+            mcDateFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            mcDateFilter.Location = new Point(1126, 88);
+            mcDateFilter.MaxSelectionCount = 42;
+            mcDateFilter.MinDate = new DateTime(2020, 1, 1, 0, 0, 0, 0);
+            mcDateFilter.Name = "mcDateFilter";
+            mcDateFilter.TabIndex = 7;
+            mcDateFilter.DateSelected += mcDateFilter_DateSelected;
             // 
             // cbIsDone
             // 
             cbIsDone.AutoSize = true;
             cbIsDone.Checked = true;
             cbIsDone.CheckState = CheckState.Checked;
-            cbIsDone.Location = new Point(634, 27);
+            cbIsDone.Location = new Point(554, 27);
             cbIsDone.Name = "cbIsDone";
             cbIsDone.Size = new Size(237, 24);
-            cbIsDone.TabIndex = 12;
+            cbIsDone.TabIndex = 5;
             cbIsDone.Text = "Tamamlanmış Siparişleri Listele";
             cbIsDone.UseVisualStyleBackColor = true;
             cbIsDone.CheckedChanged += cbIsDone_CheckedChanged;
@@ -140,7 +197,7 @@
             btnEditProducedOrders.Location = new Point(406, 24);
             btnEditProducedOrders.Name = "btnEditProducedOrders";
             btnEditProducedOrders.Size = new Size(142, 29);
-            btnEditProducedOrders.TabIndex = 11;
+            btnEditProducedOrders.TabIndex = 4;
             btnEditProducedOrders.Text = "Üretim Geçmişi";
             btnEditProducedOrders.UseVisualStyleBackColor = true;
             btnEditProducedOrders.Click += btnEditProducedOrders_Click;
@@ -149,7 +206,7 @@
             // 
             lblSearchOrder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblSearchOrder.AutoSize = true;
-            lblSearchOrder.Location = new Point(949, 29);
+            lblSearchOrder.Location = new Point(855, 28);
             lblSearchOrder.Name = "lblSearchOrder";
             lblSearchOrder.Size = new Size(32, 20);
             lblSearchOrder.TabIndex = 10;
@@ -158,17 +215,17 @@
             // txtSearchOrder
             // 
             txtSearchOrder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtSearchOrder.Location = new Point(986, 27);
+            txtSearchOrder.Location = new Point(893, 26);
             txtSearchOrder.Name = "txtSearchOrder";
             txtSearchOrder.Size = new Size(198, 27);
-            txtSearchOrder.TabIndex = 9;
+            txtSearchOrder.TabIndex = 6;
             // 
             // btnRefreshOrder
             // 
             btnRefreshOrder.Location = new Point(306, 24);
             btnRefreshOrder.Name = "btnRefreshOrder";
             btnRefreshOrder.Size = new Size(94, 29);
-            btnRefreshOrder.TabIndex = 5;
+            btnRefreshOrder.TabIndex = 3;
             btnRefreshOrder.Text = "Yenile";
             btnRefreshOrder.UseVisualStyleBackColor = true;
             btnRefreshOrder.Click += btnRefreshOrder_Click;
@@ -178,7 +235,7 @@
             btnDeleteOrder.Location = new Point(206, 24);
             btnDeleteOrder.Name = "btnDeleteOrder";
             btnDeleteOrder.Size = new Size(94, 29);
-            btnDeleteOrder.TabIndex = 3;
+            btnDeleteOrder.TabIndex = 2;
             btnDeleteOrder.Text = "Sil";
             btnDeleteOrder.UseVisualStyleBackColor = true;
             btnDeleteOrder.Click += btnDeleteOrder_Click;
@@ -188,7 +245,7 @@
             btnUpdateOrder.Location = new Point(106, 24);
             btnUpdateOrder.Name = "btnUpdateOrder";
             btnUpdateOrder.Size = new Size(94, 29);
-            btnUpdateOrder.TabIndex = 2;
+            btnUpdateOrder.TabIndex = 1;
             btnUpdateOrder.Text = "Güncelle";
             btnUpdateOrder.UseVisualStyleBackColor = true;
             btnUpdateOrder.Click += btnUpdateOrder_Click;
@@ -198,7 +255,7 @@
             btnAddOrder.Location = new Point(6, 24);
             btnAddOrder.Name = "btnAddOrder";
             btnAddOrder.Size = new Size(94, 29);
-            btnAddOrder.TabIndex = 1;
+            btnAddOrder.TabIndex = 0;
             btnAddOrder.Text = "Ekle";
             btnAddOrder.UseVisualStyleBackColor = true;
             btnAddOrder.Click += btnAddOrder_Click;
@@ -212,7 +269,7 @@
             lvOrders.Location = new Point(6, 59);
             lvOrders.MultiSelect = false;
             lvOrders.Name = "lvOrders";
-            lvOrders.Size = new Size(1179, 449);
+            lvOrders.Size = new Size(1108, 449);
             lvOrders.TabIndex = 4;
             lvOrders.UseCompatibleStateImageBehavior = false;
             lvOrders.View = View.Details;
@@ -267,11 +324,12 @@
             tabControlMain.Controls.Add(tabOrders);
             tabControlMain.Controls.Add(tabStock);
             tabControlMain.Controls.Add(tabCustomer);
+            tabControlMain.Controls.Add(tabProductionReport);
             tabControlMain.Dock = DockStyle.Fill;
             tabControlMain.Location = new Point(0, 0);
             tabControlMain.Name = "tabControlMain";
             tabControlMain.SelectedIndex = 0;
-            tabControlMain.Size = new Size(1211, 563);
+            tabControlMain.Size = new Size(1422, 563);
             tabControlMain.TabIndex = 0;
             // 
             // tabStock
@@ -280,7 +338,7 @@
             tabStock.Location = new Point(4, 29);
             tabStock.Name = "tabStock";
             tabStock.Padding = new Padding(3);
-            tabStock.Size = new Size(1203, 530);
+            tabStock.Size = new Size(1414, 530);
             tabStock.TabIndex = 1;
             tabStock.Text = "Stok Kartı";
             tabStock.UseVisualStyleBackColor = true;
@@ -409,7 +467,7 @@
             tabCustomer.Location = new Point(4, 29);
             tabCustomer.Name = "tabCustomer";
             tabCustomer.Padding = new Padding(3);
-            tabCustomer.Size = new Size(1203, 530);
+            tabCustomer.Size = new Size(1414, 530);
             tabCustomer.TabIndex = 2;
             tabCustomer.Text = "Cari Kartı";
             tabCustomer.UseVisualStyleBackColor = true;
@@ -532,11 +590,169 @@
             // 
             clmAddress.Text = "Adres";
             // 
+            // tabProductionReport
+            // 
+            tabProductionReport.Controls.Add(gbProductionReportDetails);
+            tabProductionReport.Controls.Add(gbProductionReport);
+            tabProductionReport.Location = new Point(4, 29);
+            tabProductionReport.Name = "tabProductionReport";
+            tabProductionReport.Padding = new Padding(3);
+            tabProductionReport.Size = new Size(1414, 530);
+            tabProductionReport.TabIndex = 3;
+            tabProductionReport.Text = "Üretim Raporu";
+            tabProductionReport.UseVisualStyleBackColor = true;
+            // 
+            // gbProductionReportDetails
+            // 
+            gbProductionReportDetails.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            gbProductionReportDetails.Controls.Add(gbReportType);
+            gbProductionReportDetails.Controls.Add(dtpDate);
+            gbProductionReportDetails.Controls.Add(btnCreateProductionReport);
+            gbProductionReportDetails.Controls.Add(gbReportInterval);
+            gbProductionReportDetails.Location = new Point(1170, 6);
+            gbProductionReportDetails.Name = "gbProductionReportDetails";
+            gbProductionReportDetails.Size = new Size(236, 516);
+            gbProductionReportDetails.TabIndex = 2;
+            gbProductionReportDetails.TabStop = false;
+            gbProductionReportDetails.Text = "Rapor Detayları";
+            // 
+            // gbReportType
+            // 
+            gbReportType.Controls.Add(rbSales);
+            gbReportType.Controls.Add(rbProduction);
+            gbReportType.Location = new Point(6, 184);
+            gbReportType.Name = "gbReportType";
+            gbReportType.Size = new Size(224, 92);
+            gbReportType.TabIndex = 5;
+            gbReportType.TabStop = false;
+            gbReportType.Text = "Rapor Türü";
+            // 
+            // dtpDate
+            // 
+            dtpDate.Location = new Point(6, 282);
+            dtpDate.Name = "dtpDate";
+            dtpDate.Size = new Size(224, 27);
+            dtpDate.TabIndex = 4;
+            // 
+            // btnCreateProductionReport
+            // 
+            btnCreateProductionReport.Location = new Point(6, 481);
+            btnCreateProductionReport.Name = "btnCreateProductionReport";
+            btnCreateProductionReport.Size = new Size(224, 29);
+            btnCreateProductionReport.TabIndex = 3;
+            btnCreateProductionReport.Text = "Oluştur";
+            btnCreateProductionReport.UseVisualStyleBackColor = true;
+            btnCreateProductionReport.Click += btnCreateProductionReport_Click;
+            // 
+            // gbReportInterval
+            // 
+            gbReportInterval.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            gbReportInterval.Controls.Add(rbDaily);
+            gbReportInterval.Controls.Add(rbYearly);
+            gbReportInterval.Controls.Add(rbWeekly);
+            gbReportInterval.Controls.Add(rbMonthly);
+            gbReportInterval.Location = new Point(6, 26);
+            gbReportInterval.Name = "gbReportInterval";
+            gbReportInterval.Size = new Size(224, 152);
+            gbReportInterval.TabIndex = 2;
+            gbReportInterval.TabStop = false;
+            gbReportInterval.Text = "Rapor Türü";
+            // 
+            // rbDaily
+            // 
+            rbDaily.AutoSize = true;
+            rbDaily.Checked = true;
+            rbDaily.Location = new Point(20, 26);
+            rbDaily.Name = "rbDaily";
+            rbDaily.Size = new Size(75, 24);
+            rbDaily.TabIndex = 1;
+            rbDaily.TabStop = true;
+            rbDaily.Text = "Günlük";
+            rbDaily.UseVisualStyleBackColor = true;
+            // 
+            // rbYearly
+            // 
+            rbYearly.AutoSize = true;
+            rbYearly.Location = new Point(20, 116);
+            rbYearly.Name = "rbYearly";
+            rbYearly.Size = new Size(61, 24);
+            rbYearly.TabIndex = 1;
+            rbYearly.Text = "Yıllık";
+            rbYearly.UseVisualStyleBackColor = true;
+            // 
+            // rbWeekly
+            // 
+            rbWeekly.AutoSize = true;
+            rbWeekly.Location = new Point(20, 56);
+            rbWeekly.Name = "rbWeekly";
+            rbWeekly.Size = new Size(82, 24);
+            rbWeekly.TabIndex = 1;
+            rbWeekly.Text = "Haftalık";
+            rbWeekly.UseVisualStyleBackColor = true;
+            // 
+            // rbMonthly
+            // 
+            rbMonthly.AutoSize = true;
+            rbMonthly.Location = new Point(20, 86);
+            rbMonthly.Name = "rbMonthly";
+            rbMonthly.Size = new Size(62, 24);
+            rbMonthly.TabIndex = 1;
+            rbMonthly.Text = "Aylık";
+            rbMonthly.UseVisualStyleBackColor = true;
+            // 
+            // gbProductionReport
+            // 
+            gbProductionReport.Controls.Add(dgReport);
+            gbProductionReport.Location = new Point(8, 6);
+            gbProductionReport.Name = "gbProductionReport";
+            gbProductionReport.Size = new Size(1156, 516);
+            gbProductionReport.TabIndex = 1;
+            gbProductionReport.TabStop = false;
+            gbProductionReport.Text = "Rapor";
+            // 
+            // dgReport
+            // 
+            dgReport.AllowUserToAddRows = false;
+            dgReport.AllowUserToDeleteRows = false;
+            dgReport.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgReport.BorderStyle = BorderStyle.None;
+            dgReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgReport.EditMode = DataGridViewEditMode.EditProgrammatically;
+            dgReport.Location = new Point(6, 26);
+            dgReport.Name = "dgReport";
+            dgReport.ReadOnly = true;
+            dgReport.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            dgReport.ShowEditingIcon = false;
+            dgReport.Size = new Size(1144, 484);
+            dgReport.TabIndex = 0;
+            // 
+            // rbSales
+            // 
+            rbSales.AutoSize = true;
+            rbSales.Checked = true;
+            rbSales.Location = new Point(6, 26);
+            rbSales.Name = "rbSales";
+            rbSales.Size = new Size(61, 24);
+            rbSales.TabIndex = 1;
+            rbSales.TabStop = true;
+            rbSales.Text = "Satış";
+            rbSales.UseVisualStyleBackColor = true;
+            // 
+            // rbProduction
+            // 
+            rbProduction.AutoSize = true;
+            rbProduction.Location = new Point(6, 56);
+            rbProduction.Name = "rbProduction";
+            rbProduction.Size = new Size(75, 24);
+            rbProduction.TabIndex = 1;
+            rbProduction.Text = "Üretim";
+            rbProduction.UseVisualStyleBackColor = true;
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1211, 563);
+            ClientSize = new Size(1422, 563);
             Controls.Add(tabControlMain);
             MdiChildrenMinimizedAnchorBottom = false;
             MinimumSize = new Size(1227, 599);
@@ -555,6 +771,14 @@
             tabCustomer.ResumeLayout(false);
             gbCustomers.ResumeLayout(false);
             gbCustomers.PerformLayout();
+            tabProductionReport.ResumeLayout(false);
+            gbProductionReportDetails.ResumeLayout(false);
+            gbReportType.ResumeLayout(false);
+            gbReportType.PerformLayout();
+            gbReportInterval.ResumeLayout(false);
+            gbReportInterval.PerformLayout();
+            gbProductionReport.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgReport).EndInit();
             ResumeLayout(false);
         }
 
@@ -615,5 +839,22 @@
         private ColumnHeader clmAddress;
         private ColumnHeader clmPriceWithTax;
         private ColumnHeader clmIsDone;
+        private Label lblDateFilter;
+        private MonthCalendar mcDateFilter;
+        private CheckBox cbDateFilter;
+        private TabPage tabProductionReport;
+        private GroupBox gbProductionReport;
+        private DataGridView dgReport;
+        private GroupBox gbProductionReportDetails;
+        private GroupBox gbReportInterval;
+        private RadioButton rbDaily;
+        private RadioButton rbYearly;
+        private RadioButton rbWeekly;
+        private RadioButton rbMonthly;
+        private Button btnCreateProductionReport;
+        private DateTimePicker dtpDate;
+        private GroupBox gbReportType;
+        private RadioButton rbSales;
+        private RadioButton rbProduction;
     }
 }

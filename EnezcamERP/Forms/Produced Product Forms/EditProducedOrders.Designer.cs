@@ -53,10 +53,10 @@
             lvProduceHistory = new ListView();
             clmDate = new ColumnHeader();
             clmProducedQuantity = new ColumnHeader();
+            clmRemaningQuantity = new ColumnHeader();
             lblRemainingQuantity = new Label();
             lnlProductName = new Label();
             lblQuantity = new Label();
-            clmRemaningQuantity = new ColumnHeader();
             gbOrderDetail.SuspendLayout();
             gbProducedOrders.SuspendLayout();
             gbAddDeleteProducedOrders.SuspendLayout();
@@ -269,6 +269,10 @@
             // 
             clmProducedQuantity.Text = "Üretim Miktarı";
             // 
+            // clmRemaningQuantity
+            // 
+            clmRemaningQuantity.Text = "Kalan Üretim";
+            // 
             // lblRemainingQuantity
             // 
             lblRemainingQuantity.AutoSize = true;
@@ -296,12 +300,9 @@
             lblQuantity.TabIndex = 0;
             lblQuantity.Text = "Miktar";
             // 
-            // clmRemaningQuantity
-            // 
-            clmRemaningQuantity.Text = "Kalan Üretim";
-            // 
             // EditProducedOrders
             // 
+            AcceptButton = btnAddProducedQuantity;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1028, 684);

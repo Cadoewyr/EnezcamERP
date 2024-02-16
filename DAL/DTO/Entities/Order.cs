@@ -43,6 +43,18 @@ namespace DAL.DTO.Entities
         }
 
         [NotMapped]
+        public decimal PriceTax
+        {
+            get => OrderDetails.Sum(x => x.PriceTax);
+        }
+
+        [NotMapped]
+        public decimal PriceWithTax
+        {
+            get => OrderDetails.Sum(x => x.PriceWithTax);
+        }
+
+        [NotMapped]
         public decimal Cost
         {
             get
@@ -52,6 +64,18 @@ namespace DAL.DTO.Entities
                 else
                     return 0;
             }
+        }
+
+        [NotMapped]
+        public decimal CostTax
+        {
+            get => OrderDetails.Sum(x => x.CostTax);
+        }
+
+        [NotMapped]
+        public decimal CostWithTax
+        {
+            get => OrderDetails.Sum(x => x.CostWithTax);
         }
 
         [NotMapped]
@@ -88,21 +112,9 @@ namespace DAL.DTO.Entities
                 else return 0;
             }
         }
-
-        [NotMapped]
-        public decimal Tax
-        {
-            get => OrderDetails.Sum(x => x.Tax);
-        }
-
-        [NotMapped]
-        public decimal PriceWithTax
-        {
-            get => Price + Tax;
-        }
         #endregion
 
-        //Üretim
+        //Production
         #region
         [NotMapped]
         public Dictionary<UnitCode, decimal> ProducedProductQuantity
@@ -150,6 +162,18 @@ namespace DAL.DTO.Entities
         }
 
         [NotMapped]
+        public decimal ProducedCostTax
+        {
+            get => OrderDetails.Sum(x => x.ProducedCostTax);
+        }
+
+        [NotMapped]
+        public decimal ProducedCostWithTax
+        {
+            get => OrderDetails.Sum(x => x.ProducedCostWithTax);
+        }
+
+        [NotMapped]
         public decimal ProducedPrice
         {
             get
@@ -159,6 +183,18 @@ namespace DAL.DTO.Entities
                 else
                     return 0;
             }
+        }
+
+        [NotMapped]
+        public decimal ProducedPriceTax
+        {
+            get => OrderDetails.Sum(x => x.ProducedPriceTax);
+        }
+
+        [NotMapped]
+        public decimal ProducedPriceWithTax
+        {
+            get => OrderDetails.Sum(x => x.ProducedPriceWithTax);
         }
 
         [NotMapped]

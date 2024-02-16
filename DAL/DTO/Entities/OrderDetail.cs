@@ -1,6 +1,7 @@
 ﻿using DAL.DTO.Entities.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection;
 
 namespace DAL.DTO.Entities
 {
@@ -16,7 +17,7 @@ namespace DAL.DTO.Entities
         public decimal TaxRatio { get; set; } = 0;
         public virtual ICollection<ProducedOrder> ProducedOrders { get; set; } = [];
 
-        //Üretim
+        //Production
         #region
         [NotMapped]
         public decimal ProducedPrice
@@ -24,10 +25,32 @@ namespace DAL.DTO.Entities
             get => UnitPrice * ProducedOrders.Sum(x => x.ProducedOrderQuantity);
         }
 
+        public decimal ProducedPriceTax
+        {
+            get => ProducedPrice * (TaxRatio / 100);
+        }
+
+        public decimal ProducedPriceWithTax
+        {
+            get => ProducedPrice + ProducedPriceTax;
+        }
+
         [NotMapped]
         public decimal ProducedCost
         {
             get => UnitCost * ProducedOrders.Sum(x => x.ProducedOrderQuantity);
+        }
+
+        [NotMapped]
+        public decimal ProducedCostTax
+        {
+            get => ProducedCost * (TaxRatio / 100);
+        }
+
+        [NotMapped]
+        public decimal ProducedCostWithTax
+        {
+            get => ProducedCost + ProducedCostTax;
         }
 
         [NotMapped]
@@ -61,7 +84,7 @@ namespace DAL.DTO.Entities
         }
         #endregion
 
-        //Satış
+        //Sales
         #region
         [NotMapped]
         public decimal Cost
@@ -70,9 +93,33 @@ namespace DAL.DTO.Entities
         }
 
         [NotMapped]
+        public decimal CostTax
+        {
+            get => Cost * (TaxRatio / 100);
+        }
+
+        [NotMapped]
+        public decimal CostWithTax
+        {
+            get => Cost + CostTax;
+        }
+
+        [NotMapped]
         public decimal Price
         {
             get => UnitPrice * Quantity;
+        }
+
+        [NotMapped]
+        public decimal PriceTax
+        {
+            get => Price * (TaxRatio / 100);
+        }
+
+        [NotMapped]
+        public decimal PriceWithTax
+        {
+            get => Price + PriceTax;
         }
 
         [NotMapped]
@@ -91,18 +138,6 @@ namespace DAL.DTO.Entities
         public decimal ProfitMargin
         {
             get => (Price - Cost) / Price;
-        }
-
-        [NotMapped]
-        public decimal Tax
-        {
-            get => Price * (TaxRatio / 100);
-        }
-
-        [NotMapped]
-        public decimal PriceWithTax
-        {
-            get => Price + Tax;
         }
         #endregion
     }

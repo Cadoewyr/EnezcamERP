@@ -1,3 +1,5 @@
+using BL.Report.Enums;
+using BL.Reports;
 using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
@@ -24,7 +26,7 @@ namespace EnezcamERP
             ListView listView = lvOrders;
             listView.Items.Clear();
 
-            var items = orders ?? ordersDB.GetAll();
+            var items = orders ?? (cbDateFilter.Checked ? ordersDB.GetAll(x => (x.IssueDate >= mcDateFilter.SelectionStart & x.IssueDate <= mcDateFilter.SelectionEnd)) : ordersDB.GetAll());
 
             foreach (var item in items.Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false))
             {
@@ -175,6 +177,18 @@ namespace EnezcamERP
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
+
+        private void cbDateFilter_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+            mcDateFilter.Enabled = cbDateFilter.Checked;
+        }
+
+        private void mcDateFilter_DateSelected(object sender, DateRangeEventArgs e)
+        {
+            if (cbDateFilter.Checked)
+                RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
         #endregion
 
         //Product controls
@@ -286,5 +300,56 @@ namespace EnezcamERP
                 RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         #endregion
+
+        //Production report controls
+        #region
+        private void btnCreateProductionReport_Click(object sender, EventArgs e)
+        {
+            dgReport.Rows.Clear();
+            dgReport.Columns.Clear();
+
+            var report = ReportCreator.CreateDailyReport(rbSales.Checked ? ReportType.Sales : ReportType.Production, dtpDate.Value.Date, 64046);
+
+            dgReport.Columns.Add("clmDate", "Tarih");
+            dgReport.Columns.Add("clmCustomerName", "Cari Adý");
+            dgReport.Columns.Add("clmJobNo", "Sipariþ No");
+            dgReport.Columns.Add("clmProductName", "Ürün Adý");
+            dgReport.Columns.Add("clmProcessType", "Tür");
+            dgReport.Columns.Add("clmQuantity", "Miktar");
+            dgReport.Columns.Add("clmUnitCode", "Birim");
+            dgReport.Columns.Add("clmUnitPrice", "Birim Fiyat");
+            dgReport.Columns.Add("clmPrice", "Fiyat");
+            dgReport.Columns.Add("clmCustomerTotal", "Cari Toplam Tutarý");
+            dgReport.Columns.Add("clmUnitCost", "Birim Maliyet");
+            dgReport.Columns.Add("clmCost", "Maliyet");
+            dgReport.Columns.Add("clmProfit", "Kar");
+            dgReport.Columns.Add("clmProfitRatio", "Kar Oraný");
+
+            foreach (var order in report.Orders)
+            {
+                foreach (var orderDetail in order.OrderDetails)
+                {
+                    dgReport.Rows.Add(
+                        order.IssueDate.ToShortDateString(),
+                        order.Customer.Name,
+                        order.JobNo.ToString(),
+                        orderDetail.Product.Name,
+                        orderDetail.Product.Type.ToString(),
+                        orderDetail.Quantity.ToString("N3"),
+                        orderDetail.UnitCode.ToString(),
+                        orderDetail.UnitPrice.ToString("C2"),
+                        orderDetail.Price.ToString("C2"),
+                        order.Price.ToString("C2"),
+                        orderDetail.UnitCost.ToString("N2"),
+                        orderDetail.Cost.ToString("C2"),
+                        orderDetail.Profit.ToString("C2"),
+                        orderDetail.ProfitRatio.ToString("P0")
+                        );
+                }
+            }
+        }
+        #endregion
+
+
     }
 }
