@@ -31,6 +31,7 @@
             gbOrderDetail = new GroupBox();
             lvOrderDetails = new ListView();
             clmProductName = new ColumnHeader();
+            clmCode = new ColumnHeader();
             clmUnitCost = new ColumnHeader();
             clmUnitPrice = new ColumnHeader();
             clmUnitCode = new ColumnHeader();
@@ -77,7 +78,7 @@
             // 
             // lvOrderDetails
             // 
-            lvOrderDetails.Columns.AddRange(new ColumnHeader[] { clmProductName, clmUnitCost, clmUnitPrice, clmUnitCode, clmQuantity, clmProducedQuantity0, clmRemainingQuantity0 });
+            lvOrderDetails.Columns.AddRange(new ColumnHeader[] { clmProductName, clmCode, clmUnitCost, clmUnitPrice, clmUnitCode, clmQuantity, clmProducedQuantity0, clmRemainingQuantity0 });
             lvOrderDetails.FullRowSelect = true;
             lvOrderDetails.GridLines = true;
             lvOrderDetails.Location = new Point(6, 26);
@@ -91,6 +92,10 @@
             // clmProductName
             // 
             clmProductName.Text = "Ürün Adı";
+            // 
+            // clmCode
+            // 
+            clmCode.Text = "Ürün Kodu";
             // 
             // clmUnitCost
             // 
@@ -198,6 +203,7 @@
             // nudProducedQuantity
             // 
             nudProducedQuantity.DecimalPlaces = 3;
+            nudProducedQuantity.Increment = new decimal(new int[] { 10, 0, 0, 0 });
             nudProducedQuantity.Location = new Point(101, 59);
             nudProducedQuantity.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             nudProducedQuantity.Name = "nudProducedQuantity";
@@ -354,5 +360,6 @@
         private ColumnHeader clmProducedQuantity0;
         private ColumnHeader clmRemainingQuantity0;
         private ColumnHeader clmRemaningQuantity;
+        private ColumnHeader clmCode;
     }
 }

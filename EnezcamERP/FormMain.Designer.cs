@@ -64,6 +64,7 @@
             btnDeleteProduct = new Button();
             lvProducts = new ListView();
             clmName = new ColumnHeader();
+            clmCode = new ColumnHeader();
             clmProcessType = new ColumnHeader();
             clmIsCounting = new ColumnHeader();
             clmLastCost = new ColumnHeader();
@@ -86,9 +87,11 @@
             clmContactName = new ColumnHeader();
             clmContactPhone = new ColumnHeader();
             clmAddress = new ColumnHeader();
-            tabProductionReport = new TabPage();
+            tabReports = new TabPage();
             gbProductionReportDetails = new GroupBox();
             gbReportType = new GroupBox();
+            rbSales = new RadioButton();
+            rbProduction = new RadioButton();
             dtpDate = new DateTimePicker();
             btnCreateProductionReport = new Button();
             gbReportInterval = new GroupBox();
@@ -98,8 +101,6 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
-            rbSales = new RadioButton();
-            rbProduction = new RadioButton();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             tabControlMain.SuspendLayout();
@@ -107,7 +108,7 @@
             gbProducts.SuspendLayout();
             tabCustomer.SuspendLayout();
             gbCustomers.SuspendLayout();
-            tabProductionReport.SuspendLayout();
+            tabReports.SuspendLayout();
             gbProductionReportDetails.SuspendLayout();
             gbReportType.SuspendLayout();
             gbReportInterval.SuspendLayout();
@@ -150,6 +151,7 @@
             // 
             // cbDateFilter
             // 
+            cbDateFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cbDateFilter.AutoSize = true;
             cbDateFilter.Location = new Point(1126, 307);
             cbDateFilter.Name = "cbDateFilter";
@@ -219,6 +221,7 @@
             txtSearchOrder.Name = "txtSearchOrder";
             txtSearchOrder.Size = new Size(198, 27);
             txtSearchOrder.TabIndex = 6;
+            txtSearchOrder.TextChanged += txtSearchOrder_TextChanged;
             // 
             // btnRefreshOrder
             // 
@@ -274,6 +277,7 @@
             lvOrders.UseCompatibleStateImageBehavior = false;
             lvOrders.View = View.Details;
             lvOrders.DoubleClick += btnUpdateOrder_Click;
+            lvOrders.KeyDown += ListView_KeyDown;
             // 
             // clmJobNo
             // 
@@ -324,7 +328,7 @@
             tabControlMain.Controls.Add(tabOrders);
             tabControlMain.Controls.Add(tabStock);
             tabControlMain.Controls.Add(tabCustomer);
-            tabControlMain.Controls.Add(tabProductionReport);
+            tabControlMain.Controls.Add(tabReports);
             tabControlMain.Dock = DockStyle.Fill;
             tabControlMain.Location = new Point(0, 0);
             tabControlMain.Name = "tabControlMain";
@@ -355,7 +359,7 @@
             gbProducts.Controls.Add(lvProducts);
             gbProducts.Location = new Point(6, 5);
             gbProducts.Name = "gbProducts";
-            gbProducts.Size = new Size(1187, 515);
+            gbProducts.Size = new Size(1402, 515);
             gbProducts.TabIndex = 0;
             gbProducts.TabStop = false;
             gbProducts.Text = "Stok Kartları";
@@ -364,7 +368,7 @@
             // 
             lblSearchProduct.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblSearchProduct.AutoSize = true;
-            lblSearchProduct.Location = new Point(945, 28);
+            lblSearchProduct.Location = new Point(1160, 28);
             lblSearchProduct.Name = "lblSearchProduct";
             lblSearchProduct.Size = new Size(32, 20);
             lblSearchProduct.TabIndex = 8;
@@ -373,7 +377,7 @@
             // txtSearchProduct
             // 
             txtSearchProduct.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtSearchProduct.Location = new Point(983, 27);
+            txtSearchProduct.Location = new Point(1198, 27);
             txtSearchProduct.Name = "txtSearchProduct";
             txtSearchProduct.Size = new Size(198, 27);
             txtSearchProduct.TabIndex = 7;
@@ -422,20 +426,25 @@
             // lvProducts
             // 
             lvProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lvProducts.Columns.AddRange(new ColumnHeader[] { clmName, clmProcessType, clmIsCounting, clmLastCost, clmLastPrice, clmLastProfit, clmLastProfitRatio });
+            lvProducts.Columns.AddRange(new ColumnHeader[] { clmName, clmCode, clmProcessType, clmIsCounting, clmLastCost, clmLastPrice, clmLastProfit, clmLastProfitRatio });
             lvProducts.FullRowSelect = true;
             lvProducts.GridLines = true;
             lvProducts.Location = new Point(6, 59);
             lvProducts.Name = "lvProducts";
-            lvProducts.Size = new Size(1175, 449);
+            lvProducts.Size = new Size(1390, 449);
             lvProducts.TabIndex = 0;
             lvProducts.UseCompatibleStateImageBehavior = false;
             lvProducts.View = View.Details;
             lvProducts.DoubleClick += btnUpdateProduct_Click;
+            lvProducts.KeyDown += ListView_KeyDown;
             // 
             // clmName
             // 
             clmName.Text = "Ürün Adı";
+            // 
+            // clmCode
+            // 
+            clmCode.Text = "Ürün Kodu";
             // 
             // clmProcessType
             // 
@@ -484,7 +493,7 @@
             gbCustomers.Controls.Add(lvCustomers);
             gbCustomers.Location = new Point(6, 5);
             gbCustomers.Name = "gbCustomers";
-            gbCustomers.Size = new Size(1187, 515);
+            gbCustomers.Size = new Size(1402, 515);
             gbCustomers.TabIndex = 0;
             gbCustomers.TabStop = false;
             gbCustomers.Text = "Cariler";
@@ -493,7 +502,7 @@
             // 
             lblSearchCustomer.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblSearchCustomer.AutoSize = true;
-            lblSearchCustomer.Location = new Point(945, 29);
+            lblSearchCustomer.Location = new Point(1160, 29);
             lblSearchCustomer.Name = "lblSearchCustomer";
             lblSearchCustomer.Size = new Size(32, 20);
             lblSearchCustomer.TabIndex = 6;
@@ -502,7 +511,7 @@
             // txtSearchCustomer
             // 
             txtSearchCustomer.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtSearchCustomer.Location = new Point(983, 27);
+            txtSearchCustomer.Location = new Point(1198, 27);
             txtSearchCustomer.Name = "txtSearchCustomer";
             txtSearchCustomer.Size = new Size(198, 27);
             txtSearchCustomer.TabIndex = 5;
@@ -556,11 +565,12 @@
             lvCustomers.GridLines = true;
             lvCustomers.Location = new Point(5, 59);
             lvCustomers.Name = "lvCustomers";
-            lvCustomers.Size = new Size(1175, 449);
+            lvCustomers.Size = new Size(1390, 449);
             lvCustomers.TabIndex = 0;
             lvCustomers.UseCompatibleStateImageBehavior = false;
             lvCustomers.View = View.Details;
             lvCustomers.DoubleClick += btnUpdateCustomer_Click;
+            lvCustomers.KeyDown += ListView_KeyDown;
             // 
             // clmCustomerName
             // 
@@ -590,17 +600,17 @@
             // 
             clmAddress.Text = "Adres";
             // 
-            // tabProductionReport
+            // tabReports
             // 
-            tabProductionReport.Controls.Add(gbProductionReportDetails);
-            tabProductionReport.Controls.Add(gbProductionReport);
-            tabProductionReport.Location = new Point(4, 29);
-            tabProductionReport.Name = "tabProductionReport";
-            tabProductionReport.Padding = new Padding(3);
-            tabProductionReport.Size = new Size(1414, 530);
-            tabProductionReport.TabIndex = 3;
-            tabProductionReport.Text = "Üretim Raporu";
-            tabProductionReport.UseVisualStyleBackColor = true;
+            tabReports.Controls.Add(gbProductionReportDetails);
+            tabReports.Controls.Add(gbProductionReport);
+            tabReports.Location = new Point(4, 29);
+            tabReports.Name = "tabReports";
+            tabReports.Padding = new Padding(3);
+            tabReports.Size = new Size(1414, 530);
+            tabReports.TabIndex = 3;
+            tabReports.Text = "Raporlar";
+            tabReports.UseVisualStyleBackColor = true;
             // 
             // gbProductionReportDetails
             // 
@@ -627,6 +637,28 @@
             gbReportType.TabStop = false;
             gbReportType.Text = "Rapor Türü";
             // 
+            // rbSales
+            // 
+            rbSales.AutoSize = true;
+            rbSales.Checked = true;
+            rbSales.Location = new Point(6, 26);
+            rbSales.Name = "rbSales";
+            rbSales.Size = new Size(61, 24);
+            rbSales.TabIndex = 1;
+            rbSales.TabStop = true;
+            rbSales.Text = "Satış";
+            rbSales.UseVisualStyleBackColor = true;
+            // 
+            // rbProduction
+            // 
+            rbProduction.AutoSize = true;
+            rbProduction.Location = new Point(6, 56);
+            rbProduction.Name = "rbProduction";
+            rbProduction.Size = new Size(75, 24);
+            rbProduction.TabIndex = 1;
+            rbProduction.Text = "Üretim";
+            rbProduction.UseVisualStyleBackColor = true;
+            // 
             // dtpDate
             // 
             dtpDate.Location = new Point(6, 282);
@@ -636,6 +668,7 @@
             // 
             // btnCreateProductionReport
             // 
+            btnCreateProductionReport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnCreateProductionReport.Location = new Point(6, 481);
             btnCreateProductionReport.Name = "btnCreateProductionReport";
             btnCreateProductionReport.Size = new Size(224, 29);
@@ -702,6 +735,7 @@
             // 
             // gbProductionReport
             // 
+            gbProductionReport.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             gbProductionReport.Controls.Add(dgReport);
             gbProductionReport.Location = new Point(8, 6);
             gbProductionReport.Name = "gbProductionReport";
@@ -726,28 +760,6 @@
             dgReport.Size = new Size(1144, 484);
             dgReport.TabIndex = 0;
             // 
-            // rbSales
-            // 
-            rbSales.AutoSize = true;
-            rbSales.Checked = true;
-            rbSales.Location = new Point(6, 26);
-            rbSales.Name = "rbSales";
-            rbSales.Size = new Size(61, 24);
-            rbSales.TabIndex = 1;
-            rbSales.TabStop = true;
-            rbSales.Text = "Satış";
-            rbSales.UseVisualStyleBackColor = true;
-            // 
-            // rbProduction
-            // 
-            rbProduction.AutoSize = true;
-            rbProduction.Location = new Point(6, 56);
-            rbProduction.Name = "rbProduction";
-            rbProduction.Size = new Size(75, 24);
-            rbProduction.TabIndex = 1;
-            rbProduction.Text = "Üretim";
-            rbProduction.UseVisualStyleBackColor = true;
-            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -771,7 +783,7 @@
             tabCustomer.ResumeLayout(false);
             gbCustomers.ResumeLayout(false);
             gbCustomers.PerformLayout();
-            tabProductionReport.ResumeLayout(false);
+            tabReports.ResumeLayout(false);
             gbProductionReportDetails.ResumeLayout(false);
             gbReportType.ResumeLayout(false);
             gbReportType.PerformLayout();
@@ -842,7 +854,7 @@
         private Label lblDateFilter;
         private MonthCalendar mcDateFilter;
         private CheckBox cbDateFilter;
-        private TabPage tabProductionReport;
+        private TabPage tabReports;
         private GroupBox gbProductionReport;
         private DataGridView dgReport;
         private GroupBox gbProductionReportDetails;
@@ -852,9 +864,10 @@
         private RadioButton rbWeekly;
         private RadioButton rbMonthly;
         private Button btnCreateProductionReport;
-        private DateTimePicker dtpDate;
         private GroupBox gbReportType;
         private RadioButton rbSales;
         private RadioButton rbProduction;
+        private ColumnHeader clmCode;
+        private DateTimePicker dtpDate;
     }
 }

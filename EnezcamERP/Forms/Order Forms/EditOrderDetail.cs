@@ -26,6 +26,8 @@ namespace EnezcamERP.Forms.Order_Forms
 
             products ??= productRepository.GetAll().ToArray();
 
+            lv.Items.Clear();
+
             foreach (var product in products)
             {
                 ListViewItem lvi = new()
@@ -34,6 +36,7 @@ namespace EnezcamERP.Forms.Order_Forms
                     Tag = product
                 };
 
+                lvi.SubItems.Add(product.Code);
                 lvi.SubItems.Add(product.Type.ToString());
                 lvi.SubItems.Add(product.PriceHistory.LastCost.ToString("C2"));
                 lvi.SubItems.Add(product.PriceHistory.LastPrice.ToString("C2"));

@@ -1,3 +1,4 @@
+using BL.Report;
 using BL.Report.Enums;
 using BL.Reports;
 using BL.Repositories.Repositories;
@@ -68,6 +69,7 @@ namespace EnezcamERP
                     Tag = item
                 };
 
+                lvi.SubItems.Add(item.Code);
                 lvi.SubItems.Add(item.Type.ToString());
                 lvi.SubItems.Add(item.IsCounting == true ? "Evet" : "Hayýr");
                 lvi.SubItems.Add(item.PriceHistory.LastCost.ToString("C2"));
@@ -117,6 +119,89 @@ namespace EnezcamERP
             RefreshCustomers(null, columnHeaderAutoResizeStyle);
         }
 
+        void DailyProductionReport(DataGridView dataGrid, DailyProductionReport report)
+        {
+            dataGrid.Rows.Clear();
+            dataGrid.Columns.Clear();
+
+            dataGrid.Columns.Add("clmDate", "Tarih");
+            dataGrid.Columns.Add("clmCustomerName", "Cari Adý");
+            dataGrid.Columns.Add("clmJobNo", "Sipariþ No");
+            dataGrid.Columns.Add("clmProductName", "Ürün Adý");
+            dataGrid.Columns.Add("clmProcessType", "Tür");
+            dataGrid.Columns.Add("clmQuantity", "Miktar");
+            dataGrid.Columns.Add("clmUnitCode", "Birim");
+            dataGrid.Columns.Add("clmUnitPrice", "Birim Fiyat");
+            dataGrid.Columns.Add("clmPrice", "Fiyat");
+            dataGrid.Columns.Add("clmCustomerTotal", "Cari Toplam Tutarý");
+            dataGrid.Columns.Add("clmUnitCost", "Birim Maliyet");
+            dataGrid.Columns.Add("clmCost", "Maliyet");
+            dataGrid.Columns.Add("clmProfit", "Kar");
+            dataGrid.Columns.Add("clmProfitRatio", "Kar Oraný");
+
+            foreach (var r in report.DailyProductionEntries)
+            {
+                dataGrid.Rows.Add(
+                    r.IssueDate.ToShortDateString(),
+                    r.CustomerName,
+                    r.JobNo.ToString(),
+                    r.ProductName,
+                    r.ProductType.ToString(),
+                    r.Quantity.ToString("N3"),
+                    r.UnitCode.ToString(),
+                    r.UnitPrice.ToString("C2"),
+                    r.Price.ToString("C2"),
+                    r.CustomerTotalPrice.ToString("C2"),
+                    r.UnitCost.ToString("C2"),
+                    r.Cost.ToString("C2"),
+                    r.Profit.ToString("C2"),
+                    r.ProfitRatio.ToString("P0")
+                    );
+            }
+        }
+        void DailySalesReport(DataGridView dataGrid, DailySalesReport report)
+        {
+            dataGrid.Rows.Clear();
+            dataGrid.Columns.Clear();
+
+            dataGrid.Columns.Add("clmDate", "Tarih");
+            dataGrid.Columns.Add("clmCustomerName", "Cari Adý");
+            dataGrid.Columns.Add("clmJobNo", "Sipariþ No");
+            dataGrid.Columns.Add("clmProductName", "Ürün Adý");
+            dataGrid.Columns.Add("clmTaxRatio", "Vergi Oraný");
+            dataGrid.Columns.Add("clmProcessType", "Tür");
+            dataGrid.Columns.Add("clmQuantity", "Miktar");
+            dataGrid.Columns.Add("clmUnitCode", "Birim");
+            dataGrid.Columns.Add("clmUnitPrice", "Birim Fiyat");
+            dataGrid.Columns.Add("clmPrice", "Fiyat");
+            dataGrid.Columns.Add("clmCustomerTotal", "Cari Toplam Tutarý");
+            dataGrid.Columns.Add("clmUnitCost", "Birim Maliyet");
+            dataGrid.Columns.Add("clmCost", "Maliyet");
+            dataGrid.Columns.Add("clmProfit", "Kar");
+            dataGrid.Columns.Add("clmProfitRatio", "Kar Oraný");
+
+            //foreach (var orderDetail in report.OrderDetails)
+            //{
+            //    dataGrid.Rows.Add(
+            //        orderDetail.Order.IssueDate.ToShortDateString(),
+            //        orderDetail.Order.Customer.Name,
+            //        orderDetail.Order.JobNo.ToString(),
+            //        orderDetail.Product.Name,
+            //        orderDetail.TaxRatio.ToString("N0"),
+            //        orderDetail.Product.Type.ToString(),
+            //        orderDetail.Quantity.ToString("N3"),
+            //        orderDetail.UnitCode.ToString(),
+            //        orderDetail.UnitPrice.ToString("C2"),
+            //        orderDetail.Price.ToString("C2"),
+            //        orderDetail.Order.Price.ToString("C2"),
+            //        orderDetail.UnitCost.ToString("N2"),
+            //        orderDetail.Cost.ToString("C2"),
+            //        orderDetail.Profit.ToString("C2"),
+            //        orderDetail.ProfitRatio.ToString("P0")
+            //        );
+            //}
+        }
+
         private async void Main_Load(object sender, EventArgs e)
         {
             InitialLists(ColumnHeaderAutoResizeStyle.HeaderSize);
@@ -161,6 +246,11 @@ namespace EnezcamERP
         private void btnRefreshOrder_Click(object sender, EventArgs e)
         {
             RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+
+        private void txtSearchOrder_TextChanged(object sender, EventArgs e)
+        {
+            RefreshOrders(ordersDB.GetAll(txtSearchOrder.Text.ToLower().Trim()).ToArray(), ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         private void cbIsDone_CheckedChanged(object sender, EventArgs e)
@@ -305,51 +395,49 @@ namespace EnezcamERP
         #region
         private void btnCreateProductionReport_Click(object sender, EventArgs e)
         {
-            dgReport.Rows.Clear();
-            dgReport.Columns.Clear();
+            var report = rbProduction.Checked ? ReportCreator.Create(dtpDate.Value.Date, 64046) : null;
 
-            var report = ReportCreator.CreateDailyReport(rbSales.Checked ? ReportType.Sales : ReportType.Production, dtpDate.Value.Date, 64046);
+            DailyProductionReport(dgReport, report);
 
-            dgReport.Columns.Add("clmDate", "Tarih");
-            dgReport.Columns.Add("clmCustomerName", "Cari Adý");
-            dgReport.Columns.Add("clmJobNo", "Sipariþ No");
-            dgReport.Columns.Add("clmProductName", "Ürün Adý");
-            dgReport.Columns.Add("clmProcessType", "Tür");
-            dgReport.Columns.Add("clmQuantity", "Miktar");
-            dgReport.Columns.Add("clmUnitCode", "Birim");
-            dgReport.Columns.Add("clmUnitPrice", "Birim Fiyat");
-            dgReport.Columns.Add("clmPrice", "Fiyat");
-            dgReport.Columns.Add("clmCustomerTotal", "Cari Toplam Tutarý");
-            dgReport.Columns.Add("clmUnitCost", "Birim Maliyet");
-            dgReport.Columns.Add("clmCost", "Maliyet");
-            dgReport.Columns.Add("clmProfit", "Kar");
-            dgReport.Columns.Add("clmProfitRatio", "Kar Oraný");
-
-            foreach (var order in report.Orders)
-            {
-                foreach (var orderDetail in order.OrderDetails)
-                {
-                    dgReport.Rows.Add(
-                        order.IssueDate.ToShortDateString(),
-                        order.Customer.Name,
-                        order.JobNo.ToString(),
-                        orderDetail.Product.Name,
-                        orderDetail.Product.Type.ToString(),
-                        orderDetail.Quantity.ToString("N3"),
-                        orderDetail.UnitCode.ToString(),
-                        orderDetail.UnitPrice.ToString("C2"),
-                        orderDetail.Price.ToString("C2"),
-                        order.Price.ToString("C2"),
-                        orderDetail.UnitCost.ToString("N2"),
-                        orderDetail.Cost.ToString("C2"),
-                        orderDetail.Profit.ToString("C2"),
-                        orderDetail.ProfitRatio.ToString("P0")
-                        );
-                }
-            }
+            //switch (report.ReportType)
+            //{
+            //    case ReportType.Sales:
+            //        DailySalesReport(dgReport, report);
+            //        break;
+            //    case ReportType.Production:
+            //        DailyProductionReport(dgReport, report);
+            //        break;
+            //}
         }
         #endregion
 
+        private void ListView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((sender as ListView).SelectedItems.Count > 0)
+            {
+                var obj = (sender as ListView).SelectedItems[0].Tag;
 
+                switch (e.KeyData)
+                {
+                    case Keys.Delete:
+                        if (obj is Product)
+                        {
+                            productsDB.Delete(obj as Product);
+                            RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+                        }
+                        else if (obj is Customer)
+                        {
+                            customersDB.Delete(obj as Customer);
+                            RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+                        }
+                        else if (obj is Order)
+                        {
+                            ordersDB.Delete(obj as Order);
+                            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+                        }
+                        break;
+                }
+            }
+        }
     }
 }

@@ -13,6 +13,10 @@ namespace EnezcamERP.Validators
 
             RuleFor(x => x.Type)
                 .NotNull().WithMessage("İşlem tipi boş bırakılamaz.");
+
+            RuleFor(x => x.Code)
+                .NotNull().NotEmpty().WithMessage("Ürün kodu boş bırakılamaz.")
+                .MinimumLength(3).WithMessage("Ürün kodu en az 3 uzunluğunda olmalıdır.");
         }
     }
 }

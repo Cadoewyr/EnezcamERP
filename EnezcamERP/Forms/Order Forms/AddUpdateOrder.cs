@@ -51,6 +51,7 @@ namespace EnezcamERP.Forms.Order_Forms
                     Tag = product
                 };
 
+                lvi.SubItems.Add(product.Code);
                 lvi.SubItems.Add(product.Type.ToString());
                 lvi.SubItems.Add(product.PriceHistory.LastCost.ToString("C2"));
                 lvi.SubItems.Add(product.PriceHistory.LastPrice.ToString("C2"));
@@ -84,7 +85,7 @@ namespace EnezcamERP.Forms.Order_Forms
                 lvi.SubItems.Add(item.UnitCost.ToString("C2"));
                 lvi.SubItems.Add(item.UnitPrice.ToString("C2"));
                 lvi.SubItems.Add((item.TaxRatio / 100).ToString("P0"));
-                lvi.SubItems.Add(item.Quantity.ToString("C2"));
+                lvi.SubItems.Add(item.Quantity.ToString("N2"));
                 lvi.SubItems.Add(item.UnitCode.ToString());
                 lvi.SubItems.Add(item.ProducedOrders.Sum(x => x.ProducedOrderQuantity).ToString("N3"));
                 lvi.SubItems.Add((item.Quantity - item.ProducedOrders.Sum(x => x.ProducedOrderQuantity)).ToString("N3"));
@@ -121,6 +122,13 @@ namespace EnezcamERP.Forms.Order_Forms
             txtTotalQuantity.Text = string.Join(", ", order.ProductQuantity.Select(x => $"{x.Value.ToString(x.Key == UnitCode.M2 ? "N3" : "N0")} {x.Key}").ToArray());
             txtPriceWithTax.Text = order.PriceWithTax.ToString("N2");
         }
+        void ClearNumericUpDownControls(params Control[] controls)
+        {
+            foreach(var control in controls)
+            {
+                (control as NumericUpDown).Value = 0;
+            }
+        }
 
         CustomerRepository customerDB = new();
         OrderRepository orderDB = new();
@@ -154,7 +162,7 @@ namespace EnezcamERP.Forms.Order_Forms
                 {
                     order.OrderDetails.Add(od);
                     RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
-                    ControlCleaner.Clear(gbAddProductDetail.Controls);
+                    ClearNumericUpDownControls(nudCost, nudPrice, nudQuantity, nudTaxRatio);
                     UpdateOrderTotals(order);
                 }
                 else

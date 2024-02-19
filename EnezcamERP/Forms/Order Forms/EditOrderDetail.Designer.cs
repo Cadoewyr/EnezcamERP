@@ -48,6 +48,7 @@
             clmLastPrice = new ColumnHeader();
             clmIsCounting = new ColumnHeader();
             lblProduct = new Label();
+            clmCode = new ColumnHeader();
             gbOrderDetail.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudTaxRatio).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudQuantity).BeginInit();
@@ -192,7 +193,7 @@
             // 
             // lvProducts
             // 
-            lvProducts.Columns.AddRange(new ColumnHeader[] { clmProductName0, clmProductType, clmLastCost, clmLastPrice, clmIsCounting });
+            lvProducts.Columns.AddRange(new ColumnHeader[] { clmProductName0, clmCode, clmProductType, clmLastCost, clmLastPrice, clmIsCounting });
             lvProducts.FullRowSelect = true;
             lvProducts.GridLines = true;
             lvProducts.Location = new Point(6, 57);
@@ -231,6 +232,10 @@
             lblProduct.Size = new Size(40, 20);
             lblProduct.TabIndex = 0;
             lblProduct.Text = "Ürün";
+            // 
+            // clmCode
+            // 
+            clmCode.Text = "Ürün Kodu";
             // 
             // EditOrderDetail
             // 
@@ -278,5 +283,6 @@
         private Label lblUnitCode;
         private Button btnCancel;
         private Button btnSave;
+        private ColumnHeader clmCode;
     }
 }

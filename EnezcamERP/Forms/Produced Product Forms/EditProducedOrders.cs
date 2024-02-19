@@ -13,6 +13,7 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
             this.order = order;
             this.parentForm = parentForm;
             gbOrderDetail.Text += $" ({order.JobNo} - {order.Customer.Name})";
+            dtpProduceDate.Value = producedOrdersRepository.GetAll().Max(x => x.ProducedDate).Date;
             RefreshOrderDetails();
         }
 
@@ -63,8 +64,9 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                     Tag = od
                 };
 
-                lvi.SubItems.Add(od.Cost.ToString("N3"));
-                lvi.SubItems.Add(od.Price.ToString("N3"));
+                lvi.SubItems.Add(od.Product.Code);
+                lvi.SubItems.Add(od.UnitCost.ToString("C2"));
+                lvi.SubItems.Add(od.UnitPrice.ToString("C2"));
                 lvi.SubItems.Add(od.UnitCode.ToString());
                 lvi.SubItems.Add(od.Quantity.ToString(od.UnitCode == UnitCode.M2 ? "N3" : "N0"));
                 lvi.SubItems.Add(od.ProducedQuantity.ToString(od.UnitCode == UnitCode.M2 ? "N3" : "N0"));
@@ -120,7 +122,7 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 {
                     ProducedOrder po = new()
                     {
-                        ProducedDate = DateTime.Now,
+                        ProducedDate = dtpProduceDate.Value.Date.AddHours(21),
                         OrderDetail = lvOrderDetails.SelectedItems[0].Tag as OrderDetail,
                         ProducedOrderQuantity = nudProducedQuantity.Value
                     };

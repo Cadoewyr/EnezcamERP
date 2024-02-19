@@ -10,7 +10,7 @@ namespace BL.Repositories.Repositories
     {
         public override bool Add(Product entity)
         {
-            if (!table.Any(x => x.Name == entity.Name & x.Type == entity.Type))
+            if (!table.Any(x => x.Name == entity.Name & x.Type == entity.Type & x.Code == entity.Code))
                 return base.Add(entity);
             else
                 throw new Exception("Aynı üründen birden fazla oluşturulamaz.");

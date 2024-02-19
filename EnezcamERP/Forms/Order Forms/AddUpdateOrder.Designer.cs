@@ -56,6 +56,7 @@
             gbAddProductDetail = new GroupBox();
             lvProducts = new ListView();
             clmProductName0 = new ColumnHeader();
+            clmProductCode = new ColumnHeader();
             clmProductType = new ColumnHeader();
             clmLastCost = new ColumnHeader();
             clmLastPrice = new ColumnHeader();
@@ -375,7 +376,7 @@
             // 
             // lvProducts
             // 
-            lvProducts.Columns.AddRange(new ColumnHeader[] { clmProductName0, clmProductType, clmLastCost, clmLastPrice, clmIsCounting });
+            lvProducts.Columns.AddRange(new ColumnHeader[] { clmProductCode, clmProductName0, clmProductType, clmLastCost, clmLastPrice, clmIsCounting });
             lvProducts.FullRowSelect = true;
             lvProducts.GridLines = true;
             lvProducts.Location = new Point(6, 58);
@@ -389,6 +390,10 @@
             // clmProductName0
             // 
             clmProductName0.Text = "Ürün Adı";
+            // 
+            // clmProductCode
+            // 
+            clmProductCode.Text = "Ürün Kodu";
             // 
             // clmProductType
             // 
@@ -690,5 +695,6 @@
         private ColumnHeader clmLastCost;
         private ColumnHeader clmLastPrice;
         private ColumnHeader clmIsCounting;
+        private ColumnHeader clmProductCode;
     }
 }
