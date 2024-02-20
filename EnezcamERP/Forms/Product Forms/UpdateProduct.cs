@@ -32,7 +32,7 @@ namespace EnezcamERP.Forms.Product_Forms
             RefreshProcessTypes();
 
             txtProductName.Text = product.Name;
-
+            txtCode.Text = product.Code;
             cbIsCounting.Checked = product.IsCounting;
         }
 
