@@ -1,6 +1,5 @@
-using BL.Report;
-using BL.Report.Enums;
 using BL.Reports;
+using BL.Reports.ProductionReports;
 using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
@@ -27,7 +26,15 @@ namespace EnezcamERP
             ListView listView = lvOrders;
             listView.Items.Clear();
 
-            var items = orders ?? (cbDateFilter.Checked ? ordersDB.GetAll(x => (x.IssueDate >= mcDateFilter.SelectionStart & x.IssueDate <= mcDateFilter.SelectionEnd)) : ordersDB.GetAll());
+            var items = orders ?? ordersDB.GetAll(txtSearchOrder.Text);
+
+            if (cbDateFilter.Checked)
+            {
+                if (rbOrderDate.Checked)
+                    items = items.Where(x => x.IssueDate >= mcDateFilter.SelectionStart.Date & x.IssueDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1));
+                else if (rbCompletedDate.Checked)
+                    items = items.Where(x => x.IsDone & x.CompletedDate >= mcDateFilter.SelectionStart.Date & x.CompletedDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1));
+            }
 
             foreach (var item in items.Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false))
             {
@@ -59,7 +66,7 @@ namespace EnezcamERP
             ListView listView = lvProducts;
             listView.Items.Clear();
 
-            var items = products ?? productsDB.GetAll();
+            var items = products ?? productsDB.GetAll(txtSearchOrder.Text);
 
             foreach (var item in items)
             {
@@ -88,7 +95,7 @@ namespace EnezcamERP
             ListView listView = lvCustomers;
             listView.Items.Clear();
 
-            var items = customers ?? customersDB.GetAll();
+            var items = customers ?? customersDB.GetAll(txtSearchCustomer.Text);
 
             foreach (var item in items)
             {
@@ -203,7 +210,7 @@ namespace EnezcamERP
 
         private void btnRefreshOrder_Click(object sender, EventArgs e)
         {
-            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+            RefreshOrders(ordersDB.GetAll(txtSearchOrder.Text).ToArray(), ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         private void txtSearchOrder_TextChanged(object sender, EventArgs e)
@@ -235,6 +242,41 @@ namespace EnezcamERP
         private void mcDateFilter_DateSelected(object sender, DateRangeEventArgs e)
         {
             if (cbDateFilter.Checked)
+                RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+
+        private void ListView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((sender as ListView).SelectedItems.Count > 0)
+            {
+                var obj = (sender as ListView).SelectedItems[0].Tag;
+
+                switch (e.KeyData)
+                {
+                    case Keys.Delete:
+                        if (obj is Product)
+                        {
+                            productsDB.Delete(obj as Product);
+                            RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+                        }
+                        else if (obj is Customer)
+                        {
+                            customersDB.Delete(obj as Customer);
+                            RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+                        }
+                        else if (obj is Order)
+                        {
+                            ordersDB.Delete(obj as Order);
+                            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+                        }
+                        break;
+                }
+            }
+        }
+
+        private void DateFilterSettingsChanged(object sender, EventArgs e)
+        {
+            if(cbDateFilter.Checked)
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         #endregion
@@ -358,34 +400,5 @@ namespace EnezcamERP
             DailyProductionReport(dgReport, report);
         }
         #endregion
-
-        private void ListView_KeyDown(object sender, KeyEventArgs e)
-        {
-            if ((sender as ListView).SelectedItems.Count > 0)
-            {
-                var obj = (sender as ListView).SelectedItems[0].Tag;
-
-                switch (e.KeyData)
-                {
-                    case Keys.Delete:
-                        if (obj is Product)
-                        {
-                            productsDB.Delete(obj as Product);
-                            RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
-                        }
-                        else if (obj is Customer)
-                        {
-                            customersDB.Delete(obj as Customer);
-                            RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
-                        }
-                        else if (obj is Order)
-                        {
-                            ordersDB.Delete(obj as Order);
-                            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
-                        }
-                        break;
-                }
-            }
-        }
     }
 }

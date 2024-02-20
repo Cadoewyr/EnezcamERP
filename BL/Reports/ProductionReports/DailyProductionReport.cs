@@ -2,7 +2,7 @@
 using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 
-namespace BL.Reports
+namespace BL.Reports.ProductionReports
 {
     public class DailyProductionReport
     {
@@ -18,7 +18,6 @@ namespace BL.Reports
         }
 
         ProducedOrdersRepository producedOrdersDB = new();
-        OrderDetailsRepository orderDetailsDB = new();
 
         void CreateEntries(IEnumerable<ProducedOrder> producedOrders)
         {
@@ -59,19 +58,10 @@ namespace BL.Reports
         }
 
         private decimal _outgoing;
-        public decimal Outgoing
-        {
-            get => _outgoing;
-        }
+        public decimal Outgoing => _outgoing;
 
-        public ReportInterval Interval
-        {
-            get => ReportInterval.Daily;
-        }
-        public ReportType Type
-        {
-            get => ReportType.Production;
-        }
+        public ReportInterval Interval => ReportInterval.Daily;
+        public ReportType Type => ReportType.Production;
 
         private DateTime _date;
         public DateTime Date

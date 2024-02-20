@@ -39,6 +39,9 @@ namespace BL.Repositories.Repositories
             {
                 foreach (var prop in typeof(Order).GetProperties())
                 {
+                    if(prop.GetValue(entity) == null)
+                        continue;
+
                     var value = prop.GetValue(entity).ToString().ToLower();
 
                     if (value.Contains(filter.ToLower()) && !results.Contains(entity))

@@ -1,4 +1,6 @@
-﻿namespace BL.Reports
+﻿using BL.Reports.ProductionReports;
+
+namespace BL.Reports
 {
     public class ReportCreator
     {

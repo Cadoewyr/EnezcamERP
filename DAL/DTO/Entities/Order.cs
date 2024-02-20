@@ -252,6 +252,16 @@ namespace DAL.DTO.Entities
                 return isDone;
             }
         }
+
+        [NotMapped]
+        public DateTime? CompletedDate
+        {
+            get
+            {
+                return OrderDetails.SelectMany(od => od.ProducedOrders)
+                .MaxBy(po => po.ProducedDate)?.ProducedDate;
+            }
+        }
         #endregion
     }
 }

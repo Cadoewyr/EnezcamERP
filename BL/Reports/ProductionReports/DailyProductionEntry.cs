@@ -1,6 +1,6 @@
 ﻿using DAL.DTO.Entities.Enums;
 
-namespace BL.Reports
+namespace BL.Reports.ProductionReports
 {
     public class DailyProductionEntry
     {
