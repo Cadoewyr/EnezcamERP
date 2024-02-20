@@ -211,7 +211,7 @@
             // 
             lblSearchOrder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblSearchOrder.AutoSize = true;
-            lblSearchOrder.Location = new Point(855, 28);
+            lblSearchOrder.Location = new Point(878, 27);
             lblSearchOrder.Name = "lblSearchOrder";
             lblSearchOrder.Size = new Size(32, 20);
             lblSearchOrder.TabIndex = 10;
@@ -220,7 +220,7 @@
             // txtSearchOrder
             // 
             txtSearchOrder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtSearchOrder.Location = new Point(893, 26);
+            txtSearchOrder.Location = new Point(916, 25);
             txtSearchOrder.Name = "txtSearchOrder";
             txtSearchOrder.Size = new Size(198, 27);
             txtSearchOrder.TabIndex = 6;
