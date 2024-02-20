@@ -13,10 +13,21 @@ namespace BL.Reports
         public UnitCode UnitCode { get; set; }
         public decimal UnitCost { get; set; }
         public decimal UnitPrice { get; set; }
-        public decimal Price { get; set; }
-        public decimal Cost { get; set; }
-        public decimal CustomerTotalPrice { get; set; }
-        public decimal Profit { get; set; }
-        public decimal ProfitRatio { get; set; }
+        public decimal Price
+        {
+            get => UnitPrice * Quantity;
+        }
+        public decimal Cost
+        {
+            get => UnitCost * Quantity;
+        }
+        public decimal Profit
+        {
+            get => Price - Cost;
+        }
+        public decimal ProfitRatio
+        {
+            get => (Price - Cost) / Cost;
+        }
     }
 }

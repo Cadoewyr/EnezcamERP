@@ -89,6 +89,8 @@
             clmAddress = new ColumnHeader();
             tabReports = new TabPage();
             gbProductionReportDetails = new GroupBox();
+            label1 = new Label();
+            nudOutgoing = new NumericUpDown();
             gbReportType = new GroupBox();
             rbSales = new RadioButton();
             rbProduction = new RadioButton();
@@ -110,6 +112,7 @@
             gbCustomers.SuspendLayout();
             tabReports.SuspendLayout();
             gbProductionReportDetails.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudOutgoing).BeginInit();
             gbReportType.SuspendLayout();
             gbReportInterval.SuspendLayout();
             gbProductionReport.SuspendLayout();
@@ -615,6 +618,8 @@
             // gbProductionReportDetails
             // 
             gbProductionReportDetails.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            gbProductionReportDetails.Controls.Add(label1);
+            gbProductionReportDetails.Controls.Add(nudOutgoing);
             gbProductionReportDetails.Controls.Add(gbReportType);
             gbProductionReportDetails.Controls.Add(dtpDate);
             gbProductionReportDetails.Controls.Add(btnCreateProductionReport);
@@ -625,6 +630,23 @@
             gbProductionReportDetails.TabIndex = 2;
             gbProductionReportDetails.TabStop = false;
             gbProductionReportDetails.Text = "Rapor Detayları";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(6, 326);
+            label1.Name = "label1";
+            label1.Size = new Size(94, 20);
+            label1.TabIndex = 7;
+            label1.Text = "Günlük Gider";
+            // 
+            // nudOutgoing
+            // 
+            nudOutgoing.Location = new Point(6, 349);
+            nudOutgoing.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
+            nudOutgoing.Name = "nudOutgoing";
+            nudOutgoing.Size = new Size(224, 27);
+            nudOutgoing.TabIndex = 6;
             // 
             // gbReportType
             // 
@@ -640,22 +662,23 @@
             // rbSales
             // 
             rbSales.AutoSize = true;
-            rbSales.Checked = true;
+            rbSales.Enabled = false;
             rbSales.Location = new Point(6, 26);
             rbSales.Name = "rbSales";
             rbSales.Size = new Size(61, 24);
             rbSales.TabIndex = 1;
-            rbSales.TabStop = true;
             rbSales.Text = "Satış";
             rbSales.UseVisualStyleBackColor = true;
             // 
             // rbProduction
             // 
             rbProduction.AutoSize = true;
+            rbProduction.Checked = true;
             rbProduction.Location = new Point(6, 56);
             rbProduction.Name = "rbProduction";
             rbProduction.Size = new Size(75, 24);
             rbProduction.TabIndex = 1;
+            rbProduction.TabStop = true;
             rbProduction.Text = "Üretim";
             rbProduction.UseVisualStyleBackColor = true;
             // 
@@ -706,6 +729,7 @@
             // rbYearly
             // 
             rbYearly.AutoSize = true;
+            rbYearly.Enabled = false;
             rbYearly.Location = new Point(20, 116);
             rbYearly.Name = "rbYearly";
             rbYearly.Size = new Size(61, 24);
@@ -716,6 +740,7 @@
             // rbWeekly
             // 
             rbWeekly.AutoSize = true;
+            rbWeekly.Enabled = false;
             rbWeekly.Location = new Point(20, 56);
             rbWeekly.Name = "rbWeekly";
             rbWeekly.Size = new Size(82, 24);
@@ -726,6 +751,7 @@
             // rbMonthly
             // 
             rbMonthly.AutoSize = true;
+            rbMonthly.Enabled = false;
             rbMonthly.Location = new Point(20, 86);
             rbMonthly.Name = "rbMonthly";
             rbMonthly.Size = new Size(62, 24);
@@ -785,6 +811,8 @@
             gbCustomers.PerformLayout();
             tabReports.ResumeLayout(false);
             gbProductionReportDetails.ResumeLayout(false);
+            gbProductionReportDetails.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nudOutgoing).EndInit();
             gbReportType.ResumeLayout(false);
             gbReportType.PerformLayout();
             gbReportInterval.ResumeLayout(false);
@@ -869,5 +897,7 @@
         private RadioButton rbProduction;
         private ColumnHeader clmCode;
         private DateTimePicker dtpDate;
+        private Label label1;
+        private NumericUpDown nudOutgoing;
     }
 }

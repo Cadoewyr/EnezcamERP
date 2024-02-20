@@ -151,55 +151,13 @@ namespace EnezcamERP
                     r.UnitCode.ToString(),
                     r.UnitPrice.ToString("C2"),
                     r.Price.ToString("C2"),
-                    r.CustomerTotalPrice.ToString("C2"),
+                    report.GetCustomerTotal(r.JobNo).ToString("N2"),
                     r.UnitCost.ToString("C2"),
                     r.Cost.ToString("C2"),
                     r.Profit.ToString("C2"),
                     r.ProfitRatio.ToString("P0")
                     );
             }
-        }
-        void DailySalesReport(DataGridView dataGrid, DailySalesReport report)
-        {
-            dataGrid.Rows.Clear();
-            dataGrid.Columns.Clear();
-
-            dataGrid.Columns.Add("clmDate", "Tarih");
-            dataGrid.Columns.Add("clmCustomerName", "Cari Adý");
-            dataGrid.Columns.Add("clmJobNo", "Sipariþ No");
-            dataGrid.Columns.Add("clmProductName", "Ürün Adý");
-            dataGrid.Columns.Add("clmTaxRatio", "Vergi Oraný");
-            dataGrid.Columns.Add("clmProcessType", "Tür");
-            dataGrid.Columns.Add("clmQuantity", "Miktar");
-            dataGrid.Columns.Add("clmUnitCode", "Birim");
-            dataGrid.Columns.Add("clmUnitPrice", "Birim Fiyat");
-            dataGrid.Columns.Add("clmPrice", "Fiyat");
-            dataGrid.Columns.Add("clmCustomerTotal", "Cari Toplam Tutarý");
-            dataGrid.Columns.Add("clmUnitCost", "Birim Maliyet");
-            dataGrid.Columns.Add("clmCost", "Maliyet");
-            dataGrid.Columns.Add("clmProfit", "Kar");
-            dataGrid.Columns.Add("clmProfitRatio", "Kar Oraný");
-
-            //foreach (var orderDetail in report.OrderDetails)
-            //{
-            //    dataGrid.Rows.Add(
-            //        orderDetail.Order.IssueDate.ToShortDateString(),
-            //        orderDetail.Order.Customer.Name,
-            //        orderDetail.Order.JobNo.ToString(),
-            //        orderDetail.Product.Name,
-            //        orderDetail.TaxRatio.ToString("N0"),
-            //        orderDetail.Product.Type.ToString(),
-            //        orderDetail.Quantity.ToString("N3"),
-            //        orderDetail.UnitCode.ToString(),
-            //        orderDetail.UnitPrice.ToString("C2"),
-            //        orderDetail.Price.ToString("C2"),
-            //        orderDetail.Order.Price.ToString("C2"),
-            //        orderDetail.UnitCost.ToString("N2"),
-            //        orderDetail.Cost.ToString("C2"),
-            //        orderDetail.Profit.ToString("C2"),
-            //        orderDetail.ProfitRatio.ToString("P0")
-            //        );
-            //}
         }
 
         private async void Main_Load(object sender, EventArgs e)
@@ -395,19 +353,9 @@ namespace EnezcamERP
         #region
         private void btnCreateProductionReport_Click(object sender, EventArgs e)
         {
-            var report = rbProduction.Checked ? ReportCreator.Create(dtpDate.Value.Date, 64046) : null;
+            var report = rbProduction.Checked ? ReportCreator.Create(dtpDate.Value.Date, nudOutgoing.Value) : null;
 
             DailyProductionReport(dgReport, report);
-
-            //switch (report.ReportType)
-            //{
-            //    case ReportType.Sales:
-            //        DailySalesReport(dgReport, report);
-            //        break;
-            //    case ReportType.Production:
-            //        DailyProductionReport(dgReport, report);
-            //        break;
-            //}
         }
         #endregion
 

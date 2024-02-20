@@ -1,12 +1,6 @@
 ﻿using BL.Report.Enums;
 using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BL.Reports
 {
@@ -19,7 +13,16 @@ namespace BL.Reports
 
             ProducedOrders.AddRange(producedOrdersDB.GetAll(x => x.ProducedDate.Date == date.Date));
 
-            foreach(var item in ProducedOrders)
+            ProducedOrders = MergeOrders(ProducedOrders);
+            CreateEntries(ProducedOrders);
+        }
+
+        ProducedOrdersRepository producedOrdersDB = new();
+        OrderDetailsRepository orderDetailsDB = new();
+
+        void CreateEntries(IEnumerable<ProducedOrder> producedOrders)
+        {
+            foreach (var item in producedOrders)
             {
                 DailyProductionEntries.Add(new()
                 {
@@ -31,18 +34,29 @@ namespace BL.Reports
                     ProductName = item.OrderDetail.Product.Name,
                     UnitCost = item.OrderDetail.UnitCost,
                     UnitPrice = item.OrderDetail.UnitPrice,
-                    Quantity = item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date).Sum(x => x.ProducedOrderQuantity),
-                    Cost = item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date).Sum(x => x.ProducedOrderQuantity) * item.OrderDetail.UnitCost,
-                    Price = item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date).Sum(x => x.ProducedOrderQuantity) * item.OrderDetail.UnitPrice,
-                    Profit = (item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date).Sum(x => x.ProducedOrderQuantity) * item.OrderDetail.UnitPrice) - (item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date).Sum(x => x.ProducedOrderQuantity) * item.OrderDetail.UnitCost),
-                    ProfitRatio = ((item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date).Sum(x => x.ProducedOrderQuantity) * item.OrderDetail.UnitPrice) - (item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date).Sum(x => x.ProducedOrderQuantity) * item.OrderDetail.UnitCost)) / item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date).Sum(x => x.ProducedOrderQuantity) * item.OrderDetail.UnitCost,
-                    CustomerTotalPrice = producedOrdersDB.GetAll(x => x.ProducedDate.Date == Date & x.OrderDetail.Order.ID == item.OrderDetail.Order.ID).ToList().Sum(x => x.ProducedOrderQuantity) * item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date).Sum(x => x.ProducedOrderQuantity) * item.OrderDetail.UnitPrice
+                    Quantity = item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date).Sum(x => x.ProducedOrderQuantity)
                 });
             }
         }
+        List<ProducedOrder> MergeOrders(List<ProducedOrder> producedOrders)
+        {
+            List<ProducedOrder> mergedProducedOrders = [];
 
-        ProducedOrdersRepository producedOrdersDB = new();
-        OrderDetailsRepository orderDetailsDB = new();
+            for (int i = 0; i < producedOrders.Count(); i++)
+            {
+                var currentProducedOrder = producedOrders[i];
+
+                if (mergedProducedOrders.Any(x => x.OrderDetail.ID == currentProducedOrder.OrderDetail.ID))
+                {
+                    var producedOrder = mergedProducedOrders.Where(x => x.OrderDetail.ID == currentProducedOrder.OrderDetail.ID).First();
+                    producedOrder.ProducedOrderQuantity += currentProducedOrder.ProducedOrderQuantity;
+                }
+                else
+                    mergedProducedOrders.Add(currentProducedOrder);
+            }
+
+            return mergedProducedOrders.ToList();
+        }
 
         private decimal _outgoing;
         public decimal Outgoing
@@ -50,10 +64,13 @@ namespace BL.Reports
             get => _outgoing;
         }
 
-        private ReportInterval _reportInterval;
         public ReportInterval Interval
         {
-            get => _reportInterval;
+            get => ReportInterval.Daily;
+        }
+        public ReportType Type
+        {
+            get => ReportType.Production;
         }
 
         private DateTime _date;
@@ -65,5 +82,10 @@ namespace BL.Reports
 
         List<ProducedOrder> ProducedOrders { get; set; } = [];
         public List<DailyProductionEntry> DailyProductionEntries { get; set; } = [];
+
+        public decimal GetCustomerTotal(int jobNo)
+        {
+            return DailyProductionEntries.Where(x => x.JobNo == jobNo).Sum(x => x.Price);
+        }
     }
 }
