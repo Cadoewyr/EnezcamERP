@@ -161,6 +161,7 @@
             // 
             // gbDateFilterSettings
             // 
+            gbDateFilterSettings.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             gbDateFilterSettings.Controls.Add(cbDateFilter);
             gbDateFilterSettings.Controls.Add(rbCompletedDate);
             gbDateFilterSettings.Controls.Add(rbOrderDate);
@@ -186,6 +187,7 @@
             // 
             // rbCompletedDate
             // 
+            rbCompletedDate.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             rbCompletedDate.AutoSize = true;
             rbCompletedDate.Location = new Point(6, 80);
             rbCompletedDate.Name = "rbCompletedDate";
@@ -198,6 +200,7 @@
             // 
             // rbOrderDate
             // 
+            rbOrderDate.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             rbOrderDate.AutoSize = true;
             rbOrderDate.Checked = true;
             rbOrderDate.Location = new Point(6, 55);
