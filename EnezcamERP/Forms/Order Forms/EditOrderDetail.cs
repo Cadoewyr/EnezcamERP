@@ -1,6 +1,7 @@
 ﻿using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
+using DAL.DTO.Entities.Interfaces;
 using EnezcamERP.Validators;
 
 namespace EnezcamERP.Forms.Order_Forms
@@ -106,16 +107,30 @@ namespace EnezcamERP.Forms.Order_Forms
                         UnitCost = nudCost.Value,
                         UnitPrice = nudPrice.Value,
                         TaxRatio = nudTaxRatio.Value,
-                        Order = orderDetail.Order,
+                        Order = orderDetail.Order ?? new Order(),
                         Quantity = nudQuantity.Value,
-                        ProducedOrders = orderDetail.ProducedOrders
+                        ProducedOrders = orderDetail.ProducedOrders ?? new List<ProducedOrder>()
                     };
 
                     var res = new OrderDetailValidator().Validate(od);
 
                     if (res.IsValid)
                     {
-                        orderDetailsRepository.Update(od, orderDetail.ID);
+                        if(od.Order.JobNo == 0)
+                        {
+                            var oldEntity = orderDetail;
+
+                            var entityType = typeof(OrderDetail);
+
+                            foreach (var prop in entityType.GetProperties().Where(x => x.SetMethod != null))
+                            {
+                                if (prop.Name != "ID")
+                                    prop.SetValue(oldEntity, prop.GetValue(od));
+                            }
+                        }
+                        else
+                            orderDetailsRepository.Update(od, orderDetail.ID);
+
                         LoadForm(orderDetail);
                         (parentForm as AddUpdateOrder).RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
                         (parentForm as AddUpdateOrder).UpdateOrderTotals(orderDetail.Order);
