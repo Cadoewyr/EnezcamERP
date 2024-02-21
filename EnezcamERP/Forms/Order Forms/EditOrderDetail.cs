@@ -1,7 +1,6 @@
 ﻿using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
-using DAL.DTO.Entities.Interfaces;
 using EnezcamERP.Validators;
 
 namespace EnezcamERP.Forms.Order_Forms
@@ -116,7 +115,7 @@ namespace EnezcamERP.Forms.Order_Forms
 
                     if (res.IsValid)
                     {
-                        if(od.Order.JobNo == 0)
+                        if (od.Order.JobNo == 0)
                         {
                             var oldEntity = orderDetail;
 
