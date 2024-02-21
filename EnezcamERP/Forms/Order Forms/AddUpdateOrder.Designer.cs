@@ -160,9 +160,9 @@
             lblOrderDate.AutoSize = true;
             lblOrderDate.Location = new Point(526, 28);
             lblOrderDate.Name = "lblOrderDate";
-            lblOrderDate.Size = new Size(71, 15);
+            lblOrderDate.Size = new Size(72, 15);
             lblOrderDate.TabIndex = 0;
-            lblOrderDate.Text = "Teslim Tarihi";
+            lblOrderDate.Text = "Sipariş Tarihi";
             // 
             // lblDeliveryDate
             // 
