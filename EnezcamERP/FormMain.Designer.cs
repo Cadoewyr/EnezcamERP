@@ -761,7 +761,7 @@
             gbReportInterval.Size = new Size(224, 152);
             gbReportInterval.TabIndex = 2;
             gbReportInterval.TabStop = false;
-            gbReportInterval.Text = "Rapor Türü";
+            gbReportInterval.Text = "Rapor Dönemi";
             // 
             // rbDaily
             // 
