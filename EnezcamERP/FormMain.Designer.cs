@@ -480,6 +480,7 @@
             lvProducts.FullRowSelect = true;
             lvProducts.GridLines = true;
             lvProducts.Location = new Point(6, 59);
+            lvProducts.MultiSelect = false;
             lvProducts.Name = "lvProducts";
             lvProducts.Size = new Size(1390, 449);
             lvProducts.TabIndex = 0;
@@ -614,6 +615,7 @@
             lvCustomers.FullRowSelect = true;
             lvCustomers.GridLines = true;
             lvCustomers.Location = new Point(5, 59);
+            lvCustomers.MultiSelect = false;
             lvCustomers.Name = "lvCustomers";
             lvCustomers.Size = new Size(1390, 449);
             lvCustomers.TabIndex = 0;
