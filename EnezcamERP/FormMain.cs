@@ -9,8 +9,6 @@ using EnezcamERP.Forms.DataGridColumnHeaderTemplates;
 using EnezcamERP.Forms.Order_Forms;
 using EnezcamERP.Forms.Produced_Product_Forms;
 using EnezcamERP.Forms.Product_Forms;
-using Microsoft.Data.SqlClient;
-using System.Text;
 
 namespace EnezcamERP
 {
@@ -138,7 +136,7 @@ namespace EnezcamERP
             switch (report.Interval)
             {
                 case ReportInterval.Daily:
-                    foreach(var item in Template.DailyProduction)
+                    foreach (var item in Template.DailyProduction)
                     {
                         dataGrid.Columns.Add(item.Key, item.Value);
                     }
@@ -172,7 +170,7 @@ namespace EnezcamERP
                         dataGrid.Columns.Add(item.Key, item.Value);
                     }
 
-                    foreach(var r in report.DailyProductionReports)
+                    foreach (var r in report.DailyProductionReports)
                     {
                         dataGrid.Rows.Add(
                             r.Date.ToShortDateString(),

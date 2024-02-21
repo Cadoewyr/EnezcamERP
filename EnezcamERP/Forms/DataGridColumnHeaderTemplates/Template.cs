@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
-
-namespace EnezcamERP.Forms.DataGridColumnHeaderTemplates
+﻿namespace EnezcamERP.Forms.DataGridColumnHeaderTemplates
 {
     public class Template
     {
