@@ -31,7 +31,9 @@
             gbOrderDetail = new GroupBox();
             btnCancel = new Button();
             btnSave = new Button();
+            nudDiscountRatio = new NumericUpDown();
             nudTaxRatio = new NumericUpDown();
+            lblDiscountRatio = new Label();
             lblTaxRatio = new Label();
             nudQuantity = new NumericUpDown();
             lblQuantity = new Label();
@@ -49,14 +51,12 @@
             clmLastPrice = new ColumnHeader();
             clmIsCounting = new ColumnHeader();
             lblProduct = new Label();
-            nudDiscountRatio = new NumericUpDown();
-            lblDiscountRatio = new Label();
             gbOrderDetail.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudDiscountRatio).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudTaxRatio).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudQuantity).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudPrice).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudCost).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)nudDiscountRatio).BeginInit();
             SuspendLayout();
             // 
             // gbOrderDetail
@@ -108,6 +108,15 @@
             btnSave.UseVisualStyleBackColor = true;
             btnSave.Click += btnSave_Click;
             // 
+            // nudDiscountRatio
+            // 
+            nudDiscountRatio.Location = new Point(354, 196);
+            nudDiscountRatio.Margin = new Padding(3, 2, 3, 2);
+            nudDiscountRatio.Name = "nudDiscountRatio";
+            nudDiscountRatio.Size = new Size(107, 23);
+            nudDiscountRatio.TabIndex = 4;
+            nudDiscountRatio.ThousandsSeparator = true;
+            // 
             // nudTaxRatio
             // 
             nudTaxRatio.Location = new Point(241, 196);
@@ -116,6 +125,15 @@
             nudTaxRatio.Size = new Size(107, 23);
             nudTaxRatio.TabIndex = 3;
             nudTaxRatio.ThousandsSeparator = true;
+            // 
+            // lblDiscountRatio
+            // 
+            lblDiscountRatio.AutoSize = true;
+            lblDiscountRatio.Location = new Point(354, 179);
+            lblDiscountRatio.Name = "lblDiscountRatio";
+            lblDiscountRatio.Size = new Size(78, 15);
+            lblDiscountRatio.TabIndex = 22;
+            lblDiscountRatio.Text = "İskonto Oranı";
             // 
             // lblTaxRatio
             // 
@@ -212,6 +230,7 @@
             lvProducts.GridLines = true;
             lvProducts.Location = new Point(5, 43);
             lvProducts.Margin = new Padding(3, 2, 3, 2);
+            lvProducts.MultiSelect = false;
             lvProducts.Name = "lvProducts";
             lvProducts.Size = new Size(682, 132);
             lvProducts.TabIndex = 0;
@@ -252,24 +271,6 @@
             lblProduct.TabIndex = 0;
             lblProduct.Text = "Ürün";
             // 
-            // nudDiscountRatio
-            // 
-            nudDiscountRatio.Location = new Point(354, 196);
-            nudDiscountRatio.Margin = new Padding(3, 2, 3, 2);
-            nudDiscountRatio.Name = "nudDiscountRatio";
-            nudDiscountRatio.Size = new Size(107, 23);
-            nudDiscountRatio.TabIndex = 4;
-            nudDiscountRatio.ThousandsSeparator = true;
-            // 
-            // lblDiscountRatio
-            // 
-            lblDiscountRatio.AutoSize = true;
-            lblDiscountRatio.Location = new Point(354, 179);
-            lblDiscountRatio.Name = "lblDiscountRatio";
-            lblDiscountRatio.Size = new Size(78, 15);
-            lblDiscountRatio.TabIndex = 22;
-            lblDiscountRatio.Text = "İskonto Oranı";
-            // 
             // EditOrderDetail
             // 
             AcceptButton = btnSave;
@@ -288,11 +289,11 @@
             Text = "Sipariş Detayı Güncelle";
             gbOrderDetail.ResumeLayout(false);
             gbOrderDetail.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nudDiscountRatio).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudTaxRatio).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudQuantity).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudPrice).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudCost).EndInit();
-            ((System.ComponentModel.ISupportInitialize)nudDiscountRatio).EndInit();
             ResumeLayout(false);
         }
 
