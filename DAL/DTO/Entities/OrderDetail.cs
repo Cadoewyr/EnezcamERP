@@ -14,6 +14,8 @@ namespace DAL.DTO.Entities
         public decimal Quantity { get; set; } = 0;
         [Range(0, 100)]
         public decimal TaxRatio { get; set; } = 0;
+        [Range(0, 100)]
+        public decimal DiscountRatio { get; set; } = 0;
         public virtual ICollection<ProducedOrder> ProducedOrders { get; set; } = [];
 
         //Production
@@ -21,7 +23,13 @@ namespace DAL.DTO.Entities
         [NotMapped]
         public decimal ProducedPrice
         {
-            get => UnitPrice * ProducedOrders.Sum(x => x.ProducedOrderQuantity);
+            get
+            {
+                if (DiscountRatio > 0)
+                    return (UnitPrice * ProducedOrders.Sum(x => x.ProducedOrderQuantity)) - ((UnitPrice * ProducedOrders.Sum(x => x.ProducedOrderQuantity)) * (DiscountRatio / 100));
+                else
+                    return UnitPrice * ProducedOrders.Sum(x => x.ProducedOrderQuantity);
+            }
         }
 
         public decimal ProducedPriceTax
@@ -106,7 +114,13 @@ namespace DAL.DTO.Entities
         [NotMapped]
         public decimal Price
         {
-            get => UnitPrice * Quantity;
+            get
+            {
+                if (DiscountRatio > 0)
+                    return (UnitPrice * Quantity) - ((UnitPrice * Quantity) * (DiscountRatio / 100));
+                else
+                    return UnitPrice * Quantity;
+            }
         }
 
         [NotMapped]

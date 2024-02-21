@@ -31,6 +31,10 @@ namespace EnezcamERP.Validators
 
             RuleFor(x => x.ProducedQuantity)
                 .LessThanOrEqualTo(x => x.Quantity).WithMessage("Sipariş miktarı üretilen miktardan daha küçük olamaz.");
+
+            RuleFor(x => x.DiscountRatio)
+                .GreaterThanOrEqualTo(0).WithMessage("İskonto oranı en az sıfır olabilir.")
+                .LessThanOrEqualTo(100).WithMessage("İskonto oranı en fazla yüz olabilir.");
         }
     }
 }

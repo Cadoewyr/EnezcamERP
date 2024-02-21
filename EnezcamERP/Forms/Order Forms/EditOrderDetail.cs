@@ -65,6 +65,7 @@ namespace EnezcamERP.Forms.Order_Forms
             nudQuantity.Value = orderDetail.Quantity;
             nudQuantity.Minimum = orderDetail.ProducedQuantity;
             nudTaxRatio.Value = orderDetail.TaxRatio;
+            nudDiscountRatio.Value = orderDetail.DiscountRatio;
             nudCost.Value = orderDetail.UnitCost;
             nudPrice.Value = orderDetail.UnitPrice;
         }
@@ -97,6 +98,7 @@ namespace EnezcamERP.Forms.Order_Forms
                     orderDetail.UnitCode = (UnitCode)Enum.Parse(typeof(UnitCode), cbUnitCode.Text);
                     orderDetail.UnitCost = nudCost.Value;
                     orderDetail.UnitPrice = nudPrice.Value;
+                    orderDetail.DiscountRatio = nudDiscountRatio.Value;
                     orderDetail.TaxRatio = nudTaxRatio.Value;
 
                     OrderDetail od = new()
@@ -108,6 +110,7 @@ namespace EnezcamERP.Forms.Order_Forms
                         TaxRatio = nudTaxRatio.Value,
                         Order = orderDetail.Order ?? new Order(),
                         Quantity = nudQuantity.Value,
+                        DiscountRatio = nudDiscountRatio.Value,
                         ProducedOrders = orderDetail.ProducedOrders ?? new List<ProducedOrder>()
                     };
 

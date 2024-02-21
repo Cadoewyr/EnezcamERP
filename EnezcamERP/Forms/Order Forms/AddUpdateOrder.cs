@@ -84,6 +84,7 @@ namespace EnezcamERP.Forms.Order_Forms
 
                 lvi.SubItems.Add(item.UnitCost.ToString("C2"));
                 lvi.SubItems.Add(item.UnitPrice.ToString("C2"));
+                lvi.SubItems.Add((item.DiscountRatio / 100).ToString("P0"));
                 lvi.SubItems.Add((item.TaxRatio / 100).ToString("P0"));
                 lvi.SubItems.Add(item.Quantity.ToString("N2"));
                 lvi.SubItems.Add(item.UnitCode.ToString());
@@ -148,6 +149,7 @@ namespace EnezcamERP.Forms.Order_Forms
                     UnitCost = nudCost.Value,
                     UnitPrice = nudPrice.Value,
                     Quantity = nudQuantity.Value,
+                    DiscountRatio = nudDiscountRatio.Value,
                     UnitCode = (UnitCode)Enum.Parse(typeof(UnitCode), cbUnitCode.Text),
                     TaxRatio = nudTaxRatio.Value
                 };
@@ -162,7 +164,7 @@ namespace EnezcamERP.Forms.Order_Forms
                 {
                     order.OrderDetails.Add(od);
                     RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
-                    ClearNumericUpDownControls(nudCost, nudPrice, nudQuantity, nudTaxRatio);
+                    ClearNumericUpDownControls(nudCost, nudPrice, nudQuantity);
                     UpdateOrderTotals(order);
                 }
                 else
