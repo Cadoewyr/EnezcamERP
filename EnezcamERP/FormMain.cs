@@ -1,12 +1,16 @@
+using BL.Report.Enums;
 using BL.Reports;
 using BL.Reports.ProductionReports;
 using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
 using EnezcamERP.Forms.Customer_Forms;
+using EnezcamERP.Forms.DataGridColumnHeaderTemplates;
 using EnezcamERP.Forms.Order_Forms;
 using EnezcamERP.Forms.Produced_Product_Forms;
 using EnezcamERP.Forms.Product_Forms;
+using Microsoft.Data.SqlClient;
+using System.Text;
 
 namespace EnezcamERP
 {
@@ -126,44 +130,63 @@ namespace EnezcamERP
             RefreshCustomers(null, columnHeaderAutoResizeStyle);
         }
 
-        void DailyProductionReport(DataGridView dataGrid, DailyProductionReport report)
+        void FillProductionReport(DataGridView dataGrid, DateRangedProductionReport report)
         {
             dataGrid.Rows.Clear();
             dataGrid.Columns.Clear();
 
-            dataGrid.Columns.Add("clmDate", "Tarih");
-            dataGrid.Columns.Add("clmCustomerName", "Cari Adý");
-            dataGrid.Columns.Add("clmJobNo", "Sipariþ No");
-            dataGrid.Columns.Add("clmProductName", "Ürün Adý");
-            dataGrid.Columns.Add("clmProcessType", "Tür");
-            dataGrid.Columns.Add("clmQuantity", "Miktar");
-            dataGrid.Columns.Add("clmUnitCode", "Birim");
-            dataGrid.Columns.Add("clmUnitPrice", "Birim Fiyat");
-            dataGrid.Columns.Add("clmPrice", "Fiyat");
-            dataGrid.Columns.Add("clmCustomerTotal", "Cari Toplam Tutarý");
-            dataGrid.Columns.Add("clmUnitCost", "Birim Maliyet");
-            dataGrid.Columns.Add("clmCost", "Maliyet");
-            dataGrid.Columns.Add("clmProfit", "Kar");
-            dataGrid.Columns.Add("clmProfitRatio", "Kar Oraný");
-
-            foreach (var r in report.DailyProductionEntries)
+            switch (report.Interval)
             {
-                dataGrid.Rows.Add(
-                    r.IssueDate.ToShortDateString(),
-                    r.CustomerName,
-                    r.JobNo.ToString(),
-                    r.ProductName,
-                    r.ProductType.ToString(),
-                    r.Quantity.ToString("N3"),
-                    r.UnitCode.ToString(),
-                    r.UnitPrice.ToString("C2"),
-                    r.Price.ToString("C2"),
-                    report.GetCustomerTotal(r.JobNo).ToString("N2"),
-                    r.UnitCost.ToString("C2"),
-                    r.Cost.ToString("C2"),
-                    r.Profit.ToString("C2"),
-                    r.ProfitRatio.ToString("P0")
-                    );
+                case ReportInterval.Daily:
+                    foreach(var item in Template.DailyProduction)
+                    {
+                        dataGrid.Columns.Add(item.Key, item.Value);
+                    }
+
+                    foreach (var item in report.DailyProductionReports)
+                    {
+                        foreach (var r in item.DailyProductionEntries)
+                        {
+                            dataGrid.Rows.Add(
+                                r.IssueDate.ToShortDateString(),
+                                r.CustomerName,
+                                r.JobNo.ToString(),
+                                r.ProductName,
+                                r.ProductType.ToString(),
+                                r.Quantity.ToString("N3"),
+                                r.UnitCode.ToString(),
+                                r.UnitPrice.ToString("C2"),
+                                r.Price.ToString("C2"),
+                                item.GetCustomerTotal(r.JobNo).ToString("N2"),
+                                r.UnitCost.ToString("C2"),
+                                r.Cost.ToString("C2"),
+                                r.Profit.ToString("C2"),
+                                r.ProfitRatio.ToString("P0")
+                                );
+                        }
+                    }
+                    break;
+                default:
+                    foreach (var item in Template.DateRangedProduction)
+                    {
+                        dataGrid.Columns.Add(item.Key, item.Value);
+                    }
+
+                    foreach(var r in report.DailyProductionReports)
+                    {
+                        dataGrid.Rows.Add(
+                            r.Date.ToShortDateString(),
+                            r.Price.ToString("C2"),
+                            r.Cost.ToString("C2"),
+                            r.Profit.ToString("C2"),
+                            r.ProfitRatio.ToString("P2"),
+                            r.Outgoing.ToString("C2"),
+                            r.CostWithOutgoing.ToString("C2"),
+                            r.ProfitWithoutOutgoing.ToString("C2"),
+                            r.ProfitRatioWithOutgoing.ToString("P2")
+                            );
+                    }
+                    break;
             }
         }
 
@@ -276,7 +299,7 @@ namespace EnezcamERP
 
         private void DateFilterSettingsChanged(object sender, EventArgs e)
         {
-            if(cbDateFilter.Checked)
+            if (cbDateFilter.Checked)
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         #endregion
@@ -395,9 +418,10 @@ namespace EnezcamERP
         #region
         private void btnCreateProductionReport_Click(object sender, EventArgs e)
         {
-            var report = rbProduction.Checked ? ReportCreator.Create(dtpDate.Value.Date, nudOutgoing.Value) : null;
+            var interval = rbDaily.Checked ? ReportInterval.Daily : (rbWeekly.Checked ? ReportInterval.Weekly : (rbMonthly.Checked ? ReportInterval.Monthly : (rbYearly.Checked ? ReportInterval.Yearly : ReportInterval.Daily)));
+            var report = ReportCreator.Create(dtpDate.Value.Date, interval, nudOutgoing.Value);
 
-            DailyProductionReport(dgReport, report);
+            FillProductionReport(dgReport, report);
         }
         #endregion
     }

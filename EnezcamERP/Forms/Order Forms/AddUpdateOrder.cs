@@ -124,7 +124,7 @@ namespace EnezcamERP.Forms.Order_Forms
         }
         void ClearNumericUpDownControls(params Control[] controls)
         {
-            foreach(var control in controls)
+            foreach (var control in controls)
             {
                 (control as NumericUpDown).Value = 0;
             }
@@ -255,7 +255,7 @@ namespace EnezcamERP.Forms.Order_Forms
 
         private void lvOrderDetails_DoubleClick(object sender, EventArgs e)
         {
-            if((sender as ListView).SelectedItems.Count > 0)
+            if ((sender as ListView).SelectedItems.Count > 0)
             {
                 EditOrderDetail form = new(this, (sender as ListView).SelectedItems[0].Tag as OrderDetail);
                 form.ShowDialog();

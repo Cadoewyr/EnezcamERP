@@ -1,13 +1,13 @@
-﻿using BL.Reports.ProductionReports;
+﻿using BL.Report.Enums;
+using BL.Reports.ProductionReports;
 
 namespace BL.Reports
 {
     public class ReportCreator
     {
-        public static DailyProductionReport Create(DateTime date, decimal outgoing)
+        public static DateRangedProductionReport Create(DateTime date, ReportInterval interval, decimal outgoing)
         {
-            DailyProductionReport report = new(date, outgoing);
-            return report;
+            return new(date, interval, outgoing);
         }
     }
 }

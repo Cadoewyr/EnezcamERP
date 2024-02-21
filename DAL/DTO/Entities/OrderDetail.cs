@@ -1,7 +1,6 @@
 ﻿using DAL.DTO.Entities.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection;
 
 namespace DAL.DTO.Entities
 {

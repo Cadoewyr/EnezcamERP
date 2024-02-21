@@ -57,7 +57,7 @@ namespace BL.Reports.ProductionReports
             return mergedProducedOrders.ToList();
         }
 
-        private decimal _outgoing;
+        decimal _outgoing;
         public decimal Outgoing => _outgoing;
 
         public ReportInterval Interval => ReportInterval.Daily;
@@ -77,5 +77,39 @@ namespace BL.Reports.ProductionReports
         {
             return DailyProductionEntries.Where(x => x.JobNo == jobNo).Sum(x => x.Price);
         }
+
+        //Calculation properties
+        #region
+        public decimal Price => DailyProductionEntries.Sum(x => x.Price);
+        public decimal PriceTax => DailyProductionEntries.Sum(x => (x.Price / 100) * 20);
+        public decimal PriceWithTax => Price + PriceTax;
+        public decimal Cost => DailyProductionEntries.Sum(x => x.Cost);
+        public decimal CostTax => DailyProductionEntries.Sum(x => (x.Cost / 100) * 20);
+        public decimal CostWithTax => Cost + CostTax;
+        public decimal Profit => DailyProductionEntries.Sum(x => x.Profit);
+        public decimal ProfitWithoutOutgoing => Profit - Outgoing;
+        public decimal ProfitRatio
+        {
+            get
+            {
+                if (Price > 0 & Cost > 0)
+                    return ((Price - Cost) / Cost);
+                else
+                    return 0;
+            }
+        }
+        public decimal CostWithOutgoing => Outgoing + Cost;
+        public decimal WithoutOutgoing => Cost - Outgoing;
+        public decimal ProfitRatioWithOutgoing
+        {
+            get
+            {
+                if (Price > 0 & CostWithOutgoing > 0)
+                    return ((Price - CostWithOutgoing) / CostWithOutgoing);
+                else
+                    return 0;
+            }
+        }
+        #endregion
     }
 }
