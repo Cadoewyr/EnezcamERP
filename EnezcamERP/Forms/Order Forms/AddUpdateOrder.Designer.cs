@@ -149,7 +149,7 @@
             // cbCustomers
             // 
             cbCustomers.FormattingEnabled = true;
-            cbCustomers.Location = new Point(320, 26);
+            cbCustomers.Location = new Point(321, 25);
             cbCustomers.Margin = new Padding(3, 2, 3, 2);
             cbCustomers.Name = "cbCustomers";
             cbCustomers.Size = new Size(182, 23);
