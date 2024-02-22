@@ -33,6 +33,7 @@ namespace BL.Reports.ProductionReports
                     ProductName = item.OrderDetail.Product.Name,
                     UnitCost = item.OrderDetail.UnitCost,
                     UnitPrice = item.OrderDetail.UnitPrice,
+                    DiscountRatio = item.OrderDetail.DiscountRatio,
                     Quantity = item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date).Sum(x => x.ProducedOrderQuantity)
                 });
             }
@@ -75,16 +76,16 @@ namespace BL.Reports.ProductionReports
 
         public decimal GetCustomerTotal(int jobNo)
         {
-            return DailyProductionEntries.Where(x => x.JobNo == jobNo).Sum(x => x.Price);
+            return DailyProductionEntries.Where(x => x.JobNo == jobNo).Sum(x => x.FinalPrice);
         }
 
         //Calculation properties
         #region
-        public decimal Price => DailyProductionEntries.Sum(x => x.Price);
-        public decimal PriceTax => DailyProductionEntries.Sum(x => (x.Price / 100) * 20);
+        public decimal Price => DailyProductionEntries.Sum(x => x.FinalPrice);
+        public decimal PriceTax => (Price / 100) * 20;
         public decimal PriceWithTax => Price + PriceTax;
         public decimal Cost => DailyProductionEntries.Sum(x => x.Cost);
-        public decimal CostTax => DailyProductionEntries.Sum(x => (x.Cost / 100) * 20);
+        public decimal CostTax => (Cost / 100) * 20;
         public decimal CostWithTax => Cost + CostTax;
         public decimal Profit => DailyProductionEntries.Sum(x => x.Profit);
         public decimal ProfitWithoutOutgoing => Profit - Outgoing;

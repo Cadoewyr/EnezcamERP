@@ -17,6 +17,17 @@ namespace BL.Reports.ProductionReports
         {
             get => UnitPrice * Quantity;
         }
+        public decimal FinalPrice
+        {
+            get
+            {
+                if (DiscountRatio > 0)
+                    return (Quantity * UnitPrice) - ((Quantity * UnitPrice) * (DiscountRatio / 100));
+                else
+                    return Price;
+            }
+        }
+        public decimal DiscountRatio { get; set; }
         public decimal Cost
         {
             get => UnitCost * Quantity;
