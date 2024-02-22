@@ -155,7 +155,7 @@ namespace EnezcamERP
                                 r.UnitCode.ToString(),
                                 r.FinalUnitPrice.ToString("C2"),
                                 r.FinalPrice.ToString("C2"),
-                                item.GetCustomerTotal(r.JobNo).ToString("N2"),
+                                item.GetCustomerTotal(r.JobNo).ToString("C2"),
                                 r.UnitCost.ToString("C2"),
                                 r.Cost.ToString("C2"),
                                 r.Profit.ToString("C2"),
