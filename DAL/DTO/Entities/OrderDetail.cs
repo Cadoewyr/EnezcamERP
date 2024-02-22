@@ -23,23 +23,28 @@ namespace DAL.DTO.Entities
         [NotMapped]
         public decimal ProducedPrice
         {
+            get => UnitPrice * ProducedOrders.Sum(x => x.ProducedOrderQuantity);
+        }
+
+        public decimal ProducedFinalPrice
+        {
             get
             {
                 if (DiscountRatio > 0)
-                    return (UnitPrice * ProducedOrders.Sum(x => x.ProducedOrderQuantity)) - ((UnitPrice * ProducedOrders.Sum(x => x.ProducedOrderQuantity)) * (DiscountRatio / 100));
+                    return ProducedPrice - (ProducedPrice * (DiscountRatio / 100));
                 else
-                    return UnitPrice * ProducedOrders.Sum(x => x.ProducedOrderQuantity);
+                    return ProducedPrice;
             }
         }
 
-        public decimal ProducedPriceTax
+        public decimal ProducedFinalPriceTax
         {
-            get => ProducedPrice * (TaxRatio / 100);
+            get => ProducedFinalPrice * (TaxRatio / 100);
         }
 
-        public decimal ProducedPriceWithTax
+        public decimal ProducedFinalPriceWithTax
         {
-            get => ProducedPrice + ProducedPriceTax;
+            get => ProducedFinalPrice + ProducedFinalPriceTax;
         }
 
         [NotMapped]
@@ -63,19 +68,19 @@ namespace DAL.DTO.Entities
         [NotMapped]
         public decimal ProducedProfit
         {
-            get => ProducedPrice - ProducedCost;
+            get => ProducedFinalPrice - ProducedCost;
         }
 
         [NotMapped]
         public decimal ProducedProfitRatio
         {
-            get => (ProducedPrice - ProducedCost) / ProducedCost;
+            get => (ProducedFinalPrice - ProducedCost) / ProducedCost;
         }
 
         [NotMapped]
         public decimal ProducedProfitMargin
         {
-            get => (ProducedPrice - ProducedCost) / ProducedPrice;
+            get => (ProducedFinalPrice - ProducedCost) / ProducedFinalPrice;
         }
 
         [NotMapped]
@@ -114,43 +119,49 @@ namespace DAL.DTO.Entities
         [NotMapped]
         public decimal Price
         {
+            get => UnitPrice * Quantity;
+        }
+
+        [NotMapped]
+        public decimal FinalPrice
+        {
             get
             {
                 if (DiscountRatio > 0)
-                    return (UnitPrice * Quantity) - ((UnitPrice * Quantity) * (DiscountRatio / 100));
+                    return Price - (Price * (DiscountRatio / 100));
                 else
-                    return UnitPrice * Quantity;
+                    return Price;
             }
         }
 
         [NotMapped]
-        public decimal PriceTax
+        public decimal FinalPriceTax
         {
-            get => Price * (TaxRatio / 100);
+            get => FinalPrice * (TaxRatio / 100);
         }
 
         [NotMapped]
-        public decimal PriceWithTax
+        public decimal FinalPriceWithTax
         {
-            get => Price + PriceTax;
+            get => FinalPrice + FinalPriceTax;
         }
 
         [NotMapped]
         public decimal Profit
         {
-            get => Price - Cost;
+            get => FinalPrice - Cost;
         }
 
         [NotMapped]
         public decimal ProfitRatio
         {
-            get => (Price - Cost) / Cost;
+            get => (FinalPrice - Cost) / Cost;
         }
 
         [NotMapped]
         public decimal ProfitMargin
         {
-            get => (Price - Cost) / Price;
+            get => (FinalPrice - Cost) / FinalPrice;
         }
         #endregion
     }

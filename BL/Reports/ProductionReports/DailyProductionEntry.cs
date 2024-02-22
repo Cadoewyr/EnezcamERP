@@ -34,11 +34,11 @@ namespace BL.Reports.ProductionReports
         }
         public decimal Profit
         {
-            get => Price - Cost;
+            get => FinalPrice - Cost;
         }
         public decimal ProfitRatio
         {
-            get => (Price - Cost) / Cost;
+            get => (FinalPrice - Cost) / Cost;
         }
     }
 }

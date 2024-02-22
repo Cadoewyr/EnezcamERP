@@ -86,12 +86,12 @@ namespace EnezcamERP.Forms.Order_Forms
                 lvi.SubItems.Add(item.UnitPrice.ToString("C2"));
                 lvi.SubItems.Add((item.DiscountRatio / 100).ToString("P0"));
                 lvi.SubItems.Add((item.TaxRatio / 100).ToString("P0"));
-                lvi.SubItems.Add(item.Quantity.ToString("N2"));
+                lvi.SubItems.Add(item.Quantity.ToString("N3"));
                 lvi.SubItems.Add(item.UnitCode.ToString());
                 lvi.SubItems.Add(item.ProducedOrders.Sum(x => x.ProducedOrderQuantity).ToString("N3"));
                 lvi.SubItems.Add((item.Quantity - item.ProducedOrders.Sum(x => x.ProducedOrderQuantity)).ToString("N3"));
                 lvi.SubItems.Add(item.Cost.ToString("C2"));
-                lvi.SubItems.Add(item.Price.ToString("C2"));
+                lvi.SubItems.Add(item.FinalPrice.ToString("C2"));
                 lvi.SubItems.Add(item.Profit.ToString("C2"));
                 lvi.SubItems.Add(item.ProfitRatio.ToString("P2"));
 

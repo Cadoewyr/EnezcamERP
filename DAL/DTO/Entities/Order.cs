@@ -36,7 +36,7 @@ namespace DAL.DTO.Entities
             get
             {
                 if (OrderDetails.Count > 0)
-                    return OrderDetails.Sum(x => x.Price);
+                    return OrderDetails.Sum(x => x.FinalPrice);
                 else
                     return 0;
             }
@@ -45,13 +45,13 @@ namespace DAL.DTO.Entities
         [NotMapped]
         public decimal PriceTax
         {
-            get => OrderDetails.Sum(x => x.PriceTax);
+            get => OrderDetails.Sum(x => x.FinalPriceTax);
         }
 
         [NotMapped]
         public decimal PriceWithTax
         {
-            get => OrderDetails.Sum(x => x.PriceWithTax);
+            get => OrderDetails.Sum(x => x.FinalPriceWithTax);
         }
 
         [NotMapped]
@@ -179,7 +179,7 @@ namespace DAL.DTO.Entities
             get
             {
                 if (OrderDetails.Count > 0)
-                    return OrderDetails.Sum(x => x.ProducedPrice);
+                    return OrderDetails.Sum(x => x.ProducedFinalPrice);
                 else
                     return 0;
             }
@@ -188,13 +188,13 @@ namespace DAL.DTO.Entities
         [NotMapped]
         public decimal ProducedPriceTax
         {
-            get => OrderDetails.Sum(x => x.ProducedPriceTax);
+            get => OrderDetails.Sum(x => x.ProducedFinalPriceTax);
         }
 
         [NotMapped]
         public decimal ProducedPriceWithTax
         {
-            get => OrderDetails.Sum(x => x.ProducedPriceWithTax);
+            get => OrderDetails.Sum(x => x.ProducedFinalPriceWithTax);
         }
 
         [NotMapped]
