@@ -74,6 +74,15 @@ namespace EnezcamERP.Forms.Order_Forms
         {
             lvOrderDetails.Items.Clear();
 
+            ColumnHeader clmDiscountedUnitPrice = new()
+            {
+                Name = "clmDiscountedUnitPrice",
+                Text = "İskontolu Birim Fiyat",
+                DisplayIndex = 3
+            };
+
+            //if(lvOrderDetails.Columns.)
+
             foreach (var item in order.OrderDetails)
             {
                 ListViewItem lvi = new()
@@ -84,6 +93,13 @@ namespace EnezcamERP.Forms.Order_Forms
 
                 lvi.SubItems.Add(item.UnitCost.ToString("C2"));
                 lvi.SubItems.Add(item.UnitPrice.ToString("C2"));
+                if (order.OrderDetails.Any(x => x.DiscountRatio > 0))
+                {
+                    if (!lvOrderDetails.Columns.Contains(clmDiscountedUnitPrice))
+                        lvOrderDetails.Columns.Insert(3, clmDiscountedUnitPrice);
+
+                    lvi.SubItems.Add(item.FinalUnitPrice.ToString("C2"));
+                }
                 lvi.SubItems.Add((item.DiscountRatio / 100).ToString("P0"));
                 lvi.SubItems.Add((item.TaxRatio / 100).ToString("P0"));
                 lvi.SubItems.Add(item.Quantity.ToString("N3"));

@@ -99,6 +99,18 @@ namespace DAL.DTO.Entities
         //Sales
         #region
         [NotMapped]
+        public decimal FinalUnitPrice
+        {
+            get
+            {
+                if (DiscountRatio > 0)
+                    return UnitPrice - (UnitPrice * (DiscountRatio / 100));
+                else
+                    return UnitPrice;
+            }
+        }
+
+        [NotMapped]
         public decimal Cost
         {
             get => UnitCost * Quantity;

@@ -1,4 +1,5 @@
 ﻿using DAL.DTO.Entities.Enums;
+using System.Reflection.Metadata.Ecma335;
 
 namespace BL.Reports.ProductionReports
 {
@@ -13,19 +14,23 @@ namespace BL.Reports.ProductionReports
         public UnitCode UnitCode { get; set; }
         public decimal UnitCost { get; set; }
         public decimal UnitPrice { get; set; }
+        public decimal FinalUnitPrice
+        {
+            get
+            {
+                if (DiscountRatio > 0)
+                    return UnitPrice - (UnitPrice * (DiscountRatio / 100));
+                else
+                    return UnitPrice;
+            }
+        }
         public decimal Price
         {
             get => UnitPrice * Quantity;
         }
         public decimal FinalPrice
         {
-            get
-            {
-                if (DiscountRatio > 0)
-                    return (Quantity * UnitPrice) - ((Quantity * UnitPrice) * (DiscountRatio / 100));
-                else
-                    return Price;
-            }
+            get => Quantity * FinalUnitPrice;
         }
         public decimal DiscountRatio { get; set; }
         public decimal Cost
