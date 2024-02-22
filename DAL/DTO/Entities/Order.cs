@@ -249,6 +249,18 @@ namespace DAL.DTO.Entities
                     }
                 }
 
+                if (OrderDetails.Any(x => !x.Product.IsCounting))
+                {
+                    foreach(var item in OrderDetails)
+                    {
+                        if(item.ProducedQuantity < item.Quantity)
+                        {
+                            isDone = false;
+                            break;
+                        }
+                    }
+                }
+
                 return isDone;
             }
         }

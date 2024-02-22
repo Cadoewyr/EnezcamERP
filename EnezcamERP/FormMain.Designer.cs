@@ -322,7 +322,6 @@
             lvOrders.MultiSelect = false;
             lvOrders.Name = "lvOrders";
             lvOrders.Size = new Size(1108, 449);
-            lvOrders.Sorting = SortOrder.Descending;
             lvOrders.TabIndex = 4;
             lvOrders.UseCompatibleStateImageBehavior = false;
             lvOrders.View = View.Details;
