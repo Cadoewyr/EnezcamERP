@@ -2,6 +2,7 @@
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
 using EnezcamERP.Validators;
+using System.Text;
 
 namespace EnezcamERP.Forms.Produced_Product_Forms
 {
@@ -13,7 +14,10 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
             this.order = order;
             this.parentForm = parentForm;
             gbOrderDetail.Text += $" ({order.JobNo} - {order.Customer.Name})";
-            dtpProduceDate.Value = producedOrdersRepository.GetAll().Max(x => x.ProducedDate).Date;
+            //var maxDate = producedOrdersRepository.GetAll().Max(x => x.ProducedDate).Date;
+            //dtpProduceDate.Value = maxDate.Add(DateTime.Now - maxDate);
+            dtpProduceDate.Value = DateTime.Now;
+                
             RefreshOrderDetails();
         }
 
@@ -122,10 +126,19 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 {
                     ProducedOrder po = new()
                     {
-                        ProducedDate = dtpProduceDate.Value.Date.AddHours(21),
+                        ProducedDate = dtpProduceDate.Value,
                         OrderDetail = lvOrderDetails.SelectedItems[0].Tag as OrderDetail,
                         ProducedOrderQuantity = nudProducedQuantity.Value
                     };
+
+                    StringBuilder sb = new();
+
+                    sb.AppendLine($"Issue Date: {po.OrderDetail.Order.IssueDate}");
+                    sb.AppendLine($"Produced Order Date: {po.ProducedDate}");
+                    sb.AppendLine($"DTP Value: {dtpProduceDate.Value}");
+                    //dtpProduceDate.
+
+                    MessageBox.Show(sb.ToString());
 
                     var res = new ProducedOrderValidator().Validate(po);
 

@@ -38,7 +38,7 @@ namespace EnezcamERP
                     items = items.Where(x => x.IsDone & x.CompletedDate >= mcDateFilter.SelectionStart.Date & x.CompletedDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1));
             }
 
-            foreach (var item in items.Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false).OrderByDescending(x => x.IssueDate))
+            foreach (var item in items.Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false).OrderByDescending(x => x.JobNo))
             {
                 ListViewItem lvi = new()
                 {
