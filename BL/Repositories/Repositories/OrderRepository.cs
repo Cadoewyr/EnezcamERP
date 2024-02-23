@@ -9,7 +9,7 @@ namespace BL.Repositories.Repositories
     {
         public override bool Add(Order entity)
         {
-            if (!table.Any(x => x.ID == entity.ID))
+            if (!table.Any(x => x.JobNo == entity.JobNo))
                 return base.Add(entity);
             else
                 throw new Exception($"{entity.JobNo} numarası ile başka bir sipariş oluşturulmuş. Aynı numara ile birden fazla sipariş oluşturulamaz.");
