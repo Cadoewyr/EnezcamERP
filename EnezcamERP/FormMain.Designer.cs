@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             tabOrders = new TabPage();
             gbOrders = new GroupBox();
             gbDateFilterSettings = new GroupBox();
@@ -837,10 +838,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1422, 563);
             Controls.Add(tabControlMain);
-            MdiChildrenMinimizedAnchorBottom = false;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(1350, 600);
             Name = "FormMain";
-            ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Enezcam ERP";
             Load += Main_Load;
