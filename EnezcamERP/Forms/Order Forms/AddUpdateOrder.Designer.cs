@@ -78,7 +78,7 @@
             txtSearchProduct = new TextBox();
             lblProducts = new Label();
             lvOrderDetails = new ListView();
-            clmProductName = new ColumnHeader();
+            clmProductCode1 = new ColumnHeader();
             clmUnitCost = new ColumnHeader();
             clmUnitPrice = new ColumnHeader();
             clmDiscountRatio = new ColumnHeader();
@@ -91,6 +91,7 @@
             clmTotalPrice = new ColumnHeader();
             clmTotalProfit = new ColumnHeader();
             clmTotalProfitPercentage = new ColumnHeader();
+            clmProductName1 = new ColumnHeader();
             gbOrderHeader.SuspendLayout();
             gbOrderDetails.SuspendLayout();
             gbOrderTotals.SuspendLayout();
@@ -567,7 +568,7 @@
             // lvOrderDetails
             // 
             lvOrderDetails.AllowColumnReorder = true;
-            lvOrderDetails.Columns.AddRange(new ColumnHeader[] { clmProductName, clmUnitCost, clmUnitPrice, clmDiscountRatio, clmTaxRatio, clmQuantity, clmProductUnitCode, clmProducedQuantity, clmRemainingQuantity, clmTotalCost, clmTotalPrice, clmTotalProfit, clmTotalProfitPercentage });
+            lvOrderDetails.Columns.AddRange(new ColumnHeader[] { clmProductCode1, clmProductName1, clmUnitCost, clmUnitPrice, clmDiscountRatio, clmTaxRatio, clmQuantity, clmProductUnitCode, clmProducedQuantity, clmRemainingQuantity, clmTotalCost, clmTotalPrice, clmTotalProfit, clmTotalProfitPercentage });
             lvOrderDetails.FullRowSelect = true;
             lvOrderDetails.GridLines = true;
             lvOrderDetails.Location = new Point(6, 27);
@@ -579,57 +580,73 @@
             lvOrderDetails.View = View.Details;
             lvOrderDetails.DoubleClick += lvOrderDetails_DoubleClick;
             // 
-            // clmProductName
+            // clmProductCode1
             // 
-            clmProductName.Text = "Ürün Adı";
+            clmProductCode1.Text = "Ürün Adı";
             // 
             // clmUnitCost
             // 
+            clmUnitCost.DisplayIndex = 2;
             clmUnitCost.Text = "Birim Maliyet";
             // 
             // clmUnitPrice
             // 
+            clmUnitPrice.DisplayIndex = 3;
             clmUnitPrice.Text = "Birim Fiyat";
             // 
             // clmDiscountRatio
             // 
+            clmDiscountRatio.DisplayIndex = 4;
             clmDiscountRatio.Text = "İskonto Oranı";
             // 
             // clmTaxRatio
             // 
+            clmTaxRatio.DisplayIndex = 5;
             clmTaxRatio.Text = "Vergi Oranı";
             // 
             // clmQuantity
             // 
+            clmQuantity.DisplayIndex = 6;
             clmQuantity.Text = "Miktar";
             // 
             // clmProductUnitCode
             // 
+            clmProductUnitCode.DisplayIndex = 7;
             clmProductUnitCode.Text = "Birim Kodu";
             // 
             // clmProducedQuantity
             // 
+            clmProducedQuantity.DisplayIndex = 8;
             clmProducedQuantity.Text = "Üretilen Miktar";
             // 
             // clmRemainingQuantity
             // 
+            clmRemainingQuantity.DisplayIndex = 9;
             clmRemainingQuantity.Text = "Üretilecek Miktar";
             // 
             // clmTotalCost
             // 
+            clmTotalCost.DisplayIndex = 10;
             clmTotalCost.Text = "Toplam Maliyet";
             // 
             // clmTotalPrice
             // 
+            clmTotalPrice.DisplayIndex = 11;
             clmTotalPrice.Text = "Toplam Fiyat";
             // 
             // clmTotalProfit
             // 
+            clmTotalProfit.DisplayIndex = 12;
             clmTotalProfit.Text = "Toplam Kar";
             // 
             // clmTotalProfitPercentage
             // 
+            clmTotalProfitPercentage.DisplayIndex = 13;
             clmTotalProfitPercentage.Text = "Toplam Kar Oranı";
+            // 
+            // clmProductName1
+            // 
+            clmProductName1.DisplayIndex = 1;
             // 
             // AddUpdateOrder
             // 
@@ -673,7 +690,7 @@
         private TextBox txtJobNo;
         private GroupBox gbOrderDetails;
         private ListView lvOrderDetails;
-        private ColumnHeader clmProductName;
+        private ColumnHeader clmProductCode1;
         private ColumnHeader clmProductUnitCode;
         private ColumnHeader clmUnitCost;
         private ColumnHeader clmUnitPrice;
@@ -727,5 +744,6 @@
         private NumericUpDown nudDiscountRatio;
         private Label lblDiscountRatio;
         private ColumnHeader clmDiscountRatio;
+        private ColumnHeader clmProductName1;
     }
 }

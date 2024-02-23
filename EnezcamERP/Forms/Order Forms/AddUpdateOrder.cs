@@ -47,11 +47,11 @@ namespace EnezcamERP.Forms.Order_Forms
             {
                 ListViewItem lvi = new()
                 {
-                    Text = product.Name,
+                    Text = product.Code,
                     Tag = product
                 };
 
-                lvi.SubItems.Add(product.Code);
+                lvi.SubItems.Add(product.Name);
                 lvi.SubItems.Add(product.Type.ToString());
                 lvi.SubItems.Add(product.PriceHistory.LastCost.ToString("C2"));
                 lvi.SubItems.Add(product.PriceHistory.LastPrice.ToString("C2"));
@@ -81,16 +81,15 @@ namespace EnezcamERP.Forms.Order_Forms
                 DisplayIndex = 3
             };
 
-            //if(lvOrderDetails.Columns.)
-
             foreach (var item in order.OrderDetails)
             {
                 ListViewItem lvi = new()
                 {
                     Tag = item,
-                    Text = item.Product.Name
+                    Text = item.Product.Code
                 };
 
+                lvi.SubItems.Add(item.Product.Name);
                 lvi.SubItems.Add(item.UnitCost.ToString("C2"));
                 lvi.SubItems.Add(item.UnitPrice.ToString("C2"));
                 if (order.OrderDetails.Any(x => x.DiscountRatio > 0))
