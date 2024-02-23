@@ -16,8 +16,8 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
             gbOrderDetail.Text += $" ({order.JobNo} - {order.Customer.Name})";
             //var maxDate = producedOrdersRepository.GetAll().Max(x => x.ProducedDate).Date;
             //dtpProduceDate.Value = maxDate.Add(DateTime.Now - maxDate);
-            dtpProduceDate.Value = DateTime.Now;
-                
+            dtpProduceDate.Value = DateTime.Now.Date;
+
             RefreshOrderDetails();
         }
 
@@ -120,6 +120,13 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
 
         private void btnAddProducedOrder_Click(object sender, EventArgs e)
         {
+            dtpProduceDate.Value = dtpProduceDate.Value.Date
+                .AddHours(DateTime.Now.Hour)
+                .AddMinutes(DateTime.Now.Minute)
+                .AddSeconds(DateTime.Now.Second)
+                .AddMilliseconds(DateTime.Now.Millisecond)
+                .AddMicroseconds(DateTime.Now.Microsecond);
+                
             if (lvOrderDetails.SelectedItems.Count > 0)
             {
                 try
@@ -130,15 +137,6 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                         OrderDetail = lvOrderDetails.SelectedItems[0].Tag as OrderDetail,
                         ProducedOrderQuantity = nudProducedQuantity.Value
                     };
-
-                    StringBuilder sb = new();
-
-                    sb.AppendLine($"Issue Date: {po.OrderDetail.Order.IssueDate}");
-                    sb.AppendLine($"Produced Order Date: {po.ProducedDate}");
-                    sb.AppendLine($"DTP Value: {dtpProduceDate.Value}");
-                    //dtpProduceDate.
-
-                    MessageBox.Show(sb.ToString());
 
                     var res = new ProducedOrderValidator().Validate(po);
 
