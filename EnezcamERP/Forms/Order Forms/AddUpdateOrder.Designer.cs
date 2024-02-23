@@ -79,6 +79,7 @@
             lblProducts = new Label();
             lvOrderDetails = new ListView();
             clmProductCode1 = new ColumnHeader();
+            clmProductName1 = new ColumnHeader();
             clmUnitCost = new ColumnHeader();
             clmUnitPrice = new ColumnHeader();
             clmDiscountRatio = new ColumnHeader();
@@ -91,7 +92,6 @@
             clmTotalPrice = new ColumnHeader();
             clmTotalProfit = new ColumnHeader();
             clmTotalProfitPercentage = new ColumnHeader();
-            clmProductName1 = new ColumnHeader();
             gbOrderHeader.SuspendLayout();
             gbOrderDetails.SuspendLayout();
             gbOrderTotals.SuspendLayout();
@@ -105,6 +105,7 @@
             // 
             // gbOrderHeader
             // 
+            gbOrderHeader.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             gbOrderHeader.Controls.Add(txtJobNo);
             gbOrderHeader.Controls.Add(dtpOrderDate);
             gbOrderHeader.Controls.Add(dtpDeliveryDate);
@@ -188,6 +189,7 @@
             // 
             // gbOrderDetails
             // 
+            gbOrderDetails.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             gbOrderDetails.Controls.Add(gbOrderTotals);
             gbOrderDetails.Controls.Add(gbAddProductDetail);
             gbOrderDetails.Controls.Add(lvOrderDetails);
@@ -200,6 +202,7 @@
             // 
             // gbOrderTotals
             // 
+            gbOrderTotals.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             gbOrderTotals.Controls.Add(txtPriceWithTax);
             gbOrderTotals.Controls.Add(lblPriceWithTax);
             gbOrderTotals.Controls.Add(txtProfitRatio);
@@ -357,6 +360,7 @@
             // 
             // gbAddProductDetail
             // 
+            gbAddProductDetail.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             gbAddProductDetail.Controls.Add(lvProducts);
             gbAddProductDetail.Controls.Add(btnDeleteOrderDetail);
             gbAddProductDetail.Controls.Add(btnAddOrderDetail);
@@ -383,6 +387,7 @@
             // 
             // lvProducts
             // 
+            lvProducts.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lvProducts.Columns.AddRange(new ColumnHeader[] { clmProductCode, clmProductName0, clmProductType, clmLastCost, clmLastPrice, clmIsCounting });
             lvProducts.FullRowSelect = true;
             lvProducts.GridLines = true;
@@ -420,6 +425,7 @@
             // 
             // btnDeleteOrderDetail
             // 
+            btnDeleteOrderDetail.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnDeleteOrderDetail.Location = new Point(575, 209);
             btnDeleteOrderDetail.Name = "btnDeleteOrderDetail";
             btnDeleteOrderDetail.Size = new Size(151, 29);
@@ -430,6 +436,7 @@
             // 
             // btnAddOrderDetail
             // 
+            btnAddOrderDetail.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnAddOrderDetail.Location = new Point(731, 209);
             btnAddOrderDetail.Name = "btnAddOrderDetail";
             btnAddOrderDetail.Size = new Size(151, 29);
@@ -440,6 +447,7 @@
             // 
             // nudDiscountRatio
             // 
+            nudDiscountRatio.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             nudDiscountRatio.Location = new Point(731, 173);
             nudDiscountRatio.Name = "nudDiscountRatio";
             nudDiscountRatio.Size = new Size(151, 27);
@@ -448,6 +456,7 @@
             // 
             // lblDiscountRatio
             // 
+            lblDiscountRatio.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             lblDiscountRatio.AutoSize = true;
             lblDiscountRatio.Location = new Point(731, 151);
             lblDiscountRatio.Name = "lblDiscountRatio";
@@ -457,6 +466,7 @@
             // 
             // nudTaxRatio
             // 
+            nudTaxRatio.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             nudTaxRatio.Location = new Point(575, 173);
             nudTaxRatio.Name = "nudTaxRatio";
             nudTaxRatio.Size = new Size(151, 27);
@@ -465,6 +475,7 @@
             // 
             // lblTaxRatio
             // 
+            lblTaxRatio.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             lblTaxRatio.AutoSize = true;
             lblTaxRatio.Location = new Point(575, 151);
             lblTaxRatio.Name = "lblTaxRatio";
@@ -474,6 +485,7 @@
             // 
             // nudQuantity
             // 
+            nudQuantity.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             nudQuantity.DecimalPlaces = 3;
             nudQuantity.Location = new Point(575, 115);
             nudQuantity.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
@@ -484,6 +496,7 @@
             // 
             // lblQuantity
             // 
+            lblQuantity.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             lblQuantity.AutoSize = true;
             lblQuantity.Location = new Point(575, 92);
             lblQuantity.Name = "lblQuantity";
@@ -493,6 +506,7 @@
             // 
             // nudPrice
             // 
+            nudPrice.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             nudPrice.DecimalPlaces = 2;
             nudPrice.Location = new Point(731, 115);
             nudPrice.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
@@ -503,6 +517,7 @@
             // 
             // lblPrice
             // 
+            lblPrice.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             lblPrice.AutoSize = true;
             lblPrice.Location = new Point(731, 92);
             lblPrice.Name = "lblPrice";
@@ -512,6 +527,7 @@
             // 
             // nudCost
             // 
+            nudCost.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             nudCost.DecimalPlaces = 2;
             nudCost.Location = new Point(731, 57);
             nudCost.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
@@ -522,6 +538,7 @@
             // 
             // lblCost
             // 
+            lblCost.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             lblCost.AutoSize = true;
             lblCost.Location = new Point(731, 35);
             lblCost.Name = "lblCost";
@@ -531,6 +548,7 @@
             // 
             // cbUnitCode
             // 
+            cbUnitCode.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             cbUnitCode.FormattingEnabled = true;
             cbUnitCode.Location = new Point(575, 57);
             cbUnitCode.Name = "cbUnitCode";
@@ -540,6 +558,7 @@
             // 
             // lblUnitCode
             // 
+            lblUnitCode.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             lblUnitCode.AutoSize = true;
             lblUnitCode.Location = new Point(575, 35);
             lblUnitCode.Name = "lblUnitCode";
@@ -549,6 +568,7 @@
             // 
             // txtSearchProduct
             // 
+            txtSearchProduct.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             txtSearchProduct.Location = new Point(6, 211);
             txtSearchProduct.MaxLength = 200;
             txtSearchProduct.Name = "txtSearchProduct";
@@ -568,6 +588,7 @@
             // lvOrderDetails
             // 
             lvOrderDetails.AllowColumnReorder = true;
+            lvOrderDetails.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lvOrderDetails.Columns.AddRange(new ColumnHeader[] { clmProductCode1, clmProductName1, clmUnitCost, clmUnitPrice, clmDiscountRatio, clmTaxRatio, clmQuantity, clmProductUnitCode, clmProducedQuantity, clmRemainingQuantity, clmTotalCost, clmTotalPrice, clmTotalProfit, clmTotalProfitPercentage });
             lvOrderDetails.FullRowSelect = true;
             lvOrderDetails.GridLines = true;
@@ -582,71 +603,59 @@
             // 
             // clmProductCode1
             // 
-            clmProductCode1.Text = "Ürün Adı";
+            clmProductCode1.Text = "Ürün Kodu";
+            // 
+            // clmProductName1
+            // 
+            clmProductName1.Text = "Ürün Adı";
             // 
             // clmUnitCost
             // 
-            clmUnitCost.DisplayIndex = 2;
             clmUnitCost.Text = "Birim Maliyet";
             // 
             // clmUnitPrice
             // 
-            clmUnitPrice.DisplayIndex = 3;
             clmUnitPrice.Text = "Birim Fiyat";
             // 
             // clmDiscountRatio
             // 
-            clmDiscountRatio.DisplayIndex = 4;
             clmDiscountRatio.Text = "İskonto Oranı";
             // 
             // clmTaxRatio
             // 
-            clmTaxRatio.DisplayIndex = 5;
             clmTaxRatio.Text = "Vergi Oranı";
             // 
             // clmQuantity
             // 
-            clmQuantity.DisplayIndex = 6;
             clmQuantity.Text = "Miktar";
             // 
             // clmProductUnitCode
             // 
-            clmProductUnitCode.DisplayIndex = 7;
             clmProductUnitCode.Text = "Birim Kodu";
             // 
             // clmProducedQuantity
             // 
-            clmProducedQuantity.DisplayIndex = 8;
             clmProducedQuantity.Text = "Üretilen Miktar";
             // 
             // clmRemainingQuantity
             // 
-            clmRemainingQuantity.DisplayIndex = 9;
             clmRemainingQuantity.Text = "Üretilecek Miktar";
             // 
             // clmTotalCost
             // 
-            clmTotalCost.DisplayIndex = 10;
             clmTotalCost.Text = "Toplam Maliyet";
             // 
             // clmTotalPrice
             // 
-            clmTotalPrice.DisplayIndex = 11;
             clmTotalPrice.Text = "Toplam Fiyat";
             // 
             // clmTotalProfit
             // 
-            clmTotalProfit.DisplayIndex = 12;
             clmTotalProfit.Text = "Toplam Kar";
             // 
             // clmTotalProfitPercentage
             // 
-            clmTotalProfitPercentage.DisplayIndex = 13;
             clmTotalProfitPercentage.Text = "Toplam Kar Oranı";
-            // 
-            // clmProductName1
-            // 
-            clmProductName1.DisplayIndex = 1;
             // 
             // AddUpdateOrder
             // 
@@ -657,8 +666,7 @@
             ClientSize = new Size(1261, 597);
             Controls.Add(gbOrderDetails);
             Controls.Add(gbOrderHeader);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-            MaximizeBox = false;
+            MinimumSize = new Size(1279, 644);
             Name = "AddUpdateOrder";
             ShowIcon = false;
             ShowInTaskbar = false;
