@@ -38,7 +38,7 @@ namespace EnezcamERP
                     items = items.Where(x => x.IsDone & x.CompletedDate >= mcDateFilter.SelectionStart.Date & x.CompletedDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1));
             }
 
-            foreach (var item in items.Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false).OrderByDescending(x => x.JobNo))
+            foreach (var item in items.Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false).OrderByDescending(x => x.IssueDate))
             {
                 ListViewItem lvi = new()
                 {
@@ -258,8 +258,6 @@ namespace EnezcamERP
         {
             RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             mcDateFilter.Enabled = cbDateFilter.Checked;
-            rbCompletedDate.Enabled = cbDateFilter.Checked;
-            rbOrderDate.Enabled = cbDateFilter.Checked;
         }
 
         private void mcDateFilter_DateSelected(object sender, DateRangeEventArgs e)
