@@ -188,6 +188,7 @@
             // 
             rbCompletedDate.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             rbCompletedDate.AutoSize = true;
+            rbCompletedDate.Enabled = false;
             rbCompletedDate.Location = new Point(6, 99);
             rbCompletedDate.Margin = new Padding(3, 4, 3, 4);
             rbCompletedDate.Name = "rbCompletedDate";
@@ -203,6 +204,7 @@
             rbOrderDate.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             rbOrderDate.AutoSize = true;
             rbOrderDate.Checked = true;
+            rbOrderDate.Enabled = false;
             rbOrderDate.Location = new Point(6, 67);
             rbOrderDate.Margin = new Padding(3, 4, 3, 4);
             rbOrderDate.Name = "rbOrderDate";
