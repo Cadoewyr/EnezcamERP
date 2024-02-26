@@ -258,6 +258,8 @@ namespace EnezcamERP
         {
             RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             mcDateFilter.Enabled = cbDateFilter.Checked;
+            rbOrderDate.Enabled = cbDateFilter.Checked;
+            rbCompletedDate.Enabled = cbDateFilter.Checked;
         }
 
         private void mcDateFilter_DateSelected(object sender, DateRangeEventArgs e)
