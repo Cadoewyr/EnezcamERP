@@ -44,7 +44,7 @@ namespace BL.Reports.ProductionReports
 
             for (int i = 0; i < producedOrders.Count(); i++)
             {
-                var currentProducedOrder = producedOrders[i];
+                var currentProducedOrder = producedOrders[i] with { };
 
                 if (mergedProducedOrders.Any(x => x.OrderDetail.ID == currentProducedOrder.OrderDetail.ID))
                 {
