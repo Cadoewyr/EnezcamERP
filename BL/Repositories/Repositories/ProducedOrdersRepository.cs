@@ -28,7 +28,7 @@ namespace BL.Repositories.Repositories
         {
             return table
                 .Include(x => x.OrderDetail).ThenInclude(x => x.Order)
-                .ToList();
+                .ToList().OrderByDescending(x => x.ProducedDate);
         }
         public override IEnumerable<ProducedOrder> GetAll(string filter)
         {
@@ -48,14 +48,14 @@ namespace BL.Repositories.Repositories
                 }
             }
 
-            return results;
+            return results.OrderByDescending(x => x.ProducedDate);
         }
         public override IEnumerable<ProducedOrder> GetAll(Expression<Func<ProducedOrder, bool>> predicate)
         {
             return table
                 .Where(predicate)
                 .Include(x => x.OrderDetail).ThenInclude(x => x.Order)
-                .ToList();
+                .ToList().OrderBy(x => x.ProducedDate);
         }
         public override bool Update(ProducedOrder entity, int id)
         {

@@ -14,8 +14,6 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
             this.order = order;
             this.parentForm = parentForm;
             gbOrderDetail.Text += $" ({order.JobNo} - {order.Customer.Name})";
-            //var maxDate = producedOrdersRepository.GetAll().Max(x => x.ProducedDate).Date;
-            //dtpProduceDate.Value = maxDate.Add(DateTime.Now - maxDate);
             dtpProduceDate.Value = DateTime.Now.Date;
 
             RefreshOrderDetails();
@@ -86,7 +84,7 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
             ListView listView = lvProduceHistory;
             listView.Items.Clear();
 
-            foreach (var item in producedOrders)
+            foreach (var item in producedOrders.OrderBy(x => x.ProducedDate))
             {
                 ListViewItem lvi = new()
                 {

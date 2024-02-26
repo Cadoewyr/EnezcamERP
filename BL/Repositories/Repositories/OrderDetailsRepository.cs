@@ -23,7 +23,7 @@ namespace BL.Repositories.Repositories
                 .Include(x => x.ProducedOrders)
                 .Include(x => x.Product)
                 .Include(x => x.Product.PriceHistory)
-                .ToList();
+                .ToList().OrderBy(x => x.CreatedAt);
         }
         public override IEnumerable<OrderDetail> GetAll(string filter)
         {
@@ -43,7 +43,7 @@ namespace BL.Repositories.Repositories
                 }
             }
 
-            return results;
+            return results.OrderBy(x => x.CreatedAt);
         }
         public override IEnumerable<OrderDetail> GetAll(Expression<Func<OrderDetail, bool>> predicate)
         {
@@ -52,7 +52,7 @@ namespace BL.Repositories.Repositories
                 .Include(x => x.ProducedOrders)
                 .Include(x => x.Product)
                 .Include(x => x.Product.PriceHistory)
-                .ToList();
+                .ToList().OrderBy(x => x.CreatedAt);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace BL.Repositories.Repositories
         {
             return table.
                 Include(x => x.PriceHistory)
-                .ToList();
+                .ToList().OrderBy(x => x.Name);
         }
         public override IEnumerable<Product> GetAll(string filter)
         {
@@ -39,14 +39,14 @@ namespace BL.Repositories.Repositories
                 }
             }
 
-            return results;
+            return results.OrderBy(x => x.Name);
         }
         public override IEnumerable<Product> GetAll(Expression<Func<Product, bool>> predicate)
         {
             return table
                 .Where(predicate)
                 .Include(x => x.PriceHistory)
-                .ToList();
+                .ToList().OrderBy(x => x.Name);
         }
         public override bool Update(Product entity, int id)
         {
