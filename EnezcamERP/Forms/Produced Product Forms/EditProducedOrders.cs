@@ -93,6 +93,7 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
 
                 lvi.SubItems.Add(item.ProducedOrderQuantity.ToString("N3"));
                 lvi.SubItems.Add((item.OrderDetail.Quantity - item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate <= item.ProducedDate).Sum(x => x.ProducedOrderQuantity)).ToString("N3"));
+                lvi.SubItems.Add(item.IsStock ? "Stok" : "Üretim");
 
                 listView.Items.Add(lvi);
             }
@@ -132,7 +133,8 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                     {
                         ProducedDate = dtpProduceDate.Value,
                         OrderDetail = lvOrderDetails.SelectedItems[0].Tag as OrderDetail,
-                        ProducedOrderQuantity = nudProducedQuantity.Value
+                        ProducedOrderQuantity = nudProducedQuantity.Value,
+                        IsStock = cbIsStock.Checked
                     };
 
                     var res = new ProducedOrderValidator().Validate(po);

@@ -40,6 +40,7 @@
             clmRemainingQuantity0 = new ColumnHeader();
             gbProducedOrders = new GroupBox();
             gbAddDeleteProducedOrders = new GroupBox();
+            cbIsStock = new CheckBox();
             dtpProduceDate = new DateTimePicker();
             lblProduceQuantity = new Label();
             btnAddProducedQuantity = new Button();
@@ -58,6 +59,7 @@
             lblRemainingQuantity = new Label();
             lnlProductName = new Label();
             lblQuantity = new Label();
+            clmIsStock = new ColumnHeader();
             gbOrderDetail.SuspendLayout();
             gbProducedOrders.SuspendLayout();
             gbAddDeleteProducedOrders.SuspendLayout();
@@ -68,9 +70,11 @@
             // 
             gbOrderDetail.Controls.Add(lvOrderDetails);
             gbOrderDetail.Controls.Add(gbProducedOrders);
-            gbOrderDetail.Location = new Point(12, 12);
+            gbOrderDetail.Location = new Point(10, 9);
+            gbOrderDetail.Margin = new Padding(3, 2, 3, 2);
             gbOrderDetail.Name = "gbOrderDetail";
-            gbOrderDetail.Size = new Size(1004, 660);
+            gbOrderDetail.Padding = new Padding(3, 2, 3, 2);
+            gbOrderDetail.Size = new Size(878, 503);
             gbOrderDetail.TabIndex = 0;
             gbOrderDetail.TabStop = false;
             gbOrderDetail.Text = "Sipariş Detayı";
@@ -81,9 +85,10 @@
             lvOrderDetails.Columns.AddRange(new ColumnHeader[] { clmProductName, clmCode, clmUnitCost, clmUnitPrice, clmUnitCode, clmQuantity, clmProducedQuantity0, clmRemainingQuantity0 });
             lvOrderDetails.FullRowSelect = true;
             lvOrderDetails.GridLines = true;
-            lvOrderDetails.Location = new Point(6, 26);
+            lvOrderDetails.Location = new Point(5, 20);
+            lvOrderDetails.Margin = new Padding(3, 2, 3, 2);
             lvOrderDetails.Name = "lvOrderDetails";
-            lvOrderDetails.Size = new Size(992, 266);
+            lvOrderDetails.Size = new Size(868, 200);
             lvOrderDetails.TabIndex = 4;
             lvOrderDetails.UseCompatibleStateImageBehavior = false;
             lvOrderDetails.View = View.Details;
@@ -133,50 +138,67 @@
             gbProducedOrders.Controls.Add(lblRemainingQuantity);
             gbProducedOrders.Controls.Add(lnlProductName);
             gbProducedOrders.Controls.Add(lblQuantity);
-            gbProducedOrders.Location = new Point(6, 298);
+            gbProducedOrders.Location = new Point(5, 224);
+            gbProducedOrders.Margin = new Padding(3, 2, 3, 2);
             gbProducedOrders.Name = "gbProducedOrders";
-            gbProducedOrders.Size = new Size(992, 356);
+            gbProducedOrders.Padding = new Padding(3, 2, 3, 2);
+            gbProducedOrders.Size = new Size(868, 275);
             gbProducedOrders.TabIndex = 3;
             gbProducedOrders.TabStop = false;
             gbProducedOrders.Text = "Üretim Geçmişi";
             // 
             // gbAddDeleteProducedOrders
             // 
+            gbAddDeleteProducedOrders.Controls.Add(cbIsStock);
             gbAddDeleteProducedOrders.Controls.Add(dtpProduceDate);
             gbAddDeleteProducedOrders.Controls.Add(lblProduceQuantity);
             gbAddDeleteProducedOrders.Controls.Add(btnAddProducedQuantity);
             gbAddDeleteProducedOrders.Controls.Add(lblDate);
             gbAddDeleteProducedOrders.Controls.Add(btnDeleteProducedOrder);
             gbAddDeleteProducedOrders.Controls.Add(nudProducedQuantity);
-            gbAddDeleteProducedOrders.Location = new Point(644, 182);
+            gbAddDeleteProducedOrders.Location = new Point(564, 121);
+            gbAddDeleteProducedOrders.Margin = new Padding(3, 2, 3, 2);
             gbAddDeleteProducedOrders.Name = "gbAddDeleteProducedOrders";
-            gbAddDeleteProducedOrders.Size = new Size(342, 165);
+            gbAddDeleteProducedOrders.Padding = new Padding(3, 2, 3, 2);
+            gbAddDeleteProducedOrders.Size = new Size(299, 150);
             gbAddDeleteProducedOrders.TabIndex = 8;
             gbAddDeleteProducedOrders.TabStop = false;
             gbAddDeleteProducedOrders.Text = "Ekle / Sil";
             // 
+            // cbIsStock
+            // 
+            cbIsStock.AutoSize = true;
+            cbIsStock.Location = new Point(88, 72);
+            cbIsStock.Name = "cbIsStock";
+            cbIsStock.Size = new Size(49, 19);
+            cbIsStock.TabIndex = 6;
+            cbIsStock.Text = "Stok";
+            cbIsStock.UseVisualStyleBackColor = true;
+            // 
             // dtpProduceDate
             // 
-            dtpProduceDate.Location = new Point(101, 26);
+            dtpProduceDate.Location = new Point(88, 20);
+            dtpProduceDate.Margin = new Padding(3, 2, 3, 2);
             dtpProduceDate.Name = "dtpProduceDate";
-            dtpProduceDate.Size = new Size(229, 27);
+            dtpProduceDate.Size = new Size(201, 23);
             dtpProduceDate.TabIndex = 4;
             // 
             // lblProduceQuantity
             // 
             lblProduceQuantity.AutoSize = true;
-            lblProduceQuantity.Location = new Point(6, 61);
+            lblProduceQuantity.Location = new Point(5, 46);
             lblProduceQuantity.Name = "lblProduceQuantity";
-            lblProduceQuantity.Size = new Size(51, 20);
+            lblProduceQuantity.Size = new Size(41, 15);
             lblProduceQuantity.TabIndex = 7;
             lblProduceQuantity.Text = "Miktar";
             // 
             // btnAddProducedQuantity
             // 
-            btnAddProducedQuantity.Location = new Point(101, 92);
+            btnAddProducedQuantity.Location = new Point(88, 96);
+            btnAddProducedQuantity.Margin = new Padding(3, 2, 3, 2);
             btnAddProducedQuantity.Name = "btnAddProducedQuantity";
-            btnAddProducedQuantity.Size = new Size(229, 29);
-            btnAddProducedQuantity.TabIndex = 3;
+            btnAddProducedQuantity.Size = new Size(200, 22);
+            btnAddProducedQuantity.TabIndex = 7;
             btnAddProducedQuantity.Text = "Ekle";
             btnAddProducedQuantity.UseVisualStyleBackColor = true;
             btnAddProducedQuantity.Click += btnAddProducedOrder_Click;
@@ -184,18 +206,19 @@
             // lblDate
             // 
             lblDate.AutoSize = true;
-            lblDate.Location = new Point(6, 31);
+            lblDate.Location = new Point(5, 23);
             lblDate.Name = "lblDate";
-            lblDate.Size = new Size(40, 20);
+            lblDate.Size = new Size(32, 15);
             lblDate.TabIndex = 6;
             lblDate.Text = "Tarih";
             // 
             // btnDeleteProducedOrder
             // 
-            btnDeleteProducedOrder.Location = new Point(101, 127);
+            btnDeleteProducedOrder.Location = new Point(88, 122);
+            btnDeleteProducedOrder.Margin = new Padding(3, 2, 3, 2);
             btnDeleteProducedOrder.Name = "btnDeleteProducedOrder";
-            btnDeleteProducedOrder.Size = new Size(229, 29);
-            btnDeleteProducedOrder.TabIndex = 3;
+            btnDeleteProducedOrder.Size = new Size(200, 22);
+            btnDeleteProducedOrder.TabIndex = 8;
             btnDeleteProducedOrder.Text = "Sil";
             btnDeleteProducedOrder.UseVisualStyleBackColor = true;
             btnDeleteProducedOrder.Click += btnDeleteProducedOrder_Click;
@@ -204,65 +227,71 @@
             // 
             nudProducedQuantity.DecimalPlaces = 3;
             nudProducedQuantity.Increment = new decimal(new int[] { 10, 0, 0, 0 });
-            nudProducedQuantity.Location = new Point(101, 59);
+            nudProducedQuantity.Location = new Point(88, 44);
+            nudProducedQuantity.Margin = new Padding(3, 2, 3, 2);
             nudProducedQuantity.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             nudProducedQuantity.Name = "nudProducedQuantity";
-            nudProducedQuantity.Size = new Size(229, 27);
+            nudProducedQuantity.Size = new Size(200, 23);
             nudProducedQuantity.TabIndex = 5;
             // 
             // txtRemainigQuantity
             // 
-            txtRemainigQuantity.Location = new Point(757, 125);
+            txtRemainigQuantity.Location = new Point(662, 94);
+            txtRemainigQuantity.Margin = new Padding(3, 2, 3, 2);
             txtRemainigQuantity.MaxLength = 200;
             txtRemainigQuantity.Name = "txtRemainigQuantity";
             txtRemainigQuantity.ReadOnly = true;
-            txtRemainigQuantity.Size = new Size(223, 27);
+            txtRemainigQuantity.Size = new Size(196, 23);
             txtRemainigQuantity.TabIndex = 1;
             // 
             // txtProducedQuantity
             // 
-            txtProducedQuantity.Location = new Point(757, 92);
+            txtProducedQuantity.Location = new Point(662, 69);
+            txtProducedQuantity.Margin = new Padding(3, 2, 3, 2);
             txtProducedQuantity.MaxLength = 200;
             txtProducedQuantity.Name = "txtProducedQuantity";
             txtProducedQuantity.ReadOnly = true;
-            txtProducedQuantity.Size = new Size(223, 27);
+            txtProducedQuantity.Size = new Size(196, 23);
             txtProducedQuantity.TabIndex = 1;
             // 
             // txtQuantity
             // 
-            txtQuantity.Location = new Point(757, 59);
+            txtQuantity.Location = new Point(662, 44);
+            txtQuantity.Margin = new Padding(3, 2, 3, 2);
             txtQuantity.MaxLength = 200;
             txtQuantity.Name = "txtQuantity";
             txtQuantity.ReadOnly = true;
-            txtQuantity.Size = new Size(223, 27);
+            txtQuantity.Size = new Size(196, 23);
             txtQuantity.TabIndex = 1;
             // 
             // txtProductName
             // 
-            txtProductName.Location = new Point(757, 26);
+            txtProductName.Location = new Point(662, 20);
+            txtProductName.Margin = new Padding(3, 2, 3, 2);
             txtProductName.MaxLength = 200;
             txtProductName.Name = "txtProductName";
             txtProductName.ReadOnly = true;
-            txtProductName.Size = new Size(223, 27);
+            txtProductName.Size = new Size(196, 23);
             txtProductName.TabIndex = 1;
             // 
             // lblProducedQuantity
             // 
             lblProducedQuantity.AutoSize = true;
-            lblProducedQuantity.Location = new Point(644, 95);
+            lblProducedQuantity.Location = new Point(564, 71);
             lblProducedQuantity.Name = "lblProducedQuantity";
-            lblProducedQuantity.Size = new Size(107, 20);
+            lblProducedQuantity.Size = new Size(85, 15);
             lblProducedQuantity.TabIndex = 0;
             lblProducedQuantity.Text = "Üretilen Miktar";
             // 
             // lvProduceHistory
             // 
-            lvProduceHistory.Columns.AddRange(new ColumnHeader[] { clmDate, clmProducedQuantity, clmRemaningQuantity });
+            lvProduceHistory.Columns.AddRange(new ColumnHeader[] { clmDate, clmProducedQuantity, clmRemaningQuantity, clmIsStock });
             lvProduceHistory.FullRowSelect = true;
             lvProduceHistory.GridLines = true;
-            lvProduceHistory.Location = new Point(6, 29);
+            lvProduceHistory.Location = new Point(5, 22);
+            lvProduceHistory.Margin = new Padding(3, 2, 3, 2);
             lvProduceHistory.Name = "lvProduceHistory";
-            lvProduceHistory.Size = new Size(632, 318);
+            lvProduceHistory.Size = new Size(554, 249);
             lvProduceHistory.TabIndex = 2;
             lvProduceHistory.UseCompatibleStateImageBehavior = false;
             lvProduceHistory.View = View.Details;
@@ -282,38 +311,43 @@
             // lblRemainingQuantity
             // 
             lblRemainingQuantity.AutoSize = true;
-            lblRemainingQuantity.Location = new Point(644, 128);
+            lblRemainingQuantity.Location = new Point(564, 96);
             lblRemainingQuantity.Name = "lblRemainingQuantity";
-            lblRemainingQuantity.Size = new Size(92, 20);
+            lblRemainingQuantity.Size = new Size(73, 15);
             lblRemainingQuantity.TabIndex = 0;
             lblRemainingQuantity.Text = "Kalan Miktar";
             // 
             // lnlProductName
             // 
             lnlProductName.AutoSize = true;
-            lnlProductName.Location = new Point(644, 29);
+            lnlProductName.Location = new Point(564, 22);
             lnlProductName.Name = "lnlProductName";
-            lnlProductName.Size = new Size(40, 20);
+            lnlProductName.Size = new Size(33, 15);
             lnlProductName.TabIndex = 0;
             lnlProductName.Text = "Ürün";
             // 
             // lblQuantity
             // 
             lblQuantity.AutoSize = true;
-            lblQuantity.Location = new Point(644, 62);
+            lblQuantity.Location = new Point(564, 46);
             lblQuantity.Name = "lblQuantity";
-            lblQuantity.Size = new Size(51, 20);
+            lblQuantity.Size = new Size(41, 15);
             lblQuantity.TabIndex = 0;
             lblQuantity.Text = "Miktar";
+            // 
+            // clmIsStock
+            // 
+            clmIsStock.Text = "Üretim Türü";
             // 
             // EditProducedOrders
             // 
             AcceptButton = btnAddProducedQuantity;
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1028, 684);
+            ClientSize = new Size(900, 523);
             Controls.Add(gbOrderDetail);
             FormBorderStyle = FormBorderStyle.FixedDialog;
+            Margin = new Padding(3, 2, 3, 2);
             MaximizeBox = false;
             Name = "EditProducedOrders";
             ShowIcon = false;
@@ -361,5 +395,7 @@
         private ColumnHeader clmRemainingQuantity0;
         private ColumnHeader clmRemaningQuantity;
         private ColumnHeader clmCode;
+        private CheckBox cbIsStock;
+        private ColumnHeader clmIsStock;
     }
 }

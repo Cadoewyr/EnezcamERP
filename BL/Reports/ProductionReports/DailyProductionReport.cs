@@ -34,7 +34,7 @@ namespace BL.Reports.ProductionReports
                     UnitCost = item.OrderDetail.UnitCost,
                     UnitPrice = item.OrderDetail.UnitPrice,
                     DiscountRatio = item.OrderDetail.DiscountRatio,
-                    Quantity = item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date).Sum(x => x.ProducedOrderQuantity)
+                    Quantity = item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date && !x.IsStock).Sum(x => x.ProducedOrderQuantity)
                 });
             }
             DailyProductionEntries = DailyProductionEntries.OrderBy(x => x.JobNo).ToList();
