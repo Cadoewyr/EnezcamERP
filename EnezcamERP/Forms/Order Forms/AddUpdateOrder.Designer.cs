@@ -660,7 +660,7 @@
             // 
             // AddUpdateOrder
             // 
-            AcceptButton = btnSaveOrder;
+            AcceptButton = btnAddOrderDetail;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnCancel;
