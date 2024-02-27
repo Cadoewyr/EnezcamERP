@@ -37,6 +37,7 @@ namespace BL.Reports.ProductionReports
                     Quantity = item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date).Sum(x => x.ProducedOrderQuantity)
                 });
             }
+            DailyProductionEntries = DailyProductionEntries.OrderBy(x => x.JobNo).ToList();
         }
         List<ProducedOrder> MergeOrders(List<ProducedOrder> producedOrders)
         {
