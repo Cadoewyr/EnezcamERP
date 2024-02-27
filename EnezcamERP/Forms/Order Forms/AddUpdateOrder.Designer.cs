@@ -472,6 +472,7 @@
             nudTaxRatio.Size = new Size(151, 27);
             nudTaxRatio.TabIndex = 9;
             nudTaxRatio.ThousandsSeparator = true;
+            nudTaxRatio.Value = new decimal(new int[] { 20, 0, 0, 0 });
             // 
             // lblTaxRatio
             // 
