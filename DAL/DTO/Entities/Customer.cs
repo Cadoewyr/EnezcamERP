@@ -1,9 +1,4 @@
-﻿using DAL.DTO.Entities.Interfaces;
-using System;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
-
-namespace DAL.DTO.Entities
+﻿namespace DAL.DTO.Entities
 {
     public record Customer : BaseEntity
     {

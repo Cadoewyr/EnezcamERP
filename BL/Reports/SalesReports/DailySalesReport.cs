@@ -1,0 +1,98 @@
+﻿using BL.Report.Enums;
+using BL.Repositories.Repositories;
+using DAL.DTO.Entities;
+
+namespace BL.Reports.SalesReports
+{
+    public class DailySalesReport
+    {
+        public DailySalesReport(DateTime date, decimal outgoing)
+        {
+            _date = date.Date;
+            _outgoing = outgoing;
+
+            OrderDetails.AddRange(orderDetailsDB.GetAll(x => x.Order.IssueDate.Date == date.Date));
+
+            CreateEntries(OrderDetails);
+        }
+
+        OrderDetailsRepository orderDetailsDB = new();
+
+        void CreateEntries(IEnumerable<OrderDetail> orderDetails)
+        {
+            foreach (var item in orderDetails)
+            {
+                DailySalesEntries.Add(new()
+                {
+                    IssueDate = item.Order.IssueDate.Date,
+                    TaxRatio = item.TaxRatio,
+                    CustomerName = item.Order.Customer.Name,
+                    JobNo = item.Order.JobNo,
+                    ProductType = item.Product.Type,
+                    UnitCode = item.UnitCode,
+                    ProductName = item.Product.Name,
+                    UnitCost = item.UnitCost,
+                    UnitPrice = item.UnitPrice,
+                    DiscountRatio = item.DiscountRatio,
+                    Quantity = item.Quantity
+                });
+            }
+            DailySalesEntries = DailySalesEntries.OrderBy(x => x.JobNo).ToList();
+        }
+
+        decimal _outgoing;
+        public decimal Outgoing => _outgoing;
+
+        public ReportInterval Interval => ReportInterval.Daily;
+        public ReportType Type => ReportType.Production;
+
+        private DateTime _date;
+        public DateTime Date
+        {
+            get { return _date; }
+            set { _date = value; }
+        }
+
+        List<OrderDetail> OrderDetails { get; set; } = [];
+        public List<DailySalesEntry> DailySalesEntries { get; set; } = [];
+
+        public decimal GetCustomerTotal(int jobNo)
+        {
+            return DailySalesEntries.Where(x => x.JobNo == jobNo).Sum(x => x.FinalPrice);
+        }
+
+        //Calculation properties
+        #region
+        public decimal Price => DailySalesEntries.Sum(x => x.FinalPrice);
+        public decimal PriceTax => (Price / 100) * 20;
+        public decimal PriceWithTax => Price + PriceTax;
+        public decimal Cost => DailySalesEntries.Sum(x => x.Cost);
+        public decimal CostTax => (Cost / 100) * 20;
+        public decimal CostWithTax => Cost + CostTax;
+        public decimal Profit => DailySalesEntries.Sum(x => x.Profit);
+        public decimal ProfitWithoutOutgoing => Profit - Outgoing;
+        public decimal ProfitRatio
+        {
+            get
+            {
+                if (Price > 0 & Cost > 0)
+                    return ((Price - Cost) / Cost);
+                else
+                    return 0;
+            }
+        }
+        public decimal CostWithOutgoing => Outgoing + Cost;
+        public decimal WithoutOutgoing => Cost - Outgoing;
+        public decimal ProfitRatioWithOutgoing
+        {
+            get
+            {
+                if (Price > 0 & CostWithOutgoing > 0)
+                    return ((Price - CostWithOutgoing) / CostWithOutgoing);
+                else
+                    return 0;
+            }
+        }
+        #endregion
+    }
+}

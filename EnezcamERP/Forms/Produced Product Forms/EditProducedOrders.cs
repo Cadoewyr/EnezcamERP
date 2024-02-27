@@ -2,7 +2,6 @@
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
 using EnezcamERP.Validators;
-using System.Text;
 
 namespace EnezcamERP.Forms.Produced_Product_Forms
 {
@@ -124,7 +123,7 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 .AddSeconds(DateTime.Now.Second)
                 .AddMilliseconds(DateTime.Now.Millisecond)
                 .AddMicroseconds(DateTime.Now.Microsecond);
-                
+
             if (lvOrderDetails.SelectedItems.Count > 0)
             {
                 try

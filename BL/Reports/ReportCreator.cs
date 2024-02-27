@@ -1,13 +1,22 @@
 ﻿using BL.Report.Enums;
+using BL.Reports.Enums;
 using BL.Reports.ProductionReports;
+using BL.Reports.SalesReports;
 
 namespace BL.Reports
 {
-    public class ReportCreator
+    public class ReportCreator<T> where T : class, IDateRangedReport
     {
-        public static DateRangedProductionReport Create(DateTime date, ReportInterval interval, decimal outgoing)
+        public static IDateRangedReport Create(DateTime date, ReportInterval interval, decimal outgoing)
         {
-            return new(date, interval, outgoing);
+            IDateRangedReport report = null;
+
+            if (typeof(T) == typeof(DateRangedProductionReport))
+                report = new DateRangedProductionReport(date, interval, outgoing);
+            else if (typeof(T) == typeof(DateRangedSalesReport))
+                report = new DateRangedSalesReport(date, interval, outgoing);
+
+            return report;
         }
     }
 }

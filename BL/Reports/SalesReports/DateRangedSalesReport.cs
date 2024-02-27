@@ -1,11 +1,11 @@
 ﻿using BL.Report.Enums;
 using BL.Reports.Enums;
 
-namespace BL.Reports.ProductionReports
+namespace BL.Reports.SalesReports
 {
-    public class DateRangedProductionReport : IDateRangedReport
+    public class DateRangedSalesReport : IDateRangedReport
     {
-        public DateRangedProductionReport(DateTime date, ReportInterval interval, decimal outgoing)
+        public DateRangedSalesReport(DateTime date, ReportInterval interval, decimal outgoing)
         {
             _interval = interval;
             _outgoing = outgoing;
@@ -50,13 +50,13 @@ namespace BL.Reports.ProductionReports
 
         void CreateReport()
         {
-            DailyProductionReports.Clear();
+            DailySalesReports.Clear();
 
             DateTime date = DateRangeStart;
 
             while (date <= DateRangeEnd)
             {
-                DailyProductionReports.Add(new(date, _outgoing));
+                DailySalesReports.Add(new(date, _outgoing));
                 date = date.AddDays(1);
             }
         }
@@ -84,17 +84,17 @@ namespace BL.Reports.ProductionReports
             }
         }
 
-        public List<DailyProductionReport> DailyProductionReports { get; set; } = [];
+        public List<DailySalesReport> DailySalesReports { get; set; } = [];
 
         //Calculation properties
         #region
-        public decimal Price => DailyProductionReports.Sum(x => x.Price);
-        public decimal Cost => DailyProductionReports.Sum(x => x.Cost);
-        public decimal Profit => DailyProductionReports.Sum(x => x.Profit);
-        public decimal ProfitRatio => ((Price - Cost) / Cost);
-        public decimal Outgoing => DailyProductionReports.Sum(x => x.Outgoing);
-        public decimal CostWithOutgoing => DailyProductionReports.Sum(x => x.CostWithOutgoing);
-        public decimal ProfitRatioAfterOutgoing => ((Price - CostWithOutgoing) / CostWithOutgoing);
+        public decimal Price => DailySalesReports.Sum(x => x.Price);
+        public decimal Cost => DailySalesReports.Sum(x => x.Cost);
+        public decimal Profit => DailySalesReports.Sum(x => x.Profit);
+        public decimal ProfitRatio => (Price - Cost) / Cost;
+        public decimal Outgoing => DailySalesReports.Sum(x => x.Outgoing);
+        public decimal CostWithOutgoing => DailySalesReports.Sum(x => x.CostWithOutgoing);
+        public decimal ProfitRatioAfterOutgoing => (Price - CostWithOutgoing) / CostWithOutgoing;
         #endregion
     }
 }

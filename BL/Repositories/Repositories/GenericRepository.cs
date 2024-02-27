@@ -41,7 +41,7 @@ namespace BL.Repositories.Repositories
         }
         public virtual IEnumerable<T> GetAll()
         {
-            return table.ToList().OrderBy(x=>x.ID);
+            return table.ToList().OrderBy(x => x.ID);
         }
         public virtual IEnumerable<T> GetAll(string filter)
         {
@@ -60,11 +60,11 @@ namespace BL.Repositories.Repositories
                     }
                 }
             }
-            return results.OrderBy(x=>x.ID);
+            return results.OrderBy(x => x.ID);
         }
         public virtual IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate)
         {
-            return table.Where(predicate).ToList().OrderBy(x=>x.ID);
+            return table.Where(predicate).ToList().OrderBy(x => x.ID);
         }
         public virtual bool Update(T entity, int id)
         {

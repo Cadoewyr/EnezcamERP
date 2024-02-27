@@ -713,7 +713,6 @@
             // rbSales
             // 
             rbSales.AutoSize = true;
-            rbSales.Enabled = false;
             rbSales.Location = new Point(6, 27);
             rbSales.Name = "rbSales";
             rbSales.Size = new Size(61, 24);

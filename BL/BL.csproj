@@ -8,11 +8,8 @@
 
   <ItemGroup>
     <Compile Remove="Reports\ProductionReports\Interfaces\**" />
-    <Compile Remove="Reports\SalesReports\**" />
     <EmbeddedResource Remove="Reports\ProductionReports\Interfaces\**" />
-    <EmbeddedResource Remove="Reports\SalesReports\**" />
     <None Remove="Reports\ProductionReports\Interfaces\**" />
-    <None Remove="Reports\SalesReports\**" />
   </ItemGroup>
 
   <ItemGroup>

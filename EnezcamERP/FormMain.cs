@@ -1,6 +1,7 @@
 using BL.Report.Enums;
 using BL.Reports;
 using BL.Reports.ProductionReports;
+using BL.Reports.SalesReports;
 using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
@@ -132,7 +133,6 @@ namespace EnezcamERP
         {
             dataGrid.Rows.Clear();
             dataGrid.Columns.Clear();
-
             switch (report.Interval)
             {
                 case ReportInterval.Daily:
@@ -171,6 +171,66 @@ namespace EnezcamERP
                     }
 
                     foreach (var r in report.DailyProductionReports)
+                    {
+                        dataGrid.Rows.Add(
+                            r.Date.ToShortDateString(),
+                            r.Price.ToString("C2"),
+                            r.Cost.ToString("C2"),
+                            r.Profit.ToString("C2"),
+                            r.ProfitRatio.ToString("P2"),
+                            r.Outgoing.ToString("C2"),
+                            r.CostWithOutgoing.ToString("C2"),
+                            r.ProfitWithoutOutgoing.ToString("C2"),
+                            r.ProfitRatioWithOutgoing.ToString("P2")
+                            );
+                    }
+                    break;
+            }
+        }
+        void FillSalesReport(DataGridView dataGrid, DateRangedSalesReport report)
+        {
+            dataGrid.Rows.Clear();
+            dataGrid.Columns.Clear();
+
+            switch (report.Interval)
+            {
+                case ReportInterval.Daily:
+                    foreach (var item in Template.DailySales)
+                    {
+                        dataGrid.Columns.Add(item.Key, item.Value);
+                    }
+
+                    foreach (var item in report.DailySalesReports)
+                    {
+                        foreach (var r in item.DailySalesEntries)
+                        {
+                            dataGrid.Rows.Add(
+                                r.IssueDate.ToShortDateString(),
+                                r.CustomerName,
+                                r.JobNo.ToString(),
+                                r.ProductName,
+                                r.TaxRatio.ToString("N0"),
+                                r.ProductType.ToString(),
+                                r.Quantity.ToString("N3"),
+                                r.UnitCode.ToString(),
+                                r.FinalUnitPrice.ToString("C2"),
+                                r.FinalPrice.ToString("C2"),
+                                item.GetCustomerTotal(r.JobNo).ToString("C2"),
+                                r.UnitCost.ToString("C2"),
+                                r.Cost.ToString("C2"),
+                                r.Profit.ToString("C2"),
+                                r.ProfitRatio.ToString("P0")
+                                );
+                        }
+                    }
+                    break;
+                default:
+                    foreach (var item in Template.DateRangedSales)
+                    {
+                        dataGrid.Columns.Add(item.Key, item.Value);
+                    }
+
+                    foreach (var r in report.DailySalesReports)
                     {
                         dataGrid.Rows.Add(
                             r.Date.ToShortDateString(),
@@ -419,9 +479,11 @@ namespace EnezcamERP
         private void btnCreateProductionReport_Click(object sender, EventArgs e)
         {
             var interval = rbDaily.Checked ? ReportInterval.Daily : (rbWeekly.Checked ? ReportInterval.Weekly : (rbMonthly.Checked ? ReportInterval.Monthly : (rbYearly.Checked ? ReportInterval.Yearly : ReportInterval.Daily)));
-            var report = ReportCreator.Create(dtpDate.Value.Date, interval, nudOutgoing.Value);
 
-            FillProductionReport(dgReport, report);
+            if (rbProduction.Checked)
+                FillProductionReport(dgReport, (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value));
+            else if (rbSales.Checked)
+                FillSalesReport(dgReport, (DateRangedSalesReport)ReportCreator<DateRangedSalesReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value));
         }
         #endregion
     }
