@@ -35,7 +35,6 @@
                 temp.Add("clmJobNo", "Sipariş No");
                 temp.Add("clmProductName", "Ürün Adı");
                 temp.Add("clmTaxRatio", "Vergi Oranı");
-                temp.Add("clmProcessType", "Tür");
                 temp.Add("clmQuantity", "Miktar");
                 temp.Add("clmUnitCode", "Birim");
                 temp.Add("clmUnitPrice", "Birim Fiyat");
