@@ -825,6 +825,7 @@
             dgReport.AllowUserToResizeColumns = false;
             dgReport.AllowUserToResizeRows = false;
             dgReport.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgReport.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             dgReport.BorderStyle = BorderStyle.None;
             dgReport.ColumnHeadersHeight = 29;
             dgReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
