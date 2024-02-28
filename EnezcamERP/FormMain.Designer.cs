@@ -821,15 +821,25 @@
             // 
             dgReport.AllowUserToAddRows = false;
             dgReport.AllowUserToDeleteRows = false;
+            dgReport.AllowUserToOrderColumns = true;
+            dgReport.AllowUserToResizeColumns = false;
+            dgReport.AllowUserToResizeRows = false;
             dgReport.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgReport.BorderStyle = BorderStyle.None;
-            dgReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgReport.ColumnHeadersHeight = 29;
+            dgReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgReport.EditMode = DataGridViewEditMode.EditProgrammatically;
             dgReport.Location = new Point(6, 27);
             dgReport.Name = "dgReport";
             dgReport.ReadOnly = true;
-            dgReport.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            dgReport.RowHeadersVisible = false;
+            dgReport.RowHeadersWidth = 51;
+            dgReport.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dgReport.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            dgReport.ShowCellErrors = false;
+            dgReport.ShowCellToolTips = false;
             dgReport.ShowEditingIcon = false;
+            dgReport.ShowRowErrors = false;
             dgReport.Size = new Size(1144, 484);
             dgReport.TabIndex = 0;
             // 
