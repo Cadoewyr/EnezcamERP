@@ -11,7 +11,7 @@ namespace BL.Reports.ProductionReports
             _date = date.Date;
             _outgoing = outgoing;
 
-            ProducedOrders.AddRange(producedOrdersDB.GetAll(x => x.ProducedDate.Date == date.Date));
+            ProducedOrders.AddRange(producedOrdersDB.GetAll(x => x.ProducedDate.Date == date.Date && !x.IsStock));
 
             ProducedOrders = MergeOrders(ProducedOrders);
             CreateEntries(ProducedOrders);
