@@ -209,7 +209,7 @@ namespace EnezcamERP
                                 r.CustomerName,
                                 r.JobNo.ToString(),
                                 r.ProductName,
-                                r.TaxRatio.ToString("N0"),
+                                (r.TaxRatio / 100).ToString("P0"),
                                 r.Quantity.ToString("N3"),
                                 r.UnitCode.ToString(),
                                 r.FinalUnitPrice.ToString("C2"),
