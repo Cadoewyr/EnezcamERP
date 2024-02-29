@@ -99,6 +99,7 @@
             rbSales = new RadioButton();
             rbProduction = new RadioButton();
             dtpDate = new DateTimePicker();
+            btnCopyTable = new Button();
             btnCreateProductionReport = new Button();
             gbReportInterval = new GroupBox();
             rbDaily = new RadioButton();
@@ -673,6 +674,7 @@
             gbProductionReportDetails.Controls.Add(nudOutgoing);
             gbProductionReportDetails.Controls.Add(gbReportType);
             gbProductionReportDetails.Controls.Add(dtpDate);
+            gbProductionReportDetails.Controls.Add(btnCopyTable);
             gbProductionReportDetails.Controls.Add(btnCreateProductionReport);
             gbProductionReportDetails.Controls.Add(gbReportInterval);
             gbProductionReportDetails.Location = new Point(1170, 5);
@@ -697,7 +699,7 @@
             nudOutgoing.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
             nudOutgoing.Name = "nudOutgoing";
             nudOutgoing.Size = new Size(224, 27);
-            nudOutgoing.TabIndex = 6;
+            nudOutgoing.TabIndex = 7;
             // 
             // gbReportType
             // 
@@ -716,7 +718,7 @@
             rbSales.Location = new Point(6, 27);
             rbSales.Name = "rbSales";
             rbSales.Size = new Size(61, 24);
-            rbSales.TabIndex = 1;
+            rbSales.TabIndex = 4;
             rbSales.Text = "Satış";
             rbSales.UseVisualStyleBackColor = true;
             // 
@@ -727,7 +729,7 @@
             rbProduction.Location = new Point(6, 56);
             rbProduction.Name = "rbProduction";
             rbProduction.Size = new Size(75, 24);
-            rbProduction.TabIndex = 1;
+            rbProduction.TabIndex = 5;
             rbProduction.TabStop = true;
             rbProduction.Text = "Üretim";
             rbProduction.UseVisualStyleBackColor = true;
@@ -737,15 +739,26 @@
             dtpDate.Location = new Point(6, 283);
             dtpDate.Name = "dtpDate";
             dtpDate.Size = new Size(223, 27);
-            dtpDate.TabIndex = 4;
+            dtpDate.TabIndex = 6;
+            // 
+            // btnCopyTable
+            // 
+            btnCopyTable.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnCopyTable.Location = new Point(6, 481);
+            btnCopyTable.Name = "btnCopyTable";
+            btnCopyTable.Size = new Size(223, 29);
+            btnCopyTable.TabIndex = 9;
+            btnCopyTable.Text = "Tabloyu Kopyala";
+            btnCopyTable.UseVisualStyleBackColor = true;
+            btnCopyTable.Click += btnCopyTable_Click;
             // 
             // btnCreateProductionReport
             // 
             btnCreateProductionReport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCreateProductionReport.Location = new Point(6, 481);
+            btnCreateProductionReport.Location = new Point(6, 446);
             btnCreateProductionReport.Name = "btnCreateProductionReport";
-            btnCreateProductionReport.Size = new Size(224, 29);
-            btnCreateProductionReport.TabIndex = 3;
+            btnCreateProductionReport.Size = new Size(223, 29);
+            btnCreateProductionReport.TabIndex = 8;
             btnCreateProductionReport.Text = "Oluştur";
             btnCreateProductionReport.UseVisualStyleBackColor = true;
             btnCreateProductionReport.Click += btnCreateProductionReport_Click;
@@ -771,7 +784,7 @@
             rbDaily.Location = new Point(21, 27);
             rbDaily.Name = "rbDaily";
             rbDaily.Size = new Size(75, 24);
-            rbDaily.TabIndex = 1;
+            rbDaily.TabIndex = 0;
             rbDaily.TabStop = true;
             rbDaily.Text = "Günlük";
             rbDaily.UseVisualStyleBackColor = true;
@@ -782,7 +795,7 @@
             rbYearly.Location = new Point(21, 116);
             rbYearly.Name = "rbYearly";
             rbYearly.Size = new Size(61, 24);
-            rbYearly.TabIndex = 1;
+            rbYearly.TabIndex = 3;
             rbYearly.Text = "Yıllık";
             rbYearly.UseVisualStyleBackColor = true;
             // 
@@ -802,7 +815,7 @@
             rbMonthly.Location = new Point(21, 85);
             rbMonthly.Name = "rbMonthly";
             rbMonthly.Size = new Size(62, 24);
-            rbMonthly.TabIndex = 1;
+            rbMonthly.TabIndex = 2;
             rbMonthly.Text = "Aylık";
             rbMonthly.UseVisualStyleBackColor = true;
             // 
@@ -961,5 +974,6 @@
         private RadioButton rbOrderDate;
         private GroupBox gbDateFilterSettings;
         private RadioButton rbCompletedDate;
+        private Button btnCopyTable;
     }
 }

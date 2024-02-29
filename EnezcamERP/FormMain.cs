@@ -484,6 +484,15 @@ namespace EnezcamERP
             else if (rbSales.Checked)
                 FillSalesReport(dgReport, (DateRangedSalesReport)ReportCreator<DateRangedSalesReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value));
         }
+
+        private void btnCopyTable_Click(object sender, EventArgs e)
+        {
+            dgReport.SelectAll();
+            Clipboard.SetDataObject(dgReport.GetClipboardContent());
+            dgReport.ClearSelection();
+        }
         #endregion
+
+
     }
 }
