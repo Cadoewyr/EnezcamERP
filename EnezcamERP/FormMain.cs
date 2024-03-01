@@ -473,7 +473,7 @@ namespace EnezcamERP
         }
         #endregion
 
-        //Production report controls
+        //Report controls
         #region
         private void btnCreateProductionReport_Click(object sender, EventArgs e)
         {
@@ -492,7 +492,5 @@ namespace EnezcamERP
             dgReport.ClearSelection();
         }
         #endregion
-
-
     }
 }

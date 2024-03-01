@@ -43,7 +43,8 @@ namespace EnezcamERP.Forms.Product_Forms
                 Name = txtProductName.Text.Trim(),
                 Code = txtCode.Text.Trim(),
                 Type = (ProcessType)Enum.Parse(typeof(ProcessType), cbProcessTypes.SelectedItem.ToString()),
-                IsCounting = cbIsCounting.Checked
+                IsCounting = cbIsCounting.Checked,
+                PriceHistory = product.PriceHistory
             };
 
             var res = new ProductValidator().Validate(newProduct);
