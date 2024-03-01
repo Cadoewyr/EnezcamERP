@@ -52,7 +52,7 @@ namespace BL.Repositories.Repositories
         {
             var oldEntity = Get(id);
 
-            if (table.Where(x => x.Name == entity.Name & x.ID != id).FirstOrDefault() == null)
+            if (table.Where(x => (x.Code == entity.Code & x.Name == entity.Name) & x.ID != id).FirstOrDefault() == null)
             {
                 var entityType = typeof(Product);
 
