@@ -69,7 +69,7 @@ namespace EnezcamERP
             ListView listView = lvProducts;
             listView.Items.Clear();
 
-            var items = products ?? productsDB.GetAll(txtSearchOrder.Text);
+            var items = products ?? productsDB.GetAll(txtSearchProduct.Text);
 
             foreach (var item in items)
             {
