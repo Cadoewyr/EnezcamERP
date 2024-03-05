@@ -114,6 +114,9 @@ namespace EnezcamERP.Forms.Order_Forms
                         ProducedOrders = orderDetail.ProducedOrders ?? new List<ProducedOrder>()
                     };
 
+                    od.Product.PriceHistory.LastCost = nudCost.Value;
+                    od.Product.PriceHistory.LastPrice = nudPrice.Value;
+
                     var res = new OrderDetailValidator().Validate(od);
 
                     if (res.IsValid)
@@ -136,6 +139,7 @@ namespace EnezcamERP.Forms.Order_Forms
                         LoadForm(orderDetail);
                         (parentForm as AddUpdateOrder).RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
                         (parentForm as AddUpdateOrder).UpdateOrderTotals(orderDetail.Order);
+                        this.Close();
                     }
                     else
                         ErrorStringify.Stringify(res.Errors);

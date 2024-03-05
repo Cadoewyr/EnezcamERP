@@ -50,6 +50,9 @@ namespace BL.Repositories.Repositories
                         continue;
                     }
                 }
+
+                if (entity.OrderDetails.Any(x => x.Product.Code.ToLower().Contains(filter.ToLower())) && !results.Contains(entity))
+                    results.Add(entity);
             }
 
             return results.OrderByDescending(x => x.JobNo);

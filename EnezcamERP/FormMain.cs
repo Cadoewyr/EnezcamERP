@@ -29,7 +29,7 @@ namespace EnezcamERP
             ListView listView = lvOrders;
             listView.Items.Clear();
 
-            var items = orders ?? ordersDB.GetAll(txtSearchOrder.Text);
+            var items = orders ?? ordersDB.GetAll(txtSearchOrder.Text.Trim().ToLower());
 
             if (cbDateFilter.Checked)
             {
@@ -295,7 +295,7 @@ namespace EnezcamERP
 
         private void txtSearchOrder_TextChanged(object sender, EventArgs e)
         {
-            RefreshOrders(ordersDB.GetAll(txtSearchOrder.Text.ToLower().Trim()).ToArray(), ColumnHeaderAutoResizeStyle.HeaderSize);
+            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         private void cbIsDone_CheckedChanged(object sender, EventArgs e)
