@@ -179,12 +179,13 @@ namespace EnezcamERP
                     foreach (var group in res)
                     {
                         decimal profit = 0, profitRatioWithOutgoing = 0;
+                        decimal gProfit = group.Sum(x => x.Profit), gCost = group.Sum(x => x.Cost), gPrice = group.Sum(x => x.Price), gCostWithoutOutgoing = group.Sum(x => x.CostWithOutgoing);
+                        
+                        if (gProfit > 0 & gCost > 0)
+                            profit = gProfit / gCost;
 
-                        if (group.Sum(x => x.Profit) > 0 & group.Sum(x => x.Cost) > 0)
-                            profit = group.Sum(x => x.Profit) / group.Sum(x => x.Cost);
-
-                        if (group.Sum(x => x.Price) > 0 & group.Sum(x => x.CostWithOutgoing) > 0)
-                            profitRatioWithOutgoing = (group.Sum(x => x.Price) - group.Sum(x => x.CostWithOutgoing)) / group.Sum(x => x.CostWithOutgoing);
+                        if (gPrice > 0 & gCostWithoutOutgoing > 0)
+                            profitRatioWithOutgoing = (gPrice - gCostWithoutOutgoing) / gCostWithoutOutgoing;
 
                         dataGrid.Rows.Add(
                             months[group.Key - 1],
@@ -273,6 +274,14 @@ namespace EnezcamERP
                     foreach (var group in res)
                     {
                         decimal profit = 0, profitRatioWithOutgoing = 0;
+                        decimal gProfit = group.Sum(x => x.Profit), gCost = group.Sum(x => x.Cost), gPrice = group.Sum(x => x.Price), gCostWithoutOutgoing = group.Sum(x => x.CostWithOutgoing);
+
+                        if (gProfit > 0 & gCost > 0)
+                            profit = gProfit / gCost;
+
+                        if (gPrice > 0 & gCostWithoutOutgoing > 0)
+                            profitRatioWithOutgoing = (gPrice - gCostWithoutOutgoing) / gCostWithoutOutgoing;
+
 
                         if (group.Sum(x => x.Profit) > 0 & group.Sum(x => x.Cost) > 0)
                             profit = group.Sum(x => x.Profit) / group.Sum(x => x.Cost);
