@@ -133,6 +133,7 @@ namespace EnezcamERP
         {
             dataGrid.Rows.Clear();
             dataGrid.Columns.Clear();
+
             switch (report.Interval)
             {
                 case ReportInterval.Daily:
@@ -163,6 +164,41 @@ namespace EnezcamERP
                                 );
                         }
                     }
+                    break;
+                case ReportInterval.Yearly:
+                    string[] months = ["Ocak", "Þubat", "Mart", "Nisan", "Mayýs", "Haziran", "Temmuz", "Aðustos", "Eylül", "Ekim", "Kasým", "Aralýk"];
+
+                    foreach (var item in Template.DateRangedProduction)
+                    {
+                        dataGrid.Columns.Add(item.Key, item.Value);
+                    }
+
+                    var res = from item in report.DailyProductionReports
+                              group item by item.Date.Month;
+
+                    foreach (var group in res)
+                    {
+                        decimal profit = 0, profitRatioWithOutgoing = 0;
+
+                        if (group.Sum(x => x.Profit) > 0 & group.Sum(x => x.Cost) > 0)
+                            profit = group.Sum(x => x.Profit) / group.Sum(x => x.Cost);
+
+                        if (group.Sum(x => x.Price) > 0 & group.Sum(x => x.CostWithOutgoing) > 0)
+                            profitRatioWithOutgoing = (group.Sum(x => x.Price) - group.Sum(x => x.CostWithOutgoing)) / group.Sum(x => x.CostWithOutgoing);
+
+                        dataGrid.Rows.Add(
+                            months[group.Key - 1],
+                            group.Sum(x => x.Price).ToString("C2"),
+                            group.Sum(x => x.Cost).ToString("C2"),
+                            group.Sum(x => x.Profit).ToString("C2"),
+                            profit.ToString("P2"),
+                            group.Sum(x => x.Outgoing).ToString("C2"),
+                            group.Sum(x => x.CostWithOutgoing).ToString("C2"),
+                            group.Sum(x => x.ProfitWithoutOutgoing).ToString("C2"),
+                            profitRatioWithOutgoing.ToString("P2")
+                            );
+                    }
+
                     break;
                 default:
                     foreach (var item in Template.DateRangedProduction)
@@ -222,6 +258,41 @@ namespace EnezcamERP
                                 );
                         }
                     }
+                    break;
+                case ReportInterval.Yearly:
+                    string[] months = ["Ocak", "Þubat", "Mart", "Nisan", "Mayýs", "Haziran", "Temmuz", "Aðustos", "Eylül", "Ekim", "Kasým", "Aralýk"];
+
+                    foreach (var item in Template.DateRangedProduction)
+                    {
+                        dataGrid.Columns.Add(item.Key, item.Value);
+                    }
+
+                    var res = from item in report.DailySalesReports
+                              group item by item.Date.Month;
+
+                    foreach (var group in res)
+                    {
+                        decimal profit = 0, profitRatioWithOutgoing = 0;
+
+                        if (group.Sum(x => x.Profit) > 0 & group.Sum(x => x.Cost) > 0)
+                            profit = group.Sum(x => x.Profit) / group.Sum(x => x.Cost);
+
+                        if (group.Sum(x => x.Price) > 0 & group.Sum(x => x.CostWithOutgoing) > 0)
+                            profitRatioWithOutgoing = (group.Sum(x => x.Price) - group.Sum(x => x.CostWithOutgoing)) / group.Sum(x => x.CostWithOutgoing);
+
+                        dataGrid.Rows.Add(
+                            months[group.Key - 1],
+                            group.Sum(x => x.Price).ToString("C2"),
+                            group.Sum(x => x.Cost).ToString("C2"),
+                            group.Sum(x => x.Profit).ToString("C2"),
+                            profit.ToString("P2"),
+                            group.Sum(x => x.Outgoing).ToString("C2"),
+                            group.Sum(x => x.CostWithOutgoing).ToString("C2"),
+                            group.Sum(x => x.ProfitWithoutOutgoing).ToString("C2"),
+                            profitRatioWithOutgoing.ToString("P2")
+                            );
+                    }
+
                     break;
                 default:
                     foreach (var item in Template.DateRangedSales)
