@@ -114,9 +114,12 @@ namespace EnezcamERP.Forms.Order_Forms
                         ProducedOrders = orderDetail.ProducedOrders ?? new List<ProducedOrder>()
                     };
 
-                    od.Product.PriceHistory.LastCost = nudCost.Value;
-                    od.Product.PriceHistory.LastPrice = nudPrice.Value;
-
+                    if (cbUpdatePriceHistory.Checked)
+                    {
+                        od.Product.PriceHistory.LastCost = nudCost.Value;
+                        od.Product.PriceHistory.LastPrice = nudPrice.Value;
+                    }
+                    
                     var res = new OrderDetailValidator().Validate(od);
 
                     if (res.IsValid)
