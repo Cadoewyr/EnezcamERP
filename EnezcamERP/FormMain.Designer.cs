@@ -731,7 +731,8 @@
             txtProfitWithoutOutgoing.Name = "txtProfitWithoutOutgoing";
             txtProfitWithoutOutgoing.ReadOnly = true;
             txtProfitWithoutOutgoing.Size = new Size(133, 27);
-            txtProfitWithoutOutgoing.TabIndex = 1;
+            txtProfitWithoutOutgoing.TabIndex = 18;
+            txtProfitWithoutOutgoing.TabStop = false;
             // 
             // lbProfitWithoutOutgoing
             // 
@@ -749,7 +750,8 @@
             txtOutgoing.Name = "txtOutgoing";
             txtOutgoing.ReadOnly = true;
             txtOutgoing.Size = new Size(133, 27);
-            txtOutgoing.TabIndex = 1;
+            txtOutgoing.TabIndex = 17;
+            txtOutgoing.TabStop = false;
             // 
             // lbOutgoing
             // 
@@ -767,7 +769,8 @@
             txtProfitRatio.Name = "txtProfitRatio";
             txtProfitRatio.ReadOnly = true;
             txtProfitRatio.Size = new Size(133, 27);
-            txtProfitRatio.TabIndex = 1;
+            txtProfitRatio.TabIndex = 20;
+            txtProfitRatio.TabStop = false;
             // 
             // lbProfitRatio
             // 
@@ -785,7 +788,8 @@
             txtProfitMargin.Name = "txtProfitMargin";
             txtProfitMargin.ReadOnly = true;
             txtProfitMargin.Size = new Size(133, 27);
-            txtProfitMargin.TabIndex = 1;
+            txtProfitMargin.TabIndex = 19;
+            txtProfitMargin.TabStop = false;
             // 
             // lbProfitMargin
             // 
@@ -803,7 +807,8 @@
             txtProfit.Name = "txtProfit";
             txtProfit.ReadOnly = true;
             txtProfit.Size = new Size(133, 27);
-            txtProfit.TabIndex = 1;
+            txtProfit.TabIndex = 16;
+            txtProfit.TabStop = false;
             // 
             // lbProfit
             // 
@@ -821,7 +826,8 @@
             txtCostWithTax.Name = "txtCostWithTax";
             txtCostWithTax.ReadOnly = true;
             txtCostWithTax.Size = new Size(133, 27);
-            txtCostWithTax.TabIndex = 1;
+            txtCostWithTax.TabIndex = 15;
+            txtCostWithTax.TabStop = false;
             // 
             // lbCostWithTax
             // 
@@ -839,7 +845,8 @@
             txtCostTax.Name = "txtCostTax";
             txtCostTax.ReadOnly = true;
             txtCostTax.Size = new Size(133, 27);
-            txtCostTax.TabIndex = 1;
+            txtCostTax.TabIndex = 14;
+            txtCostTax.TabStop = false;
             // 
             // lbCostTax
             // 
@@ -857,7 +864,8 @@
             txtCost.Name = "txtCost";
             txtCost.ReadOnly = true;
             txtCost.Size = new Size(133, 27);
-            txtCost.TabIndex = 1;
+            txtCost.TabIndex = 13;
+            txtCost.TabStop = false;
             // 
             // lbCost
             // 
@@ -875,7 +883,8 @@
             txtPriceWithTax.Name = "txtPriceWithTax";
             txtPriceWithTax.ReadOnly = true;
             txtPriceWithTax.Size = new Size(133, 27);
-            txtPriceWithTax.TabIndex = 1;
+            txtPriceWithTax.TabIndex = 12;
+            txtPriceWithTax.TabStop = false;
             // 
             // lbPriceWithTax
             // 
@@ -893,7 +902,8 @@
             txtPriceTax.Name = "txtPriceTax";
             txtPriceTax.ReadOnly = true;
             txtPriceTax.Size = new Size(133, 27);
-            txtPriceTax.TabIndex = 1;
+            txtPriceTax.TabIndex = 11;
+            txtPriceTax.TabStop = false;
             // 
             // lbPriceTax
             // 
@@ -911,7 +921,8 @@
             txtPrice.Name = "txtPrice";
             txtPrice.ReadOnly = true;
             txtPrice.Size = new Size(133, 27);
-            txtPrice.TabIndex = 1;
+            txtPrice.TabIndex = 10;
+            txtPrice.TabStop = false;
             // 
             // lbPrice
             // 
