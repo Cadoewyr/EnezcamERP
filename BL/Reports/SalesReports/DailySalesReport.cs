@@ -64,35 +64,19 @@ namespace BL.Reports.SalesReports
         //Calculation properties
         #region
         public decimal Price => DailySalesEntries.Sum(x => x.FinalPrice);
-        public decimal PriceTax => (Price / 100) * 20;
+        public decimal PriceTax => Price > 0 ? (Price / 100) * 20 : 0;
         public decimal PriceWithTax => Price + PriceTax;
         public decimal Cost => DailySalesEntries.Sum(x => x.Cost);
-        public decimal CostTax => (Cost / 100) * 20;
+        public decimal CostTax => Cost > 0 ? (Cost / 100) * 20 : 0;
         public decimal CostWithTax => Cost + CostTax;
         public decimal Profit => DailySalesEntries.Sum(x => x.Profit);
         public decimal ProfitWithoutOutgoing => Profit - Outgoing;
-        public decimal ProfitRatio
-        {
-            get
-            {
-                if (Price > 0 & Cost > 0)
-                    return ((Price - Cost) / Cost);
-                else
-                    return 0;
-            }
-        }
+        public decimal ProfitRatio => Price > 0 & Cost > 0 ? ((Price - Cost) / Cost) : 0;
+        public decimal ProfitMargin => Price > 0 & Cost > 0 ? ((Price - Cost) / Price) : 0;
         public decimal CostWithOutgoing => Outgoing + Cost;
         public decimal WithoutOutgoing => Cost - Outgoing;
-        public decimal ProfitRatioWithOutgoing
-        {
-            get
-            {
-                if (Price > 0 & CostWithOutgoing > 0)
-                    return ((Price - CostWithOutgoing) / CostWithOutgoing);
-                else
-                    return 0;
-            }
-        }
+        public decimal ProfitRatioWithOutgoing => Price > 0 & CostWithOutgoing > 0 ? ((Price - CostWithOutgoing) / CostWithOutgoing) : 0;
+        public decimal CustomProfitRatio => Profit > 0 & Price > 0 ? Profit / Price : 0;
         #endregion
     }
 }

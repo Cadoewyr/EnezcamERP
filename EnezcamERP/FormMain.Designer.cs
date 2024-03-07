@@ -92,6 +92,29 @@
             clmContactPhone = new ColumnHeader();
             clmAddress = new ColumnHeader();
             tabReports = new TabPage();
+            gbTotals = new GroupBox();
+            txtProfitWithoutOutgoing = new TextBox();
+            lbProfitWithoutOutgoing = new Label();
+            txtOutgoing = new TextBox();
+            lbOutgoing = new Label();
+            txtProfitRatio = new TextBox();
+            lbProfitRatio = new Label();
+            txtProfitMargin = new TextBox();
+            lbProfitMargin = new Label();
+            txtProfit = new TextBox();
+            lbProfit = new Label();
+            txtCostWithTax = new TextBox();
+            lbCostWithTax = new Label();
+            txtCostTax = new TextBox();
+            lbCostTax = new Label();
+            txtCost = new TextBox();
+            lbCost = new Label();
+            txtPriceWithTax = new TextBox();
+            lbPriceWithTax = new Label();
+            txtPriceTax = new TextBox();
+            lbPriceTax = new Label();
+            txtPrice = new TextBox();
+            lbPrice = new Label();
             gbProductionReportDetails = new GroupBox();
             label1 = new Label();
             nudOutgoing = new NumericUpDown();
@@ -117,6 +140,7 @@
             tabCustomer.SuspendLayout();
             gbCustomers.SuspendLayout();
             tabReports.SuspendLayout();
+            gbTotals.SuspendLayout();
             gbProductionReportDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudOutgoing).BeginInit();
             gbReportType.SuspendLayout();
@@ -131,7 +155,7 @@
             tabOrders.Location = new Point(4, 29);
             tabOrders.Name = "tabOrders";
             tabOrders.Padding = new Padding(3);
-            tabOrders.Size = new Size(1414, 530);
+            tabOrders.Size = new Size(1414, 660);
             tabOrders.TabIndex = 0;
             tabOrders.Text = "Siparişler";
             tabOrders.UseVisualStyleBackColor = true;
@@ -153,7 +177,7 @@
             gbOrders.Controls.Add(lvOrders);
             gbOrders.Location = new Point(6, 5);
             gbOrders.Name = "gbOrders";
-            gbOrders.Size = new Size(1400, 515);
+            gbOrders.Size = new Size(1400, 645);
             gbOrders.TabIndex = 0;
             gbOrders.TabStop = false;
             gbOrders.Text = "Siparişler";
@@ -168,7 +192,7 @@
             gbDateFilterSettings.Margin = new Padding(3, 4, 3, 4);
             gbDateFilterSettings.Name = "gbDateFilterSettings";
             gbDateFilterSettings.Padding = new Padding(3, 4, 3, 4);
-            gbDateFilterSettings.Size = new Size(266, 191);
+            gbDateFilterSettings.Size = new Size(266, 137);
             gbDateFilterSettings.TabIndex = 16;
             gbDateFilterSettings.TabStop = false;
             gbDateFilterSettings.Text = "Filtre Ayarları";
@@ -325,7 +349,7 @@
             lvOrders.Location = new Point(6, 59);
             lvOrders.MultiSelect = false;
             lvOrders.Name = "lvOrders";
-            lvOrders.Size = new Size(1108, 449);
+            lvOrders.Size = new Size(1108, 579);
             lvOrders.TabIndex = 4;
             lvOrders.UseCompatibleStateImageBehavior = false;
             lvOrders.View = View.Details;
@@ -386,7 +410,7 @@
             tabControlMain.Location = new Point(0, 0);
             tabControlMain.Name = "tabControlMain";
             tabControlMain.SelectedIndex = 0;
-            tabControlMain.Size = new Size(1422, 563);
+            tabControlMain.Size = new Size(1422, 693);
             tabControlMain.TabIndex = 0;
             // 
             // tabStock
@@ -395,7 +419,7 @@
             tabStock.Location = new Point(4, 29);
             tabStock.Name = "tabStock";
             tabStock.Padding = new Padding(3);
-            tabStock.Size = new Size(1414, 530);
+            tabStock.Size = new Size(1414, 660);
             tabStock.TabIndex = 1;
             tabStock.Text = "Stok Kartı";
             tabStock.UseVisualStyleBackColor = true;
@@ -412,7 +436,7 @@
             gbProducts.Controls.Add(lvProducts);
             gbProducts.Location = new Point(6, 5);
             gbProducts.Name = "gbProducts";
-            gbProducts.Size = new Size(1402, 515);
+            gbProducts.Size = new Size(1402, 577);
             gbProducts.TabIndex = 0;
             gbProducts.TabStop = false;
             gbProducts.Text = "Stok Kartları";
@@ -485,7 +509,7 @@
             lvProducts.Location = new Point(6, 59);
             lvProducts.MultiSelect = false;
             lvProducts.Name = "lvProducts";
-            lvProducts.Size = new Size(1390, 449);
+            lvProducts.Size = new Size(1390, 511);
             lvProducts.TabIndex = 0;
             lvProducts.UseCompatibleStateImageBehavior = false;
             lvProducts.View = View.Details;
@@ -530,7 +554,7 @@
             tabCustomer.Location = new Point(4, 29);
             tabCustomer.Name = "tabCustomer";
             tabCustomer.Padding = new Padding(3);
-            tabCustomer.Size = new Size(1414, 530);
+            tabCustomer.Size = new Size(1414, 660);
             tabCustomer.TabIndex = 2;
             tabCustomer.Text = "Cari Kartı";
             tabCustomer.UseVisualStyleBackColor = true;
@@ -547,7 +571,7 @@
             gbCustomers.Controls.Add(lvCustomers);
             gbCustomers.Location = new Point(6, 5);
             gbCustomers.Name = "gbCustomers";
-            gbCustomers.Size = new Size(1402, 515);
+            gbCustomers.Size = new Size(1402, 577);
             gbCustomers.TabIndex = 0;
             gbCustomers.TabStop = false;
             gbCustomers.Text = "Cariler";
@@ -620,7 +644,7 @@
             lvCustomers.Location = new Point(5, 59);
             lvCustomers.MultiSelect = false;
             lvCustomers.Name = "lvCustomers";
-            lvCustomers.Size = new Size(1390, 449);
+            lvCustomers.Size = new Size(1390, 511);
             lvCustomers.TabIndex = 0;
             lvCustomers.UseCompatibleStateImageBehavior = false;
             lvCustomers.View = View.Details;
@@ -657,15 +681,246 @@
             // 
             // tabReports
             // 
+            tabReports.Controls.Add(gbTotals);
             tabReports.Controls.Add(gbProductionReportDetails);
             tabReports.Controls.Add(gbProductionReport);
             tabReports.Location = new Point(4, 29);
             tabReports.Name = "tabReports";
             tabReports.Padding = new Padding(3);
-            tabReports.Size = new Size(1414, 530);
+            tabReports.Size = new Size(1414, 660);
             tabReports.TabIndex = 3;
             tabReports.Text = "Raporlar";
             tabReports.UseVisualStyleBackColor = true;
+            // 
+            // gbTotals
+            // 
+            gbTotals.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbTotals.Controls.Add(txtProfitWithoutOutgoing);
+            gbTotals.Controls.Add(lbProfitWithoutOutgoing);
+            gbTotals.Controls.Add(txtOutgoing);
+            gbTotals.Controls.Add(lbOutgoing);
+            gbTotals.Controls.Add(txtProfitRatio);
+            gbTotals.Controls.Add(lbProfitRatio);
+            gbTotals.Controls.Add(txtProfitMargin);
+            gbTotals.Controls.Add(lbProfitMargin);
+            gbTotals.Controls.Add(txtProfit);
+            gbTotals.Controls.Add(lbProfit);
+            gbTotals.Controls.Add(txtCostWithTax);
+            gbTotals.Controls.Add(lbCostWithTax);
+            gbTotals.Controls.Add(txtCostTax);
+            gbTotals.Controls.Add(lbCostTax);
+            gbTotals.Controls.Add(txtCost);
+            gbTotals.Controls.Add(lbCost);
+            gbTotals.Controls.Add(txtPriceWithTax);
+            gbTotals.Controls.Add(lbPriceWithTax);
+            gbTotals.Controls.Add(txtPriceTax);
+            gbTotals.Controls.Add(lbPriceTax);
+            gbTotals.Controls.Add(txtPrice);
+            gbTotals.Controls.Add(lbPrice);
+            gbTotals.Location = new Point(8, 528);
+            gbTotals.Name = "gbTotals";
+            gbTotals.Size = new Size(1157, 124);
+            gbTotals.TabIndex = 3;
+            gbTotals.TabStop = false;
+            gbTotals.Text = "Toplamlar";
+            // 
+            // txtProfitWithoutOutgoing
+            // 
+            txtProfitWithoutOutgoing.Location = new Point(720, 89);
+            txtProfitWithoutOutgoing.MaxLength = 25;
+            txtProfitWithoutOutgoing.Name = "txtProfitWithoutOutgoing";
+            txtProfitWithoutOutgoing.ReadOnly = true;
+            txtProfitWithoutOutgoing.Size = new Size(133, 27);
+            txtProfitWithoutOutgoing.TabIndex = 1;
+            // 
+            // lbProfitWithoutOutgoing
+            // 
+            lbProfitWithoutOutgoing.AutoSize = true;
+            lbProfitWithoutOutgoing.Location = new Point(606, 92);
+            lbProfitWithoutOutgoing.Name = "lbProfitWithoutOutgoing";
+            lbProfitWithoutOutgoing.Size = new Size(81, 20);
+            lbProfitWithoutOutgoing.TabIndex = 0;
+            lbProfitWithoutOutgoing.Text = "Gider - Kar";
+            // 
+            // txtOutgoing
+            // 
+            txtOutgoing.Location = new Point(720, 56);
+            txtOutgoing.MaxLength = 25;
+            txtOutgoing.Name = "txtOutgoing";
+            txtOutgoing.ReadOnly = true;
+            txtOutgoing.Size = new Size(133, 27);
+            txtOutgoing.TabIndex = 1;
+            // 
+            // lbOutgoing
+            // 
+            lbOutgoing.AutoSize = true;
+            lbOutgoing.Location = new Point(606, 59);
+            lbOutgoing.Name = "lbOutgoing";
+            lbOutgoing.Size = new Size(83, 20);
+            lbOutgoing.TabIndex = 0;
+            lbOutgoing.Text = "Sabit Gider";
+            // 
+            // txtProfitRatio
+            // 
+            txtProfitRatio.Location = new Point(1017, 56);
+            txtProfitRatio.MaxLength = 25;
+            txtProfitRatio.Name = "txtProfitRatio";
+            txtProfitRatio.ReadOnly = true;
+            txtProfitRatio.Size = new Size(133, 27);
+            txtProfitRatio.TabIndex = 1;
+            // 
+            // lbProfitRatio
+            // 
+            lbProfitRatio.AutoSize = true;
+            lbProfitRatio.Location = new Point(898, 59);
+            lbProfitRatio.Name = "lbProfitRatio";
+            lbProfitRatio.Size = new Size(99, 20);
+            lbProfitRatio.TabIndex = 0;
+            lbProfitRatio.Text = "S.G. Kar Oranı";
+            // 
+            // txtProfitMargin
+            // 
+            txtProfitMargin.Location = new Point(1017, 23);
+            txtProfitMargin.MaxLength = 25;
+            txtProfitMargin.Name = "txtProfitMargin";
+            txtProfitMargin.ReadOnly = true;
+            txtProfitMargin.Size = new Size(133, 27);
+            txtProfitMargin.TabIndex = 1;
+            // 
+            // lbProfitMargin
+            // 
+            lbProfitMargin.AutoSize = true;
+            lbProfitMargin.Location = new Point(898, 26);
+            lbProfitMargin.Name = "lbProfitMargin";
+            lbProfitMargin.Size = new Size(71, 20);
+            lbProfitMargin.TabIndex = 0;
+            lbProfitMargin.Text = "Kar Oranı";
+            // 
+            // txtProfit
+            // 
+            txtProfit.Location = new Point(720, 23);
+            txtProfit.MaxLength = 25;
+            txtProfit.Name = "txtProfit";
+            txtProfit.ReadOnly = true;
+            txtProfit.Size = new Size(133, 27);
+            txtProfit.TabIndex = 1;
+            // 
+            // lbProfit
+            // 
+            lbProfit.AutoSize = true;
+            lbProfit.Location = new Point(606, 26);
+            lbProfit.Name = "lbProfit";
+            lbProfit.Size = new Size(31, 20);
+            lbProfit.TabIndex = 0;
+            lbProfit.Text = "Kar";
+            // 
+            // txtCostWithTax
+            // 
+            txtCostWithTax.Location = new Point(434, 89);
+            txtCostWithTax.MaxLength = 25;
+            txtCostWithTax.Name = "txtCostWithTax";
+            txtCostWithTax.ReadOnly = true;
+            txtCostWithTax.Size = new Size(133, 27);
+            txtCostWithTax.TabIndex = 1;
+            // 
+            // lbCostWithTax
+            // 
+            lbCostWithTax.AutoSize = true;
+            lbCostWithTax.Location = new Point(293, 92);
+            lbCostWithTax.Name = "lbCostWithTax";
+            lbCostWithTax.Size = new Size(135, 20);
+            lbCostWithTax.TabIndex = 0;
+            lbCostWithTax.Text = "Vergi Dahil Maliyet";
+            // 
+            // txtCostTax
+            // 
+            txtCostTax.Location = new Point(434, 56);
+            txtCostTax.MaxLength = 25;
+            txtCostTax.Name = "txtCostTax";
+            txtCostTax.ReadOnly = true;
+            txtCostTax.Size = new Size(133, 27);
+            txtCostTax.TabIndex = 1;
+            // 
+            // lbCostTax
+            // 
+            lbCostTax.AutoSize = true;
+            lbCostTax.Location = new Point(293, 59);
+            lbCostTax.Name = "lbCostTax";
+            lbCostTax.Size = new Size(85, 20);
+            lbCostTax.TabIndex = 0;
+            lbCostTax.Text = "Vergi Tutarı";
+            // 
+            // txtCost
+            // 
+            txtCost.Location = new Point(434, 23);
+            txtCost.MaxLength = 25;
+            txtCost.Name = "txtCost";
+            txtCost.ReadOnly = true;
+            txtCost.Size = new Size(133, 27);
+            txtCost.TabIndex = 1;
+            // 
+            // lbCost
+            // 
+            lbCost.AutoSize = true;
+            lbCost.Location = new Point(293, 26);
+            lbCost.Name = "lbCost";
+            lbCost.Size = new Size(58, 20);
+            lbCost.TabIndex = 0;
+            lbCost.Text = "Maliyet";
+            // 
+            // txtPriceWithTax
+            // 
+            txtPriceWithTax.Location = new Point(132, 89);
+            txtPriceWithTax.MaxLength = 25;
+            txtPriceWithTax.Name = "txtPriceWithTax";
+            txtPriceWithTax.ReadOnly = true;
+            txtPriceWithTax.Size = new Size(133, 27);
+            txtPriceWithTax.TabIndex = 1;
+            // 
+            // lbPriceWithTax
+            // 
+            lbPriceWithTax.AutoSize = true;
+            lbPriceWithTax.Location = new Point(6, 92);
+            lbPriceWithTax.Name = "lbPriceWithTax";
+            lbPriceWithTax.Size = new Size(120, 20);
+            lbPriceWithTax.TabIndex = 0;
+            lbPriceWithTax.Text = "Vergi Dahil Tutar";
+            // 
+            // txtPriceTax
+            // 
+            txtPriceTax.Location = new Point(132, 56);
+            txtPriceTax.MaxLength = 25;
+            txtPriceTax.Name = "txtPriceTax";
+            txtPriceTax.ReadOnly = true;
+            txtPriceTax.Size = new Size(133, 27);
+            txtPriceTax.TabIndex = 1;
+            // 
+            // lbPriceTax
+            // 
+            lbPriceTax.AutoSize = true;
+            lbPriceTax.Location = new Point(6, 59);
+            lbPriceTax.Name = "lbPriceTax";
+            lbPriceTax.Size = new Size(85, 20);
+            lbPriceTax.TabIndex = 0;
+            lbPriceTax.Text = "Vergi Tutarı";
+            // 
+            // txtPrice
+            // 
+            txtPrice.Location = new Point(132, 23);
+            txtPrice.MaxLength = 25;
+            txtPrice.Name = "txtPrice";
+            txtPrice.ReadOnly = true;
+            txtPrice.Size = new Size(133, 27);
+            txtPrice.TabIndex = 1;
+            // 
+            // lbPrice
+            // 
+            lbPrice.AutoSize = true;
+            lbPrice.Location = new Point(6, 26);
+            lbPrice.Name = "lbPrice";
+            lbPrice.Size = new Size(43, 20);
+            lbPrice.TabIndex = 0;
+            lbPrice.Text = "Tutar";
             // 
             // gbProductionReportDetails
             // 
@@ -679,7 +934,7 @@
             gbProductionReportDetails.Controls.Add(gbReportInterval);
             gbProductionReportDetails.Location = new Point(1170, 5);
             gbProductionReportDetails.Name = "gbProductionReportDetails";
-            gbProductionReportDetails.Size = new Size(235, 516);
+            gbProductionReportDetails.Size = new Size(235, 517);
             gbProductionReportDetails.TabIndex = 2;
             gbProductionReportDetails.TabStop = false;
             gbProductionReportDetails.Text = "Rapor Detayları";
@@ -687,7 +942,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(6, 325);
+            label1.Location = new Point(6, 296);
             label1.Name = "label1";
             label1.Size = new Size(94, 20);
             label1.TabIndex = 7;
@@ -695,7 +950,7 @@
             // 
             // nudOutgoing
             // 
-            nudOutgoing.Location = new Point(6, 349);
+            nudOutgoing.Location = new Point(6, 320);
             nudOutgoing.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
             nudOutgoing.Name = "nudOutgoing";
             nudOutgoing.Size = new Size(224, 27);
@@ -707,7 +962,7 @@
             gbReportType.Controls.Add(rbProduction);
             gbReportType.Location = new Point(6, 184);
             gbReportType.Name = "gbReportType";
-            gbReportType.Size = new Size(224, 92);
+            gbReportType.Size = new Size(224, 64);
             gbReportType.TabIndex = 5;
             gbReportType.TabStop = false;
             gbReportType.Text = "Rapor Türü";
@@ -715,7 +970,7 @@
             // rbSales
             // 
             rbSales.AutoSize = true;
-            rbSales.Location = new Point(6, 27);
+            rbSales.Location = new Point(21, 27);
             rbSales.Name = "rbSales";
             rbSales.Size = new Size(61, 24);
             rbSales.TabIndex = 4;
@@ -726,7 +981,7 @@
             // 
             rbProduction.AutoSize = true;
             rbProduction.Checked = true;
-            rbProduction.Location = new Point(6, 56);
+            rbProduction.Location = new Point(119, 27);
             rbProduction.Name = "rbProduction";
             rbProduction.Size = new Size(75, 24);
             rbProduction.TabIndex = 5;
@@ -736,7 +991,7 @@
             // 
             // dtpDate
             // 
-            dtpDate.Location = new Point(6, 283);
+            dtpDate.Location = new Point(6, 254);
             dtpDate.Name = "dtpDate";
             dtpDate.Size = new Size(223, 27);
             dtpDate.TabIndex = 6;
@@ -744,7 +999,7 @@
             // btnCopyTable
             // 
             btnCopyTable.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCopyTable.Location = new Point(6, 481);
+            btnCopyTable.Location = new Point(6, 482);
             btnCopyTable.Name = "btnCopyTable";
             btnCopyTable.Size = new Size(223, 29);
             btnCopyTable.TabIndex = 9;
@@ -755,7 +1010,7 @@
             // btnCreateProductionReport
             // 
             btnCreateProductionReport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCreateProductionReport.Location = new Point(6, 446);
+            btnCreateProductionReport.Location = new Point(6, 447);
             btnCreateProductionReport.Name = "btnCreateProductionReport";
             btnCreateProductionReport.Size = new Size(223, 29);
             btnCreateProductionReport.TabIndex = 8;
@@ -825,7 +1080,7 @@
             gbProductionReport.Controls.Add(dgReport);
             gbProductionReport.Location = new Point(8, 5);
             gbProductionReport.Name = "gbProductionReport";
-            gbProductionReport.Size = new Size(1157, 516);
+            gbProductionReport.Size = new Size(1157, 517);
             gbProductionReport.TabIndex = 1;
             gbProductionReport.TabStop = false;
             gbProductionReport.Text = "Rapor";
@@ -861,7 +1116,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1422, 563);
+            ClientSize = new Size(1422, 693);
             Controls.Add(tabControlMain);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(1350, 600);
@@ -882,6 +1137,8 @@
             gbCustomers.ResumeLayout(false);
             gbCustomers.PerformLayout();
             tabReports.ResumeLayout(false);
+            gbTotals.ResumeLayout(false);
+            gbTotals.PerformLayout();
             gbProductionReportDetails.ResumeLayout(false);
             gbProductionReportDetails.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudOutgoing).EndInit();
@@ -975,5 +1232,28 @@
         private GroupBox gbDateFilterSettings;
         private RadioButton rbCompletedDate;
         private Button btnCopyTable;
+        private GroupBox gbTotals;
+        private Label lbPrice;
+        private TextBox txtPrice;
+        private TextBox txtPriceWithTax;
+        private Label lbPriceWithTax;
+        private TextBox txtPriceTax;
+        private Label lbPriceTax;
+        private TextBox txtProfit;
+        private Label lbProfit;
+        private TextBox txtCostWithTax;
+        private Label lbCostWithTax;
+        private TextBox txtCostTax;
+        private Label lbCostTax;
+        private TextBox txtCost;
+        private Label lbCost;
+        private TextBox txtProfitWithoutOutgoing;
+        private Label lbProfitWithoutOutgoing;
+        private TextBox txtOutgoing;
+        private Label lbOutgoing;
+        private TextBox txtProfitMargin;
+        private Label lbProfitMargin;
+        private TextBox txtProfitRatio;
+        private Label lbProfitRatio;
     }
 }

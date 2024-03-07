@@ -119,7 +119,7 @@ namespace EnezcamERP.Forms.Order_Forms
                         od.Product.PriceHistory.LastCost = nudCost.Value;
                         od.Product.PriceHistory.LastPrice = nudPrice.Value;
                     }
-                    
+
                     var res = new OrderDetailValidator().Validate(od);
 
                     if (res.IsValid)

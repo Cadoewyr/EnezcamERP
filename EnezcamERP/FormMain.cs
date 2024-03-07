@@ -180,7 +180,7 @@ namespace EnezcamERP
                     {
                         decimal profit = 0, profitRatioWithOutgoing = 0;
                         decimal gProfit = group.Sum(x => x.Profit), gCost = group.Sum(x => x.Cost), gPrice = group.Sum(x => x.Price), gCostWithoutOutgoing = group.Sum(x => x.CostWithOutgoing);
-                        
+
                         if (gProfit > 0 & gCost > 0)
                             profit = gProfit / gCost;
 
@@ -223,6 +223,22 @@ namespace EnezcamERP
                     }
                     break;
             }
+
+            txtPrice.Text = report.Price.ToString("C2");
+            txtPriceTax.Text = report.PriceTax.ToString("C2");
+            txtPriceWithTax.Text = report.PriceWithTax.ToString("C2");
+
+            txtCost.Text = report.Cost.ToString("C2");
+            txtCostTax.Text = report.CostTax.ToString("C2");
+            txtCostWithTax.Text = report.CostWithTax.ToString("C2");
+
+            txtProfit.Text = report.Profit.ToString("C2");
+            txtOutgoing.Text = report.Outgoing.ToString("C2");
+            txtProfitWithoutOutgoing.Text = report.ProfitWithoutOutgoing.ToString("C2");
+
+            txtProfitMargin.Text = report.ProfitMargin.ToString("P2");
+            txtProfitRatio.Text = report.ProfitRatioAfterOutgoing.ToString("P2");
+            
         }
         void FillSalesReport(DataGridView dataGrid, DateRangedSalesReport report)
         {
@@ -325,6 +341,21 @@ namespace EnezcamERP
                     }
                     break;
             }
+
+            txtPrice.Text = report.Price.ToString("C2");
+            txtPriceTax.Text = report.PriceTax.ToString("C2");
+            txtPriceWithTax.Text = report.PriceWithTax.ToString("C2");
+
+            txtCost.Text = report.Cost.ToString("C2");
+            txtCostTax.Text = report.CostTax.ToString("C2");
+            txtCostWithTax.Text = report.CostWithTax.ToString("C2");
+
+            txtProfit.Text = report.Profit.ToString("C2");
+            txtOutgoing.Text = report.Outgoing.ToString("C2");
+            txtProfitWithoutOutgoing.Text = report.ProfitWithoutOutgoing.ToString("C2");
+
+            txtProfitMargin.Text = report.ProfitMargin.ToString("P2");
+            txtProfitRatio.Text = report.ProfitRatioAfterOutgoing.ToString("P2");
         }
 
         private async void Main_Load(object sender, EventArgs e)

@@ -89,12 +89,18 @@ namespace BL.Reports.ProductionReports
         //Calculation properties
         #region
         public decimal Price => DailyProductionReports.Sum(x => x.Price);
+        public decimal PriceTax => DailyProductionReports.Sum(x => x.PriceTax);
+        public decimal PriceWithTax => Price + PriceTax;
         public decimal Cost => DailyProductionReports.Sum(x => x.Cost);
+        public decimal CostTax => DailyProductionReports.Sum(x => x.CostTax);
+        public decimal CostWithTax => Cost + CostTax;
         public decimal Profit => DailyProductionReports.Sum(x => x.Profit);
-        public decimal ProfitRatio => ((Price - Cost) / Cost);
+        public decimal ProfitRatio => Price > 0 & Cost > 0 ? (Price - Cost) / Cost : 0;
+        public decimal ProfitMargin => Price > 0 & Cost > 0 ? (Price - Cost) / Price : 0;
         public decimal Outgoing => DailyProductionReports.Sum(x => x.Outgoing);
         public decimal CostWithOutgoing => DailyProductionReports.Sum(x => x.CostWithOutgoing);
-        public decimal ProfitRatioAfterOutgoing => ((Price - CostWithOutgoing) / CostWithOutgoing);
+        public decimal ProfitWithoutOutgoing => Profit - Outgoing;
+        public decimal ProfitRatioAfterOutgoing => Price > 0 & CostWithOutgoing > 0 ? ((Price - CostWithOutgoing) / CostWithOutgoing) : 0;
         #endregion
     }
 }
