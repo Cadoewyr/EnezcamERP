@@ -63,6 +63,7 @@
             clmProfit = new ColumnHeader();
             clmProfitRatio = new ColumnHeader();
             clmIsDone = new ColumnHeader();
+            clmCompletedDate = new ColumnHeader();
             tabControlMain = new TabControl();
             tabStock = new TabPage();
             gbProducts = new GroupBox();
@@ -137,7 +138,7 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
-            clmCompletedDate = new ColumnHeader();
+            clmRemainingQuantity = new ColumnHeader();
             tabOrders.SuspendLayout();
             cmsOrders.SuspendLayout();
             gbOrders.SuspendLayout();
@@ -389,7 +390,7 @@
             // lvOrders
             // 
             lvOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lvOrders.Columns.AddRange(new ColumnHeader[] { clmJobNo, clmCustomer, clmIssueDate, clmQuantity, clmProducedQuantity, clmCost, clmPrice, clmPriceWithTax, clmProfit, clmProfitRatio, clmIsDone, clmCompletedDate });
+            lvOrders.Columns.AddRange(new ColumnHeader[] { clmJobNo, clmCustomer, clmIssueDate, clmQuantity, clmProducedQuantity, clmRemainingQuantity, clmCost, clmPrice, clmPriceWithTax, clmProfit, clmProfitRatio, clmIsDone, clmCompletedDate });
             lvOrders.FullRowSelect = true;
             lvOrders.GridLines = true;
             lvOrders.Location = new Point(6, 59);
@@ -445,6 +446,10 @@
             // clmIsDone
             // 
             clmIsDone.Text = "Durum";
+            // 
+            // clmCompletedDate
+            // 
+            clmCompletedDate.Text = "Tamamlanma Tarihi";
             // 
             // tabControlMain
             // 
@@ -1169,9 +1174,9 @@
             dgReport.Size = new Size(1144, 484);
             dgReport.TabIndex = 0;
             // 
-            // clmCompletedDate
+            // clmRemainingQuantity
             // 
-            clmCompletedDate.Text = "Tamamlanma Tarihi";
+            clmRemainingQuantity.Text = "Kalan Üretim";
             // 
             // FormMain
             // 
@@ -1323,5 +1328,6 @@
         private ToolStripMenuItem deleteOrderToolStripMenuItem;
         private ToolStripMenuItem productionHistoryToolStripMenuItem;
         private ColumnHeader clmCompletedDate;
+        private ColumnHeader clmRemainingQuantity;
     }
 }
