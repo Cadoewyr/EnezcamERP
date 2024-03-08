@@ -57,6 +57,7 @@ namespace EnezcamERP
                 lvi.SubItems.Add(item.Profit.ToString("C2"));
                 lvi.SubItems.Add(item.ProfitRatio.ToString("P2"));
                 lvi.SubItems.Add(item.IsDone ? "Tamamlandý" : "Üretimde");
+                lvi.SubItems.Add(item.IsDone & item.CompletedDate.HasValue ? item.CompletedDate.Value.ToShortDateString() : string.Empty);
 
                 listView.Items.Add(lvi);
             }
@@ -473,6 +474,10 @@ namespace EnezcamERP
 
         //Tool strip controls
         #region
+        private void cmsOrders_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = lvOrders.SelectedItems.Count == 0;
+        }
         private void addOrderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddOrder();

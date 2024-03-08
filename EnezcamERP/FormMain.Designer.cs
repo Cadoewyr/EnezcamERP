@@ -137,6 +137,7 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
+            clmCompletedDate = new ColumnHeader();
             tabOrders.SuspendLayout();
             cmsOrders.SuspendLayout();
             gbOrders.SuspendLayout();
@@ -174,6 +175,7 @@
             cmsOrders.Items.AddRange(new ToolStripItem[] { addOrderToolStripMenuItem, updateOrderToolStripMenuItem, deleteOrderToolStripMenuItem, productionHistoryToolStripMenuItem });
             cmsOrders.Name = "cmsOrders";
             cmsOrders.Size = new Size(180, 100);
+            cmsOrders.Opening += cmsOrders_Opening;
             // 
             // addOrderToolStripMenuItem
             // 
@@ -387,7 +389,7 @@
             // lvOrders
             // 
             lvOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lvOrders.Columns.AddRange(new ColumnHeader[] { clmJobNo, clmCustomer, clmIssueDate, clmQuantity, clmProducedQuantity, clmCost, clmPrice, clmPriceWithTax, clmProfit, clmProfitRatio, clmIsDone });
+            lvOrders.Columns.AddRange(new ColumnHeader[] { clmJobNo, clmCustomer, clmIssueDate, clmQuantity, clmProducedQuantity, clmCost, clmPrice, clmPriceWithTax, clmProfit, clmProfitRatio, clmIsDone, clmCompletedDate });
             lvOrders.FullRowSelect = true;
             lvOrders.GridLines = true;
             lvOrders.Location = new Point(6, 59);
@@ -1167,6 +1169,10 @@
             dgReport.Size = new Size(1144, 484);
             dgReport.TabIndex = 0;
             // 
+            // clmCompletedDate
+            // 
+            clmCompletedDate.Text = "Tamamlanma Tarihi";
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -1316,5 +1322,6 @@
         private ToolStripMenuItem updateOrderToolStripMenuItem;
         private ToolStripMenuItem deleteOrderToolStripMenuItem;
         private ToolStripMenuItem productionHistoryToolStripMenuItem;
+        private ColumnHeader clmCompletedDate;
     }
 }
