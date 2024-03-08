@@ -238,7 +238,7 @@ namespace EnezcamERP
 
             txtProfitMargin.Text = report.ProfitMargin.ToString("P2");
             txtProfitRatio.Text = report.ProfitRatioAfterOutgoing.ToString("P2");
-            
+
         }
         void FillSalesReport(DataGridView dataGrid, DateRangedSalesReport report)
         {
@@ -365,14 +365,13 @@ namespace EnezcamERP
 
         //Order controls
         #region
-        private void btnAddOrder_Click(object sender, EventArgs e)
+        void AddOrder()
         {
             AddUpdateOrder form = new(null);
             form.ShowDialog();
             RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
-
-        private void btnUpdateOrder_Click(object sender, EventArgs e)
+        void UpdateOrder()
         {
             if (lvOrders.SelectedItems.Count > 0)
             {
@@ -381,8 +380,7 @@ namespace EnezcamERP
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
-
-        private void btnDeleteOrder_Click(object sender, EventArgs e)
+        void DeleteOrder()
         {
             if (lvOrders.SelectedItems.Count > 0)
             {
@@ -397,6 +395,34 @@ namespace EnezcamERP
 
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
+        }
+        void EditProducedOrders()
+        {
+            if (lvOrders.SelectedItems.Count > 0)
+            {
+                EditProducedOrders form = new(this, lvOrders.SelectedItems[0].Tag as Order);
+                form.ShowDialog();
+                RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+            }
+        }
+        private void checkDateFilter()
+        {
+            cbIsDone.Checked = cbDateFilter.Checked & rbCompletedDate.Checked;
+        }
+
+        private void btnAddOrder_Click(object sender, EventArgs e)
+        {
+            AddOrder();
+        }
+
+        private void btnUpdateOrder_Click(object sender, EventArgs e)
+        {
+            UpdateOrder();
+        }
+
+        private void btnDeleteOrder_Click(object sender, EventArgs e)
+        {
+            DeleteOrder();
         }
 
         private void btnRefreshOrder_Click(object sender, EventArgs e)
@@ -416,16 +442,13 @@ namespace EnezcamERP
 
         private void btnEditProducedOrders_Click(object sender, EventArgs e)
         {
-            if (lvOrders.SelectedItems.Count > 0)
-            {
-                EditProducedOrders form = new(this, lvOrders.SelectedItems[0].Tag as Order);
-                form.ShowDialog();
-                RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
-            }
+            EditProducedOrders();
         }
 
         private void cbDateFilter_CheckedChanged(object sender, EventArgs e)
         {
+            checkDateFilter();
+
             RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             mcDateFilter.Enabled = cbDateFilter.Checked;
             rbOrderDate.Enabled = cbDateFilter.Checked;
@@ -434,44 +457,40 @@ namespace EnezcamERP
 
         private void mcDateFilter_DateSelected(object sender, DateRangeEventArgs e)
         {
+            checkDateFilter();
+
             if (cbDateFilter.Checked)
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
-        }
-
-        private void ListView_KeyDown(object sender, KeyEventArgs e)
-        {
-            if ((sender as ListView).SelectedItems.Count > 0)
-            {
-                var obj = (sender as ListView).SelectedItems[0].Tag;
-
-                switch (e.KeyData)
-                {
-                    case Keys.Delete:
-                        if (obj is Product)
-                        {
-                            productsDB.Delete(obj as Product);
-                            RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
-                        }
-                        else if (obj is Customer)
-                        {
-                            customersDB.Delete(obj as Customer);
-                            RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
-                        }
-                        else if (obj is Order)
-                        {
-                            ordersDB.Delete(obj as Order);
-                            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
-                        }
-                        break;
-                }
-            }
         }
 
         private void DateFilterSettingsChanged(object sender, EventArgs e)
         {
+            checkDateFilter();
+
             if (cbDateFilter.Checked)
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
+
+        //Tool strip controls
+        #region
+        private void addOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddOrder();
+        }
+        private void updateOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UpdateOrder();
+        }
+        private void deleteOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DeleteOrder();
+        }
+        private void productionHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EditProducedOrders();
+        }
+        #endregion
+
         #endregion
 
         //Product controls
@@ -601,6 +620,38 @@ namespace EnezcamERP
             dgReport.SelectAll();
             Clipboard.SetDataObject(dgReport.GetClipboardContent());
             dgReport.ClearSelection();
+        }
+        #endregion
+
+        //General controls
+        #region
+        private void ListView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((sender as ListView).SelectedItems.Count > 0)
+            {
+                var obj = (sender as ListView).SelectedItems[0].Tag;
+
+                switch (e.KeyData)
+                {
+                    case Keys.Delete:
+                        if (obj is Product)
+                        {
+                            productsDB.Delete(obj as Product);
+                            RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+                        }
+                        else if (obj is Customer)
+                        {
+                            customersDB.Delete(obj as Customer);
+                            RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+                        }
+                        else if (obj is Order)
+                        {
+                            ordersDB.Delete(obj as Order);
+                            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+                        }
+                        break;
+                }
+            }
         }
         #endregion
     }

@@ -28,8 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             tabOrders = new TabPage();
+            cmsOrders = new ContextMenuStrip(components);
+            addOrderToolStripMenuItem = new ToolStripMenuItem();
+            updateOrderToolStripMenuItem = new ToolStripMenuItem();
+            deleteOrderToolStripMenuItem = new ToolStripMenuItem();
+            productionHistoryToolStripMenuItem = new ToolStripMenuItem();
             gbOrders = new GroupBox();
             gbDateFilterSettings = new GroupBox();
             cbDateFilter = new CheckBox();
@@ -132,6 +138,7 @@
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
             tabOrders.SuspendLayout();
+            cmsOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             gbDateFilterSettings.SuspendLayout();
             tabControlMain.SuspendLayout();
@@ -151,6 +158,7 @@
             // 
             // tabOrders
             // 
+            tabOrders.ContextMenuStrip = cmsOrders;
             tabOrders.Controls.Add(gbOrders);
             tabOrders.Location = new Point(4, 29);
             tabOrders.Name = "tabOrders";
@@ -159,6 +167,41 @@
             tabOrders.TabIndex = 0;
             tabOrders.Text = "Siparişler";
             tabOrders.UseVisualStyleBackColor = true;
+            // 
+            // cmsOrders
+            // 
+            cmsOrders.ImageScalingSize = new Size(20, 20);
+            cmsOrders.Items.AddRange(new ToolStripItem[] { addOrderToolStripMenuItem, updateOrderToolStripMenuItem, deleteOrderToolStripMenuItem, productionHistoryToolStripMenuItem });
+            cmsOrders.Name = "cmsOrders";
+            cmsOrders.Size = new Size(180, 100);
+            // 
+            // addOrderToolStripMenuItem
+            // 
+            addOrderToolStripMenuItem.Name = "addOrderToolStripMenuItem";
+            addOrderToolStripMenuItem.Size = new Size(179, 24);
+            addOrderToolStripMenuItem.Text = "Ekle";
+            addOrderToolStripMenuItem.Click += addOrderToolStripMenuItem_Click;
+            // 
+            // updateOrderToolStripMenuItem
+            // 
+            updateOrderToolStripMenuItem.Name = "updateOrderToolStripMenuItem";
+            updateOrderToolStripMenuItem.Size = new Size(179, 24);
+            updateOrderToolStripMenuItem.Text = "Güncelle";
+            updateOrderToolStripMenuItem.Click += updateOrderToolStripMenuItem_Click;
+            // 
+            // deleteOrderToolStripMenuItem
+            // 
+            deleteOrderToolStripMenuItem.Name = "deleteOrderToolStripMenuItem";
+            deleteOrderToolStripMenuItem.Size = new Size(179, 24);
+            deleteOrderToolStripMenuItem.Text = "Sil";
+            deleteOrderToolStripMenuItem.Click += deleteOrderToolStripMenuItem_Click;
+            // 
+            // productionHistoryToolStripMenuItem
+            // 
+            productionHistoryToolStripMenuItem.Name = "productionHistoryToolStripMenuItem";
+            productionHistoryToolStripMenuItem.Size = new Size(179, 24);
+            productionHistoryToolStripMenuItem.Text = "Üretim Geçmişi";
+            productionHistoryToolStripMenuItem.Click += productionHistoryToolStripMenuItem_Click;
             // 
             // gbOrders
             // 
@@ -204,7 +247,7 @@
             cbDateFilter.Location = new Point(6, 36);
             cbDateFilter.Name = "cbDateFilter";
             cbDateFilter.Size = new Size(173, 24);
-            cbDateFilter.TabIndex = 8;
+            cbDateFilter.TabIndex = 9;
             cbDateFilter.Text = "Tarih Filtresini Aktif Et";
             cbDateFilter.UseVisualStyleBackColor = true;
             cbDateFilter.CheckedChanged += cbDateFilter_CheckedChanged;
@@ -218,7 +261,7 @@
             rbCompletedDate.Margin = new Padding(3, 4, 3, 4);
             rbCompletedDate.Name = "rbCompletedDate";
             rbCompletedDate.Size = new Size(158, 24);
-            rbCompletedDate.TabIndex = 15;
+            rbCompletedDate.TabIndex = 11;
             rbCompletedDate.TabStop = true;
             rbCompletedDate.Text = "Tamamlanma Tarihi";
             rbCompletedDate.UseVisualStyleBackColor = true;
@@ -234,7 +277,7 @@
             rbOrderDate.Margin = new Padding(3, 4, 3, 4);
             rbOrderDate.Name = "rbOrderDate";
             rbOrderDate.Size = new Size(113, 24);
-            rbOrderDate.TabIndex = 15;
+            rbOrderDate.TabIndex = 10;
             rbOrderDate.TabStop = true;
             rbOrderDate.Text = "Sipariş Tarihi";
             rbOrderDate.UseVisualStyleBackColor = true;
@@ -257,7 +300,7 @@
             mcDateFilter.MaxSelectionCount = 42;
             mcDateFilter.MinDate = new DateTime(2020, 1, 1, 0, 0, 0, 0);
             mcDateFilter.Name = "mcDateFilter";
-            mcDateFilter.TabIndex = 7;
+            mcDateFilter.TabIndex = 8;
             mcDateFilter.DateSelected += mcDateFilter_DateSelected;
             // 
             // cbIsDone
@@ -295,6 +338,7 @@
             // 
             txtSearchOrder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtSearchOrder.Location = new Point(917, 25);
+            txtSearchOrder.MaxLength = 200;
             txtSearchOrder.Name = "txtSearchOrder";
             txtSearchOrder.Size = new Size(198, 27);
             txtSearchOrder.TabIndex = 6;
@@ -350,7 +394,7 @@
             lvOrders.MultiSelect = false;
             lvOrders.Name = "lvOrders";
             lvOrders.Size = new Size(1108, 579);
-            lvOrders.TabIndex = 4;
+            lvOrders.TabIndex = 7;
             lvOrders.UseCompatibleStateImageBehavior = false;
             lvOrders.View = View.Details;
             lvOrders.DoubleClick += btnUpdateOrder_Click;
@@ -1136,6 +1180,7 @@
             Text = "Enezcam ERP";
             Load += Main_Load;
             tabOrders.ResumeLayout(false);
+            cmsOrders.ResumeLayout(false);
             gbOrders.ResumeLayout(false);
             gbOrders.PerformLayout();
             gbDateFilterSettings.ResumeLayout(false);
@@ -1266,5 +1311,10 @@
         private Label lbProfitMargin;
         private TextBox txtProfitRatio;
         private Label lbProfitRatio;
+        private ContextMenuStrip cmsOrders;
+        private ToolStripMenuItem addOrderToolStripMenuItem;
+        private ToolStripMenuItem updateOrderToolStripMenuItem;
+        private ToolStripMenuItem deleteOrderToolStripMenuItem;
+        private ToolStripMenuItem productionHistoryToolStripMenuItem;
     }
 }
