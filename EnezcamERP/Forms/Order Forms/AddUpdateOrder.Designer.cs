@@ -150,6 +150,7 @@
             cbCustomers.Name = "cbCustomers";
             cbCustomers.Size = new Size(207, 28);
             cbCustomers.TabIndex = 1;
+            cbCustomers.Leave += cbCustomers_Leave;
             // 
             // lblOrderDate
             // 

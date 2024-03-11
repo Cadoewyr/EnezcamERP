@@ -282,5 +282,22 @@ namespace EnezcamERP.Forms.Order_Forms
                 UpdateOrderTotals(order);
             }
         }
+
+        private void cbCustomers_Leave(object sender, EventArgs e)
+        {
+            var control = (sender as ComboBox);
+
+            if(!string.IsNullOrEmpty(control.Text))
+            {
+                foreach(var item in control.Items)
+                {
+                    if(item.ToString().Contains(control.Text.ToUpper()))
+                    {
+                        control.SelectedIndex = control.Items.IndexOf(item);
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
