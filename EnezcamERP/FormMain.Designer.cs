@@ -31,11 +31,6 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             tabOrders = new TabPage();
-            cmsOrders = new ContextMenuStrip(components);
-            addOrderToolStripMenuItem = new ToolStripMenuItem();
-            updateOrderToolStripMenuItem = new ToolStripMenuItem();
-            deleteOrderToolStripMenuItem = new ToolStripMenuItem();
-            productionHistoryToolStripMenuItem = new ToolStripMenuItem();
             gbOrders = new GroupBox();
             gbDateFilterSettings = new GroupBox();
             cbDateFilter = new CheckBox();
@@ -65,6 +60,11 @@
             clmProfitRatio = new ColumnHeader();
             clmIsDone = new ColumnHeader();
             clmCompletedDate = new ColumnHeader();
+            cmsOrders = new ContextMenuStrip(components);
+            addOrderToolStripMenuItem = new ToolStripMenuItem();
+            updateOrderToolStripMenuItem = new ToolStripMenuItem();
+            deleteOrderToolStripMenuItem = new ToolStripMenuItem();
+            productionHistoryToolStripMenuItem = new ToolStripMenuItem();
             tabControlMain = new TabControl();
             tabStock = new TabPage();
             gbProducts = new GroupBox();
@@ -140,9 +140,9 @@
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
             tabOrders.SuspendLayout();
-            cmsOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             gbDateFilterSettings.SuspendLayout();
+            cmsOrders.SuspendLayout();
             tabControlMain.SuspendLayout();
             tabStock.SuspendLayout();
             gbProducts.SuspendLayout();
@@ -168,42 +168,6 @@
             tabOrders.TabIndex = 0;
             tabOrders.Text = "Siparişler";
             tabOrders.UseVisualStyleBackColor = true;
-            // 
-            // cmsOrders
-            // 
-            cmsOrders.ImageScalingSize = new Size(20, 20);
-            cmsOrders.Items.AddRange(new ToolStripItem[] { addOrderToolStripMenuItem, updateOrderToolStripMenuItem, deleteOrderToolStripMenuItem, productionHistoryToolStripMenuItem });
-            cmsOrders.Name = "cmsOrders";
-            cmsOrders.Size = new Size(180, 100);
-            cmsOrders.Opening += cmsOrders_Opening;
-            // 
-            // addOrderToolStripMenuItem
-            // 
-            addOrderToolStripMenuItem.Name = "addOrderToolStripMenuItem";
-            addOrderToolStripMenuItem.Size = new Size(179, 24);
-            addOrderToolStripMenuItem.Text = "Ekle";
-            addOrderToolStripMenuItem.Click += addOrderToolStripMenuItem_Click;
-            // 
-            // updateOrderToolStripMenuItem
-            // 
-            updateOrderToolStripMenuItem.Name = "updateOrderToolStripMenuItem";
-            updateOrderToolStripMenuItem.Size = new Size(179, 24);
-            updateOrderToolStripMenuItem.Text = "Güncelle";
-            updateOrderToolStripMenuItem.Click += updateOrderToolStripMenuItem_Click;
-            // 
-            // deleteOrderToolStripMenuItem
-            // 
-            deleteOrderToolStripMenuItem.Name = "deleteOrderToolStripMenuItem";
-            deleteOrderToolStripMenuItem.Size = new Size(179, 24);
-            deleteOrderToolStripMenuItem.Text = "Sil";
-            deleteOrderToolStripMenuItem.Click += deleteOrderToolStripMenuItem_Click;
-            // 
-            // productionHistoryToolStripMenuItem
-            // 
-            productionHistoryToolStripMenuItem.Name = "productionHistoryToolStripMenuItem";
-            productionHistoryToolStripMenuItem.Size = new Size(179, 24);
-            productionHistoryToolStripMenuItem.Text = "Üretim Geçmişi";
-            productionHistoryToolStripMenuItem.Click += productionHistoryToolStripMenuItem_Click;
             // 
             // gbOrders
             // 
@@ -392,6 +356,7 @@
             lvOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lvOrders.Columns.AddRange(new ColumnHeader[] { clmJobNo, clmCustomer, clmIssueDate, clmQuantity, clmProducedQuantity, clmRemainingQuantity, clmCost, clmPrice, clmPriceWithTax, clmProfit, clmProfitRatio, clmIsDone, clmCompletedDate });
             lvOrders.ContextMenuStrip = cmsOrders;
+            lvOrders.Font = new Font("Segoe UI", 10F);
             lvOrders.FullRowSelect = true;
             lvOrders.GridLines = true;
             lvOrders.Location = new Point(6, 59);
@@ -455,6 +420,42 @@
             // clmCompletedDate
             // 
             clmCompletedDate.Text = "Tamamlanma Tarihi";
+            // 
+            // cmsOrders
+            // 
+            cmsOrders.ImageScalingSize = new Size(20, 20);
+            cmsOrders.Items.AddRange(new ToolStripItem[] { addOrderToolStripMenuItem, updateOrderToolStripMenuItem, deleteOrderToolStripMenuItem, productionHistoryToolStripMenuItem });
+            cmsOrders.Name = "cmsOrders";
+            cmsOrders.Size = new Size(180, 100);
+            cmsOrders.Opening += cmsOrders_Opening;
+            // 
+            // addOrderToolStripMenuItem
+            // 
+            addOrderToolStripMenuItem.Name = "addOrderToolStripMenuItem";
+            addOrderToolStripMenuItem.Size = new Size(179, 24);
+            addOrderToolStripMenuItem.Text = "Ekle";
+            addOrderToolStripMenuItem.Click += addOrderToolStripMenuItem_Click;
+            // 
+            // updateOrderToolStripMenuItem
+            // 
+            updateOrderToolStripMenuItem.Name = "updateOrderToolStripMenuItem";
+            updateOrderToolStripMenuItem.Size = new Size(179, 24);
+            updateOrderToolStripMenuItem.Text = "Güncelle";
+            updateOrderToolStripMenuItem.Click += updateOrderToolStripMenuItem_Click;
+            // 
+            // deleteOrderToolStripMenuItem
+            // 
+            deleteOrderToolStripMenuItem.Name = "deleteOrderToolStripMenuItem";
+            deleteOrderToolStripMenuItem.Size = new Size(179, 24);
+            deleteOrderToolStripMenuItem.Text = "Sil";
+            deleteOrderToolStripMenuItem.Click += deleteOrderToolStripMenuItem_Click;
+            // 
+            // productionHistoryToolStripMenuItem
+            // 
+            productionHistoryToolStripMenuItem.Name = "productionHistoryToolStripMenuItem";
+            productionHistoryToolStripMenuItem.Size = new Size(179, 24);
+            productionHistoryToolStripMenuItem.Text = "Üretim Geçmişi";
+            productionHistoryToolStripMenuItem.Click += productionHistoryToolStripMenuItem_Click;
             // 
             // tabControlMain
             // 
@@ -560,6 +561,7 @@
             // 
             lvProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lvProducts.Columns.AddRange(new ColumnHeader[] { clmName, clmCode, clmProcessType, clmIsCounting, clmLastCost, clmLastPrice, clmLastProfit, clmLastProfitRatio });
+            lvProducts.Font = new Font("Segoe UI", 10F);
             lvProducts.FullRowSelect = true;
             lvProducts.GridLines = true;
             lvProducts.Location = new Point(6, 59);
@@ -695,6 +697,7 @@
             // 
             lvCustomers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lvCustomers.Columns.AddRange(new ColumnHeader[] { clmCustomerName, clmCountry, clmCity, clmDescription, clmContactName, clmContactPhone, clmAddress });
+            lvCustomers.Font = new Font("Segoe UI", 10F);
             lvCustomers.FullRowSelect = true;
             lvCustomers.GridLines = true;
             lvCustomers.Location = new Point(5, 59);
@@ -1192,11 +1195,11 @@
             Text = "Enezcam ERP";
             Load += Main_Load;
             tabOrders.ResumeLayout(false);
-            cmsOrders.ResumeLayout(false);
             gbOrders.ResumeLayout(false);
             gbOrders.PerformLayout();
             gbDateFilterSettings.ResumeLayout(false);
             gbDateFilterSettings.PerformLayout();
+            cmsOrders.ResumeLayout(false);
             tabControlMain.ResumeLayout(false);
             tabStock.ResumeLayout(false);
             gbProducts.ResumeLayout(false);
