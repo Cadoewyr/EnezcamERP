@@ -22,6 +22,22 @@ namespace BL.Reports.SalesReports
         {
             foreach (var item in orderDetails)
             {
+                if(DailySalesEntries.First(x => 
+                x.JobNo == item.Order.JobNo &
+                x.ProductType == item.Product.Type &
+                x.UnitPrice == item.UnitPrice &
+                x.UnitCost == item.UnitCost &
+                x.UnitCode == item.UnitCode &
+                x.DiscountRatio == item.DiscountRatio &
+                x.TaxRatio == item.TaxRatio &
+                x.FinalUnitPrice == item.FinalUnitPrice
+                ) is DailySalesEntry entry != null)
+                {
+                    /*
+                     * TODO
+                     * sum of two DailySalesEntries object logic
+                     */
+                }
                 DailySalesEntries.Add(new()
                 {
                     IssueDate = item.Order.IssueDate.Date,

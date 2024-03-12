@@ -5,9 +5,9 @@ namespace BL.Reports.SalesReports
     public class DailySalesEntry
     {
         public DateTime IssueDate { get; set; }
-        public string CustomerName { get; set; }
+        public string CustomerName { get; set; } = string.Empty;
         public int JobNo { get; set; }
-        public string ProductName { get; set; }
+        public string ProductName { get; set; } = string.Empty;
         public ProcessType ProductType { get; set; }
         public decimal Quantity { get; set; }
         public decimal TaxRatio { get; set; }

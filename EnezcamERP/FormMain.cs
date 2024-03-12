@@ -372,7 +372,7 @@ namespace EnezcamERP
             txtProfitRatio.Text = report.ProfitRatioAfterOutgoing.ToString("P2");
         }
 
-        private async void Main_Load(object sender, EventArgs e)
+        private void Main_Load(object sender, EventArgs e)
         {
             InitialLists(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
