@@ -44,14 +44,26 @@ namespace EnezcamERP
                 ListViewItem lvi = new()
                 {
                     Text = item.JobNo.ToString(),
-                    Tag = item
+                    Tag = item,
+                    UseItemStyleForSubItems = false
                 };
+
+                Color color;
+
+                if (item.ProducedProductQuantity.Sum(x => x.Value) == 0)
+                    color = Color.MediumVioletRed;
+                else if (item.ProducedProductQuantity.Sum(x => x.Value) > 0 && !item.IsDone)
+                    color = Color.OrangeRed;
+                else if (item.IsDone)
+                    color = Color.Green;
+                else
+                    color = Color.Black;
 
                 lvi.SubItems.Add(item.Customer.Name);
                 lvi.SubItems.Add(item.IssueDate.ToShortDateString());
                 lvi.SubItems.Add(string.Join(", ", item.ProductQuantity.Select(x => $"{x.Value.ToString(x.Key == UnitCode.M2 ? "N3" : "N0")} {x.Key}").ToArray()));
-                lvi.SubItems.Add(string.Join(", ", item.ProducedProductQuantity.Select(x => $"{x.Value.ToString(x.Key == UnitCode.M2 ? "N3" : "N0")} {x.Key}").ToArray()));
-                lvi.SubItems.Add(string.Join(", ", item.RemainingProductQuantity.Select(x => $"{x.Value.ToString(x.Key == UnitCode.M2 ? "N3" : "N0")} {x.Key}").ToArray()));
+                lvi.SubItems.Add(string.Join(", ", item.ProducedProductQuantity.Select(x => $"{x.Value.ToString(x.Key == UnitCode.M2 ? "N3" : "N0")} {x.Key}").ToArray())).ForeColor = color;
+                lvi.SubItems.Add(string.Join(", ", item.RemainingProductQuantity.Select(x => $"{x.Value.ToString(x.Key == UnitCode.M2 ? "N3" : "N0")} {x.Key}").ToArray())).ForeColor = color;
                 lvi.SubItems.Add(item.Cost.ToString("C2"));
                 lvi.SubItems.Add(item.Price.ToString("C2"));
                 lvi.SubItems.Add(item.OrderDetails.Sum(x => x.FinalPriceWithTax).ToString("C2"));
