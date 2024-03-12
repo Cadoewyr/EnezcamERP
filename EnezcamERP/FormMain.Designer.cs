@@ -57,6 +57,7 @@
             clmIssueDate = new ColumnHeader();
             clmQuantity = new ColumnHeader();
             clmProducedQuantity = new ColumnHeader();
+            clmRemainingQuantity = new ColumnHeader();
             clmCost = new ColumnHeader();
             clmPrice = new ColumnHeader();
             clmPriceWithTax = new ColumnHeader();
@@ -138,7 +139,6 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
-            clmRemainingQuantity = new ColumnHeader();
             tabOrders.SuspendLayout();
             cmsOrders.SuspendLayout();
             gbOrders.SuspendLayout();
@@ -160,7 +160,6 @@
             // 
             // tabOrders
             // 
-            tabOrders.ContextMenuStrip = cmsOrders;
             tabOrders.Controls.Add(gbOrders);
             tabOrders.Location = new Point(4, 29);
             tabOrders.Name = "tabOrders";
@@ -299,6 +298,7 @@
             // mcDateFilter
             // 
             mcDateFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            mcDateFilter.Enabled = false;
             mcDateFilter.Location = new Point(1126, 88);
             mcDateFilter.MaxSelectionCount = 42;
             mcDateFilter.MinDate = new DateTime(2020, 1, 1, 0, 0, 0, 0);
@@ -391,6 +391,7 @@
             // 
             lvOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lvOrders.Columns.AddRange(new ColumnHeader[] { clmJobNo, clmCustomer, clmIssueDate, clmQuantity, clmProducedQuantity, clmRemainingQuantity, clmCost, clmPrice, clmPriceWithTax, clmProfit, clmProfitRatio, clmIsDone, clmCompletedDate });
+            lvOrders.ContextMenuStrip = cmsOrders;
             lvOrders.FullRowSelect = true;
             lvOrders.GridLines = true;
             lvOrders.Location = new Point(6, 59);
@@ -422,6 +423,10 @@
             // clmProducedQuantity
             // 
             clmProducedQuantity.Text = "Üretim Miktarı";
+            // 
+            // clmRemainingQuantity
+            // 
+            clmRemainingQuantity.Text = "Kalan Üretim";
             // 
             // clmCost
             // 
@@ -1173,10 +1178,6 @@
             dgReport.ShowRowErrors = false;
             dgReport.Size = new Size(1144, 484);
             dgReport.TabIndex = 0;
-            // 
-            // clmRemainingQuantity
-            // 
-            clmRemainingQuantity.Text = "Kalan Üretim";
             // 
             // FormMain
             // 
