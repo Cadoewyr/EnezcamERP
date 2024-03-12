@@ -356,7 +356,7 @@ namespace EnezcamERP
             txtOutgoing.Text = report.Outgoing.ToString("C2");
             txtProfitWithoutOutgoing.Text = report.ProfitWithoutOutgoing.ToString("C2");
 
-            txtProfitMargin.Text = report.ProfitMargin.ToString("P2");
+            txtProfitMargin.Text = report.ProfitRatio.ToString("P2");
             txtProfitRatio.Text = report.ProfitRatioAfterOutgoing.ToString("P2");
         }
 
