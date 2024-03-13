@@ -190,20 +190,6 @@ namespace EnezcamERP.Forms.Order_Forms
                 if (res.IsValid)
                 {
                     order.OrderDetails.Add(od);
-                    try
-                    {
-                        if (IsUpdate)
-                            orderDB.Update(order, order.ID);
-                        else
-                            orderDB.Add(order);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-
-                        if (!IsUpdate)
-                            ControlCleaner.Clear(this.Controls);
-                    }
                     RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
                     ClearNumericUpDownControls(nudCost, nudPrice, nudQuantity);
                     UpdateOrderTotals(order);

@@ -23,9 +23,7 @@ namespace EnezcamERP.Forms.Order_Forms
         void LoadProducts(Product[] products, Product selectedProduct)
         {
             ListView lv = lvProducts;
-
             products ??= productRepository.GetAll().ToArray();
-
             lv.Items.Clear();
 
             foreach (var product in products)
@@ -124,7 +122,7 @@ namespace EnezcamERP.Forms.Order_Forms
 
                     if (res.IsValid)
                     {
-                        if (od.Order.JobNo == 0)
+                        if (od.Order.JobNo <= 0)
                         {
                             var oldEntity = orderDetail;
                             var entityType = typeof(OrderDetail);
