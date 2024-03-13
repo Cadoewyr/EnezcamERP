@@ -57,21 +57,33 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
             ListView listView = lvOrderDetails;
             listView.Items.Clear();
 
-            foreach (var od in order.OrderDetails)
+            foreach (var item in order.OrderDetails)
             {
                 ListViewItem lvi = new()
                 {
-                    Text = od.Product.Name,
-                    Tag = od
+                    Text = item.Product.Name,
+                    Tag = item,
+                    UseItemStyleForSubItems = false
                 };
 
-                lvi.SubItems.Add(od.Product.Code);
-                lvi.SubItems.Add(od.UnitCost.ToString("C2"));
-                lvi.SubItems.Add(od.UnitPrice.ToString("C2"));
-                lvi.SubItems.Add(od.UnitCode.ToString());
-                lvi.SubItems.Add(od.Quantity.ToString(od.UnitCode == UnitCode.M2 ? "N3" : "N0"));
-                lvi.SubItems.Add(od.ProducedQuantity.ToString(od.UnitCode == UnitCode.M2 ? "N3" : "N0"));
-                lvi.SubItems.Add(od.RemainingToProduceQuantity.ToString(od.UnitCode == UnitCode.M2 ? "N3" : "N0"));
+                Color color;
+
+                if (item.ProducedQuantity == 0)
+                    color = Color.MediumVioletRed;
+                else if (item.ProducedQuantity > 0 && item.ProducedQuantity < item.Quantity)
+                    color = Color.MediumPurple;
+                else if (item.ProducedQuantity == item.Quantity)
+                    color = Color.Green;
+                else
+                    color = Color.Black;
+
+                lvi.SubItems.Add(item.Product.Code);
+                lvi.SubItems.Add(item.UnitCost.ToString("C2"));
+                lvi.SubItems.Add(item.UnitPrice.ToString("C2"));
+                lvi.SubItems.Add(item.UnitCode.ToString());
+                lvi.SubItems.Add(item.Quantity.ToString(item.UnitCode == UnitCode.M2 ? "N3" : "N0"));
+                lvi.SubItems.Add(item.ProducedQuantity.ToString(item.UnitCode == UnitCode.M2 ? "N3" : "N0")).ForeColor = color;
+                lvi.SubItems.Add(item.RemainingToProduceQuantity.ToString(item.UnitCode == UnitCode.M2 ? "N3" : "N0")).ForeColor = color;
 
                 listView.Items.Add(lvi);
             }

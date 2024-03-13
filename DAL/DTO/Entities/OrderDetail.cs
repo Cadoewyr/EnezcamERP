@@ -69,12 +69,12 @@ namespace DAL.DTO.Entities
         [NotMapped]
         public decimal ProducedProfitRatio
         {
-            get => (ProducedFinalPrice - ProducedCost) / ProducedCost;
+            get => (ProducedFinalPrice - ProducedCost) / (ProducedCost > 0 ? ProducedCost : 1);
         }
         [NotMapped]
         public decimal ProducedProfitMargin
         {
-            get => (ProducedFinalPrice - ProducedCost) / ProducedFinalPrice;
+            get => (ProducedFinalPrice - ProducedCost) / (ProducedFinalPrice > 0 ? ProducedFinalPrice : 1);
         }
         [NotMapped]
         public decimal ProducedQuantity
@@ -150,12 +150,12 @@ namespace DAL.DTO.Entities
         [NotMapped]
         public decimal ProfitRatio
         {
-            get => (FinalPrice - Cost) / Cost;
+            get => (FinalPrice - Cost) / (Cost > 0 ? Cost : 1);
         }
         [NotMapped]
         public decimal ProfitMargin
         {
-            get => (FinalPrice - Cost) / FinalPrice;
+            get => (FinalPrice - Cost) / (FinalPrice > 0 ? FinalPrice : 1);
         }
         #endregion
     }

@@ -127,7 +127,6 @@ namespace EnezcamERP.Forms.Order_Forms
                         if (od.Order.JobNo == 0)
                         {
                             var oldEntity = orderDetail;
-
                             var entityType = typeof(OrderDetail);
 
                             foreach (var prop in entityType.GetProperties().Where(x => x.SetMethod != null))
