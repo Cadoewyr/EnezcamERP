@@ -54,5 +54,14 @@ namespace BL.Repositories.Repositories
                 .Include(x => x.Product.PriceHistory)
                 .ToList().OrderBy(x => x.CreatedAt);
         }
+        public override bool Delete(OrderDetail entity)
+        {
+            if (entity.Order.OrderDetails.Count > 1)
+                base.Delete(entity);
+            else
+                throw new Exception("Siparişe ait en az bir ürün bulunmak zorunda.");
+
+            return true;
+        }
     }
 }

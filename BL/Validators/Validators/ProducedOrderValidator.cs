@@ -1,7 +1,7 @@
 ﻿using DAL.DTO.Entities;
 using FluentValidation;
 
-namespace EnezcamERP.Validators
+namespace BL.Validators.Validators
 {
     public class ProducedOrderValidator : AbstractValidator<ProducedOrder>
     {
@@ -10,7 +10,9 @@ namespace EnezcamERP.Validators
             RuleFor(x => x.ProducedDate)
                 .GreaterThanOrEqualTo(x => x.OrderDetail.Order.IssueDate).WithMessage("Üretim tarihi sipariş tarihinden öncesi olamaz.");
 
-            RuleFor(x => x.ProducedOrderQuantity).GreaterThan(0).WithMessage("Üretim miktarı 0 olamaz.");
+            RuleFor(x => x.ProducedOrderQuantity)
+                .GreaterThan(0).WithMessage("Üretim miktarı 0 olamaz.")
+                .LessThanOrEqualTo(x => x.OrderDetail.Quantity - x.OrderDetail.ProducedQuantity).WithMessage("Üretim miktarı kalan üretim miktarından fazla olamaz.");
         }
     }
 }

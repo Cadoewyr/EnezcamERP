@@ -1,12 +1,13 @@
-﻿using System.Text;
+﻿using FluentValidation.Results;
+using System.Text;
 
 namespace EnezcamERP.Validators
 {
     public class ErrorStringify
     {
-        public static string Stringify(List<FluentValidation.Results.ValidationFailure> errors)
+        public static string Stringify(List<ValidationFailure> errors)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new();
 
             foreach (var error in errors)
             {

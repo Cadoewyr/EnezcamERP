@@ -1,6 +1,8 @@
 ﻿using BL.Models.Interfaces;
+using BL.Validators.Validators;
 using DAL.DTO.Context;
 using DAL.DTO.Entities;
+using EnezcamERP.Validators;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -19,8 +21,16 @@ namespace BL.Repositories.Repositories
 
         public virtual bool Add(T entity)
         {
-            table.Add(entity);
-            context.SaveChanges();
+            var result = GenericValidator<T>.Validate(entity);
+
+            if (result.IsValid)
+            {
+                table.Add(entity);
+                context.SaveChanges();
+            }
+            else
+                throw new FormatException(ErrorStringify.Stringify(result.Errors));
+
             return true;
         }
         public virtual bool Delete(T entity)
@@ -68,17 +78,25 @@ namespace BL.Repositories.Repositories
         }
         public virtual bool Update(T entity, int id)
         {
-            var oldEntity = Get(id);
+            var result = GenericValidator<T>.Validate(entity);
 
-            var entityType = typeof(T);
-
-            foreach (var prop in entityType.GetProperties().Where(x => x.SetMethod != null))
+            if (result.IsValid)
             {
-                if (prop.Name != "ID")
-                    prop.SetValue(oldEntity, prop.GetValue(entity));
-            }
+                var oldEntity = Get(id);
 
-            context.SaveChanges();
+                var entityType = typeof(T);
+
+                foreach (var prop in entityType.GetProperties().Where(x => x.SetMethod != null))
+                {
+                    if (prop.Name != "ID")
+                        prop.SetValue(oldEntity, prop.GetValue(entity));
+                }
+
+                context.SaveChanges();
+            }
+            else
+                throw new FormatException(ErrorStringify.Stringify(result.Errors));
+
 
             return true;
         }

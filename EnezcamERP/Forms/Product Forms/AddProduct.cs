@@ -1,7 +1,6 @@
 ﻿using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
-using EnezcamERP.Validators;
 
 namespace EnezcamERP.Forms.Product_Forms
 {
@@ -38,24 +37,16 @@ namespace EnezcamERP.Forms.Product_Forms
                 IsCounting = cbIsCounting.Checked
             };
 
-            var res = new ProductValidator().Validate(p);
+            try
+            {
+                productDB.Add(p);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
-            if (res.IsValid)
-            {
-                try
-                {
-                    productDB.Add(p);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                (parentForm as FormMain).RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
-            }
-            else
-            {
-                MessageBox.Show(ErrorStringify.Stringify(res.Errors));
-            }
+            (parentForm as FormMain).RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             ControlCleaner.Clear(this.Controls);
         }
 

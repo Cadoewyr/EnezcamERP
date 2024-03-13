@@ -1,5 +1,7 @@
 ﻿using BL.Models.Interfaces;
+using BL.Validators.Validators;
 using DAL.DTO.Entities;
+using EnezcamERP.Validators;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -9,14 +11,22 @@ namespace BL.Repositories.Repositories
     {
         public override bool Add(ProducedOrder entity)
         {
-            if (entity.ProducedOrderQuantity <= entity.OrderDetail.RemainingToProduceQuantity)
+            var result = GenericValidator<ProducedOrder>.Validate(entity);
+
+            if (result.IsValid)
             {
-                table.Add(entity);
-                context.SaveChanges();
-                return true;
+                if (entity.ProducedOrderQuantity <= entity.OrderDetail.RemainingToProduceQuantity)
+                {
+                    table.Add(entity);
+                    context.SaveChanges();
+                }
+                else
+                    throw new Exception("Sipariş miktarından daha fazla üretim eklenemez.");
             }
             else
-                throw new Exception("Sipariş miktarından daha fazla üretim eklenemez.");
+                throw new FormatException(ErrorStringify.Stringify(result.Errors));
+
+            return true;
         }
         public override ProducedOrder Get(int id)
         {
@@ -59,12 +69,20 @@ namespace BL.Repositories.Repositories
         }
         public override bool Update(ProducedOrder entity, int id)
         {
-            if (entity.ProducedOrderQuantity <= entity.OrderDetail.RemainingToProduceQuantity)
+            var result = GenericValidator<ProducedOrder>.Validate(entity);
+
+            if (result.IsValid)
             {
-                return base.Update(entity, id);
+
+                if (entity.ProducedOrderQuantity <= entity.OrderDetail.RemainingToProduceQuantity)
+                    base.Update(entity, id);
+                else
+                    throw new Exception("Sipariş miktarından daha fazla üretim eklenemez.");
             }
             else
-                throw new Exception("Sipariş miktarından daha fazla üretim eklenemez.");
+                throw new FormatException(ErrorStringify.Stringify(result.Errors));
+
+            return true;
         }
     }
 }

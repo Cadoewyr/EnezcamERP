@@ -1,6 +1,8 @@
 ﻿using BL.Models.Interfaces;
+using BL.Validators.Validators;
 using DAL.DTO.Context;
 using DAL.DTO.Entities;
+using EnezcamERP.Validators;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -10,10 +12,19 @@ namespace BL.Repositories.Repositories
     {
         public override bool Add(Product entity)
         {
-            if (!table.Any(x => x.Name == entity.Name & x.Type == entity.Type & x.Code == entity.Code))
-                return base.Add(entity);
+            var result = GenericValidator<Product>.Validate(entity);
+
+            if (result.IsValid)
+            {
+                if (!table.Any(x => x.Name == entity.Name & x.Type == entity.Type & x.Code == entity.Code))
+                    base.Add(entity);
+                else
+                    throw new Exception("Aynı üründen birden fazla oluşturulamaz.");
+            }
             else
-                throw new Exception("Aynı üründen birden fazla oluşturulamaz.");
+                throw new FormatException(ErrorStringify.Stringify(result.Errors));
+
+            return true;
         }
         public override IEnumerable<Product> GetAll()
         {
@@ -44,43 +55,57 @@ namespace BL.Repositories.Repositories
         public override IEnumerable<Product> GetAll(Expression<Func<Product, bool>> predicate)
         {
             return table
-                .Where(predicate)
                 .Include(x => x.PriceHistory)
+                .Where(predicate)
                 .ToList().OrderBy(x => x.Name);
         }
         public override bool Update(Product entity, int id)
         {
-            var oldEntity = Get(id);
+            var result = GenericValidator<Product>.Validate(entity);
 
-            if (table.Where(x => (x.Code == entity.Code & x.Name == entity.Name) & x.ID != id).FirstOrDefault() == null)
+            if (result.IsValid)
             {
-                var entityType = typeof(Product);
+                var oldEntity = Get(id);
 
-                foreach (var prop in entityType.GetProperties().Where(x => x.SetMethod != null))
+                if (table.Where(x => (x.Code == entity.Code & x.Name == entity.Name) & x.ID != id).FirstOrDefault() == null)
                 {
-                    if (prop.Name != "ID")
+                    var entityType = typeof(Product);
+
+                    foreach (var prop in entityType.GetProperties().Where(x => x.SetMethod != null))
                     {
-                        prop.SetValue(oldEntity, prop.GetValue(entity));
+                        if (prop.Name != "ID")
+                            prop.SetValue(oldEntity, prop.GetValue(entity));
                     }
+
+                    context.SaveChanges();
                 }
-
-                context.SaveChanges();
-
-                return true;
+                else
+                    throw new Exception($"{entity.Name} adlı başka bir ürün oluşturulmuş. Aynı ad ile birden fazla ürün oluşturulamaz.");
             }
             else
-                throw new Exception($"{entity.Name} adlı başka bir ürün oluşturulmuş. Aynı ad ile birden fazla ürün oluşturulamaz.");
+                throw new FormatException(ErrorStringify.Stringify(result.Errors));
+
+            return true;
         }
         public override bool Delete(Product entity)
         {
-            if (!EnzDBContext.GetInstance.OrderDetails.Include(x => x.Product).Any(x => x.Product == entity))
+            var result = GenericValidator<Product>.Validate(entity);
+
+            if (result.IsValid)
             {
-                table.Remove(entity);
-                context.SaveChanges();
-                return true;
+                if (!EnzDBContext.GetInstance.OrderDetails.Include(x => x.Product).Any(x => x.Product == entity))
+                {
+                    table.Remove(entity);
+                    context.SaveChanges();
+                }
+                else
+                    throw new Exception("Bu ürün başka siparişlerde kayıtlı olduğundan silinemez.");
             }
             else
-                throw new Exception("Bu ürün başka siparişlerde kayıtlı olduğundan silinemez.");
+                throw new FormatException(ErrorStringify.Stringify(result.Errors));
+
+            return true;
+
         }
     }
 }

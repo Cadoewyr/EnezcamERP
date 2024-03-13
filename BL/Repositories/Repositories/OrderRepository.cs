@@ -1,5 +1,7 @@
 ﻿using BL.Models.Interfaces;
+using BL.Validators.Validators;
 using DAL.DTO.Entities;
+using EnezcamERP.Validators;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -9,10 +11,19 @@ namespace BL.Repositories.Repositories
     {
         public override bool Add(Order entity)
         {
-            if (!table.Any(x => x.JobNo == entity.JobNo))
-                return base.Add(entity);
+            var result = GenericValidator<Order>.Validate(entity);
+
+            if (result.IsValid)
+            {
+                if (!table.Any(x => x.JobNo == entity.JobNo))
+                    base.Add(entity);
+                else
+                    throw new Exception($"{entity.JobNo} numarası ile başka bir sipariş oluşturulmuş. Aynı numara ile birden fazla sipariş oluşturulamaz.");
+            }
             else
-                throw new Exception($"{entity.JobNo} numarası ile başka bir sipariş oluşturulmuş. Aynı numara ile birden fazla sipariş oluşturulamaz.");
+                throw new FormatException(ErrorStringify.Stringify(result.Errors));
+
+            return true;
         }
         public override Order Get(int id)
         {
@@ -68,26 +79,34 @@ namespace BL.Repositories.Repositories
         }
         public override bool Update(Order entity, int id)
         {
-            var oldEntity = Get(id);
+            var result = GenericValidator<Order>.Validate(entity);
 
-            if (table.Where(x => x.JobNo == entity.JobNo & x != entity).FirstOrDefault() == null)
+            if (entity.OrderDetails.Count < 1)
+                throw new FormatException("Siparişe ait en az bir kalem bulunmak zorunda.");
+
+            if (result.IsValid)
             {
-                var entityType = typeof(Order);
+                var oldEntity = Get(id);
 
-                foreach (var prop in entityType.GetProperties().Where(x => x.SetMethod != null))
+                if (table.Where(x => x.JobNo == entity.JobNo & x != entity).FirstOrDefault() == null)
                 {
-                    if (prop.Name != "ID")
+                    var entityType = typeof(Order);
+
+                    foreach (var prop in entityType.GetProperties().Where(x => x.SetMethod != null))
                     {
-                        prop.SetValue(oldEntity, prop.GetValue(entity));
+                        if (prop.Name != "ID")
+                            prop.SetValue(oldEntity, prop.GetValue(entity));
                     }
+
+                    context.SaveChanges();
                 }
-
-                context.SaveChanges();
-
-                return true;
+                else
+                    throw new Exception($"{entity.JobNo} numaralı başka bir sipariş oluşturulmuş. Aynı sipariş numarası ile birden fazla sipariş oluşturulamaz.");
             }
             else
-                throw new Exception($"{entity.JobNo} numaralı başka bir sipariş oluşturulmuş. Aynı sipariş numarası ile birden fazla sipariş oluşturulamaz.");
+                throw new FormatException(ErrorStringify.Stringify(result.Errors));
+
+            return true;
         }
     }
 }

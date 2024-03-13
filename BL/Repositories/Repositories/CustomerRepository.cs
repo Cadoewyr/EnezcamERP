@@ -1,6 +1,8 @@
 ﻿using BL.Models.Interfaces;
+using BL.Validators.Validators;
 using DAL.DTO.Context;
 using DAL.DTO.Entities;
+using EnezcamERP.Validators;
 
 namespace BL.Repositories.Repositories
 {
@@ -8,33 +10,53 @@ namespace BL.Repositories.Repositories
     {
         public override bool Add(Customer entity)
         {
-            if (!table.Any(x => x.Name == entity.Name))
-                return base.Add(entity);
+            var result = GenericValidator<Customer>.Validate(entity);
+
+            if (result.IsValid)
+            {
+                try
+                {
+                    if (!table.Any(x => x.Name == entity.Name))
+                        return base.Add(entity);
+                    else
+                        throw new Exception("Aynı cariden birden fazla oluşturulamaz.");
+                }
+                catch { }
+            }
             else
-                throw new Exception("Aynı cariden birden fazla oluşturulamaz.");
+                throw new FormatException(ErrorStringify.Stringify(result.Errors));
+
+            return true;
         }
         public override bool Update(Customer entity, int id)
         {
-            var oldEntity = Get(id);
+            var result = GenericValidator<Customer>.Validate(entity);
 
-            if (table.Where(x => x.Name == entity.Name & x.ID != id).FirstOrDefault() == null)
+            if (result.IsValid)
             {
-                var entityType = typeof(Customer);
+                var oldEntity = Get(id);
 
-                foreach (var prop in entityType.GetProperties().Where(x => x.SetMethod != null))
+                if (table.Where(x => x.Name == entity.Name & x.ID != id).FirstOrDefault() == null)
                 {
-                    if (prop.Name != "ID")
+                    var entityType = typeof(Customer);
+
+                    foreach (var prop in entityType.GetProperties().Where(x => x.SetMethod != null))
                     {
-                        prop.SetValue(oldEntity, prop.GetValue(entity));
+                        if (prop.Name != "ID")
+                        {
+                            prop.SetValue(oldEntity, prop.GetValue(entity));
+                        }
                     }
+
+                    context.SaveChanges();
                 }
-
-                context.SaveChanges();
-
-                return true;
+                else
+                    throw new Exception($"{entity.Name} adlı başka bir cari oluşturulmuş. Aynı ad ile birden fazla cari oluşturulamaz.");
             }
             else
-                throw new Exception($"{entity.Name} adlı başka bir cari oluşturulmuş. Aynı ad ile birden fazla cari oluşturulamaz.");
+                throw new FormatException(ErrorStringify.Stringify(result.Errors));
+
+            return true;
         }
         public override bool Delete(Customer entity)
         {

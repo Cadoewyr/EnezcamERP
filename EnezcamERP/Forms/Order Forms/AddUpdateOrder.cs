@@ -1,4 +1,5 @@
 ﻿using BL.Repositories.Repositories;
+using BL.Validators.Validators;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
 using EnezcamERP.Validators;
@@ -86,20 +87,8 @@ namespace EnezcamERP.Forms.Order_Forms
                 ListViewItem lvi = new()
                 {
                     Tag = item,
-                    Text = item.Product.Code,
-                    UseItemStyleForSubItems = false
+                    Text = item.Product.Code
                 };
-
-                Color color;
-
-                if (item.ProducedQuantity == 0)
-                    color = Color.MediumVioletRed;
-                else if (item.ProducedQuantity > 0 && item.ProducedQuantity < item.Quantity)
-                    color = Color.MediumPurple;
-                else if (item.ProducedQuantity == item.Quantity)
-                    color = Color.Green;
-                else
-                    color = Color.Black;
 
                 lvi.SubItems.Add(item.Product.Name);
                 lvi.SubItems.Add(item.UnitCost.ToString("C2"));
@@ -113,10 +102,10 @@ namespace EnezcamERP.Forms.Order_Forms
                 }
                 lvi.SubItems.Add((item.DiscountRatio / 100).ToString("P0"));
                 lvi.SubItems.Add((item.TaxRatio / 100).ToString("P0"));
-                lvi.SubItems.Add(item.Quantity.ToString(item.UnitCode == UnitCode.AD ? "N0" : "N3"));
+                lvi.SubItems.Add(item.Quantity.ToString("N3"));
                 lvi.SubItems.Add(item.UnitCode.ToString());
-                lvi.SubItems.Add(item.ProducedQuantity.ToString(item.UnitCode == UnitCode.AD ? "N0" : "N3")).ForeColor = color;
-                lvi.SubItems.Add((item.Quantity - item.ProducedQuantity).ToString(item.UnitCode == UnitCode.AD ? "N0" : "N3")).ForeColor = color;
+                lvi.SubItems.Add(item.ProducedOrders.Sum(x => x.ProducedOrderQuantity).ToString("N3"));
+                lvi.SubItems.Add((item.Quantity - item.ProducedOrders.Sum(x => x.ProducedOrderQuantity)).ToString("N3"));
                 lvi.SubItems.Add(item.Cost.ToString("C2"));
                 lvi.SubItems.Add(item.FinalPrice.ToString("C2"));
                 lvi.SubItems.Add(item.Profit.ToString("C2"));
@@ -149,6 +138,13 @@ namespace EnezcamERP.Forms.Order_Forms
             txtProfitRatio.Text = order.ProfitRatio.ToString("P2");
             txtTotalQuantity.Text = string.Join(", ", order.ProductQuantity.Select(x => $"{x.Value.ToString(x.Key == UnitCode.M2 ? "N3" : "N0")} {x.Key}").ToArray());
             txtPriceWithTax.Text = order.PriceWithTax.ToString("C2");
+        }
+        void ClearNumericUpDownControls(params Control[] controls)
+        {
+            foreach (var control in controls)
+            {
+                (control as NumericUpDown).Value = 0;
+            }
         }
 
         CustomerRepository customerDB = new();
@@ -184,68 +180,69 @@ namespace EnezcamERP.Forms.Order_Forms
                 {
                     order.OrderDetails.Add(od);
                     RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
+                    ClearNumericUpDownControls(nudCost, nudPrice, nudQuantity);
                     UpdateOrderTotals(order);
-                    ControlCleaner.Clear(nudCost, nudPrice, nudQuantity);
                 }
                 else
                     MessageBox.Show(ErrorStringify.Stringify(res.Errors));
+
+                RefreshProducts(null);
             }
         }
+
         private void btnSaveOrder_Click(object sender, EventArgs e)
         {
             if (lvOrderDetails.Items.Count > 0)
             {
-                OrderValidator ov = new();
-
                 order.JobNo = !string.IsNullOrEmpty(txtJobNo.Text) ? Convert.ToInt32(txtJobNo.Text.Trim()) : -1;
                 order.Customer = cbCustomers.SelectedItem as Customer;
                 order.IssueDate = dtpOrderDate.Value;
                 order.DeliveryDate = dtpDeliveryDate.Value;
 
-                var res = ov.Validate(order);
-
-                if (res.IsValid)
+                try
                 {
-                    try
-                    {
-                        if (IsUpdate)
-                            orderDB.Update(order, order.ID);
-                        else
-                            orderDB.Add(order);
+                    if (IsUpdate)
+                        orderDB.Update(order, order.ID);
+                    else
+                        orderDB.Add(order);
 
-                        this.Close();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-
-                        if (!IsUpdate)
-                            ControlCleaner.Clear(this.Controls);
-                    }
+                    this.Close();
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show(ErrorStringify.Stringify(res.Errors));
+                    MessageBox.Show(ex.Message);
+
+                    if (!IsUpdate)
+                        ControlCleaner.Clear(this.Controls);
                 }
             }
         }
+
         private void txtSearchProduct_TextChanged(object sender, EventArgs e)
         {
             RefreshProducts(productDB.GetAll((sender as TextBox).Text.ToLower().Trim() ?? null).ToArray());
         }
+
         private void btnDeleteOrderDetail_Click(object sender, EventArgs e)
         {
             if (lvOrderDetails.SelectedItems.Count > 0)
             {
-                order.OrderDetails.Remove(lvOrderDetails.SelectedItems[0].Tag as OrderDetail);
-                RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
-                UpdateOrderTotals(order);
+                if (order.OrderDetails.Count > 1)
+                {
+                    order.OrderDetails.Remove(lvOrderDetails.SelectedItems[0].Tag as OrderDetail);
+                    RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
+                    UpdateOrderTotals(order);
+                }
+                else
+                    MessageBox.Show("Siparişe ait en az bir kalem bulunmak zorunda.");
             }
         }
+
         private void btnCancelOrder_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
         private void cbUnitCode_SelectedIndexChanged(object sender, EventArgs e)
         {
             if ((UnitCode)Enum.Parse<UnitCode>((sender as ComboBox).Text) == UnitCode.AD)
@@ -253,6 +250,7 @@ namespace EnezcamERP.Forms.Order_Forms
             else
                 nudQuantity.DecimalPlaces = 3;
         }
+
         private void lvProducts_Click(object sender, EventArgs e)
         {
             ListView lv = sender as ListView;
@@ -266,8 +264,11 @@ namespace EnezcamERP.Forms.Order_Forms
                     nudCost.Value = p.PriceHistory.LastCost;
                     nudPrice.Value = p.PriceHistory.LastPrice;
                 }
+
+                this.Text = p.Code;
             }
         }
+
         private void lvOrderDetails_DoubleClick(object sender, EventArgs e)
         {
             if ((sender as ListView).SelectedItems.Count > 0)
@@ -276,19 +277,20 @@ namespace EnezcamERP.Forms.Order_Forms
                 form.ShowDialog();
 
                 RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
-                ControlCleaner.Clear(gbAddProductDetail.Controls);
+                ClearNumericUpDownControls(nudPrice, nudCost, nudQuantity);
                 UpdateOrderTotals(order);
             }
         }
+
         private void cbCustomers_Leave(object sender, EventArgs e)
         {
             var control = (sender as ComboBox);
 
-            if(!string.IsNullOrEmpty(control.Text))
+            if (!string.IsNullOrEmpty(control.Text))
             {
-                foreach(var item in control.Items)
+                foreach (var item in control.Items)
                 {
-                    if(item.ToString().Contains(control.Text.ToUpper()))
+                    if (item.ToString().Contains(control.Text.ToUpper()))
                     {
                         control.SelectedIndex = control.Items.IndexOf(item);
                         break;

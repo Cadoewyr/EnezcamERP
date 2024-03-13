@@ -1,6 +1,5 @@
 ﻿using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
-using EnezcamERP.Validators;
 
 namespace EnezcamERP.Forms.Customer_Forms
 {
@@ -42,27 +41,17 @@ namespace EnezcamERP.Forms.Customer_Forms
                 ContactPhone = txtContactPhone.Text.Trim()
             };
 
-            var res = new CustomerValidator().Validate(customer);
-
-            if (res.IsValid)
+            try
             {
-                try
-                {
-                    customerDB.Update(newCustomer, customer.ID);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-
-                (parentForm as FormMain).RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
-                (sender as Button).Enabled = false;
+                customerDB.Update(newCustomer, customer.ID);
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show(ErrorStringify.Stringify(res.Errors));
+                MessageBox.Show(ex.Message);
             }
 
+            (parentForm as FormMain).RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+            (sender as Button).Enabled = false;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

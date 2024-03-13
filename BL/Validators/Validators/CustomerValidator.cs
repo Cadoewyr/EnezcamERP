@@ -1,7 +1,7 @@
 ﻿using DAL.DTO.Entities;
 using FluentValidation;
 
-namespace EnezcamERP.Validators
+namespace BL.Validators.Validators
 {
     public class CustomerValidator : AbstractValidator<Customer>
     {

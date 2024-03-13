@@ -24,7 +24,7 @@ namespace BL.Reports.SalesReports
             {
                 DailySalesEntry entry = null;
 
-                if(DailySalesEntries.Any(x =>
+                if (DailySalesEntries.Any(x =>
                     x.JobNo == item.Order.JobNo &
                     x.ProductType == item.Product.Type &
                     x.UnitPrice == item.UnitPrice &

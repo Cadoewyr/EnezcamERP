@@ -1,7 +1,6 @@
 ﻿using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
-using EnezcamERP.Validators;
 
 namespace EnezcamERP.Forms.Order_Forms
 {
@@ -120,31 +119,24 @@ namespace EnezcamERP.Forms.Order_Forms
                         od.Product.PriceHistory.LastPrice = nudPrice.Value;
                     }
 
-                    var res = new OrderDetailValidator().Validate(od);
-
-                    if (res.IsValid)
+                    if (od.Order.JobNo <= 0 || od.Order.ID <= 0 || od.ID <= 0)
                     {
-                        if (od.Order.JobNo <= 0 || od.Order.ID <= 0 || od.ID <= 0)
+                        var oldEntity = orderDetail;
+                        var entityType = typeof(OrderDetail);
+
+                        foreach (var prop in entityType.GetProperties().Where(x => x.SetMethod != null))
                         {
-                            var oldEntity = orderDetail;
-                            var entityType = typeof(OrderDetail);
-
-                            foreach (var prop in entityType.GetProperties().Where(x => x.SetMethod != null))
-                            {
-                                if (prop.Name != "ID")
-                                    prop.SetValue(oldEntity, prop.GetValue(od));
-                            }
+                            if (prop.Name != "ID")
+                                prop.SetValue(oldEntity, prop.GetValue(od));
                         }
-                        else
-                            orderDetailsRepository.Update(od, orderDetail.ID);
-
-                        LoadForm(orderDetail);
-                        (parentForm as AddUpdateOrder).RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
-                        (parentForm as AddUpdateOrder).UpdateOrderTotals(orderDetail.Order);
-                        this.Close();
                     }
                     else
-                        ErrorStringify.Stringify(res.Errors);
+                        orderDetailsRepository.Update(od, orderDetail.ID);
+
+                    LoadForm(orderDetail);
+                    (parentForm as AddUpdateOrder).RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
+                    (parentForm as AddUpdateOrder).UpdateOrderTotals(orderDetail.Order);
+                    this.Close();
                 }
                 catch (Exception ex)
                 {

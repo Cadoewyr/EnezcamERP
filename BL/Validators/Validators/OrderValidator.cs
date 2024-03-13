@@ -1,7 +1,7 @@
 ﻿using DAL.DTO.Entities;
 using FluentValidation;
 
-namespace EnezcamERP.Validators
+namespace BL.Validators.Validators
 {
     public class OrderValidator : AbstractValidator<Order>
     {
@@ -10,12 +10,16 @@ namespace EnezcamERP.Validators
             RuleFor(x => x.OrderDetails)
                 .NotNull().NotEmpty().WithMessage("Siparişe ait herhangi bir kalem yok.");
 
+            //RuleFor(x => x.OrderDetails.Count)
+            //    .GreaterThan(1).WithMessage("Siparişe ait en az bir kalem bulunmak zorunda.");
+
             RuleFor(x => x.IssueDate)
                 .LessThanOrEqualTo(x => x.DeliveryDate).WithMessage("Sipariş tarihi teslim tarihinden ileri bir tarih olamaz.")
                 .NotNull().NotEmpty().WithMessage("Sipariş tarihi boş bırakılamaz.");
 
             RuleFor(x => x.DeliveryDate)
-                .NotNull().NotEmpty().WithMessage("Teslim tarihi boş bırakılamaz.");
+                .NotNull().NotEmpty().WithMessage("Teslim tarihi boş bırakılamaz.")
+                .GreaterThanOrEqualTo(x => x.IssueDate).WithMessage("Teslim tarihi sipariş tarihinden erken bir tarih olamaz.");
 
             RuleFor(x => x.Customer)
                 .NotNull().NotEmpty().WithMessage("Cari boş bırakılamaz.");

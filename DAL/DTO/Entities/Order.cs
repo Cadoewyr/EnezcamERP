@@ -18,7 +18,7 @@ namespace DAL.DTO.Entities
         {
             get
             {
-                Dictionary<UnitCode, decimal> quantities = new();
+                Dictionary<UnitCode, decimal> quantities = [];
                 var unitCodes = OrderDetails.Select(x => x.UnitCode).Distinct().ToList();
 
                 foreach (var unitCode in unitCodes)
@@ -121,7 +121,7 @@ namespace DAL.DTO.Entities
         {
             get
             {
-                Dictionary<UnitCode, decimal> quantities = new();
+                Dictionary<UnitCode, decimal> quantities = [];
                 var unitCodes = OrderDetails.Select(x => x.UnitCode).Distinct().ToList();
 
                 foreach (var unitCode in unitCodes)
@@ -137,7 +137,7 @@ namespace DAL.DTO.Entities
         {
             get
             {
-                Dictionary<UnitCode, decimal> quantities = new();
+                Dictionary<UnitCode, decimal> quantities = [];
                 var unitCodes = OrderDetails.Select(x => x.UnitCode).Distinct().ToList();
 
                 foreach (var unitCode in unitCodes)
