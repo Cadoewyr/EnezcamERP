@@ -109,7 +109,9 @@ namespace EnezcamERP.Forms.Order_Forms
                         Order = orderDetail.Order ?? new Order(),
                         Quantity = nudQuantity.Value,
                         DiscountRatio = nudDiscountRatio.Value,
-                        ProducedOrders = orderDetail.ProducedOrders ?? new List<ProducedOrder>()
+                        ProducedOrders = orderDetail.ProducedOrders ?? [],
+                        CreatedAt = orderDetail.CreatedAt,
+                        ID = orderDetail.ID
                     };
 
                     if (cbUpdatePriceHistory.Checked)
@@ -122,7 +124,7 @@ namespace EnezcamERP.Forms.Order_Forms
 
                     if (res.IsValid)
                     {
-                        if (od.Order.JobNo <= 0)
+                        if (od.Order.JobNo <= 0 || od.Order.ID <= 0 || od.ID <= 0)
                         {
                             var oldEntity = orderDetail;
                             var entityType = typeof(OrderDetail);
