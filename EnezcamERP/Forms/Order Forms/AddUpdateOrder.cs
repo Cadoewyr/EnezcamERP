@@ -196,12 +196,7 @@ namespace EnezcamERP.Forms.Order_Forms
             {
                 order.JobNo = !string.IsNullOrEmpty(txtJobNo.Text) ? Convert.ToInt32(txtJobNo.Text.Trim()) : -1;
                 order.Customer = cbCustomers.SelectedItem as Customer;
-                order.IssueDate = order == null ? dtpOrderDate.Value
-                    .AddHours(DateTime.Now.Hour)
-                    .AddMinutes(DateTime.Now.Minute)
-                    .AddSeconds(DateTime.Now.Second)
-                    .AddMilliseconds(DateTime.Now.Millisecond)
-                    .AddMicroseconds(DateTime.Now.Microsecond) : order.IssueDate; 
+                order.IssueDate = dtpOrderDate.Value.Date;
 
                 order.DeliveryDate = dtpDeliveryDate.Value.Date.AddDays(1).AddTicks(-1);
 
