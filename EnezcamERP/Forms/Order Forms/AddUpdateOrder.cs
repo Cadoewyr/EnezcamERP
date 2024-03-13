@@ -150,13 +150,6 @@ namespace EnezcamERP.Forms.Order_Forms
             txtTotalQuantity.Text = string.Join(", ", order.ProductQuantity.Select(x => $"{x.Value.ToString(x.Key == UnitCode.M2 ? "N3" : "N0")} {x.Key}").ToArray());
             txtPriceWithTax.Text = order.PriceWithTax.ToString("C2");
         }
-        void ClearNumericUpDownControls(params Control[] controls)
-        {
-            foreach (var control in controls)
-            {
-                (control as NumericUpDown).Value = 0;
-            }
-        }
 
         CustomerRepository customerDB = new();
         OrderRepository orderDB = new();
@@ -191,14 +184,13 @@ namespace EnezcamERP.Forms.Order_Forms
                 {
                     order.OrderDetails.Add(od);
                     RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
-                    ClearNumericUpDownControls(nudCost, nudPrice, nudQuantity);
                     UpdateOrderTotals(order);
+                    ControlCleaner.Clear(nudCost, nudPrice, nudQuantity);
                 }
                 else
                     MessageBox.Show(ErrorStringify.Stringify(res.Errors));
             }
         }
-
         private void btnSaveOrder_Click(object sender, EventArgs e)
         {
             if (lvOrderDetails.Items.Count > 0)
@@ -237,12 +229,10 @@ namespace EnezcamERP.Forms.Order_Forms
                 }
             }
         }
-
         private void txtSearchProduct_TextChanged(object sender, EventArgs e)
         {
             RefreshProducts(productDB.GetAll((sender as TextBox).Text.ToLower().Trim() ?? null).ToArray());
         }
-
         private void btnDeleteOrderDetail_Click(object sender, EventArgs e)
         {
             if (lvOrderDetails.SelectedItems.Count > 0)
@@ -252,12 +242,10 @@ namespace EnezcamERP.Forms.Order_Forms
                 UpdateOrderTotals(order);
             }
         }
-
         private void btnCancelOrder_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void cbUnitCode_SelectedIndexChanged(object sender, EventArgs e)
         {
             if ((UnitCode)Enum.Parse<UnitCode>((sender as ComboBox).Text) == UnitCode.AD)
@@ -265,7 +253,6 @@ namespace EnezcamERP.Forms.Order_Forms
             else
                 nudQuantity.DecimalPlaces = 3;
         }
-
         private void lvProducts_Click(object sender, EventArgs e)
         {
             ListView lv = sender as ListView;
@@ -281,7 +268,6 @@ namespace EnezcamERP.Forms.Order_Forms
                 }
             }
         }
-
         private void lvOrderDetails_DoubleClick(object sender, EventArgs e)
         {
             if ((sender as ListView).SelectedItems.Count > 0)
@@ -294,7 +280,6 @@ namespace EnezcamERP.Forms.Order_Forms
                 UpdateOrderTotals(order);
             }
         }
-
         private void cbCustomers_Leave(object sender, EventArgs e)
         {
             var control = (sender as ComboBox);
