@@ -25,7 +25,7 @@ namespace DAL.DTO.Entities
         {
             get => UnitPrice * ProducedOrders.Sum(x => x.ProducedOrderQuantity);
         }
-
+        [NotMapped]
         public decimal ProducedFinalPrice
         {
             get
@@ -36,59 +36,51 @@ namespace DAL.DTO.Entities
                     return ProducedPrice;
             }
         }
-
+        [NotMapped]
         public decimal ProducedFinalPriceTax
         {
             get => ProducedFinalPrice * (TaxRatio / 100);
         }
-
+        [NotMapped]
         public decimal ProducedFinalPriceWithTax
         {
             get => ProducedFinalPrice + ProducedFinalPriceTax;
         }
-
         [NotMapped]
         public decimal ProducedCost
         {
             get => UnitCost * ProducedOrders.Sum(x => x.ProducedOrderQuantity);
         }
-
         [NotMapped]
         public decimal ProducedCostTax
         {
             get => ProducedCost * (TaxRatio / 100);
         }
-
         [NotMapped]
         public decimal ProducedCostWithTax
         {
             get => ProducedCost + ProducedCostTax;
         }
-
         [NotMapped]
         public decimal ProducedProfit
         {
             get => ProducedFinalPrice - ProducedCost;
         }
-
         [NotMapped]
         public decimal ProducedProfitRatio
         {
             get => (ProducedFinalPrice - ProducedCost) / ProducedCost;
         }
-
         [NotMapped]
         public decimal ProducedProfitMargin
         {
             get => (ProducedFinalPrice - ProducedCost) / ProducedFinalPrice;
         }
-
         [NotMapped]
         public decimal ProducedQuantity
         {
             get => ProducedOrders.Sum(x => x.ProducedOrderQuantity);
         }
-
         [NotMapped]
         public decimal RemainingToProduceQuantity
         {
@@ -109,31 +101,26 @@ namespace DAL.DTO.Entities
                     return UnitPrice;
             }
         }
-
         [NotMapped]
         public decimal Cost
         {
             get => UnitCost * Quantity;
         }
-
         [NotMapped]
         public decimal CostTax
         {
             get => Cost * (TaxRatio / 100);
         }
-
         [NotMapped]
         public decimal CostWithTax
         {
             get => Cost + CostTax;
         }
-
         [NotMapped]
         public decimal Price
         {
             get => UnitPrice * Quantity;
         }
-
         [NotMapped]
         public decimal FinalPrice
         {
@@ -145,31 +132,26 @@ namespace DAL.DTO.Entities
                     return Price;
             }
         }
-
         [NotMapped]
         public decimal FinalPriceTax
         {
             get => FinalPrice * (TaxRatio / 100);
         }
-
         [NotMapped]
         public decimal FinalPriceWithTax
         {
             get => FinalPrice + FinalPriceTax;
         }
-
         [NotMapped]
         public decimal Profit
         {
             get => FinalPrice - Cost;
         }
-
         [NotMapped]
         public decimal ProfitRatio
         {
             get => (FinalPrice - Cost) / Cost;
         }
-
         [NotMapped]
         public decimal ProfitMargin
         {

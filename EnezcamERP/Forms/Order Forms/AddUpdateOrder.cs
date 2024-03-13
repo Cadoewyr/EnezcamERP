@@ -86,8 +86,20 @@ namespace EnezcamERP.Forms.Order_Forms
                 ListViewItem lvi = new()
                 {
                     Tag = item,
-                    Text = item.Product.Code
+                    Text = item.Product.Code,
+                    UseItemStyleForSubItems = false
                 };
+
+                Color color;
+
+                if (item.ProducedQuantity == 0)
+                    color = Color.MediumVioletRed;
+                else if (item.ProducedQuantity > 0 && item.ProducedQuantity < item.Quantity)
+                    color = Color.MediumPurple;
+                else if (item.ProducedQuantity == item.Quantity)
+                    color = Color.Green;
+                else
+                    color = Color.Black;
 
                 lvi.SubItems.Add(item.Product.Name);
                 lvi.SubItems.Add(item.UnitCost.ToString("C2"));
@@ -101,10 +113,10 @@ namespace EnezcamERP.Forms.Order_Forms
                 }
                 lvi.SubItems.Add((item.DiscountRatio / 100).ToString("P0"));
                 lvi.SubItems.Add((item.TaxRatio / 100).ToString("P0"));
-                lvi.SubItems.Add(item.Quantity.ToString("N3"));
+                lvi.SubItems.Add(item.Quantity.ToString(item.UnitCode == UnitCode.AD ? "N0" : "N3"));
                 lvi.SubItems.Add(item.UnitCode.ToString());
-                lvi.SubItems.Add(item.ProducedOrders.Sum(x => x.ProducedOrderQuantity).ToString("N3"));
-                lvi.SubItems.Add((item.Quantity - item.ProducedOrders.Sum(x => x.ProducedOrderQuantity)).ToString("N3"));
+                lvi.SubItems.Add(item.ProducedQuantity.ToString(item.UnitCode == UnitCode.AD ? "N0" : "N3")).ForeColor = color;
+                lvi.SubItems.Add((item.Quantity - item.ProducedQuantity).ToString(item.UnitCode == UnitCode.AD ? "N0" : "N3")).ForeColor = color;
                 lvi.SubItems.Add(item.Cost.ToString("C2"));
                 lvi.SubItems.Add(item.FinalPrice.ToString("C2"));
                 lvi.SubItems.Add(item.Profit.ToString("C2"));

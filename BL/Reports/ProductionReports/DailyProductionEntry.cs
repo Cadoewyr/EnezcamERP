@@ -10,6 +10,7 @@ namespace BL.Reports.ProductionReports
         public string ProductName { get; set; }
         public ProcessType ProductType { get; set; }
         public decimal Quantity { get; set; }
+        public decimal TaxRatio { get; set; }
         public UnitCode UnitCode { get; set; }
         public decimal UnitCost { get; set; }
         public decimal UnitPrice { get; set; }

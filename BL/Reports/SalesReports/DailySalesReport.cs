@@ -22,36 +22,50 @@ namespace BL.Reports.SalesReports
         {
             foreach (var item in orderDetails)
             {
-                if(DailySalesEntries.First(x => 
-                x.JobNo == item.Order.JobNo &
-                x.ProductType == item.Product.Type &
-                x.UnitPrice == item.UnitPrice &
-                x.UnitCost == item.UnitCost &
-                x.UnitCode == item.UnitCode &
-                x.DiscountRatio == item.DiscountRatio &
-                x.TaxRatio == item.TaxRatio &
-                x.FinalUnitPrice == item.FinalUnitPrice
-                ) is DailySalesEntry entry != null)
+                DailySalesEntry entry = null;
+
+                if(DailySalesEntries.Any(x =>
+                    x.JobNo == item.Order.JobNo &
+                    x.ProductType == item.Product.Type &
+                    x.UnitPrice == item.UnitPrice &
+                    x.UnitCost == item.UnitCost &
+                    x.UnitCode == item.UnitCode &
+                    x.DiscountRatio == item.DiscountRatio &
+                    x.TaxRatio == item.TaxRatio &
+                    x.FinalUnitPrice == item.FinalUnitPrice &
+                    x.DiscountRatio == item.DiscountRatio
+                ))
+                    entry = DailySalesEntries.First(x =>
+                    x.JobNo == item.Order.JobNo &
+                    x.ProductType == item.Product.Type &
+                    x.UnitPrice == item.UnitPrice &
+                    x.UnitCost == item.UnitCost &
+                    x.UnitCode == item.UnitCode &
+                    x.DiscountRatio == item.DiscountRatio &
+                    x.TaxRatio == item.TaxRatio &
+                    x.FinalUnitPrice == item.FinalUnitPrice &
+                    x.DiscountRatio == item.DiscountRatio
+                );
+
+                if (entry != null)
+                    entry.Quantity += item.Quantity;
+                else
                 {
-                    /*
-                     * TODO
-                     * sum of two DailySalesEntries object logic
-                     */
+                    DailySalesEntries.Add(new()
+                    {
+                        IssueDate = item.Order.IssueDate.Date,
+                        TaxRatio = item.TaxRatio,
+                        CustomerName = item.Order.Customer.Name,
+                        JobNo = item.Order.JobNo,
+                        ProductType = item.Product.Type,
+                        UnitCode = item.UnitCode,
+                        ProductName = item.Product.Name,
+                        UnitCost = item.UnitCost,
+                        UnitPrice = item.UnitPrice,
+                        DiscountRatio = item.DiscountRatio,
+                        Quantity = item.Quantity
+                    });
                 }
-                DailySalesEntries.Add(new()
-                {
-                    IssueDate = item.Order.IssueDate.Date,
-                    TaxRatio = item.TaxRatio,
-                    CustomerName = item.Order.Customer.Name,
-                    JobNo = item.Order.JobNo,
-                    ProductType = item.Product.Type,
-                    UnitCode = item.UnitCode,
-                    ProductName = item.Product.Name,
-                    UnitCost = item.UnitCost,
-                    UnitPrice = item.UnitPrice,
-                    DiscountRatio = item.DiscountRatio,
-                    Quantity = item.Quantity
-                });
             }
             DailySalesEntries = DailySalesEntries.OrderBy(x => x.JobNo).ToList();
         }

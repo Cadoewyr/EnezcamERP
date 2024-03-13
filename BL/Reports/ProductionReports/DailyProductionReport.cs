@@ -1,4 +1,5 @@
 ﻿using BL.Report.Enums;
+using BL.Reports.SalesReports;
 using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 
@@ -13,7 +14,7 @@ namespace BL.Reports.ProductionReports
 
             ProducedOrders.AddRange(producedOrdersDB.GetAll(x => x.ProducedDate.Date == date.Date && !x.IsStock));
 
-            ProducedOrders = MergeOrders(ProducedOrders);
+            ProducedOrders = MergeProducedOrders(ProducedOrders);
             CreateEntries(ProducedOrders);
         }
 
@@ -23,23 +24,54 @@ namespace BL.Reports.ProductionReports
         {
             foreach (var item in producedOrders)
             {
-                DailyProductionEntries.Add(new()
+                DailyProductionEntry entry = null;
+
+                if (DailyProductionEntries.Any(x =>
+                    x.JobNo == item.OrderDetail.Order.JobNo &
+                    x.ProductType == item.OrderDetail.Product.Type &
+                    x.UnitPrice == item.OrderDetail.UnitPrice &
+                    x.UnitCost == item.OrderDetail.UnitCost &
+                    x.UnitCode == item.OrderDetail.UnitCode &
+                    x.DiscountRatio == item.OrderDetail.DiscountRatio &
+                    x.TaxRatio == item.OrderDetail.TaxRatio &
+                    x.FinalUnitPrice == item.OrderDetail.FinalUnitPrice &
+                    x.DiscountRatio == item.OrderDetail.DiscountRatio
+                ))
+                    entry = DailyProductionEntries.First(x =>
+                    x.JobNo == item.OrderDetail.Order.JobNo &
+                    x.ProductType == item.OrderDetail.Product.Type &
+                    x.UnitPrice == item.OrderDetail.UnitPrice &
+                    x.UnitCost == item.OrderDetail.UnitCost &
+                    x.UnitCode == item.OrderDetail.UnitCode &
+                    x.DiscountRatio == item.OrderDetail.DiscountRatio &
+                    x.TaxRatio == item.OrderDetail.TaxRatio &
+                    x.FinalUnitPrice == item.OrderDetail.FinalUnitPrice &
+                    x.DiscountRatio == item.OrderDetail.DiscountRatio
+                );
+
+                if (entry != null)
+                    entry.Quantity += item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date && !x.IsStock).Sum(x => x.ProducedOrderQuantity);
+                else
                 {
-                    IssueDate = item.OrderDetail.Order.IssueDate.Date,
-                    CustomerName = item.OrderDetail.Order.Customer.Name,
-                    JobNo = item.OrderDetail.Order.JobNo,
-                    ProductType = item.OrderDetail.Product.Type,
-                    UnitCode = item.OrderDetail.UnitCode,
-                    ProductName = item.OrderDetail.Product.Name,
-                    UnitCost = item.OrderDetail.UnitCost,
-                    UnitPrice = item.OrderDetail.UnitPrice,
-                    DiscountRatio = item.OrderDetail.DiscountRatio,
-                    Quantity = item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date && !x.IsStock).Sum(x => x.ProducedOrderQuantity)
-                });
+                    DailyProductionEntries.Add(new()
+                    {
+                        IssueDate = item.OrderDetail.Order.IssueDate.Date,
+                        CustomerName = item.OrderDetail.Order.Customer.Name,
+                        JobNo = item.OrderDetail.Order.JobNo,
+                        ProductType = item.OrderDetail.Product.Type,
+                        UnitCode = item.OrderDetail.UnitCode,
+                        ProductName = item.OrderDetail.Product.Name,
+                        UnitCost = item.OrderDetail.UnitCost,
+                        UnitPrice = item.OrderDetail.UnitPrice,
+                        DiscountRatio = item.OrderDetail.DiscountRatio,
+                        TaxRatio = item.OrderDetail.TaxRatio,
+                        Quantity = item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date && !x.IsStock).Sum(x => x.ProducedOrderQuantity)
+                    });
+                }
             }
             DailyProductionEntries = DailyProductionEntries.OrderBy(x => x.JobNo).ToList();
         }
-        List<ProducedOrder> MergeOrders(List<ProducedOrder> producedOrders)
+        List<ProducedOrder> MergeProducedOrders(List<ProducedOrder> producedOrders)
         {
             List<ProducedOrder> mergedProducedOrders = [];
 
