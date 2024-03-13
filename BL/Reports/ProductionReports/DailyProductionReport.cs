@@ -33,7 +33,7 @@ namespace BL.Reports.ProductionReports
                     x.UnitCost == item.OrderDetail.UnitCost &
                     x.UnitCode == item.OrderDetail.UnitCode &
                     x.DiscountRatio == item.OrderDetail.DiscountRatio &
-                    x.TaxRatio == item.OrderDetail.TaxRatio &
+                    x.TaxRatio == item.OrderDetail.TaxRatio &   
                     x.FinalUnitPrice == item.OrderDetail.FinalUnitPrice &
                     x.DiscountRatio == item.OrderDetail.DiscountRatio
                 ))
