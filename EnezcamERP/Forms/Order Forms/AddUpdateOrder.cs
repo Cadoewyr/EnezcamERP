@@ -42,7 +42,7 @@ namespace EnezcamERP.Forms.Order_Forms
         {
             lvProducts.Items.Clear();
 
-            products ??= productDB.GetAll().ToArray();
+            products ??= productDB.GetAll(txtSearchProduct.Text.Trim().ToLower()).ToArray();
 
             foreach (var product in products)
             {

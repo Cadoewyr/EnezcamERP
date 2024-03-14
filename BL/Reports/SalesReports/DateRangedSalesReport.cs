@@ -56,7 +56,9 @@ namespace BL.Reports.SalesReports
 
             while (date <= DateRangeEnd)
             {
-                DailySalesReports.Add(new(date, _outgoing));
+                if ((int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5)
+                    DailySalesReports.Add(new(date, ((int)date.DayOfWeek > 1 & (int)date.DayOfWeek <= 5) && date.Date <= DateTime.Now.Date ? _outgoing : 0));
+
                 date = date.AddDays(1);
             }
         }
