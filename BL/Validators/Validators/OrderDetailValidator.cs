@@ -16,9 +16,6 @@ namespace BL.Validators.Validators
             RuleFor(x => x.UnitCode)
                 .NotNull().WithMessage("Birim kodu seçin.");
 
-            //RuleFor(x => x.Order.OrderDetails.Count)
-            //    .GreaterThan(1).WithMessage("Siparişe ait en az bir kalem bulunmak zorunda.");
-
             RuleFor(x => x.Quantity)
                 .GreaterThan(0).WithMessage("Ürün adedi sıfıra eşit veya küçük olamaz.");
 
