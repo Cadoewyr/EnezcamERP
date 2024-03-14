@@ -625,12 +625,16 @@ namespace EnezcamERP
         #region
         private void btnCreateProductionReport_Click(object sender, EventArgs e)
         {
+            (sender as Button).Enabled = false;
+
             var interval = rbDaily.Checked ? ReportInterval.Daily : (rbWeekly.Checked ? ReportInterval.Weekly : (rbMonthly.Checked ? ReportInterval.Monthly : (rbYearly.Checked ? ReportInterval.Yearly : ReportInterval.Daily)));
 
             if (rbProduction.Checked)
                 FillProductionReport(dgReport, (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value));
             else if (rbSales.Checked)
                 FillSalesReport(dgReport, (DateRangedSalesReport)ReportCreator<DateRangedSalesReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value));
+
+            (sender as Button).Enabled = true;
         }
 
         private void btnCopyTable_Click(object sender, EventArgs e)
