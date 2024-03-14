@@ -623,7 +623,7 @@ namespace EnezcamERP
 
         //Report controls
         #region
-        private void btnCreateProductionReport_Click(object sender, EventArgs e)
+        private void btnCreateReport_Click(object sender, EventArgs e)
         {
             (sender as Button).Enabled = false;
 
@@ -639,9 +639,12 @@ namespace EnezcamERP
 
         private void btnCopyTable_Click(object sender, EventArgs e)
         {
-            dgReport.SelectAll();
-            Clipboard.SetDataObject(dgReport.GetClipboardContent());
-            dgReport.ClearSelection();
+            if(dgReport.Rows.Count > 0)
+            {
+                dgReport.SelectAll();
+                Clipboard.SetDataObject(dgReport.GetClipboardContent());
+                dgReport.ClearSelection();
+            }
         }
         #endregion
 
