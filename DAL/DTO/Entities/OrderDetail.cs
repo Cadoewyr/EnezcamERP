@@ -17,6 +17,15 @@ namespace DAL.DTO.Entities
         [Range(0, 100)]
         public decimal DiscountRatio { get; set; } = 0;
         public virtual ICollection<ProducedOrder> ProducedOrders { get; set; } = [];
+        //[Range(1, 99999)]
+        //public int Width { get; set; } = 1;
+        //[Range(1, 99999)]
+        //public int Height { get; set; } = 1;
+
+        //[NotMapped]
+        //public decimal UnitArea => Width * Height;
+        //[NotMapped]
+        //public decimal TotalArea => UnitArea * Quantity;
 
         //Production
         #region

@@ -639,7 +639,7 @@ namespace EnezcamERP
 
         private void btnCopyTable_Click(object sender, EventArgs e)
         {
-            if(dgReport.Rows.Count > 0)
+            if (dgReport.Rows.Count > 0)
             {
                 dgReport.SelectAll();
                 Clipboard.SetDataObject(dgReport.GetClipboardContent());

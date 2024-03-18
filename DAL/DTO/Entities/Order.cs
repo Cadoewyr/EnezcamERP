@@ -11,6 +11,9 @@ namespace DAL.DTO.Entities
         public virtual Customer Customer { get; set; } = new();
         public virtual ICollection<OrderDetail> OrderDetails { get; set; } = [];
 
+        //[NotMapped]
+        //public decimal TotalArea => OrderDetails.Sum(x => x.TotalArea);
+
         //Satış
         #region
         [NotMapped]

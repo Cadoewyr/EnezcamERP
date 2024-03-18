@@ -1,5 +1,4 @@
 ﻿using BL.Report.Enums;
-using BL.Reports.SalesReports;
 using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 
@@ -33,7 +32,7 @@ namespace BL.Reports.ProductionReports
                     x.UnitCost == item.OrderDetail.UnitCost &
                     x.UnitCode == item.OrderDetail.UnitCode &
                     x.DiscountRatio == item.OrderDetail.DiscountRatio &
-                    x.TaxRatio == item.OrderDetail.TaxRatio &   
+                    x.TaxRatio == item.OrderDetail.TaxRatio &
                     x.FinalUnitPrice == item.OrderDetail.FinalUnitPrice &
                     x.DiscountRatio == item.OrderDetail.DiscountRatio
                 ))
