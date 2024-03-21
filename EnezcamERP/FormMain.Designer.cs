@@ -138,7 +138,7 @@
             rbProduction = new RadioButton();
             dtpDate = new DateTimePicker();
             btnCopyTable = new Button();
-            btnCreateProductionReport = new Button();
+            btnCreateReport = new Button();
             gbReportInterval = new GroupBox();
             rbDaily = new RadioButton();
             rbYearly = new RadioButton();
@@ -1077,7 +1077,7 @@
             gbProductionReportDetails.Controls.Add(gbReportType);
             gbProductionReportDetails.Controls.Add(dtpDate);
             gbProductionReportDetails.Controls.Add(btnCopyTable);
-            gbProductionReportDetails.Controls.Add(btnCreateProductionReport);
+            gbProductionReportDetails.Controls.Add(btnCreateReport);
             gbProductionReportDetails.Controls.Add(gbReportInterval);
             gbProductionReportDetails.Location = new Point(1170, 5);
             gbProductionReportDetails.Name = "gbProductionReportDetails";
@@ -1154,16 +1154,16 @@
             btnCopyTable.UseVisualStyleBackColor = true;
             btnCopyTable.Click += btnCopyTable_Click;
             // 
-            // btnCreateProductionReport
+            // btnCreateReport
             // 
-            btnCreateProductionReport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCreateProductionReport.Location = new Point(6, 577);
-            btnCreateProductionReport.Name = "btnCreateProductionReport";
-            btnCreateProductionReport.Size = new Size(223, 29);
-            btnCreateProductionReport.TabIndex = 8;
-            btnCreateProductionReport.Text = "Oluştur";
-            btnCreateProductionReport.UseVisualStyleBackColor = true;
-            btnCreateProductionReport.Click += btnCreateReport_Click;
+            btnCreateReport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnCreateReport.Location = new Point(6, 577);
+            btnCreateReport.Name = "btnCreateReport";
+            btnCreateReport.Size = new Size(223, 29);
+            btnCreateReport.TabIndex = 8;
+            btnCreateReport.Text = "Oluştur";
+            btnCreateReport.UseVisualStyleBackColor = true;
+            btnCreateReport.Click += btnCreateReport_Click;
             // 
             // gbReportInterval
             // 
@@ -1261,6 +1261,7 @@
             // 
             // FormMain
             // 
+            AcceptButton = btnCreateReport;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1422, 695);
@@ -1369,7 +1370,7 @@
         private RadioButton rbYearly;
         private RadioButton rbWeekly;
         private RadioButton rbMonthly;
-        private Button btnCreateProductionReport;
+        private Button btnCreateReport;
         private GroupBox gbReportType;
         private RadioButton rbSales;
         private RadioButton rbProduction;
