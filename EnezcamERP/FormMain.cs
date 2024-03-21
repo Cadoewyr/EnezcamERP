@@ -5,7 +5,6 @@ using BL.Reports.SalesReports;
 using BL.Repositories.Repositories;
 using DAL.DTO.Context;
 using DAL.DTO.Entities;
-using DAL.DTO.Entities.Enums;
 using EnezcamERP.Forms.Customer_Forms;
 using EnezcamERP.Forms.DataGridColumnHeaderTemplates;
 using EnezcamERP.Forms.Order_Forms;
@@ -687,26 +686,31 @@ namespace EnezcamERP
             {
                 var obj = (sender as ListView).SelectedItems[0].Tag;
 
-                switch (e.KeyData)
+                try
                 {
-                    case Keys.Delete:
-                        if (obj is Product)
-                        {
-                            productsDB.Delete(obj as Product);
-                            RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
-                        }
-                        else if (obj is Customer)
-                        {
-                            customersDB.Delete(obj as Customer);
-                            RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
-                        }
-                        else if (obj is Order)
-                        {
-                            ordersDB.Delete(obj as Order);
-                            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
-                        }
-                        break;
+                    switch (e.KeyData)
+                    {
+                        case Keys.Delete:
+                            if (obj is Product)
+                            {
+                                productsDB.Delete(obj as Product);
+                                RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+                            }
+                            else if (obj is Customer)
+                            {
+                                customersDB.Delete(obj as Customer);
+                                RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+                            }
+                            else if (obj is Order)
+                            {
+                                ordersDB.Delete(obj as Order);
+                                RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+                            }
+                            break;
+                    }
                 }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
+                finally { RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize); }
             }
         }
         #endregion

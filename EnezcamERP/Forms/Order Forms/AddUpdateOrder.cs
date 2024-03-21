@@ -318,5 +318,33 @@ namespace EnezcamERP.Forms.Order_Forms
                 this.Text = p.Code;
             }
         }
+        private void ListView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((sender as ListView).SelectedItems.Count > 0)
+            {
+                try
+                {
+                    switch (e.KeyData)
+                    {
+                        case Keys.Delete:
+                            if (order.OrderDetails.Count > 1)
+                            {
+                                order.OrderDetails.Remove(lvOrderDetails.SelectedItems[0].Tag as OrderDetail);
+                                RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
+                                UpdateOrderTotals(order);
+                            }
+                            else
+                                MessageBox.Show("Siparişe ait en az bir kalem bulunmak zorunda.");
+                            break;
+                    }
+                }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
+                finally
+                {
+                    RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
+                    UpdateOrderTotals(order);
+                }
+            }
+        }
     }
 }

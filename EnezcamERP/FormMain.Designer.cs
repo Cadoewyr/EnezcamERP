@@ -168,10 +168,11 @@
             // tabOrders
             // 
             tabOrders.Controls.Add(gbOrders);
-            tabOrders.Location = new Point(4, 29);
+            tabOrders.Location = new Point(4, 24);
+            tabOrders.Margin = new Padding(3, 2, 3, 2);
             tabOrders.Name = "tabOrders";
-            tabOrders.Padding = new Padding(3);
-            tabOrders.Size = new Size(1414, 662);
+            tabOrders.Padding = new Padding(3, 2, 3, 2);
+            tabOrders.Size = new Size(1238, 499);
             tabOrders.TabIndex = 0;
             tabOrders.Text = "Siparişler";
             tabOrders.UseVisualStyleBackColor = true;
@@ -191,9 +192,11 @@
             gbOrders.Controls.Add(btnUpdateOrder);
             gbOrders.Controls.Add(btnAddOrder);
             gbOrders.Controls.Add(lvOrders);
-            gbOrders.Location = new Point(6, 5);
+            gbOrders.Location = new Point(5, 4);
+            gbOrders.Margin = new Padding(3, 2, 3, 2);
             gbOrders.Name = "gbOrders";
-            gbOrders.Size = new Size(1400, 645);
+            gbOrders.Padding = new Padding(3, 2, 3, 2);
+            gbOrders.Size = new Size(1227, 490);
             gbOrders.TabIndex = 0;
             gbOrders.TabStop = false;
             gbOrders.Text = "Siparişler";
@@ -204,11 +207,9 @@
             gbDateFilterSettings.Controls.Add(cbDateFilter);
             gbDateFilterSettings.Controls.Add(rbCompletedDate);
             gbDateFilterSettings.Controls.Add(rbOrderDate);
-            gbDateFilterSettings.Location = new Point(1127, 317);
-            gbDateFilterSettings.Margin = new Padding(3, 4, 3, 4);
+            gbDateFilterSettings.Location = new Point(988, 238);
             gbDateFilterSettings.Name = "gbDateFilterSettings";
-            gbDateFilterSettings.Padding = new Padding(3, 4, 3, 4);
-            gbDateFilterSettings.Size = new Size(266, 137);
+            gbDateFilterSettings.Size = new Size(233, 103);
             gbDateFilterSettings.TabIndex = 16;
             gbDateFilterSettings.TabStop = false;
             gbDateFilterSettings.Text = "Filtre Ayarları";
@@ -217,9 +218,10 @@
             // 
             cbDateFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cbDateFilter.AutoSize = true;
-            cbDateFilter.Location = new Point(7, 36);
+            cbDateFilter.Location = new Point(19, 27);
+            cbDateFilter.Margin = new Padding(3, 2, 3, 2);
             cbDateFilter.Name = "cbDateFilter";
-            cbDateFilter.Size = new Size(173, 24);
+            cbDateFilter.Size = new Size(139, 19);
             cbDateFilter.TabIndex = 9;
             cbDateFilter.Text = "Tarih Filtresini Aktif Et";
             cbDateFilter.UseVisualStyleBackColor = true;
@@ -230,10 +232,9 @@
             rbCompletedDate.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             rbCompletedDate.AutoSize = true;
             rbCompletedDate.Enabled = false;
-            rbCompletedDate.Location = new Point(7, 99);
-            rbCompletedDate.Margin = new Padding(3, 4, 3, 4);
+            rbCompletedDate.Location = new Point(16, 74);
             rbCompletedDate.Name = "rbCompletedDate";
-            rbCompletedDate.Size = new Size(158, 24);
+            rbCompletedDate.Size = new Size(128, 19);
             rbCompletedDate.TabIndex = 11;
             rbCompletedDate.TabStop = true;
             rbCompletedDate.Text = "Tamamlanma Tarihi";
@@ -246,10 +247,9 @@
             rbOrderDate.AutoSize = true;
             rbOrderDate.Checked = true;
             rbOrderDate.Enabled = false;
-            rbOrderDate.Location = new Point(6, 67);
-            rbOrderDate.Margin = new Padding(3, 4, 3, 4);
+            rbOrderDate.Location = new Point(14, 50);
             rbOrderDate.Name = "rbOrderDate";
-            rbOrderDate.Size = new Size(113, 24);
+            rbOrderDate.Size = new Size(90, 19);
             rbOrderDate.TabIndex = 10;
             rbOrderDate.TabStop = true;
             rbOrderDate.Text = "Sipariş Tarihi";
@@ -260,9 +260,9 @@
             // 
             lblDateFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblDateFilter.AutoSize = true;
-            lblDateFilter.Location = new Point(1126, 59);
+            lblDateFilter.Location = new Point(987, 44);
             lblDateFilter.Name = "lblDateFilter";
-            lblDateFilter.Size = new Size(88, 20);
+            lblDateFilter.Size = new Size(69, 15);
             lblDateFilter.TabIndex = 14;
             lblDateFilter.Text = "Tarih Aralığı";
             // 
@@ -270,7 +270,8 @@
             // 
             mcDateFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             mcDateFilter.Enabled = false;
-            mcDateFilter.Location = new Point(1126, 88);
+            mcDateFilter.Location = new Point(987, 66);
+            mcDateFilter.Margin = new Padding(8, 7, 8, 7);
             mcDateFilter.MaxSelectionCount = 42;
             mcDateFilter.MinDate = new DateTime(2020, 1, 1, 0, 0, 0, 0);
             mcDateFilter.Name = "mcDateFilter";
@@ -280,9 +281,10 @@
             // cbIsDone
             // 
             cbIsDone.AutoSize = true;
-            cbIsDone.Location = new Point(554, 27);
+            cbIsDone.Location = new Point(485, 20);
+            cbIsDone.Margin = new Padding(3, 2, 3, 2);
             cbIsDone.Name = "cbIsDone";
-            cbIsDone.Size = new Size(237, 24);
+            cbIsDone.Size = new Size(189, 19);
             cbIsDone.TabIndex = 5;
             cbIsDone.Text = "Tamamlanmış Siparişleri Listele";
             cbIsDone.UseVisualStyleBackColor = true;
@@ -290,9 +292,10 @@
             // 
             // btnEditProducedOrders
             // 
-            btnEditProducedOrders.Location = new Point(406, 24);
+            btnEditProducedOrders.Location = new Point(355, 18);
+            btnEditProducedOrders.Margin = new Padding(3, 2, 3, 2);
             btnEditProducedOrders.Name = "btnEditProducedOrders";
-            btnEditProducedOrders.Size = new Size(142, 29);
+            btnEditProducedOrders.Size = new Size(124, 22);
             btnEditProducedOrders.TabIndex = 4;
             btnEditProducedOrders.Text = "Üretim Geçmişi";
             btnEditProducedOrders.UseVisualStyleBackColor = true;
@@ -302,27 +305,29 @@
             // 
             lblSearchOrder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblSearchOrder.AutoSize = true;
-            lblSearchOrder.Location = new Point(879, 31);
+            lblSearchOrder.Location = new Point(771, 23);
             lblSearchOrder.Name = "lblSearchOrder";
-            lblSearchOrder.Size = new Size(32, 20);
+            lblSearchOrder.Size = new Size(25, 15);
             lblSearchOrder.TabIndex = 10;
             lblSearchOrder.Text = "Ara";
             // 
             // txtSearchOrder
             // 
             txtSearchOrder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtSearchOrder.Location = new Point(917, 25);
+            txtSearchOrder.Location = new Point(804, 19);
+            txtSearchOrder.Margin = new Padding(3, 2, 3, 2);
             txtSearchOrder.MaxLength = 200;
             txtSearchOrder.Name = "txtSearchOrder";
-            txtSearchOrder.Size = new Size(198, 27);
+            txtSearchOrder.Size = new Size(174, 23);
             txtSearchOrder.TabIndex = 6;
             txtSearchOrder.TextChanged += txtSearchOrder_TextChanged;
             // 
             // btnRefreshOrder
             // 
-            btnRefreshOrder.Location = new Point(306, 24);
+            btnRefreshOrder.Location = new Point(268, 18);
+            btnRefreshOrder.Margin = new Padding(3, 2, 3, 2);
             btnRefreshOrder.Name = "btnRefreshOrder";
-            btnRefreshOrder.Size = new Size(94, 29);
+            btnRefreshOrder.Size = new Size(82, 22);
             btnRefreshOrder.TabIndex = 3;
             btnRefreshOrder.Text = "Yenile";
             btnRefreshOrder.UseVisualStyleBackColor = true;
@@ -330,9 +335,10 @@
             // 
             // btnDeleteOrder
             // 
-            btnDeleteOrder.Location = new Point(206, 24);
+            btnDeleteOrder.Location = new Point(180, 18);
+            btnDeleteOrder.Margin = new Padding(3, 2, 3, 2);
             btnDeleteOrder.Name = "btnDeleteOrder";
-            btnDeleteOrder.Size = new Size(94, 29);
+            btnDeleteOrder.Size = new Size(82, 22);
             btnDeleteOrder.TabIndex = 2;
             btnDeleteOrder.Text = "Sil";
             btnDeleteOrder.UseVisualStyleBackColor = true;
@@ -340,9 +346,10 @@
             // 
             // btnUpdateOrder
             // 
-            btnUpdateOrder.Location = new Point(106, 24);
+            btnUpdateOrder.Location = new Point(93, 18);
+            btnUpdateOrder.Margin = new Padding(3, 2, 3, 2);
             btnUpdateOrder.Name = "btnUpdateOrder";
-            btnUpdateOrder.Size = new Size(94, 29);
+            btnUpdateOrder.Size = new Size(82, 22);
             btnUpdateOrder.TabIndex = 1;
             btnUpdateOrder.Text = "Güncelle";
             btnUpdateOrder.UseVisualStyleBackColor = true;
@@ -350,9 +357,10 @@
             // 
             // btnAddOrder
             // 
-            btnAddOrder.Location = new Point(6, 24);
+            btnAddOrder.Location = new Point(5, 18);
+            btnAddOrder.Margin = new Padding(3, 2, 3, 2);
             btnAddOrder.Name = "btnAddOrder";
-            btnAddOrder.Size = new Size(94, 29);
+            btnAddOrder.Size = new Size(82, 22);
             btnAddOrder.TabIndex = 0;
             btnAddOrder.Text = "Ekle";
             btnAddOrder.UseVisualStyleBackColor = true;
@@ -366,10 +374,11 @@
             lvOrders.Font = new Font("Segoe UI", 10F);
             lvOrders.FullRowSelect = true;
             lvOrders.GridLines = true;
-            lvOrders.Location = new Point(6, 59);
+            lvOrders.Location = new Point(5, 44);
+            lvOrders.Margin = new Padding(3, 2, 3, 2);
             lvOrders.MultiSelect = false;
             lvOrders.Name = "lvOrders";
-            lvOrders.Size = new Size(1108, 579);
+            lvOrders.Size = new Size(972, 441);
             lvOrders.TabIndex = 7;
             lvOrders.UseCompatibleStateImageBehavior = false;
             lvOrders.View = View.Details;
@@ -433,41 +442,41 @@
             cmsOrders.ImageScalingSize = new Size(20, 20);
             cmsOrders.Items.AddRange(new ToolStripItem[] { addOrderToolStripMenuItem, updateOrderToolStripMenuItem, deleteOrderToolStripMenuItem, productionHistoryToolStripMenuItem, kalanSiparişiTamamlaToolStripMenuItem });
             cmsOrders.Name = "cmsOrders";
-            cmsOrders.Size = new Size(191, 124);
+            cmsOrders.Size = new Size(163, 114);
             cmsOrders.Opening += cmsOrders_Opening;
             // 
             // addOrderToolStripMenuItem
             // 
             addOrderToolStripMenuItem.Name = "addOrderToolStripMenuItem";
-            addOrderToolStripMenuItem.Size = new Size(190, 24);
+            addOrderToolStripMenuItem.Size = new Size(162, 22);
             addOrderToolStripMenuItem.Text = "Ekle";
             addOrderToolStripMenuItem.Click += addOrderToolStripMenuItem_Click;
             // 
             // updateOrderToolStripMenuItem
             // 
             updateOrderToolStripMenuItem.Name = "updateOrderToolStripMenuItem";
-            updateOrderToolStripMenuItem.Size = new Size(190, 24);
+            updateOrderToolStripMenuItem.Size = new Size(162, 22);
             updateOrderToolStripMenuItem.Text = "Güncelle";
             updateOrderToolStripMenuItem.Click += updateOrderToolStripMenuItem_Click;
             // 
             // deleteOrderToolStripMenuItem
             // 
             deleteOrderToolStripMenuItem.Name = "deleteOrderToolStripMenuItem";
-            deleteOrderToolStripMenuItem.Size = new Size(190, 24);
+            deleteOrderToolStripMenuItem.Size = new Size(162, 22);
             deleteOrderToolStripMenuItem.Text = "Sil";
             deleteOrderToolStripMenuItem.Click += deleteOrderToolStripMenuItem_Click;
             // 
             // productionHistoryToolStripMenuItem
             // 
             productionHistoryToolStripMenuItem.Name = "productionHistoryToolStripMenuItem";
-            productionHistoryToolStripMenuItem.Size = new Size(190, 24);
+            productionHistoryToolStripMenuItem.Size = new Size(162, 22);
             productionHistoryToolStripMenuItem.Text = "Üretim Geçmişi";
             productionHistoryToolStripMenuItem.Click += productionHistoryToolStripMenuItem_Click;
             // 
             // kalanSiparişiTamamlaToolStripMenuItem
             // 
             kalanSiparişiTamamlaToolStripMenuItem.Name = "kalanSiparişiTamamlaToolStripMenuItem";
-            kalanSiparişiTamamlaToolStripMenuItem.Size = new Size(190, 24);
+            kalanSiparişiTamamlaToolStripMenuItem.Size = new Size(162, 22);
             kalanSiparişiTamamlaToolStripMenuItem.Text = "Siparişi Tamamla";
             kalanSiparişiTamamlaToolStripMenuItem.Click += completeOrderToolStripMenuItem_Click;
             // 
@@ -479,18 +488,20 @@
             tabControlMain.Controls.Add(tabReports);
             tabControlMain.Dock = DockStyle.Fill;
             tabControlMain.Location = new Point(0, 0);
+            tabControlMain.Margin = new Padding(3, 2, 3, 2);
             tabControlMain.Name = "tabControlMain";
             tabControlMain.SelectedIndex = 0;
-            tabControlMain.Size = new Size(1422, 695);
+            tabControlMain.Size = new Size(1246, 527);
             tabControlMain.TabIndex = 0;
             // 
             // tabStock
             // 
             tabStock.Controls.Add(gbProducts);
-            tabStock.Location = new Point(4, 29);
+            tabStock.Location = new Point(4, 24);
+            tabStock.Margin = new Padding(3, 2, 3, 2);
             tabStock.Name = "tabStock";
-            tabStock.Padding = new Padding(3);
-            tabStock.Size = new Size(1414, 662);
+            tabStock.Padding = new Padding(3, 2, 3, 2);
+            tabStock.Size = new Size(1238, 499);
             tabStock.TabIndex = 1;
             tabStock.Text = "Stok Kartı";
             tabStock.UseVisualStyleBackColor = true;
@@ -505,9 +516,11 @@
             gbProducts.Controls.Add(btnRefreshStock);
             gbProducts.Controls.Add(btnDeleteProduct);
             gbProducts.Controls.Add(lvProducts);
-            gbProducts.Location = new Point(6, 5);
+            gbProducts.Location = new Point(5, 4);
+            gbProducts.Margin = new Padding(3, 2, 3, 2);
             gbProducts.Name = "gbProducts";
-            gbProducts.Size = new Size(1402, 649);
+            gbProducts.Padding = new Padding(3, 2, 3, 2);
+            gbProducts.Size = new Size(1229, 493);
             gbProducts.TabIndex = 0;
             gbProducts.TabStop = false;
             gbProducts.Text = "Stok Kartları";
@@ -516,26 +529,28 @@
             // 
             lblSearchProduct.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblSearchProduct.AutoSize = true;
-            lblSearchProduct.Location = new Point(1160, 28);
+            lblSearchProduct.Location = new Point(1017, 21);
             lblSearchProduct.Name = "lblSearchProduct";
-            lblSearchProduct.Size = new Size(32, 20);
+            lblSearchProduct.Size = new Size(25, 15);
             lblSearchProduct.TabIndex = 8;
             lblSearchProduct.Text = "Ara";
             // 
             // txtSearchProduct
             // 
             txtSearchProduct.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtSearchProduct.Location = new Point(1198, 27);
+            txtSearchProduct.Location = new Point(1050, 20);
+            txtSearchProduct.Margin = new Padding(3, 2, 3, 2);
             txtSearchProduct.Name = "txtSearchProduct";
-            txtSearchProduct.Size = new Size(198, 27);
+            txtSearchProduct.Size = new Size(174, 23);
             txtSearchProduct.TabIndex = 7;
             txtSearchProduct.TextChanged += txtSearchProduct_TextChanged;
             // 
             // btnAddProduct
             // 
-            btnAddProduct.Location = new Point(6, 24);
+            btnAddProduct.Location = new Point(5, 18);
+            btnAddProduct.Margin = new Padding(3, 2, 3, 2);
             btnAddProduct.Name = "btnAddProduct";
-            btnAddProduct.Size = new Size(94, 29);
+            btnAddProduct.Size = new Size(82, 22);
             btnAddProduct.TabIndex = 1;
             btnAddProduct.Text = "Ekle";
             btnAddProduct.UseVisualStyleBackColor = true;
@@ -543,9 +558,10 @@
             // 
             // btnUpdateProduct
             // 
-            btnUpdateProduct.Location = new Point(106, 24);
+            btnUpdateProduct.Location = new Point(93, 18);
+            btnUpdateProduct.Margin = new Padding(3, 2, 3, 2);
             btnUpdateProduct.Name = "btnUpdateProduct";
-            btnUpdateProduct.Size = new Size(94, 29);
+            btnUpdateProduct.Size = new Size(82, 22);
             btnUpdateProduct.TabIndex = 1;
             btnUpdateProduct.Text = "Güncelle";
             btnUpdateProduct.UseVisualStyleBackColor = true;
@@ -553,9 +569,10 @@
             // 
             // btnRefreshStock
             // 
-            btnRefreshStock.Location = new Point(306, 24);
+            btnRefreshStock.Location = new Point(268, 18);
+            btnRefreshStock.Margin = new Padding(3, 2, 3, 2);
             btnRefreshStock.Name = "btnRefreshStock";
-            btnRefreshStock.Size = new Size(94, 29);
+            btnRefreshStock.Size = new Size(82, 22);
             btnRefreshStock.TabIndex = 2;
             btnRefreshStock.Text = "Yenile";
             btnRefreshStock.UseVisualStyleBackColor = true;
@@ -563,9 +580,10 @@
             // 
             // btnDeleteProduct
             // 
-            btnDeleteProduct.Location = new Point(206, 24);
+            btnDeleteProduct.Location = new Point(180, 18);
+            btnDeleteProduct.Margin = new Padding(3, 2, 3, 2);
             btnDeleteProduct.Name = "btnDeleteProduct";
-            btnDeleteProduct.Size = new Size(94, 29);
+            btnDeleteProduct.Size = new Size(82, 22);
             btnDeleteProduct.TabIndex = 1;
             btnDeleteProduct.Text = "Sil";
             btnDeleteProduct.UseVisualStyleBackColor = true;
@@ -578,10 +596,11 @@
             lvProducts.Font = new Font("Segoe UI", 10F);
             lvProducts.FullRowSelect = true;
             lvProducts.GridLines = true;
-            lvProducts.Location = new Point(6, 59);
+            lvProducts.Location = new Point(5, 44);
+            lvProducts.Margin = new Padding(3, 2, 3, 2);
             lvProducts.MultiSelect = false;
             lvProducts.Name = "lvProducts";
-            lvProducts.Size = new Size(1390, 583);
+            lvProducts.Size = new Size(1219, 444);
             lvProducts.TabIndex = 0;
             lvProducts.UseCompatibleStateImageBehavior = false;
             lvProducts.View = View.Details;
@@ -623,10 +642,11 @@
             // tabCustomer
             // 
             tabCustomer.Controls.Add(gbCustomers);
-            tabCustomer.Location = new Point(4, 29);
+            tabCustomer.Location = new Point(4, 24);
+            tabCustomer.Margin = new Padding(3, 2, 3, 2);
             tabCustomer.Name = "tabCustomer";
-            tabCustomer.Padding = new Padding(3);
-            tabCustomer.Size = new Size(1414, 662);
+            tabCustomer.Padding = new Padding(3, 2, 3, 2);
+            tabCustomer.Size = new Size(1238, 499);
             tabCustomer.TabIndex = 2;
             tabCustomer.Text = "Cari Kartı";
             tabCustomer.UseVisualStyleBackColor = true;
@@ -641,9 +661,11 @@
             gbCustomers.Controls.Add(btnUpdateCustomer);
             gbCustomers.Controls.Add(btnAddCustomer);
             gbCustomers.Controls.Add(lvCustomers);
-            gbCustomers.Location = new Point(6, 5);
+            gbCustomers.Location = new Point(5, 4);
+            gbCustomers.Margin = new Padding(3, 2, 3, 2);
             gbCustomers.Name = "gbCustomers";
-            gbCustomers.Size = new Size(1402, 649);
+            gbCustomers.Padding = new Padding(3, 2, 3, 2);
+            gbCustomers.Size = new Size(1229, 493);
             gbCustomers.TabIndex = 0;
             gbCustomers.TabStop = false;
             gbCustomers.Text = "Cariler";
@@ -652,26 +674,28 @@
             // 
             lblSearchCustomer.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblSearchCustomer.AutoSize = true;
-            lblSearchCustomer.Location = new Point(1160, 29);
+            lblSearchCustomer.Location = new Point(1017, 22);
             lblSearchCustomer.Name = "lblSearchCustomer";
-            lblSearchCustomer.Size = new Size(32, 20);
+            lblSearchCustomer.Size = new Size(25, 15);
             lblSearchCustomer.TabIndex = 6;
             lblSearchCustomer.Text = "Ara";
             // 
             // txtSearchCustomer
             // 
             txtSearchCustomer.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtSearchCustomer.Location = new Point(1198, 27);
+            txtSearchCustomer.Location = new Point(1050, 20);
+            txtSearchCustomer.Margin = new Padding(3, 2, 3, 2);
             txtSearchCustomer.Name = "txtSearchCustomer";
-            txtSearchCustomer.Size = new Size(198, 27);
+            txtSearchCustomer.Size = new Size(174, 23);
             txtSearchCustomer.TabIndex = 5;
             txtSearchCustomer.TextChanged += txtSearchCustomer_TextChanged;
             // 
             // btnRefreshCustomer
             // 
-            btnRefreshCustomer.Location = new Point(306, 24);
+            btnRefreshCustomer.Location = new Point(268, 18);
+            btnRefreshCustomer.Margin = new Padding(3, 2, 3, 2);
             btnRefreshCustomer.Name = "btnRefreshCustomer";
-            btnRefreshCustomer.Size = new Size(94, 29);
+            btnRefreshCustomer.Size = new Size(82, 22);
             btnRefreshCustomer.TabIndex = 2;
             btnRefreshCustomer.Text = "Yenile";
             btnRefreshCustomer.UseVisualStyleBackColor = true;
@@ -679,9 +703,10 @@
             // 
             // btnDeleteCustomer
             // 
-            btnDeleteCustomer.Location = new Point(206, 24);
+            btnDeleteCustomer.Location = new Point(180, 18);
+            btnDeleteCustomer.Margin = new Padding(3, 2, 3, 2);
             btnDeleteCustomer.Name = "btnDeleteCustomer";
-            btnDeleteCustomer.Size = new Size(94, 29);
+            btnDeleteCustomer.Size = new Size(82, 22);
             btnDeleteCustomer.TabIndex = 2;
             btnDeleteCustomer.Text = "Sil";
             btnDeleteCustomer.UseVisualStyleBackColor = true;
@@ -689,9 +714,10 @@
             // 
             // btnUpdateCustomer
             // 
-            btnUpdateCustomer.Location = new Point(106, 24);
+            btnUpdateCustomer.Location = new Point(93, 18);
+            btnUpdateCustomer.Margin = new Padding(3, 2, 3, 2);
             btnUpdateCustomer.Name = "btnUpdateCustomer";
-            btnUpdateCustomer.Size = new Size(94, 29);
+            btnUpdateCustomer.Size = new Size(82, 22);
             btnUpdateCustomer.TabIndex = 3;
             btnUpdateCustomer.Text = "Güncelle";
             btnUpdateCustomer.UseVisualStyleBackColor = true;
@@ -699,9 +725,10 @@
             // 
             // btnAddCustomer
             // 
-            btnAddCustomer.Location = new Point(6, 24);
+            btnAddCustomer.Location = new Point(5, 18);
+            btnAddCustomer.Margin = new Padding(3, 2, 3, 2);
             btnAddCustomer.Name = "btnAddCustomer";
-            btnAddCustomer.Size = new Size(94, 29);
+            btnAddCustomer.Size = new Size(82, 22);
             btnAddCustomer.TabIndex = 4;
             btnAddCustomer.Text = "Ekle";
             btnAddCustomer.UseVisualStyleBackColor = true;
@@ -714,10 +741,11 @@
             lvCustomers.Font = new Font("Segoe UI", 10F);
             lvCustomers.FullRowSelect = true;
             lvCustomers.GridLines = true;
-            lvCustomers.Location = new Point(5, 59);
+            lvCustomers.Location = new Point(4, 44);
+            lvCustomers.Margin = new Padding(3, 2, 3, 2);
             lvCustomers.MultiSelect = false;
             lvCustomers.Name = "lvCustomers";
-            lvCustomers.Size = new Size(1390, 583);
+            lvCustomers.Size = new Size(1219, 444);
             lvCustomers.TabIndex = 0;
             lvCustomers.UseCompatibleStateImageBehavior = false;
             lvCustomers.View = View.Details;
@@ -757,10 +785,11 @@
             tabReports.Controls.Add(gbTotals);
             tabReports.Controls.Add(gbProductionReportDetails);
             tabReports.Controls.Add(gbProductionReport);
-            tabReports.Location = new Point(4, 29);
+            tabReports.Location = new Point(4, 24);
+            tabReports.Margin = new Padding(3, 2, 3, 2);
             tabReports.Name = "tabReports";
-            tabReports.Padding = new Padding(3);
-            tabReports.Size = new Size(1414, 662);
+            tabReports.Padding = new Padding(3, 2, 3, 2);
+            tabReports.Size = new Size(1236, 493);
             tabReports.TabIndex = 3;
             tabReports.Text = "Raporlar";
             tabReports.UseVisualStyleBackColor = true;
@@ -796,276 +825,292 @@
             gbTotals.Controls.Add(lbPriceTax);
             gbTotals.Controls.Add(txtPrice);
             gbTotals.Controls.Add(lbPrice);
-            gbTotals.Location = new Point(8, 485);
+            gbTotals.Location = new Point(7, 364);
+            gbTotals.Margin = new Padding(3, 2, 3, 2);
             gbTotals.Name = "gbTotals";
-            gbTotals.Size = new Size(1157, 167);
+            gbTotals.Padding = new Padding(3, 2, 3, 2);
+            gbTotals.Size = new Size(1012, 125);
             gbTotals.TabIndex = 3;
             gbTotals.TabStop = false;
             gbTotals.Text = "Toplamlar";
             // 
             // txtStockQuantity
             // 
-            txtStockQuantity.Location = new Point(720, 122);
+            txtStockQuantity.Location = new Point(630, 92);
+            txtStockQuantity.Margin = new Padding(3, 2, 3, 2);
             txtStockQuantity.MaxLength = 25;
             txtStockQuantity.Name = "txtStockQuantity";
             txtStockQuantity.ReadOnly = true;
-            txtStockQuantity.Size = new Size(133, 27);
+            txtStockQuantity.Size = new Size(117, 23);
             txtStockQuantity.TabIndex = 24;
             txtStockQuantity.TabStop = false;
             // 
             // lblStockQuantity
             // 
             lblStockQuantity.AutoSize = true;
-            lblStockQuantity.Location = new Point(606, 125);
+            lblStockQuantity.Location = new Point(530, 94);
             lblStockQuantity.Name = "lblStockQuantity";
-            lblStockQuantity.Size = new Size(88, 20);
+            lblStockQuantity.Size = new Size(70, 15);
             lblStockQuantity.TabIndex = 23;
             lblStockQuantity.Text = "Stok Miktarı";
             // 
             // txtProcessQuantity
             // 
-            txtProcessQuantity.Location = new Point(434, 122);
+            txtProcessQuantity.Location = new Point(380, 92);
+            txtProcessQuantity.Margin = new Padding(3, 2, 3, 2);
             txtProcessQuantity.MaxLength = 25;
             txtProcessQuantity.Name = "txtProcessQuantity";
             txtProcessQuantity.ReadOnly = true;
-            txtProcessQuantity.Size = new Size(133, 27);
+            txtProcessQuantity.Size = new Size(117, 23);
             txtProcessQuantity.TabIndex = 22;
             txtProcessQuantity.TabStop = false;
             // 
             // lblProcessQuantity
             // 
             lblProcessQuantity.AutoSize = true;
-            lblProcessQuantity.Location = new Point(293, 125);
+            lblProcessQuantity.Location = new Point(256, 94);
             lblProcessQuantity.Name = "lblProcessQuantity";
-            lblProcessQuantity.Size = new Size(102, 20);
+            lblProcessQuantity.Size = new Size(81, 15);
             lblProcessQuantity.TabIndex = 21;
             lblProcessQuantity.Text = "İşleme Miktarı";
             // 
             // txtProfitWithoutOutgoing
             // 
-            txtProfitWithoutOutgoing.Location = new Point(720, 89);
+            txtProfitWithoutOutgoing.Location = new Point(630, 67);
+            txtProfitWithoutOutgoing.Margin = new Padding(3, 2, 3, 2);
             txtProfitWithoutOutgoing.MaxLength = 25;
             txtProfitWithoutOutgoing.Name = "txtProfitWithoutOutgoing";
             txtProfitWithoutOutgoing.ReadOnly = true;
-            txtProfitWithoutOutgoing.Size = new Size(133, 27);
+            txtProfitWithoutOutgoing.Size = new Size(117, 23);
             txtProfitWithoutOutgoing.TabIndex = 18;
             txtProfitWithoutOutgoing.TabStop = false;
             // 
             // lbProfitWithoutOutgoing
             // 
             lbProfitWithoutOutgoing.AutoSize = true;
-            lbProfitWithoutOutgoing.Location = new Point(606, 92);
+            lbProfitWithoutOutgoing.Location = new Point(530, 69);
             lbProfitWithoutOutgoing.Name = "lbProfitWithoutOutgoing";
-            lbProfitWithoutOutgoing.Size = new Size(81, 20);
+            lbProfitWithoutOutgoing.Size = new Size(63, 15);
             lbProfitWithoutOutgoing.TabIndex = 0;
             lbProfitWithoutOutgoing.Text = "Gider - Kar";
             // 
             // txtOutgoing
             // 
-            txtOutgoing.Location = new Point(720, 56);
+            txtOutgoing.Location = new Point(630, 42);
+            txtOutgoing.Margin = new Padding(3, 2, 3, 2);
             txtOutgoing.MaxLength = 25;
             txtOutgoing.Name = "txtOutgoing";
             txtOutgoing.ReadOnly = true;
-            txtOutgoing.Size = new Size(133, 27);
+            txtOutgoing.Size = new Size(117, 23);
             txtOutgoing.TabIndex = 17;
             txtOutgoing.TabStop = false;
             // 
             // lbOutgoing
             // 
             lbOutgoing.AutoSize = true;
-            lbOutgoing.Location = new Point(606, 59);
+            lbOutgoing.Location = new Point(530, 44);
             lbOutgoing.Name = "lbOutgoing";
-            lbOutgoing.Size = new Size(83, 20);
+            lbOutgoing.Size = new Size(64, 15);
             lbOutgoing.TabIndex = 0;
             lbOutgoing.Text = "Sabit Gider";
             // 
             // txtProducedQuantity
             // 
-            txtProducedQuantity.Location = new Point(133, 122);
+            txtProducedQuantity.Location = new Point(116, 92);
+            txtProducedQuantity.Margin = new Padding(3, 2, 3, 2);
             txtProducedQuantity.MaxLength = 25;
             txtProducedQuantity.Name = "txtProducedQuantity";
             txtProducedQuantity.ReadOnly = true;
-            txtProducedQuantity.Size = new Size(133, 27);
+            txtProducedQuantity.Size = new Size(117, 23);
             txtProducedQuantity.TabIndex = 20;
             txtProducedQuantity.TabStop = false;
             // 
             // txtProfitRatio
             // 
-            txtProfitRatio.Location = new Point(1017, 56);
+            txtProfitRatio.Location = new Point(890, 42);
+            txtProfitRatio.Margin = new Padding(3, 2, 3, 2);
             txtProfitRatio.MaxLength = 25;
             txtProfitRatio.Name = "txtProfitRatio";
             txtProfitRatio.ReadOnly = true;
-            txtProfitRatio.Size = new Size(133, 27);
+            txtProfitRatio.Size = new Size(117, 23);
             txtProfitRatio.TabIndex = 20;
             txtProfitRatio.TabStop = false;
             // 
             // lblProducedQuantity
             // 
             lblProducedQuantity.AutoSize = true;
-            lblProducedQuantity.Location = new Point(6, 125);
+            lblProducedQuantity.Location = new Point(5, 94);
             lblProducedQuantity.Name = "lblProducedQuantity";
-            lblProducedQuantity.Size = new Size(104, 20);
+            lblProducedQuantity.Size = new Size(83, 15);
             lblProducedQuantity.TabIndex = 0;
             lblProducedQuantity.Text = "Üretim Miktarı";
             // 
             // lbProfitRatio
             // 
             lbProfitRatio.AutoSize = true;
-            lbProfitRatio.Location = new Point(898, 59);
+            lbProfitRatio.Location = new Point(786, 44);
             lbProfitRatio.Name = "lbProfitRatio";
-            lbProfitRatio.Size = new Size(99, 20);
+            lbProfitRatio.Size = new Size(79, 15);
             lbProfitRatio.TabIndex = 0;
             lbProfitRatio.Text = "S.G. Kar Oranı";
             // 
             // txtProfitMargin
             // 
-            txtProfitMargin.Location = new Point(1017, 23);
+            txtProfitMargin.Location = new Point(890, 17);
+            txtProfitMargin.Margin = new Padding(3, 2, 3, 2);
             txtProfitMargin.MaxLength = 25;
             txtProfitMargin.Name = "txtProfitMargin";
             txtProfitMargin.ReadOnly = true;
-            txtProfitMargin.Size = new Size(133, 27);
+            txtProfitMargin.Size = new Size(117, 23);
             txtProfitMargin.TabIndex = 19;
             txtProfitMargin.TabStop = false;
             // 
             // lbProfitMargin
             // 
             lbProfitMargin.AutoSize = true;
-            lbProfitMargin.Location = new Point(898, 27);
+            lbProfitMargin.Location = new Point(786, 20);
             lbProfitMargin.Name = "lbProfitMargin";
-            lbProfitMargin.Size = new Size(71, 20);
+            lbProfitMargin.Size = new Size(56, 15);
             lbProfitMargin.TabIndex = 0;
             lbProfitMargin.Text = "Kar Oranı";
             // 
             // txtProfit
             // 
-            txtProfit.Location = new Point(720, 23);
+            txtProfit.Location = new Point(630, 17);
+            txtProfit.Margin = new Padding(3, 2, 3, 2);
             txtProfit.MaxLength = 25;
             txtProfit.Name = "txtProfit";
             txtProfit.ReadOnly = true;
-            txtProfit.Size = new Size(133, 27);
+            txtProfit.Size = new Size(117, 23);
             txtProfit.TabIndex = 16;
             txtProfit.TabStop = false;
             // 
             // lbProfit
             // 
             lbProfit.AutoSize = true;
-            lbProfit.Location = new Point(606, 27);
+            lbProfit.Location = new Point(530, 20);
             lbProfit.Name = "lbProfit";
-            lbProfit.Size = new Size(31, 20);
+            lbProfit.Size = new Size(24, 15);
             lbProfit.TabIndex = 0;
             lbProfit.Text = "Kar";
             // 
             // txtCostWithTax
             // 
-            txtCostWithTax.Location = new Point(434, 89);
+            txtCostWithTax.Location = new Point(380, 67);
+            txtCostWithTax.Margin = new Padding(3, 2, 3, 2);
             txtCostWithTax.MaxLength = 25;
             txtCostWithTax.Name = "txtCostWithTax";
             txtCostWithTax.ReadOnly = true;
-            txtCostWithTax.Size = new Size(133, 27);
+            txtCostWithTax.Size = new Size(117, 23);
             txtCostWithTax.TabIndex = 15;
             txtCostWithTax.TabStop = false;
             // 
             // lbCostWithTax
             // 
             lbCostWithTax.AutoSize = true;
-            lbCostWithTax.Location = new Point(293, 92);
+            lbCostWithTax.Location = new Point(256, 69);
             lbCostWithTax.Name = "lbCostWithTax";
-            lbCostWithTax.Size = new Size(135, 20);
+            lbCostWithTax.Size = new Size(105, 15);
             lbCostWithTax.TabIndex = 0;
             lbCostWithTax.Text = "Vergi Dahil Maliyet";
             // 
             // txtCostTax
             // 
-            txtCostTax.Location = new Point(434, 56);
+            txtCostTax.Location = new Point(380, 42);
+            txtCostTax.Margin = new Padding(3, 2, 3, 2);
             txtCostTax.MaxLength = 25;
             txtCostTax.Name = "txtCostTax";
             txtCostTax.ReadOnly = true;
-            txtCostTax.Size = new Size(133, 27);
+            txtCostTax.Size = new Size(117, 23);
             txtCostTax.TabIndex = 14;
             txtCostTax.TabStop = false;
             // 
             // lbCostTax
             // 
             lbCostTax.AutoSize = true;
-            lbCostTax.Location = new Point(293, 59);
+            lbCostTax.Location = new Point(256, 44);
             lbCostTax.Name = "lbCostTax";
-            lbCostTax.Size = new Size(85, 20);
+            lbCostTax.Size = new Size(66, 15);
             lbCostTax.TabIndex = 0;
             lbCostTax.Text = "Vergi Tutarı";
             // 
             // txtCost
             // 
-            txtCost.Location = new Point(434, 23);
+            txtCost.Location = new Point(380, 17);
+            txtCost.Margin = new Padding(3, 2, 3, 2);
             txtCost.MaxLength = 25;
             txtCost.Name = "txtCost";
             txtCost.ReadOnly = true;
-            txtCost.Size = new Size(133, 27);
+            txtCost.Size = new Size(117, 23);
             txtCost.TabIndex = 13;
             txtCost.TabStop = false;
             // 
             // lbCost
             // 
             lbCost.AutoSize = true;
-            lbCost.Location = new Point(293, 27);
+            lbCost.Location = new Point(256, 20);
             lbCost.Name = "lbCost";
-            lbCost.Size = new Size(58, 20);
+            lbCost.Size = new Size(46, 15);
             lbCost.TabIndex = 0;
             lbCost.Text = "Maliyet";
             // 
             // txtPriceWithTax
             // 
-            txtPriceWithTax.Location = new Point(133, 89);
+            txtPriceWithTax.Location = new Point(116, 67);
+            txtPriceWithTax.Margin = new Padding(3, 2, 3, 2);
             txtPriceWithTax.MaxLength = 25;
             txtPriceWithTax.Name = "txtPriceWithTax";
             txtPriceWithTax.ReadOnly = true;
-            txtPriceWithTax.Size = new Size(133, 27);
+            txtPriceWithTax.Size = new Size(117, 23);
             txtPriceWithTax.TabIndex = 12;
             txtPriceWithTax.TabStop = false;
             // 
             // lbPriceWithTax
             // 
             lbPriceWithTax.AutoSize = true;
-            lbPriceWithTax.Location = new Point(6, 92);
+            lbPriceWithTax.Location = new Point(5, 69);
             lbPriceWithTax.Name = "lbPriceWithTax";
-            lbPriceWithTax.Size = new Size(120, 20);
+            lbPriceWithTax.Size = new Size(93, 15);
             lbPriceWithTax.TabIndex = 0;
             lbPriceWithTax.Text = "Vergi Dahil Tutar";
             // 
             // txtPriceTax
             // 
-            txtPriceTax.Location = new Point(133, 56);
+            txtPriceTax.Location = new Point(116, 42);
+            txtPriceTax.Margin = new Padding(3, 2, 3, 2);
             txtPriceTax.MaxLength = 25;
             txtPriceTax.Name = "txtPriceTax";
             txtPriceTax.ReadOnly = true;
-            txtPriceTax.Size = new Size(133, 27);
+            txtPriceTax.Size = new Size(117, 23);
             txtPriceTax.TabIndex = 11;
             txtPriceTax.TabStop = false;
             // 
             // lbPriceTax
             // 
             lbPriceTax.AutoSize = true;
-            lbPriceTax.Location = new Point(6, 59);
+            lbPriceTax.Location = new Point(5, 44);
             lbPriceTax.Name = "lbPriceTax";
-            lbPriceTax.Size = new Size(85, 20);
+            lbPriceTax.Size = new Size(66, 15);
             lbPriceTax.TabIndex = 0;
             lbPriceTax.Text = "Vergi Tutarı";
             // 
             // txtPrice
             // 
-            txtPrice.Location = new Point(133, 23);
+            txtPrice.Location = new Point(116, 17);
+            txtPrice.Margin = new Padding(3, 2, 3, 2);
             txtPrice.MaxLength = 25;
             txtPrice.Name = "txtPrice";
             txtPrice.ReadOnly = true;
-            txtPrice.Size = new Size(133, 27);
+            txtPrice.Size = new Size(117, 23);
             txtPrice.TabIndex = 10;
             txtPrice.TabStop = false;
             // 
             // lbPrice
             // 
             lbPrice.AutoSize = true;
-            lbPrice.Location = new Point(6, 27);
+            lbPrice.Location = new Point(5, 20);
             lbPrice.Name = "lbPrice";
-            lbPrice.Size = new Size(43, 20);
+            lbPrice.Size = new Size(34, 15);
             lbPrice.TabIndex = 0;
             lbPrice.Text = "Tutar";
             // 
@@ -1079,9 +1124,11 @@
             gbProductionReportDetails.Controls.Add(btnCopyTable);
             gbProductionReportDetails.Controls.Add(btnCreateReport);
             gbProductionReportDetails.Controls.Add(gbReportInterval);
-            gbProductionReportDetails.Location = new Point(1170, 5);
+            gbProductionReportDetails.Location = new Point(1024, 4);
+            gbProductionReportDetails.Margin = new Padding(3, 2, 3, 2);
             gbProductionReportDetails.Name = "gbProductionReportDetails";
-            gbProductionReportDetails.Size = new Size(235, 647);
+            gbProductionReportDetails.Padding = new Padding(3, 2, 3, 2);
+            gbProductionReportDetails.Size = new Size(206, 485);
             gbProductionReportDetails.TabIndex = 2;
             gbProductionReportDetails.TabStop = false;
             gbProductionReportDetails.Text = "Rapor Detayları";
@@ -1089,27 +1136,30 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(6, 296);
+            label1.Location = new Point(5, 222);
             label1.Name = "label1";
-            label1.Size = new Size(94, 20);
+            label1.Size = new Size(76, 15);
             label1.TabIndex = 7;
             label1.Text = "Günlük Gider";
             // 
             // nudOutgoing
             // 
-            nudOutgoing.Location = new Point(6, 320);
+            nudOutgoing.Location = new Point(5, 240);
+            nudOutgoing.Margin = new Padding(3, 2, 3, 2);
             nudOutgoing.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
             nudOutgoing.Name = "nudOutgoing";
-            nudOutgoing.Size = new Size(224, 27);
+            nudOutgoing.Size = new Size(196, 23);
             nudOutgoing.TabIndex = 7;
             // 
             // gbReportType
             // 
             gbReportType.Controls.Add(rbSales);
             gbReportType.Controls.Add(rbProduction);
-            gbReportType.Location = new Point(6, 184);
+            gbReportType.Location = new Point(5, 138);
+            gbReportType.Margin = new Padding(3, 2, 3, 2);
             gbReportType.Name = "gbReportType";
-            gbReportType.Size = new Size(224, 64);
+            gbReportType.Padding = new Padding(3, 2, 3, 2);
+            gbReportType.Size = new Size(196, 48);
             gbReportType.TabIndex = 5;
             gbReportType.TabStop = false;
             gbReportType.Text = "Rapor Türü";
@@ -1117,9 +1167,10 @@
             // rbSales
             // 
             rbSales.AutoSize = true;
-            rbSales.Location = new Point(119, 27);
+            rbSales.Location = new Point(104, 20);
+            rbSales.Margin = new Padding(3, 2, 3, 2);
             rbSales.Name = "rbSales";
-            rbSales.Size = new Size(61, 24);
+            rbSales.Size = new Size(49, 19);
             rbSales.TabIndex = 4;
             rbSales.Text = "Satış";
             rbSales.UseVisualStyleBackColor = true;
@@ -1128,9 +1179,10 @@
             // 
             rbProduction.AutoSize = true;
             rbProduction.Checked = true;
-            rbProduction.Location = new Point(21, 27);
+            rbProduction.Location = new Point(18, 20);
+            rbProduction.Margin = new Padding(3, 2, 3, 2);
             rbProduction.Name = "rbProduction";
-            rbProduction.Size = new Size(75, 24);
+            rbProduction.Size = new Size(61, 19);
             rbProduction.TabIndex = 5;
             rbProduction.TabStop = true;
             rbProduction.Text = "Üretim";
@@ -1138,17 +1190,19 @@
             // 
             // dtpDate
             // 
-            dtpDate.Location = new Point(6, 253);
+            dtpDate.Location = new Point(5, 190);
+            dtpDate.Margin = new Padding(3, 2, 3, 2);
             dtpDate.Name = "dtpDate";
-            dtpDate.Size = new Size(223, 27);
+            dtpDate.Size = new Size(196, 23);
             dtpDate.TabIndex = 6;
             // 
             // btnCopyTable
             // 
             btnCopyTable.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCopyTable.Location = new Point(6, 613);
+            btnCopyTable.Location = new Point(5, 460);
+            btnCopyTable.Margin = new Padding(3, 2, 3, 2);
             btnCopyTable.Name = "btnCopyTable";
-            btnCopyTable.Size = new Size(223, 29);
+            btnCopyTable.Size = new Size(195, 22);
             btnCopyTable.TabIndex = 9;
             btnCopyTable.Text = "Tabloyu Kopyala";
             btnCopyTable.UseVisualStyleBackColor = true;
@@ -1157,9 +1211,10 @@
             // btnCreateReport
             // 
             btnCreateReport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCreateReport.Location = new Point(6, 577);
+            btnCreateReport.Location = new Point(5, 433);
+            btnCreateReport.Margin = new Padding(3, 2, 3, 2);
             btnCreateReport.Name = "btnCreateReport";
-            btnCreateReport.Size = new Size(223, 29);
+            btnCreateReport.Size = new Size(195, 22);
             btnCreateReport.TabIndex = 8;
             btnCreateReport.Text = "Oluştur";
             btnCreateReport.UseVisualStyleBackColor = true;
@@ -1172,9 +1227,11 @@
             gbReportInterval.Controls.Add(rbYearly);
             gbReportInterval.Controls.Add(rbWeekly);
             gbReportInterval.Controls.Add(rbMonthly);
-            gbReportInterval.Location = new Point(6, 27);
+            gbReportInterval.Location = new Point(5, 20);
+            gbReportInterval.Margin = new Padding(3, 2, 3, 2);
             gbReportInterval.Name = "gbReportInterval";
-            gbReportInterval.Size = new Size(224, 152);
+            gbReportInterval.Padding = new Padding(3, 2, 3, 2);
+            gbReportInterval.Size = new Size(196, 114);
             gbReportInterval.TabIndex = 2;
             gbReportInterval.TabStop = false;
             gbReportInterval.Text = "Rapor Dönemi";
@@ -1183,9 +1240,10 @@
             // 
             rbDaily.AutoSize = true;
             rbDaily.Checked = true;
-            rbDaily.Location = new Point(21, 27);
+            rbDaily.Location = new Point(18, 20);
+            rbDaily.Margin = new Padding(3, 2, 3, 2);
             rbDaily.Name = "rbDaily";
-            rbDaily.Size = new Size(75, 24);
+            rbDaily.Size = new Size(63, 19);
             rbDaily.TabIndex = 0;
             rbDaily.TabStop = true;
             rbDaily.Text = "Günlük";
@@ -1194,9 +1252,10 @@
             // rbYearly
             // 
             rbYearly.AutoSize = true;
-            rbYearly.Location = new Point(21, 116);
+            rbYearly.Location = new Point(18, 87);
+            rbYearly.Margin = new Padding(3, 2, 3, 2);
             rbYearly.Name = "rbYearly";
-            rbYearly.Size = new Size(61, 24);
+            rbYearly.Size = new Size(50, 19);
             rbYearly.TabIndex = 3;
             rbYearly.Text = "Yıllık";
             rbYearly.UseVisualStyleBackColor = true;
@@ -1204,9 +1263,10 @@
             // rbWeekly
             // 
             rbWeekly.AutoSize = true;
-            rbWeekly.Location = new Point(21, 56);
+            rbWeekly.Location = new Point(18, 42);
+            rbWeekly.Margin = new Padding(3, 2, 3, 2);
             rbWeekly.Name = "rbWeekly";
-            rbWeekly.Size = new Size(82, 24);
+            rbWeekly.Size = new Size(66, 19);
             rbWeekly.TabIndex = 1;
             rbWeekly.Text = "Haftalık";
             rbWeekly.UseVisualStyleBackColor = true;
@@ -1214,9 +1274,10 @@
             // rbMonthly
             // 
             rbMonthly.AutoSize = true;
-            rbMonthly.Location = new Point(21, 85);
+            rbMonthly.Location = new Point(18, 64);
+            rbMonthly.Margin = new Padding(3, 2, 3, 2);
             rbMonthly.Name = "rbMonthly";
-            rbMonthly.Size = new Size(62, 24);
+            rbMonthly.Size = new Size(51, 19);
             rbMonthly.TabIndex = 2;
             rbMonthly.Text = "Aylık";
             rbMonthly.UseVisualStyleBackColor = true;
@@ -1225,9 +1286,11 @@
             // 
             gbProductionReport.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             gbProductionReport.Controls.Add(dgReport);
-            gbProductionReport.Location = new Point(8, 5);
+            gbProductionReport.Location = new Point(7, 4);
+            gbProductionReport.Margin = new Padding(3, 2, 3, 2);
             gbProductionReport.Name = "gbProductionReport";
-            gbProductionReport.Size = new Size(1157, 474);
+            gbProductionReport.Padding = new Padding(3, 2, 3, 2);
+            gbProductionReport.Size = new Size(1012, 356);
             gbProductionReport.TabIndex = 1;
             gbProductionReport.TabStop = false;
             gbProductionReport.Text = "Rapor";
@@ -1245,7 +1308,8 @@
             dgReport.ColumnHeadersHeight = 29;
             dgReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgReport.EditMode = DataGridViewEditMode.EditProgrammatically;
-            dgReport.Location = new Point(6, 27);
+            dgReport.Location = new Point(5, 20);
+            dgReport.Margin = new Padding(3, 2, 3, 2);
             dgReport.Name = "dgReport";
             dgReport.ReadOnly = true;
             dgReport.RowHeadersVisible = false;
@@ -1256,18 +1320,19 @@
             dgReport.ShowCellToolTips = false;
             dgReport.ShowEditingIcon = false;
             dgReport.ShowRowErrors = false;
-            dgReport.Size = new Size(1144, 441);
+            dgReport.Size = new Size(1001, 331);
             dgReport.TabIndex = 0;
             // 
             // FormMain
             // 
             AcceptButton = btnCreateReport;
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1422, 695);
+            ClientSize = new Size(1246, 527);
             Controls.Add(tabControlMain);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            MinimumSize = new Size(1440, 742);
+            Margin = new Padding(3, 2, 3, 2);
+            MinimumSize = new Size(1262, 566);
             Name = "FormMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Enezcam ERP";

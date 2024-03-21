@@ -12,8 +12,8 @@ namespace DAL.DTO.Entities
         public virtual ICollection<OrderDetail> OrderDetails { get; set; } = [];
 
         public string GetQuantityString()
-        {   
-            return $"{(ProductQuantity.Where(x=>x.Key == UnitCode.AD).First().Value).ToString("N0")} {UnitCode.AD}, {ProductQuantity.Where(x => x.Key == UnitCode.M2).First().Value.ToString("N3")} {UnitCode.M2}";
+        {
+            return $"{(ProductQuantity.Where(x => x.Key == UnitCode.AD).First().Value).ToString("N0")} {UnitCode.AD}, {ProductQuantity.Where(x => x.Key == UnitCode.M2).First().Value.ToString("N3")} {UnitCode.M2}";
         }
         public string GetProducedQuantityString()
         {

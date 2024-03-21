@@ -2,7 +2,6 @@
 using DAL.DTO.Context;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
-using System.CodeDom;
 
 namespace EnezcamERP.Forms.Produced_Product_Forms
 {
@@ -291,6 +290,26 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 {
                     RefreshAll();
                 }
+            }
+        }
+
+        private void ListView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((sender as ListView).SelectedItems.Count > 0)
+            {
+                var obj = (sender as ListView).SelectedItems[0].Tag;
+
+                try
+                {
+                    switch (e.KeyData)
+                    {
+                        case Keys.Delete:
+                            producedOrdersRepository.Delete(obj as ProducedOrder);
+                            break;
+                    }
+                }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
+                finally { RefreshAll(); }
             }
         }
     }

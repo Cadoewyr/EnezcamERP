@@ -116,7 +116,7 @@ namespace EnezcamERP.Forms.Order_Forms
                         od.Product.PriceHistory.LastPrice = nudPrice.Value;
                     }
 
-                    if (cbUpdateSameProductPrices.Checked)
+                    if (cbUpdateSameProducts.Checked)
                     {
                         foreach (var item in od.Order.OrderDetails)
                         {

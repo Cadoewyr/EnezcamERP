@@ -1,8 +1,6 @@
 ﻿using BL.Report.Enums;
 using BL.Reports.Enums;
-using BL.Repositories.Repositories;
 using DAL.DTO.Entities.Enums;
-using System.Runtime.InteropServices;
 
 namespace BL.Reports.ProductionReports
 {
@@ -111,8 +109,8 @@ namespace BL.Reports.ProductionReports
             {
                 Dictionary<UnitCode, decimal> dic = [];
 
-                dic.Add(UnitCode.AD, DailyProductionReports.Sum(x => x.ProducedQuantity.Where(x=>x.Key == UnitCode.AD).Sum(x=>x.Value)));
-                dic.Add(UnitCode.M2, DailyProductionReports.Sum(x => x.ProducedQuantity.Where(x=>x.Key == UnitCode.M2).Sum(x=>x.Value)));
+                dic.Add(UnitCode.AD, DailyProductionReports.Sum(x => x.ProducedQuantity.Where(x => x.Key == UnitCode.AD).Sum(x => x.Value)));
+                dic.Add(UnitCode.M2, DailyProductionReports.Sum(x => x.ProducedQuantity.Where(x => x.Key == UnitCode.M2).Sum(x => x.Value)));
 
                 return dic;
             }

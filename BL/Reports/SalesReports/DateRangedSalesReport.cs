@@ -1,6 +1,5 @@
 ﻿using BL.Report.Enums;
 using BL.Reports.Enums;
-using BL.Reports.ProductionReports;
 using DAL.DTO.Entities.Enums;
 
 namespace BL.Reports.SalesReports

@@ -2,7 +2,6 @@
 using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BL.Reports.ProductionReports
 {
