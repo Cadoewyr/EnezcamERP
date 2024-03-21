@@ -128,7 +128,7 @@
             gbOrderHeader.Controls.Add(lblJobNo);
             gbOrderHeader.Location = new Point(11, 12);
             gbOrderHeader.Name = "gbOrderHeader";
-            gbOrderHeader.Size = new Size(1237, 77);
+            gbOrderHeader.Size = new Size(1398, 77);
             gbOrderHeader.TabIndex = 0;
             gbOrderHeader.TabStop = false;
             gbOrderHeader.Text = "Sipariş Bilgileri";
@@ -208,7 +208,7 @@
             gbOrderDetails.Controls.Add(lvOrderDetails);
             gbOrderDetails.Location = new Point(11, 96);
             gbOrderDetails.Name = "gbOrderDetails";
-            gbOrderDetails.Size = new Size(1237, 574);
+            gbOrderDetails.Size = new Size(1398, 587);
             gbOrderDetails.TabIndex = 1;
             gbOrderDetails.TabStop = false;
             gbOrderDetails.Text = "Sipariş Detayı";
@@ -234,7 +234,7 @@
             gbOrderTotals.Controls.Add(lvlTotalOrderCost);
             gbOrderTotals.Controls.Add(btnCancel);
             gbOrderTotals.Controls.Add(btnSaveOrder);
-            gbOrderTotals.Location = new Point(901, 258);
+            gbOrderTotals.Location = new Point(1062, 271);
             gbOrderTotals.Name = "gbOrderTotals";
             gbOrderTotals.Size = new Size(330, 310);
             gbOrderTotals.TabIndex = 2;
@@ -437,9 +437,9 @@
             gbAddProductDetail.Controls.Add(lblUnitCode);
             gbAddProductDetail.Controls.Add(txtSearchProduct);
             gbAddProductDetail.Controls.Add(lblProducts);
-            gbAddProductDetail.Location = new Point(6, 258);
+            gbAddProductDetail.Location = new Point(6, 271);
             gbAddProductDetail.Name = "gbAddProductDetail";
-            gbAddProductDetail.Size = new Size(889, 310);
+            gbAddProductDetail.Size = new Size(1050, 310);
             gbAddProductDetail.TabIndex = 1;
             gbAddProductDetail.TabStop = false;
             gbAddProductDetail.Text = "Ürün Ekle";
@@ -452,7 +452,7 @@
             lvProducts.GridLines = true;
             lvProducts.Location = new Point(6, 57);
             lvProducts.Name = "lvProducts";
-            lvProducts.Size = new Size(563, 203);
+            lvProducts.Size = new Size(724, 203);
             lvProducts.TabIndex = 5;
             lvProducts.UseCompatibleStateImageBehavior = false;
             lvProducts.View = View.Details;
@@ -486,7 +486,7 @@
             // btnDeleteOrderDetail
             // 
             btnDeleteOrderDetail.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnDeleteOrderDetail.Location = new Point(575, 267);
+            btnDeleteOrderDetail.Location = new Point(736, 267);
             btnDeleteOrderDetail.Name = "btnDeleteOrderDetail";
             btnDeleteOrderDetail.Size = new Size(151, 29);
             btnDeleteOrderDetail.TabIndex = 15;
@@ -497,7 +497,7 @@
             // btnAddOrderDetail
             // 
             btnAddOrderDetail.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnAddOrderDetail.Location = new Point(731, 266);
+            btnAddOrderDetail.Location = new Point(892, 266);
             btnAddOrderDetail.Name = "btnAddOrderDetail";
             btnAddOrderDetail.Size = new Size(151, 29);
             btnAddOrderDetail.TabIndex = 16;
@@ -508,7 +508,7 @@
             // nudHeight
             // 
             nudHeight.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            nudHeight.Location = new Point(731, 234);
+            nudHeight.Location = new Point(892, 234);
             nudHeight.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
             nudHeight.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudHeight.Name = "nudHeight";
@@ -521,7 +521,7 @@
             // 
             lblHeight.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             lblHeight.AutoSize = true;
-            lblHeight.Location = new Point(731, 212);
+            lblHeight.Location = new Point(892, 212);
             lblHeight.Name = "lblHeight";
             lblHeight.Size = new Size(68, 20);
             lblHeight.TabIndex = 9;
@@ -530,7 +530,7 @@
             // nudDiscountRatio
             // 
             nudDiscountRatio.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            nudDiscountRatio.Location = new Point(731, 173);
+            nudDiscountRatio.Location = new Point(892, 173);
             nudDiscountRatio.Name = "nudDiscountRatio";
             nudDiscountRatio.Size = new Size(151, 27);
             nudDiscountRatio.TabIndex = 12;
@@ -539,7 +539,7 @@
             // nudWidth
             // 
             nudWidth.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            nudWidth.Location = new Point(575, 234);
+            nudWidth.Location = new Point(736, 234);
             nudWidth.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
             nudWidth.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudWidth.Name = "nudWidth";
@@ -552,7 +552,7 @@
             // 
             lblDiscountRatio.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             lblDiscountRatio.AutoSize = true;
-            lblDiscountRatio.Location = new Point(731, 151);
+            lblDiscountRatio.Location = new Point(892, 151);
             lblDiscountRatio.Name = "lblDiscountRatio";
             lblDiscountRatio.Size = new Size(97, 20);
             lblDiscountRatio.TabIndex = 9;
@@ -562,7 +562,7 @@
             // 
             lblWidth.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             lblWidth.AutoSize = true;
-            lblWidth.Location = new Point(575, 212);
+            lblWidth.Location = new Point(736, 212);
             lblWidth.Name = "lblWidth";
             lblWidth.Size = new Size(60, 20);
             lblWidth.TabIndex = 9;
@@ -571,7 +571,7 @@
             // nudTaxRatio
             // 
             nudTaxRatio.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            nudTaxRatio.Location = new Point(575, 173);
+            nudTaxRatio.Location = new Point(736, 173);
             nudTaxRatio.Name = "nudTaxRatio";
             nudTaxRatio.Size = new Size(151, 27);
             nudTaxRatio.TabIndex = 9;
@@ -582,7 +582,7 @@
             // 
             lblTaxRatio.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             lblTaxRatio.AutoSize = true;
-            lblTaxRatio.Location = new Point(575, 151);
+            lblTaxRatio.Location = new Point(736, 151);
             lblTaxRatio.Name = "lblTaxRatio";
             lblTaxRatio.Size = new Size(83, 20);
             lblTaxRatio.TabIndex = 9;
@@ -591,7 +591,7 @@
             // nudQuantity
             // 
             nudQuantity.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            nudQuantity.Location = new Point(575, 115);
+            nudQuantity.Location = new Point(736, 115);
             nudQuantity.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
             nudQuantity.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudQuantity.Name = "nudQuantity";
@@ -604,7 +604,7 @@
             // 
             lblQuantity.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             lblQuantity.AutoSize = true;
-            lblQuantity.Location = new Point(575, 92);
+            lblQuantity.Location = new Point(736, 92);
             lblQuantity.Name = "lblQuantity";
             lblQuantity.Size = new Size(51, 20);
             lblQuantity.TabIndex = 9;
@@ -614,7 +614,7 @@
             // 
             nudPrice.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             nudPrice.DecimalPlaces = 2;
-            nudPrice.Location = new Point(731, 115);
+            nudPrice.Location = new Point(892, 115);
             nudPrice.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nudPrice.Name = "nudPrice";
             nudPrice.Size = new Size(151, 27);
@@ -625,7 +625,7 @@
             // 
             lblPrice.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             lblPrice.AutoSize = true;
-            lblPrice.Location = new Point(731, 92);
+            lblPrice.Location = new Point(892, 92);
             lblPrice.Name = "lblPrice";
             lblPrice.Size = new Size(40, 20);
             lblPrice.TabIndex = 7;
@@ -635,7 +635,7 @@
             // 
             nudCost.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             nudCost.DecimalPlaces = 2;
-            nudCost.Location = new Point(731, 57);
+            nudCost.Location = new Point(892, 57);
             nudCost.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nudCost.Name = "nudCost";
             nudCost.Size = new Size(151, 27);
@@ -646,7 +646,7 @@
             // 
             lblCost.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             lblCost.AutoSize = true;
-            lblCost.Location = new Point(731, 35);
+            lblCost.Location = new Point(892, 35);
             lblCost.Name = "lblCost";
             lblCost.Size = new Size(58, 20);
             lblCost.TabIndex = 5;
@@ -656,7 +656,7 @@
             // 
             cbUnitCode.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             cbUnitCode.FormattingEnabled = true;
-            cbUnitCode.Location = new Point(575, 57);
+            cbUnitCode.Location = new Point(736, 57);
             cbUnitCode.Name = "cbUnitCode";
             cbUnitCode.Size = new Size(151, 28);
             cbUnitCode.TabIndex = 7;
@@ -665,7 +665,7 @@
             // 
             lblUnitCode.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             lblUnitCode.AutoSize = true;
-            lblUnitCode.Location = new Point(575, 35);
+            lblUnitCode.Location = new Point(736, 35);
             lblUnitCode.Name = "lblUnitCode";
             lblUnitCode.Size = new Size(83, 20);
             lblUnitCode.TabIndex = 3;
@@ -677,7 +677,7 @@
             txtSearchProduct.Location = new Point(6, 268);
             txtSearchProduct.MaxLength = 200;
             txtSearchProduct.Name = "txtSearchProduct";
-            txtSearchProduct.Size = new Size(561, 27);
+            txtSearchProduct.Size = new Size(722, 27);
             txtSearchProduct.TabIndex = 6;
             txtSearchProduct.TextChanged += txtSearchProduct_TextChanged;
             // 
@@ -701,7 +701,7 @@
             lvOrderDetails.Location = new Point(6, 27);
             lvOrderDetails.MultiSelect = false;
             lvOrderDetails.Name = "lvOrderDetails";
-            lvOrderDetails.Size = new Size(1225, 225);
+            lvOrderDetails.Size = new Size(1386, 238);
             lvOrderDetails.TabIndex = 4;
             lvOrderDetails.UseCompatibleStateImageBehavior = false;
             lvOrderDetails.View = View.Details;
@@ -777,10 +777,10 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnCancel;
-            ClientSize = new Size(1261, 682);
+            ClientSize = new Size(1422, 695);
             Controls.Add(gbOrderDetails);
             Controls.Add(gbOrderHeader);
-            MinimumSize = new Size(1279, 644);
+            MinimumSize = new Size(1440, 742);
             Name = "AddUpdateOrder";
             ShowIcon = false;
             ShowInTaskbar = false;
