@@ -433,42 +433,42 @@
             cmsOrders.ImageScalingSize = new Size(20, 20);
             cmsOrders.Items.AddRange(new ToolStripItem[] { addOrderToolStripMenuItem, updateOrderToolStripMenuItem, deleteOrderToolStripMenuItem, productionHistoryToolStripMenuItem, kalanSiparişiTamamlaToolStripMenuItem });
             cmsOrders.Name = "cmsOrders";
-            cmsOrders.Size = new Size(232, 124);
+            cmsOrders.Size = new Size(191, 124);
             cmsOrders.Opening += cmsOrders_Opening;
             // 
             // addOrderToolStripMenuItem
             // 
             addOrderToolStripMenuItem.Name = "addOrderToolStripMenuItem";
-            addOrderToolStripMenuItem.Size = new Size(231, 24);
+            addOrderToolStripMenuItem.Size = new Size(190, 24);
             addOrderToolStripMenuItem.Text = "Ekle";
             addOrderToolStripMenuItem.Click += addOrderToolStripMenuItem_Click;
             // 
             // updateOrderToolStripMenuItem
             // 
             updateOrderToolStripMenuItem.Name = "updateOrderToolStripMenuItem";
-            updateOrderToolStripMenuItem.Size = new Size(231, 24);
+            updateOrderToolStripMenuItem.Size = new Size(190, 24);
             updateOrderToolStripMenuItem.Text = "Güncelle";
             updateOrderToolStripMenuItem.Click += updateOrderToolStripMenuItem_Click;
             // 
             // deleteOrderToolStripMenuItem
             // 
             deleteOrderToolStripMenuItem.Name = "deleteOrderToolStripMenuItem";
-            deleteOrderToolStripMenuItem.Size = new Size(231, 24);
+            deleteOrderToolStripMenuItem.Size = new Size(190, 24);
             deleteOrderToolStripMenuItem.Text = "Sil";
             deleteOrderToolStripMenuItem.Click += deleteOrderToolStripMenuItem_Click;
             // 
             // productionHistoryToolStripMenuItem
             // 
             productionHistoryToolStripMenuItem.Name = "productionHistoryToolStripMenuItem";
-            productionHistoryToolStripMenuItem.Size = new Size(231, 24);
+            productionHistoryToolStripMenuItem.Size = new Size(190, 24);
             productionHistoryToolStripMenuItem.Text = "Üretim Geçmişi";
             productionHistoryToolStripMenuItem.Click += productionHistoryToolStripMenuItem_Click;
             // 
             // kalanSiparişiTamamlaToolStripMenuItem
             // 
             kalanSiparişiTamamlaToolStripMenuItem.Name = "kalanSiparişiTamamlaToolStripMenuItem";
-            kalanSiparişiTamamlaToolStripMenuItem.Size = new Size(231, 24);
-            kalanSiparişiTamamlaToolStripMenuItem.Text = "Kalan Siparişi Tamamla";
+            kalanSiparişiTamamlaToolStripMenuItem.Size = new Size(190, 24);
+            kalanSiparişiTamamlaToolStripMenuItem.Text = "Siparişi Tamamla";
             kalanSiparişiTamamlaToolStripMenuItem.Click += completeOrderToolStripMenuItem_Click;
             // 
             // tabControlMain
