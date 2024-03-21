@@ -11,28 +11,46 @@ namespace DAL.DTO.Entities
         public UnitCode UnitCode { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal UnitCost { get; set; }
-        public decimal Quantity { get; set; } = 0;
+        [Range(1, 99999)]
+        public decimal Quantity { get; set; } = 1;
         [Range(0, 100)]
         public decimal TaxRatio { get; set; } = 0;
         [Range(0, 100)]
         public decimal DiscountRatio { get; set; } = 0;
         public virtual ICollection<ProducedOrder> ProducedOrders { get; set; } = [];
-        //[Range(1, 99999)]
-        //public int Width { get; set; } = 1;
-        //[Range(1, 99999)]
-        //public int Height { get; set; } = 1;
+        [Range(1, 99999)]
+        public decimal Width { get; set; } = 1;
+        [Range(1, 99999)]
+        public decimal Height { get; set; } = 1;
 
-        //[NotMapped]
-        //public decimal UnitArea => Width * Height;
-        //[NotMapped]
-        //public decimal TotalArea => UnitArea * Quantity;
+        [NotMapped]
+        public decimal UnitArea => decimal.Round((Width * Height) < (decimal)0.25 ? (decimal)0.25 : Width * Height, 3, MidpointRounding.AwayFromZero);
+        [NotMapped]
+        public decimal TotalArea => decimal.Round(UnitArea * Quantity, 3);
+
+        public string GetQuantityString()
+        {
+            return $"{Quantity.ToString("N0")} {UnitCode.AD}, {TotalArea.ToString("N3")} {UnitCode.M2}";
+        }
+        public string GetProducedQuantityString()
+        {
+            return $"{ProducedQuantity.ToString("N0")} {UnitCode.AD}, {ProducedArea.ToString("N3")} {UnitCode.M2}";
+        }
+        public string GetRemainingQuantityString()
+        {
+            return $"{(Quantity - ProducedQuantity).ToString("N0")} {UnitCode.AD}, {(TotalArea - ProducedArea).ToString("N3")} {UnitCode.M2}";
+        }
+        public string GetSizeString()
+        {
+            return $"{Width.ToString("N3")} * {Height.ToString("N3")}";
+        }
 
         //Production
         #region
         [NotMapped]
         public decimal ProducedPrice
         {
-            get => UnitPrice * ProducedOrders.Sum(x => x.ProducedOrderQuantity);
+            get => UnitPrice * ProducedOrders.Sum(x => (UnitCode == UnitCode.M2 ? x.ProducedOrderArea : x.ProducedOrderQuantity));
         }
         [NotMapped]
         public decimal ProducedFinalPrice
@@ -58,7 +76,7 @@ namespace DAL.DTO.Entities
         [NotMapped]
         public decimal ProducedCost
         {
-            get => UnitCost * ProducedOrders.Sum(x => x.ProducedOrderQuantity);
+            get => UnitCost * ProducedOrders.Sum(x => (UnitCode == UnitCode.M2 ? x.ProducedOrderArea : x.ProducedOrderQuantity));
         }
         [NotMapped]
         public decimal ProducedCostTax
@@ -95,6 +113,16 @@ namespace DAL.DTO.Entities
         {
             get => Quantity - ProducedQuantity;
         }
+        [NotMapped]
+        public decimal ProducedArea
+        {
+            get => ProducedOrders.Sum(x => x.ProducedOrderArea);
+        }
+        [NotMapped]
+        public decimal RemainingToProduceArea
+        {
+            get => TotalArea - ProducedArea;
+        }
         #endregion
 
         //Sales
@@ -113,7 +141,7 @@ namespace DAL.DTO.Entities
         [NotMapped]
         public decimal Cost
         {
-            get => UnitCost * Quantity;
+            get => UnitCost * (UnitCode == UnitCode.M2 ? TotalArea : Quantity);
         }
         [NotMapped]
         public decimal CostTax
@@ -128,7 +156,7 @@ namespace DAL.DTO.Entities
         [NotMapped]
         public decimal Price
         {
-            get => UnitPrice * Quantity;
+            get => UnitPrice * (UnitCode == UnitCode.M2 ? TotalArea : Quantity);
         }
         [NotMapped]
         public decimal FinalPrice

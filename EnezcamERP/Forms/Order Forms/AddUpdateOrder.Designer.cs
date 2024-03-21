@@ -39,12 +39,16 @@
             lblJobNo = new Label();
             gbOrderDetails = new GroupBox();
             gbOrderTotals = new GroupBox();
+            txtProducedQuantity = new TextBox();
+            lblProducedQuantity = new Label();
             txtPriceWithTax = new TextBox();
             lblPriceWithTax = new Label();
             txtProfitRatio = new TextBox();
             lblPercentage = new Label();
             txtProfit = new TextBox();
+            txtRemainingQuantity = new TextBox();
             lvlProfit = new Label();
+            lblRemainingQuantity = new Label();
             txtTotalQuantity = new TextBox();
             lblTotalQuantity = new Label();
             txtTotalPrice = new TextBox();
@@ -63,8 +67,12 @@
             clmIsCounting = new ColumnHeader();
             btnDeleteOrderDetail = new Button();
             btnAddOrderDetail = new Button();
+            nudHeight = new NumericUpDown();
+            lblHeight = new Label();
             nudDiscountRatio = new NumericUpDown();
+            nudWidth = new NumericUpDown();
             lblDiscountRatio = new Label();
+            lblWidth = new Label();
             nudTaxRatio = new NumericUpDown();
             lblTaxRatio = new Label();
             nudQuantity = new NumericUpDown();
@@ -80,12 +88,14 @@
             lvOrderDetails = new ListView();
             clmProductCode1 = new ColumnHeader();
             clmProductName1 = new ColumnHeader();
-            clmUnitCost = new ColumnHeader();
-            clmUnitPrice = new ColumnHeader();
-            clmDiscountRatio = new ColumnHeader();
-            clmTaxRatio = new ColumnHeader();
+            clmSize = new ColumnHeader();
+            clmUnitArea = new ColumnHeader();
+            clmTotalArea = new ColumnHeader();
             clmQuantity = new ColumnHeader();
             clmProductUnitCode = new ColumnHeader();
+            clmUnitCost = new ColumnHeader();
+            clmUnitPrice = new ColumnHeader();
+            clmTaxRatio = new ColumnHeader();
             clmProducedQuantity = new ColumnHeader();
             clmRemainingQuantity = new ColumnHeader();
             clmTotalCost = new ColumnHeader();
@@ -96,7 +106,9 @@
             gbOrderDetails.SuspendLayout();
             gbOrderTotals.SuspendLayout();
             gbAddProductDetail.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudHeight).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudDiscountRatio).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudWidth).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudTaxRatio).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudQuantity).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudPrice).BeginInit();
@@ -196,7 +208,7 @@
             gbOrderDetails.Controls.Add(lvOrderDetails);
             gbOrderDetails.Location = new Point(11, 96);
             gbOrderDetails.Name = "gbOrderDetails";
-            gbOrderDetails.Size = new Size(1237, 489);
+            gbOrderDetails.Size = new Size(1237, 574);
             gbOrderDetails.TabIndex = 1;
             gbOrderDetails.TabStop = false;
             gbOrderDetails.Text = "Sipariş Detayı";
@@ -204,12 +216,16 @@
             // gbOrderTotals
             // 
             gbOrderTotals.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            gbOrderTotals.Controls.Add(txtProducedQuantity);
+            gbOrderTotals.Controls.Add(lblProducedQuantity);
             gbOrderTotals.Controls.Add(txtPriceWithTax);
             gbOrderTotals.Controls.Add(lblPriceWithTax);
             gbOrderTotals.Controls.Add(txtProfitRatio);
             gbOrderTotals.Controls.Add(lblPercentage);
             gbOrderTotals.Controls.Add(txtProfit);
+            gbOrderTotals.Controls.Add(txtRemainingQuantity);
             gbOrderTotals.Controls.Add(lvlProfit);
+            gbOrderTotals.Controls.Add(lblRemainingQuantity);
             gbOrderTotals.Controls.Add(txtTotalQuantity);
             gbOrderTotals.Controls.Add(lblTotalQuantity);
             gbOrderTotals.Controls.Add(txtTotalPrice);
@@ -218,16 +234,35 @@
             gbOrderTotals.Controls.Add(lvlTotalOrderCost);
             gbOrderTotals.Controls.Add(btnCancel);
             gbOrderTotals.Controls.Add(btnSaveOrder);
-            gbOrderTotals.Location = new Point(901, 239);
+            gbOrderTotals.Location = new Point(901, 258);
             gbOrderTotals.Name = "gbOrderTotals";
-            gbOrderTotals.Size = new Size(330, 244);
+            gbOrderTotals.Size = new Size(330, 310);
             gbOrderTotals.TabIndex = 2;
             gbOrderTotals.TabStop = false;
             gbOrderTotals.Text = "Sipariş Toplamları";
             // 
+            // txtProducedQuantity
+            // 
+            txtProducedQuantity.Location = new Point(6, 235);
+            txtProducedQuantity.MaxLength = 200;
+            txtProducedQuantity.Name = "txtProducedQuantity";
+            txtProducedQuantity.ReadOnly = true;
+            txtProducedQuantity.Size = new Size(151, 27);
+            txtProducedQuantity.TabIndex = 18;
+            txtProducedQuantity.TabStop = false;
+            // 
+            // lblProducedQuantity
+            // 
+            lblProducedQuantity.AutoSize = true;
+            lblProducedQuantity.Location = new Point(6, 212);
+            lblProducedQuantity.Name = "lblProducedQuantity";
+            lblProducedQuantity.Size = new Size(54, 20);
+            lblProducedQuantity.TabIndex = 17;
+            lblProducedQuantity.Text = "Üretim";
+            // 
             // txtPriceWithTax
             // 
-            txtPriceWithTax.Location = new Point(6, 175);
+            txtPriceWithTax.Location = new Point(6, 174);
             txtPriceWithTax.MaxLength = 200;
             txtPriceWithTax.Name = "txtPriceWithTax";
             txtPriceWithTax.ReadOnly = true;
@@ -238,7 +273,7 @@
             // lblPriceWithTax
             // 
             lblPriceWithTax.AutoSize = true;
-            lblPriceWithTax.Location = new Point(7, 152);
+            lblPriceWithTax.Location = new Point(6, 151);
             lblPriceWithTax.Name = "lblPriceWithTax";
             lblPriceWithTax.Size = new Size(117, 20);
             lblPriceWithTax.TabIndex = 17;
@@ -246,7 +281,7 @@
             // 
             // txtProfitRatio
             // 
-            txtProfitRatio.Location = new Point(165, 116);
+            txtProfitRatio.Location = new Point(163, 115);
             txtProfitRatio.MaxLength = 200;
             txtProfitRatio.Name = "txtProfitRatio";
             txtProfitRatio.ReadOnly = true;
@@ -257,7 +292,7 @@
             // lblPercentage
             // 
             lblPercentage.AutoSize = true;
-            lblPercentage.Location = new Point(165, 93);
+            lblPercentage.Location = new Point(163, 92);
             lblPercentage.Name = "lblPercentage";
             lblPercentage.Size = new Size(71, 20);
             lblPercentage.TabIndex = 15;
@@ -265,7 +300,7 @@
             // 
             // txtProfit
             // 
-            txtProfit.Location = new Point(165, 59);
+            txtProfit.Location = new Point(163, 59);
             txtProfit.MaxLength = 200;
             txtProfit.Name = "txtProfit";
             txtProfit.ReadOnly = true;
@@ -273,18 +308,37 @@
             txtProfit.TabIndex = 14;
             txtProfit.TabStop = false;
             // 
+            // txtRemainingQuantity
+            // 
+            txtRemainingQuantity.Location = new Point(163, 235);
+            txtRemainingQuantity.MaxLength = 200;
+            txtRemainingQuantity.Name = "txtRemainingQuantity";
+            txtRemainingQuantity.ReadOnly = true;
+            txtRemainingQuantity.Size = new Size(151, 27);
+            txtRemainingQuantity.TabIndex = 6;
+            txtRemainingQuantity.TabStop = false;
+            // 
             // lvlProfit
             // 
             lvlProfit.AutoSize = true;
-            lvlProfit.Location = new Point(163, 36);
+            lvlProfit.Location = new Point(163, 35);
             lvlProfit.Name = "lvlProfit";
             lvlProfit.Size = new Size(31, 20);
             lvlProfit.TabIndex = 13;
             lvlProfit.Text = "Kar";
             // 
+            // lblRemainingQuantity
+            // 
+            lblRemainingQuantity.AutoSize = true;
+            lblRemainingQuantity.Location = new Point(163, 212);
+            lblRemainingQuantity.Name = "lblRemainingQuantity";
+            lblRemainingQuantity.Size = new Size(92, 20);
+            lblRemainingQuantity.TabIndex = 5;
+            lblRemainingQuantity.Text = "Kalan Miktar";
+            // 
             // txtTotalQuantity
             // 
-            txtTotalQuantity.Location = new Point(165, 175);
+            txtTotalQuantity.Location = new Point(163, 174);
             txtTotalQuantity.MaxLength = 200;
             txtTotalQuantity.Name = "txtTotalQuantity";
             txtTotalQuantity.ReadOnly = true;
@@ -295,7 +349,7 @@
             // lblTotalQuantity
             // 
             lblTotalQuantity.AutoSize = true;
-            lblTotalQuantity.Location = new Point(166, 152);
+            lblTotalQuantity.Location = new Point(163, 151);
             lblTotalQuantity.Name = "lblTotalQuantity";
             lblTotalQuantity.Size = new Size(105, 20);
             lblTotalQuantity.TabIndex = 5;
@@ -303,7 +357,7 @@
             // 
             // txtTotalPrice
             // 
-            txtTotalPrice.Location = new Point(6, 116);
+            txtTotalPrice.Location = new Point(6, 115);
             txtTotalPrice.MaxLength = 200;
             txtTotalPrice.Name = "txtTotalPrice";
             txtTotalPrice.ReadOnly = true;
@@ -314,7 +368,7 @@
             // lvlTotalPrice
             // 
             lvlTotalPrice.AutoSize = true;
-            lvlTotalPrice.Location = new Point(6, 93);
+            lvlTotalPrice.Location = new Point(6, 92);
             lvlTotalPrice.Name = "lvlTotalPrice";
             lvlTotalPrice.Size = new Size(40, 20);
             lvlTotalPrice.TabIndex = 3;
@@ -322,7 +376,7 @@
             // 
             // txtTotalCost
             // 
-            txtTotalCost.Location = new Point(6, 59);
+            txtTotalCost.Location = new Point(6, 58);
             txtTotalCost.MaxLength = 200;
             txtTotalCost.Name = "txtTotalCost";
             txtTotalCost.ReadOnly = true;
@@ -333,7 +387,7 @@
             // lvlTotalOrderCost
             // 
             lvlTotalOrderCost.AutoSize = true;
-            lvlTotalOrderCost.Location = new Point(7, 36);
+            lvlTotalOrderCost.Location = new Point(6, 35);
             lvlTotalOrderCost.Name = "lvlTotalOrderCost";
             lvlTotalOrderCost.Size = new Size(58, 20);
             lvlTotalOrderCost.TabIndex = 1;
@@ -341,20 +395,20 @@
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(122, 209);
+            btnCancel.Location = new Point(6, 266);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(94, 29);
-            btnCancel.TabIndex = 15;
+            btnCancel.Size = new Size(151, 29);
+            btnCancel.TabIndex = 17;
             btnCancel.Text = "İptal";
             btnCancel.UseVisualStyleBackColor = true;
             btnCancel.Click += btnCancelOrder_Click;
             // 
             // btnSaveOrder
             // 
-            btnSaveOrder.Location = new Point(222, 209);
+            btnSaveOrder.Location = new Point(163, 266);
             btnSaveOrder.Name = "btnSaveOrder";
-            btnSaveOrder.Size = new Size(94, 29);
-            btnSaveOrder.TabIndex = 16;
+            btnSaveOrder.Size = new Size(151, 29);
+            btnSaveOrder.TabIndex = 18;
             btnSaveOrder.Text = "Kaydet";
             btnSaveOrder.UseVisualStyleBackColor = true;
             btnSaveOrder.Click += btnSaveOrder_Click;
@@ -365,8 +419,12 @@
             gbAddProductDetail.Controls.Add(lvProducts);
             gbAddProductDetail.Controls.Add(btnDeleteOrderDetail);
             gbAddProductDetail.Controls.Add(btnAddOrderDetail);
+            gbAddProductDetail.Controls.Add(nudHeight);
+            gbAddProductDetail.Controls.Add(lblHeight);
             gbAddProductDetail.Controls.Add(nudDiscountRatio);
+            gbAddProductDetail.Controls.Add(nudWidth);
             gbAddProductDetail.Controls.Add(lblDiscountRatio);
+            gbAddProductDetail.Controls.Add(lblWidth);
             gbAddProductDetail.Controls.Add(nudTaxRatio);
             gbAddProductDetail.Controls.Add(lblTaxRatio);
             gbAddProductDetail.Controls.Add(nudQuantity);
@@ -379,25 +437,26 @@
             gbAddProductDetail.Controls.Add(lblUnitCode);
             gbAddProductDetail.Controls.Add(txtSearchProduct);
             gbAddProductDetail.Controls.Add(lblProducts);
-            gbAddProductDetail.Location = new Point(6, 239);
+            gbAddProductDetail.Location = new Point(6, 258);
             gbAddProductDetail.Name = "gbAddProductDetail";
-            gbAddProductDetail.Size = new Size(889, 244);
+            gbAddProductDetail.Size = new Size(889, 310);
             gbAddProductDetail.TabIndex = 1;
             gbAddProductDetail.TabStop = false;
             gbAddProductDetail.Text = "Ürün Ekle";
             // 
             // lvProducts
             // 
-            lvProducts.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            lvProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lvProducts.Columns.AddRange(new ColumnHeader[] { clmProductCode, clmProductName0, clmProductType, clmLastCost, clmLastPrice, clmIsCounting });
             lvProducts.FullRowSelect = true;
             lvProducts.GridLines = true;
-            lvProducts.Location = new Point(6, 59);
+            lvProducts.Location = new Point(6, 57);
             lvProducts.Name = "lvProducts";
-            lvProducts.Size = new Size(563, 147);
+            lvProducts.Size = new Size(563, 203);
             lvProducts.TabIndex = 5;
             lvProducts.UseCompatibleStateImageBehavior = false;
             lvProducts.View = View.Details;
+            lvProducts.SelectedIndexChanged += lvProducts_SelectedIndexChanged;
             lvProducts.Click += lvProducts_Click;
             // 
             // clmProductCode
@@ -426,38 +485,72 @@
             // 
             // btnDeleteOrderDetail
             // 
-            btnDeleteOrderDetail.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnDeleteOrderDetail.Location = new Point(575, 209);
+            btnDeleteOrderDetail.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnDeleteOrderDetail.Location = new Point(575, 267);
             btnDeleteOrderDetail.Name = "btnDeleteOrderDetail";
             btnDeleteOrderDetail.Size = new Size(151, 29);
-            btnDeleteOrderDetail.TabIndex = 13;
+            btnDeleteOrderDetail.TabIndex = 15;
             btnDeleteOrderDetail.Text = "Sil";
             btnDeleteOrderDetail.UseVisualStyleBackColor = true;
             btnDeleteOrderDetail.Click += btnDeleteOrderDetail_Click;
             // 
             // btnAddOrderDetail
             // 
-            btnAddOrderDetail.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnAddOrderDetail.Location = new Point(731, 209);
+            btnAddOrderDetail.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAddOrderDetail.Location = new Point(731, 266);
             btnAddOrderDetail.Name = "btnAddOrderDetail";
             btnAddOrderDetail.Size = new Size(151, 29);
-            btnAddOrderDetail.TabIndex = 14;
+            btnAddOrderDetail.TabIndex = 16;
             btnAddOrderDetail.Text = "Ekle";
             btnAddOrderDetail.UseVisualStyleBackColor = true;
             btnAddOrderDetail.Click += btnAddOrderDetail_Click;
             // 
+            // nudHeight
+            // 
+            nudHeight.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            nudHeight.Location = new Point(731, 234);
+            nudHeight.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
+            nudHeight.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            nudHeight.Name = "nudHeight";
+            nudHeight.Size = new Size(151, 27);
+            nudHeight.TabIndex = 14;
+            nudHeight.ThousandsSeparator = true;
+            nudHeight.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // lblHeight
+            // 
+            lblHeight.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            lblHeight.AutoSize = true;
+            lblHeight.Location = new Point(731, 212);
+            lblHeight.Name = "lblHeight";
+            lblHeight.Size = new Size(68, 20);
+            lblHeight.TabIndex = 9;
+            lblHeight.Text = "Yükseklik";
+            // 
             // nudDiscountRatio
             // 
-            nudDiscountRatio.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            nudDiscountRatio.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             nudDiscountRatio.Location = new Point(731, 173);
             nudDiscountRatio.Name = "nudDiscountRatio";
             nudDiscountRatio.Size = new Size(151, 27);
             nudDiscountRatio.TabIndex = 12;
             nudDiscountRatio.ThousandsSeparator = true;
             // 
+            // nudWidth
+            // 
+            nudWidth.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            nudWidth.Location = new Point(575, 234);
+            nudWidth.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
+            nudWidth.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            nudWidth.Name = "nudWidth";
+            nudWidth.Size = new Size(151, 27);
+            nudWidth.TabIndex = 13;
+            nudWidth.ThousandsSeparator = true;
+            nudWidth.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
             // lblDiscountRatio
             // 
-            lblDiscountRatio.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            lblDiscountRatio.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             lblDiscountRatio.AutoSize = true;
             lblDiscountRatio.Location = new Point(731, 151);
             lblDiscountRatio.Name = "lblDiscountRatio";
@@ -465,9 +558,19 @@
             lblDiscountRatio.TabIndex = 9;
             lblDiscountRatio.Text = "İskonto Oranı";
             // 
+            // lblWidth
+            // 
+            lblWidth.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            lblWidth.AutoSize = true;
+            lblWidth.Location = new Point(575, 212);
+            lblWidth.Name = "lblWidth";
+            lblWidth.Size = new Size(60, 20);
+            lblWidth.TabIndex = 9;
+            lblWidth.Text = "Genişlik";
+            // 
             // nudTaxRatio
             // 
-            nudTaxRatio.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            nudTaxRatio.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             nudTaxRatio.Location = new Point(575, 173);
             nudTaxRatio.Name = "nudTaxRatio";
             nudTaxRatio.Size = new Size(151, 27);
@@ -477,7 +580,7 @@
             // 
             // lblTaxRatio
             // 
-            lblTaxRatio.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            lblTaxRatio.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             lblTaxRatio.AutoSize = true;
             lblTaxRatio.Location = new Point(575, 151);
             lblTaxRatio.Name = "lblTaxRatio";
@@ -487,18 +590,19 @@
             // 
             // nudQuantity
             // 
-            nudQuantity.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            nudQuantity.DecimalPlaces = 3;
+            nudQuantity.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             nudQuantity.Location = new Point(575, 115);
-            nudQuantity.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            nudQuantity.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
+            nudQuantity.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudQuantity.Name = "nudQuantity";
             nudQuantity.Size = new Size(151, 27);
             nudQuantity.TabIndex = 8;
             nudQuantity.ThousandsSeparator = true;
+            nudQuantity.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // lblQuantity
             // 
-            lblQuantity.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            lblQuantity.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             lblQuantity.AutoSize = true;
             lblQuantity.Location = new Point(575, 92);
             lblQuantity.Name = "lblQuantity";
@@ -508,7 +612,7 @@
             // 
             // nudPrice
             // 
-            nudPrice.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            nudPrice.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             nudPrice.DecimalPlaces = 2;
             nudPrice.Location = new Point(731, 115);
             nudPrice.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
@@ -519,7 +623,7 @@
             // 
             // lblPrice
             // 
-            lblPrice.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            lblPrice.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             lblPrice.AutoSize = true;
             lblPrice.Location = new Point(731, 92);
             lblPrice.Name = "lblPrice";
@@ -529,7 +633,7 @@
             // 
             // nudCost
             // 
-            nudCost.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            nudCost.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             nudCost.DecimalPlaces = 2;
             nudCost.Location = new Point(731, 57);
             nudCost.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
@@ -540,7 +644,7 @@
             // 
             // lblCost
             // 
-            lblCost.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            lblCost.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             lblCost.AutoSize = true;
             lblCost.Location = new Point(731, 35);
             lblCost.Name = "lblCost";
@@ -550,17 +654,16 @@
             // 
             // cbUnitCode
             // 
-            cbUnitCode.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            cbUnitCode.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             cbUnitCode.FormattingEnabled = true;
             cbUnitCode.Location = new Point(575, 57);
             cbUnitCode.Name = "cbUnitCode";
             cbUnitCode.Size = new Size(151, 28);
             cbUnitCode.TabIndex = 7;
-            cbUnitCode.SelectedIndexChanged += cbUnitCode_SelectedIndexChanged;
             // 
             // lblUnitCode
             // 
-            lblUnitCode.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            lblUnitCode.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             lblUnitCode.AutoSize = true;
             lblUnitCode.Location = new Point(575, 35);
             lblUnitCode.Name = "lblUnitCode";
@@ -571,7 +674,7 @@
             // txtSearchProduct
             // 
             txtSearchProduct.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            txtSearchProduct.Location = new Point(6, 211);
+            txtSearchProduct.Location = new Point(6, 268);
             txtSearchProduct.MaxLength = 200;
             txtSearchProduct.Name = "txtSearchProduct";
             txtSearchProduct.Size = new Size(561, 27);
@@ -580,8 +683,9 @@
             // 
             // lblProducts
             // 
+            lblProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lblProducts.AutoSize = true;
-            lblProducts.Location = new Point(6, 35);
+            lblProducts.Location = new Point(6, 33);
             lblProducts.Name = "lblProducts";
             lblProducts.Size = new Size(57, 20);
             lblProducts.TabIndex = 0;
@@ -591,13 +695,13 @@
             // 
             lvOrderDetails.AllowColumnReorder = true;
             lvOrderDetails.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lvOrderDetails.Columns.AddRange(new ColumnHeader[] { clmProductCode1, clmProductName1, clmUnitCost, clmUnitPrice, clmDiscountRatio, clmTaxRatio, clmQuantity, clmProductUnitCode, clmProducedQuantity, clmRemainingQuantity, clmTotalCost, clmTotalPrice, clmTotalProfit, clmTotalProfitPercentage });
+            lvOrderDetails.Columns.AddRange(new ColumnHeader[] { clmProductCode1, clmProductName1, clmSize, clmUnitArea, clmTotalArea, clmQuantity, clmProductUnitCode, clmUnitCost, clmUnitPrice, clmTaxRatio, clmProducedQuantity, clmRemainingQuantity, clmTotalCost, clmTotalPrice, clmTotalProfit, clmTotalProfitPercentage });
             lvOrderDetails.FullRowSelect = true;
             lvOrderDetails.GridLines = true;
             lvOrderDetails.Location = new Point(6, 27);
             lvOrderDetails.MultiSelect = false;
             lvOrderDetails.Name = "lvOrderDetails";
-            lvOrderDetails.Size = new Size(1225, 207);
+            lvOrderDetails.Size = new Size(1225, 225);
             lvOrderDetails.TabIndex = 4;
             lvOrderDetails.UseCompatibleStateImageBehavior = false;
             lvOrderDetails.View = View.Details;
@@ -611,21 +715,17 @@
             // 
             clmProductName1.Text = "Ürün Adı";
             // 
-            // clmUnitCost
+            // clmSize
             // 
-            clmUnitCost.Text = "Birim Maliyet";
+            clmSize.Text = "Boyut";
             // 
-            // clmUnitPrice
+            // clmUnitArea
             // 
-            clmUnitPrice.Text = "Birim Fiyat";
+            clmUnitArea.Text = "Birim Alan";
             // 
-            // clmDiscountRatio
+            // clmTotalArea
             // 
-            clmDiscountRatio.Text = "İskonto Oranı";
-            // 
-            // clmTaxRatio
-            // 
-            clmTaxRatio.Text = "Vergi Oranı";
+            clmTotalArea.Text = "Toplam Alan";
             // 
             // clmQuantity
             // 
@@ -634,6 +734,18 @@
             // clmProductUnitCode
             // 
             clmProductUnitCode.Text = "Birim Kodu";
+            // 
+            // clmUnitCost
+            // 
+            clmUnitCost.Text = "Birim Maliyet";
+            // 
+            // clmUnitPrice
+            // 
+            clmUnitPrice.Text = "Birim Fiyat";
+            // 
+            // clmTaxRatio
+            // 
+            clmTaxRatio.Text = "Vergi Oranı";
             // 
             // clmProducedQuantity
             // 
@@ -665,7 +777,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnCancel;
-            ClientSize = new Size(1261, 597);
+            ClientSize = new Size(1261, 682);
             Controls.Add(gbOrderDetails);
             Controls.Add(gbOrderHeader);
             MinimumSize = new Size(1279, 644);
@@ -681,7 +793,9 @@
             gbOrderTotals.PerformLayout();
             gbAddProductDetail.ResumeLayout(false);
             gbAddProductDetail.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nudHeight).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudDiscountRatio).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudWidth).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudTaxRatio).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudQuantity).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudPrice).EndInit();
@@ -753,7 +867,17 @@
         private ColumnHeader clmProductCode;
         private NumericUpDown nudDiscountRatio;
         private Label lblDiscountRatio;
-        private ColumnHeader clmDiscountRatio;
         private ColumnHeader clmProductName1;
+        private NumericUpDown nudHeight;
+        private Label lblHeight;
+        private NumericUpDown nudWidth;
+        private Label lblWidth;
+        private TextBox txtProducedQuantity;
+        private Label lblProducedQuantity;
+        private TextBox txtRemainingQuantity;
+        private Label lblRemainingQuantity;
+        private ColumnHeader clmSize;
+        private ColumnHeader clmUnitArea;
+        private ColumnHeader clmTotalArea;
     }
 }

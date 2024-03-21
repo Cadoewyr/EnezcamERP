@@ -1,6 +1,8 @@
 ﻿using BL.Report.Enums;
 using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
+using DAL.DTO.Entities.Enums;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BL.Reports.ProductionReports
 {
@@ -49,7 +51,7 @@ namespace BL.Reports.ProductionReports
                 );
 
                 if (entry != null)
-                    entry.Quantity += item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date && !x.IsStock).Sum(x => x.ProducedOrderQuantity);
+                    entry.Quantity += item.OrderDetail.UnitCode == UnitCode.AD ? item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date && !x.IsStock).Sum(x => x.ProducedOrderQuantity) : item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date && !x.IsStock).Sum(x => x.ProducedOrderArea);
                 else
                 {
                     DailyProductionEntries.Add(new()
@@ -64,7 +66,7 @@ namespace BL.Reports.ProductionReports
                         UnitPrice = item.OrderDetail.UnitPrice,
                         DiscountRatio = item.OrderDetail.DiscountRatio,
                         TaxRatio = item.OrderDetail.TaxRatio,
-                        Quantity = item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date && !x.IsStock).Sum(x => x.ProducedOrderQuantity)
+                        Quantity = item.OrderDetail.UnitCode == UnitCode.AD ? item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date && !x.IsStock).Sum(x => x.ProducedOrderQuantity) : item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date && !x.IsStock).Sum(x => x.ProducedOrderArea)
                     });
                 }
             }
@@ -113,6 +115,44 @@ namespace BL.Reports.ProductionReports
 
         //Calculation properties
         #region
+        public Dictionary<UnitCode, decimal> ProducedQuantity
+        {
+            get
+            {
+                Dictionary<UnitCode, decimal> dic = [];
+
+                dic.Add(UnitCode.AD, ProducedOrders.Where(x => x.OrderDetail.Product.Type == ProcessType.ISICAM & !x.IsStock & x.OrderDetail.Product.IsCounting).Sum(x => x.ProducedOrderQuantity));
+                dic.Add(UnitCode.M2, ProducedOrders.Where(x => x.OrderDetail.Product.Type == ProcessType.ISICAM & !x.IsStock & x.OrderDetail.Product.IsCounting).Sum(x => x.ProducedOrderArea));
+
+                return dic;
+            }
+        }
+        public Dictionary<UnitCode, decimal> ProcessedQuantity
+        {
+            get
+            {
+                Dictionary<UnitCode, decimal> dic = [];
+
+                dic.Add(UnitCode.AD, ProducedOrders.Where(x => x.OrderDetail.Product.Type == ProcessType.İŞLEME & !x.IsStock & x.OrderDetail.Product.IsCounting).Sum(x => x.ProducedOrderQuantity));
+                dic.Add(UnitCode.M2, ProducedOrders.Where(x => x.OrderDetail.Product.Type == ProcessType.İŞLEME & !x.IsStock & x.OrderDetail.Product.IsCounting).Sum(x => x.ProducedOrderArea));
+
+                return dic;
+            }
+        }
+        public Dictionary<UnitCode, decimal> StockQuantity
+        {
+            get
+            {
+                Dictionary<UnitCode, decimal> dic = [];
+
+                var res = producedOrdersDB.GetAll(x => x.ProducedDate.Date == _date.Date && x.IsStock & x.OrderDetail.Product.IsCounting);
+
+                dic.Add(UnitCode.AD, res.Sum(x => x.ProducedOrderQuantity));
+                dic.Add(UnitCode.M2, res.Sum(x => x.ProducedOrderArea));
+
+                return dic;
+            }
+        }
         public decimal Price => DailyProductionEntries.Sum(x => x.FinalPrice);
         public decimal PriceTax => Price > 0 ? (Price / 100) * 20 : 0;
         public decimal PriceWithTax => Price + PriceTax;

@@ -1,6 +1,7 @@
 ﻿using BL.Report.Enums;
 using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
+using DAL.DTO.Entities.Enums;
 
 namespace BL.Reports.SalesReports
 {
@@ -48,7 +49,7 @@ namespace BL.Reports.SalesReports
                 );
 
                 if (entry != null)
-                    entry.Quantity += item.Quantity;
+                    entry.Quantity += item.UnitCode == UnitCode.AD ? item.Quantity : item.TotalArea;
                 else
                 {
                     DailySalesEntries.Add(new()
@@ -63,7 +64,7 @@ namespace BL.Reports.SalesReports
                         UnitCost = item.UnitCost,
                         UnitPrice = item.UnitPrice,
                         DiscountRatio = item.DiscountRatio,
-                        Quantity = item.Quantity
+                        Quantity = item.UnitCode == UnitCode.AD ? item.Quantity : item.TotalArea
                     });
                 }
             }
@@ -93,6 +94,30 @@ namespace BL.Reports.SalesReports
 
         //Calculation properties
         #region
+        public Dictionary<UnitCode, decimal> ProduceQuantity
+        {
+            get
+            {
+                Dictionary<UnitCode, decimal> dic = [];
+
+                dic.Add(UnitCode.AD, OrderDetails.Where(x => x.Product.Type == ProcessType.ISICAM & x.Product.IsCounting).Sum(x => x.Quantity));
+                dic.Add(UnitCode.M2, OrderDetails.Where(x => x.Product.Type == ProcessType.ISICAM & x.Product.IsCounting).Sum(x => x.TotalArea));
+
+                return dic;
+            }
+        }
+        public Dictionary<UnitCode, decimal> ProcessQuantity
+        {
+            get
+            {
+                Dictionary<UnitCode, decimal> dic = [];
+
+                dic.Add(UnitCode.AD, OrderDetails.Where(x => x.Product.Type == ProcessType.İŞLEME & x.Product.IsCounting).Sum(x => x.Quantity));
+                dic.Add(UnitCode.M2, OrderDetails.Where(x => x.Product.Type == ProcessType.İŞLEME & x.Product.IsCounting).Sum(x => x.TotalArea));
+
+                return dic;
+            }
+        }
         public decimal Price => DailySalesEntries.Sum(x => x.FinalPrice);
         public decimal PriceTax => Price > 0 ? (Price / 100) * 20 : 0;
         public decimal PriceWithTax => Price + PriceTax;

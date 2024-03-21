@@ -66,9 +66,7 @@ namespace EnezcamERP.Forms.Order_Forms
         public void RefreshUnitCode()
         {
             cbUnitCode.Items.Clear();
-
             cbUnitCode.Items.AddRange(Enum.GetNames(typeof(UnitCode)));
-
             cbUnitCode.SelectedIndex = 0;
         }
         public void RefreshOrderDetails(ColumnHeaderAutoResizeStyle columnHeaderAutoResizeStyle)
@@ -79,7 +77,13 @@ namespace EnezcamERP.Forms.Order_Forms
             {
                 Name = "clmDiscountedUnitPrice",
                 Text = "İskontolu Birim Fiyat",
-                DisplayIndex = 3
+                DisplayIndex = 9
+            };
+            ColumnHeader clmDiscountRatio = new()
+            {
+                Name = "clmDiscountRatio",
+                Text = "İskonto Oranı",
+                DisplayIndex = 10
             };
 
             foreach (var item in order.OrderDetails)
@@ -91,21 +95,26 @@ namespace EnezcamERP.Forms.Order_Forms
                 };
 
                 lvi.SubItems.Add(item.Product.Name);
+                lvi.SubItems.Add(item.GetSizeString());
+                lvi.SubItems.Add(item.UnitArea.ToString("N3"));
+                lvi.SubItems.Add(item.TotalArea.ToString("N3"));
+                lvi.SubItems.Add(item.Quantity.ToString("N0"));
+                lvi.SubItems.Add(item.UnitCode.ToString());
                 lvi.SubItems.Add(item.UnitCost.ToString("C2"));
                 lvi.SubItems.Add(item.UnitPrice.ToString("C2"));
                 if (order.OrderDetails.Any(x => x.DiscountRatio > 0))
                 {
                     if (!lvOrderDetails.Columns.Contains(clmDiscountedUnitPrice))
-                        lvOrderDetails.Columns.Insert(3, clmDiscountedUnitPrice);
+                        lvOrderDetails.Columns.Insert(9, clmDiscountedUnitPrice);
 
-                    lvi.SubItems.Add(item.FinalUnitPrice.ToString("C2"));
+                    if (!lvOrderDetails.Columns.Contains(clmDiscountRatio))
+                        lvOrderDetails.Columns.Insert(10, clmDiscountRatio);
+
+                    lvi.SubItems.Add(item.FinalUnitPrice.ToString("P0"));
                 }
-                lvi.SubItems.Add((item.DiscountRatio / 100).ToString("P0"));
                 lvi.SubItems.Add((item.TaxRatio / 100).ToString("P0"));
-                lvi.SubItems.Add(item.Quantity.ToString("N3"));
-                lvi.SubItems.Add(item.UnitCode.ToString());
-                lvi.SubItems.Add(item.ProducedOrders.Sum(x => x.ProducedOrderQuantity).ToString("N3"));
-                lvi.SubItems.Add((item.Quantity - item.ProducedOrders.Sum(x => x.ProducedOrderQuantity)).ToString("N3"));
+                lvi.SubItems.Add(item.GetProducedQuantityString());
+                lvi.SubItems.Add(item.GetRemainingQuantityString());
                 lvi.SubItems.Add(item.Cost.ToString("C2"));
                 lvi.SubItems.Add(item.FinalPrice.ToString("C2"));
                 lvi.SubItems.Add(item.Profit.ToString("C2"));
@@ -136,14 +145,16 @@ namespace EnezcamERP.Forms.Order_Forms
             txtTotalPrice.Text = order.Price.ToString("C2");
             txtProfit.Text = order.Profit.ToString("C2");
             txtProfitRatio.Text = order.ProfitRatio.ToString("P2");
-            txtTotalQuantity.Text = string.Join(", ", order.ProductQuantity.Select(x => $"{x.Value.ToString(x.Key == UnitCode.M2 ? "N3" : "N0")} {x.Key}").ToArray());
+            txtTotalQuantity.Text = order.GetQuantityString();
             txtPriceWithTax.Text = order.PriceWithTax.ToString("C2");
+            txtProducedQuantity.Text = order.GetProducedQuantityString(); // string.Join(", ", order.ProducedProductQuantity.Select(x => $"{x.Value.ToString(x.Key == UnitCode.M2 ? "N3" : "N0")} {x.Key}").ToArray());
+            txtRemainingQuantity.Text = order.GetRemainingQuantityString(); // string.Join(", ", order.RemainingProductQuantity.Select(x => $"{x.Value.ToString(x.Key == UnitCode.M2 ? "N3" : "N0")} {x.Key}").ToArray());
         }
         void ClearNumericUpDownControls(params Control[] controls)
         {
             foreach (var control in controls)
             {
-                (control as NumericUpDown).Value = 0;
+                (control as NumericUpDown).Value = 1;
             }
         }
 
@@ -167,7 +178,9 @@ namespace EnezcamERP.Forms.Order_Forms
                     Quantity = nudQuantity.Value,
                     DiscountRatio = nudDiscountRatio.Value,
                     UnitCode = (UnitCode)Enum.Parse(typeof(UnitCode), cbUnitCode.Text),
-                    TaxRatio = nudTaxRatio.Value
+                    TaxRatio = nudTaxRatio.Value,
+                    Width = nudWidth.Value / 1000,
+                    Height = nudHeight.Value / 1000
                 };
 
                 (lvProducts.SelectedItems[0].Tag as Product).PriceHistory.LastCost = nudCost.Value;
@@ -186,10 +199,11 @@ namespace EnezcamERP.Forms.Order_Forms
                 else
                     MessageBox.Show(ErrorStringify.Stringify(res.Errors));
 
+                var selectedItem = lvProducts.SelectedIndices[0];
                 RefreshProducts(null);
+                lvProducts.Items[selectedItem].Selected = true;
             }
         }
-
         private void btnSaveOrder_Click(object sender, EventArgs e)
         {
             if (lvOrderDetails.Items.Count > 0)
@@ -218,12 +232,10 @@ namespace EnezcamERP.Forms.Order_Forms
                 }
             }
         }
-
         private void txtSearchProduct_TextChanged(object sender, EventArgs e)
         {
             RefreshProducts(productDB.GetAll((sender as TextBox).Text.ToLower().Trim() ?? null).ToArray());
         }
-
         private void btnDeleteOrderDetail_Click(object sender, EventArgs e)
         {
             if (lvOrderDetails.SelectedItems.Count > 0)
@@ -238,20 +250,10 @@ namespace EnezcamERP.Forms.Order_Forms
                     MessageBox.Show("Siparişe ait en az bir kalem bulunmak zorunda.");
             }
         }
-
         private void btnCancelOrder_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
-        private void cbUnitCode_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if ((UnitCode)Enum.Parse<UnitCode>((sender as ComboBox).Text) == UnitCode.AD)
-                nudQuantity.DecimalPlaces = 0;
-            else
-                nudQuantity.DecimalPlaces = 3;
-        }
-
         private void lvProducts_Click(object sender, EventArgs e)
         {
             ListView lv = sender as ListView;
@@ -269,7 +271,6 @@ namespace EnezcamERP.Forms.Order_Forms
                 this.Text = p.Code;
             }
         }
-
         private void lvOrderDetails_DoubleClick(object sender, EventArgs e)
         {
             if ((sender as ListView).SelectedItems.Count > 0)
@@ -282,7 +283,6 @@ namespace EnezcamERP.Forms.Order_Forms
                 UpdateOrderTotals(order);
             }
         }
-
         private void cbCustomers_Leave(object sender, EventArgs e)
         {
             var control = (sender as ComboBox);
@@ -297,6 +297,24 @@ namespace EnezcamERP.Forms.Order_Forms
                         break;
                     }
                 }
+            }
+        }
+
+        private void lvProducts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListView lv = sender as ListView;
+
+            if (lv.SelectedItems.Count > 0)
+            {
+                Product p = lv.SelectedItems[0].Tag as Product;
+
+                if (p != null)
+                {
+                    nudCost.Value = p.PriceHistory.LastCost;
+                    nudPrice.Value = p.PriceHistory.LastPrice;
+                }
+
+                this.Text = p.Code;
             }
         }
     }

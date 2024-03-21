@@ -1,5 +1,7 @@
 ﻿using BL.Report.Enums;
 using BL.Reports.Enums;
+using BL.Reports.ProductionReports;
+using DAL.DTO.Entities.Enums;
 
 namespace BL.Reports.SalesReports
 {
@@ -88,8 +90,41 @@ namespace BL.Reports.SalesReports
 
         public List<DailySalesReport> DailySalesReports { get; set; } = [];
 
+        public string GetProduceQuantityString()
+        {
+            return $"{ProduceQuantity.Where(x => x.Key == UnitCode.AD).First().Value.ToString("N0")} {UnitCode.AD}, {ProduceQuantity.Where(x => x.Key == UnitCode.M2).First().Value.ToString("N3")} {UnitCode.M2}";
+        }
+        public string GetProcessQuantityString()
+        {
+            return $"{ProcessQuantity.Where(x => x.Key == UnitCode.AD).First().Value.ToString("N0")} {UnitCode.AD}, {ProcessQuantity.Where(x => x.Key == UnitCode.M2).First().Value.ToString("N3")} {UnitCode.M2}";
+        }
+
         //Calculation properties
         #region
+        public Dictionary<UnitCode, decimal> ProduceQuantity
+        {
+            get
+            {
+                Dictionary<UnitCode, decimal> dic = [];
+
+                dic.Add(UnitCode.AD, DailySalesReports.Sum(x => x.ProduceQuantity.Where(x => x.Key == UnitCode.AD).Sum(x => x.Value)));
+                dic.Add(UnitCode.M2, DailySalesReports.Sum(x => x.ProduceQuantity.Where(x => x.Key == UnitCode.M2).Sum(x => x.Value)));
+
+                return dic;
+            }
+        }
+        public Dictionary<UnitCode, decimal> ProcessQuantity
+        {
+            get
+            {
+                Dictionary<UnitCode, decimal> dic = [];
+
+                dic.Add(UnitCode.AD, DailySalesReports.Sum(x => x.ProcessQuantity.Where(x => x.Key == UnitCode.AD).Sum(x => x.Value)));
+                dic.Add(UnitCode.M2, DailySalesReports.Sum(x => x.ProcessQuantity.Where(x => x.Key == UnitCode.M2).Sum(x => x.Value)));
+
+                return dic;
+            }
+        }
         public decimal Price => DailySalesReports.Sum(x => x.Price);
         public decimal PriceTax => DailySalesReports.Sum(x => x.PriceTax);
         public decimal PriceWithTax => Price + PriceTax;

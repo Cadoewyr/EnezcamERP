@@ -65,6 +65,7 @@
             updateOrderToolStripMenuItem = new ToolStripMenuItem();
             deleteOrderToolStripMenuItem = new ToolStripMenuItem();
             productionHistoryToolStripMenuItem = new ToolStripMenuItem();
+            kalanSiparişiTamamlaToolStripMenuItem = new ToolStripMenuItem();
             tabControlMain = new TabControl();
             tabStock = new TabPage();
             gbProducts = new GroupBox();
@@ -101,11 +102,17 @@
             clmAddress = new ColumnHeader();
             tabReports = new TabPage();
             gbTotals = new GroupBox();
+            txtStockQuantity = new TextBox();
+            lblStockQuantity = new Label();
+            txtProcessQuantity = new TextBox();
+            lblProcessQuantity = new Label();
             txtProfitWithoutOutgoing = new TextBox();
             lbProfitWithoutOutgoing = new Label();
             txtOutgoing = new TextBox();
             lbOutgoing = new Label();
+            txtProducedQuantity = new TextBox();
             txtProfitRatio = new TextBox();
+            lblProducedQuantity = new Label();
             lbProfitRatio = new Label();
             txtProfitMargin = new TextBox();
             lbProfitMargin = new Label();
@@ -164,7 +171,7 @@
             tabOrders.Location = new Point(4, 29);
             tabOrders.Name = "tabOrders";
             tabOrders.Padding = new Padding(3);
-            tabOrders.Size = new Size(1414, 660);
+            tabOrders.Size = new Size(1414, 662);
             tabOrders.TabIndex = 0;
             tabOrders.Text = "Siparişler";
             tabOrders.UseVisualStyleBackColor = true;
@@ -424,38 +431,45 @@
             // cmsOrders
             // 
             cmsOrders.ImageScalingSize = new Size(20, 20);
-            cmsOrders.Items.AddRange(new ToolStripItem[] { addOrderToolStripMenuItem, updateOrderToolStripMenuItem, deleteOrderToolStripMenuItem, productionHistoryToolStripMenuItem });
+            cmsOrders.Items.AddRange(new ToolStripItem[] { addOrderToolStripMenuItem, updateOrderToolStripMenuItem, deleteOrderToolStripMenuItem, productionHistoryToolStripMenuItem, kalanSiparişiTamamlaToolStripMenuItem });
             cmsOrders.Name = "cmsOrders";
-            cmsOrders.Size = new Size(180, 100);
+            cmsOrders.Size = new Size(232, 124);
             cmsOrders.Opening += cmsOrders_Opening;
             // 
             // addOrderToolStripMenuItem
             // 
             addOrderToolStripMenuItem.Name = "addOrderToolStripMenuItem";
-            addOrderToolStripMenuItem.Size = new Size(179, 24);
+            addOrderToolStripMenuItem.Size = new Size(231, 24);
             addOrderToolStripMenuItem.Text = "Ekle";
             addOrderToolStripMenuItem.Click += addOrderToolStripMenuItem_Click;
             // 
             // updateOrderToolStripMenuItem
             // 
             updateOrderToolStripMenuItem.Name = "updateOrderToolStripMenuItem";
-            updateOrderToolStripMenuItem.Size = new Size(179, 24);
+            updateOrderToolStripMenuItem.Size = new Size(231, 24);
             updateOrderToolStripMenuItem.Text = "Güncelle";
             updateOrderToolStripMenuItem.Click += updateOrderToolStripMenuItem_Click;
             // 
             // deleteOrderToolStripMenuItem
             // 
             deleteOrderToolStripMenuItem.Name = "deleteOrderToolStripMenuItem";
-            deleteOrderToolStripMenuItem.Size = new Size(179, 24);
+            deleteOrderToolStripMenuItem.Size = new Size(231, 24);
             deleteOrderToolStripMenuItem.Text = "Sil";
             deleteOrderToolStripMenuItem.Click += deleteOrderToolStripMenuItem_Click;
             // 
             // productionHistoryToolStripMenuItem
             // 
             productionHistoryToolStripMenuItem.Name = "productionHistoryToolStripMenuItem";
-            productionHistoryToolStripMenuItem.Size = new Size(179, 24);
+            productionHistoryToolStripMenuItem.Size = new Size(231, 24);
             productionHistoryToolStripMenuItem.Text = "Üretim Geçmişi";
             productionHistoryToolStripMenuItem.Click += productionHistoryToolStripMenuItem_Click;
+            // 
+            // kalanSiparişiTamamlaToolStripMenuItem
+            // 
+            kalanSiparişiTamamlaToolStripMenuItem.Name = "kalanSiparişiTamamlaToolStripMenuItem";
+            kalanSiparişiTamamlaToolStripMenuItem.Size = new Size(231, 24);
+            kalanSiparişiTamamlaToolStripMenuItem.Text = "Kalan Siparişi Tamamla";
+            kalanSiparişiTamamlaToolStripMenuItem.Click += completeOrderToolStripMenuItem_Click;
             // 
             // tabControlMain
             // 
@@ -467,7 +481,7 @@
             tabControlMain.Location = new Point(0, 0);
             tabControlMain.Name = "tabControlMain";
             tabControlMain.SelectedIndex = 0;
-            tabControlMain.Size = new Size(1422, 693);
+            tabControlMain.Size = new Size(1422, 695);
             tabControlMain.TabIndex = 0;
             // 
             // tabStock
@@ -476,7 +490,7 @@
             tabStock.Location = new Point(4, 29);
             tabStock.Name = "tabStock";
             tabStock.Padding = new Padding(3);
-            tabStock.Size = new Size(1414, 660);
+            tabStock.Size = new Size(1414, 662);
             tabStock.TabIndex = 1;
             tabStock.Text = "Stok Kartı";
             tabStock.UseVisualStyleBackColor = true;
@@ -493,7 +507,7 @@
             gbProducts.Controls.Add(lvProducts);
             gbProducts.Location = new Point(6, 5);
             gbProducts.Name = "gbProducts";
-            gbProducts.Size = new Size(1402, 577);
+            gbProducts.Size = new Size(1402, 649);
             gbProducts.TabIndex = 0;
             gbProducts.TabStop = false;
             gbProducts.Text = "Stok Kartları";
@@ -567,7 +581,7 @@
             lvProducts.Location = new Point(6, 59);
             lvProducts.MultiSelect = false;
             lvProducts.Name = "lvProducts";
-            lvProducts.Size = new Size(1390, 511);
+            lvProducts.Size = new Size(1390, 583);
             lvProducts.TabIndex = 0;
             lvProducts.UseCompatibleStateImageBehavior = false;
             lvProducts.View = View.Details;
@@ -612,7 +626,7 @@
             tabCustomer.Location = new Point(4, 29);
             tabCustomer.Name = "tabCustomer";
             tabCustomer.Padding = new Padding(3);
-            tabCustomer.Size = new Size(1414, 660);
+            tabCustomer.Size = new Size(1414, 662);
             tabCustomer.TabIndex = 2;
             tabCustomer.Text = "Cari Kartı";
             tabCustomer.UseVisualStyleBackColor = true;
@@ -629,7 +643,7 @@
             gbCustomers.Controls.Add(lvCustomers);
             gbCustomers.Location = new Point(6, 5);
             gbCustomers.Name = "gbCustomers";
-            gbCustomers.Size = new Size(1402, 577);
+            gbCustomers.Size = new Size(1402, 649);
             gbCustomers.TabIndex = 0;
             gbCustomers.TabStop = false;
             gbCustomers.Text = "Cariler";
@@ -703,7 +717,7 @@
             lvCustomers.Location = new Point(5, 59);
             lvCustomers.MultiSelect = false;
             lvCustomers.Name = "lvCustomers";
-            lvCustomers.Size = new Size(1390, 511);
+            lvCustomers.Size = new Size(1390, 583);
             lvCustomers.TabIndex = 0;
             lvCustomers.UseCompatibleStateImageBehavior = false;
             lvCustomers.View = View.Details;
@@ -746,19 +760,25 @@
             tabReports.Location = new Point(4, 29);
             tabReports.Name = "tabReports";
             tabReports.Padding = new Padding(3);
-            tabReports.Size = new Size(1414, 660);
+            tabReports.Size = new Size(1414, 662);
             tabReports.TabIndex = 3;
             tabReports.Text = "Raporlar";
             tabReports.UseVisualStyleBackColor = true;
             // 
             // gbTotals
             // 
-            gbTotals.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbTotals.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            gbTotals.Controls.Add(txtStockQuantity);
+            gbTotals.Controls.Add(lblStockQuantity);
+            gbTotals.Controls.Add(txtProcessQuantity);
+            gbTotals.Controls.Add(lblProcessQuantity);
             gbTotals.Controls.Add(txtProfitWithoutOutgoing);
             gbTotals.Controls.Add(lbProfitWithoutOutgoing);
             gbTotals.Controls.Add(txtOutgoing);
             gbTotals.Controls.Add(lbOutgoing);
+            gbTotals.Controls.Add(txtProducedQuantity);
             gbTotals.Controls.Add(txtProfitRatio);
+            gbTotals.Controls.Add(lblProducedQuantity);
             gbTotals.Controls.Add(lbProfitRatio);
             gbTotals.Controls.Add(txtProfitMargin);
             gbTotals.Controls.Add(lbProfitMargin);
@@ -776,12 +796,50 @@
             gbTotals.Controls.Add(lbPriceTax);
             gbTotals.Controls.Add(txtPrice);
             gbTotals.Controls.Add(lbPrice);
-            gbTotals.Location = new Point(8, 528);
+            gbTotals.Location = new Point(8, 485);
             gbTotals.Name = "gbTotals";
-            gbTotals.Size = new Size(1157, 124);
+            gbTotals.Size = new Size(1157, 167);
             gbTotals.TabIndex = 3;
             gbTotals.TabStop = false;
             gbTotals.Text = "Toplamlar";
+            // 
+            // txtStockQuantity
+            // 
+            txtStockQuantity.Location = new Point(720, 122);
+            txtStockQuantity.MaxLength = 25;
+            txtStockQuantity.Name = "txtStockQuantity";
+            txtStockQuantity.ReadOnly = true;
+            txtStockQuantity.Size = new Size(133, 27);
+            txtStockQuantity.TabIndex = 24;
+            txtStockQuantity.TabStop = false;
+            // 
+            // lblStockQuantity
+            // 
+            lblStockQuantity.AutoSize = true;
+            lblStockQuantity.Location = new Point(606, 125);
+            lblStockQuantity.Name = "lblStockQuantity";
+            lblStockQuantity.Size = new Size(88, 20);
+            lblStockQuantity.TabIndex = 23;
+            lblStockQuantity.Text = "Stok Miktarı";
+            // 
+            // txtProcessQuantity
+            // 
+            txtProcessQuantity.Location = new Point(434, 122);
+            txtProcessQuantity.MaxLength = 25;
+            txtProcessQuantity.Name = "txtProcessQuantity";
+            txtProcessQuantity.ReadOnly = true;
+            txtProcessQuantity.Size = new Size(133, 27);
+            txtProcessQuantity.TabIndex = 22;
+            txtProcessQuantity.TabStop = false;
+            // 
+            // lblProcessQuantity
+            // 
+            lblProcessQuantity.AutoSize = true;
+            lblProcessQuantity.Location = new Point(293, 125);
+            lblProcessQuantity.Name = "lblProcessQuantity";
+            lblProcessQuantity.Size = new Size(102, 20);
+            lblProcessQuantity.TabIndex = 21;
+            lblProcessQuantity.Text = "İşleme Miktarı";
             // 
             // txtProfitWithoutOutgoing
             // 
@@ -821,6 +879,16 @@
             lbOutgoing.TabIndex = 0;
             lbOutgoing.Text = "Sabit Gider";
             // 
+            // txtProducedQuantity
+            // 
+            txtProducedQuantity.Location = new Point(133, 122);
+            txtProducedQuantity.MaxLength = 25;
+            txtProducedQuantity.Name = "txtProducedQuantity";
+            txtProducedQuantity.ReadOnly = true;
+            txtProducedQuantity.Size = new Size(133, 27);
+            txtProducedQuantity.TabIndex = 20;
+            txtProducedQuantity.TabStop = false;
+            // 
             // txtProfitRatio
             // 
             txtProfitRatio.Location = new Point(1017, 56);
@@ -830,6 +898,15 @@
             txtProfitRatio.Size = new Size(133, 27);
             txtProfitRatio.TabIndex = 20;
             txtProfitRatio.TabStop = false;
+            // 
+            // lblProducedQuantity
+            // 
+            lblProducedQuantity.AutoSize = true;
+            lblProducedQuantity.Location = new Point(6, 125);
+            lblProducedQuantity.Name = "lblProducedQuantity";
+            lblProducedQuantity.Size = new Size(104, 20);
+            lblProducedQuantity.TabIndex = 0;
+            lblProducedQuantity.Text = "Üretim Miktarı";
             // 
             // lbProfitRatio
             // 
@@ -1004,7 +1081,7 @@
             gbProductionReportDetails.Controls.Add(gbReportInterval);
             gbProductionReportDetails.Location = new Point(1170, 5);
             gbProductionReportDetails.Name = "gbProductionReportDetails";
-            gbProductionReportDetails.Size = new Size(235, 517);
+            gbProductionReportDetails.Size = new Size(235, 647);
             gbProductionReportDetails.TabIndex = 2;
             gbProductionReportDetails.TabStop = false;
             gbProductionReportDetails.Text = "Rapor Detayları";
@@ -1069,7 +1146,7 @@
             // btnCopyTable
             // 
             btnCopyTable.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCopyTable.Location = new Point(6, 483);
+            btnCopyTable.Location = new Point(6, 613);
             btnCopyTable.Name = "btnCopyTable";
             btnCopyTable.Size = new Size(223, 29);
             btnCopyTable.TabIndex = 9;
@@ -1080,7 +1157,7 @@
             // btnCreateProductionReport
             // 
             btnCreateProductionReport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCreateProductionReport.Location = new Point(6, 447);
+            btnCreateProductionReport.Location = new Point(6, 577);
             btnCreateProductionReport.Name = "btnCreateProductionReport";
             btnCreateProductionReport.Size = new Size(223, 29);
             btnCreateProductionReport.TabIndex = 8;
@@ -1150,7 +1227,7 @@
             gbProductionReport.Controls.Add(dgReport);
             gbProductionReport.Location = new Point(8, 5);
             gbProductionReport.Name = "gbProductionReport";
-            gbProductionReport.Size = new Size(1157, 517);
+            gbProductionReport.Size = new Size(1157, 474);
             gbProductionReport.TabIndex = 1;
             gbProductionReport.TabStop = false;
             gbProductionReport.Text = "Rapor";
@@ -1179,20 +1256,21 @@
             dgReport.ShowCellToolTips = false;
             dgReport.ShowEditingIcon = false;
             dgReport.ShowRowErrors = false;
-            dgReport.Size = new Size(1144, 484);
+            dgReport.Size = new Size(1144, 441);
             dgReport.TabIndex = 0;
             // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1422, 693);
+            ClientSize = new Size(1422, 695);
             Controls.Add(tabControlMain);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            MinimumSize = new Size(1349, 598);
+            MinimumSize = new Size(1440, 742);
             Name = "FormMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Enezcam ERP";
+            WindowState = FormWindowState.Maximized;
             Load += Main_Load;
             tabOrders.ResumeLayout(false);
             gbOrders.ResumeLayout(false);
@@ -1333,5 +1411,12 @@
         private ToolStripMenuItem productionHistoryToolStripMenuItem;
         private ColumnHeader clmCompletedDate;
         private ColumnHeader clmRemainingQuantity;
+        private ToolStripMenuItem kalanSiparişiTamamlaToolStripMenuItem;
+        private TextBox txtProducedQuantity;
+        private Label lblProducedQuantity;
+        private TextBox txtProcessQuantity;
+        private Label lblProcessQuantity;
+        private TextBox txtStockQuantity;
+        private Label lblStockQuantity;
     }
 }

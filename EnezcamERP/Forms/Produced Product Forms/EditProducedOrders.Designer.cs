@@ -34,6 +34,7 @@
             clmCode = new ColumnHeader();
             clmUnitCost = new ColumnHeader();
             clmUnitPrice = new ColumnHeader();
+            clmSize = new ColumnHeader();
             clmUnitCode = new ColumnHeader();
             clmQuantity = new ColumnHeader();
             clmProducedQuantity0 = new ColumnHeader();
@@ -43,6 +44,7 @@
             cbIsStock = new CheckBox();
             dtpProduceDate = new DateTimePicker();
             lblProduceQuantity = new Label();
+            btnMultipleComplete = new Button();
             btnAddProducedQuantity = new Button();
             lblDate = new Label();
             btnDeleteProducedOrder = new Button();
@@ -72,15 +74,15 @@
             gbOrderDetail.Controls.Add(gbProducedOrders);
             gbOrderDetail.Location = new Point(11, 12);
             gbOrderDetail.Name = "gbOrderDetail";
-            gbOrderDetail.Size = new Size(1003, 671);
+            gbOrderDetail.Size = new Size(1003, 709);
             gbOrderDetail.TabIndex = 0;
             gbOrderDetail.TabStop = false;
             gbOrderDetail.Text = "Sipariş Detayı";
-            gbOrderDetail.Enter += gbOrderDetail_Enter;
             // 
             // lvOrderDetails
             // 
-            lvOrderDetails.Columns.AddRange(new ColumnHeader[] { clmProductName, clmCode, clmUnitCost, clmUnitPrice, clmUnitCode, clmQuantity, clmProducedQuantity0, clmRemainingQuantity0 });
+            lvOrderDetails.CheckBoxes = true;
+            lvOrderDetails.Columns.AddRange(new ColumnHeader[] { clmProductName, clmCode, clmUnitCost, clmUnitPrice, clmSize, clmUnitCode, clmQuantity, clmProducedQuantity0, clmRemainingQuantity0 });
             lvOrderDetails.FullRowSelect = true;
             lvOrderDetails.GridLines = true;
             lvOrderDetails.Location = new Point(6, 27);
@@ -90,7 +92,8 @@
             lvOrderDetails.TabIndex = 0;
             lvOrderDetails.UseCompatibleStateImageBehavior = false;
             lvOrderDetails.View = View.Details;
-            lvOrderDetails.SelectedIndexChanged += lvOrderDetails_SelectedIndexChanged;
+            lvOrderDetails.ItemChecked += lvOrderDetails_SelectedIndexChangedAndChecked;
+            lvOrderDetails.SelectedIndexChanged += lvOrderDetails_SelectedIndexChangedAndChecked;
             // 
             // clmProductName
             // 
@@ -107,6 +110,10 @@
             // clmUnitPrice
             // 
             clmUnitPrice.Text = "Fiyat";
+            // 
+            // clmSize
+            // 
+            clmSize.Text = "Boyut";
             // 
             // clmUnitCode
             // 
@@ -138,7 +145,7 @@
             gbProducedOrders.Controls.Add(lblQuantity);
             gbProducedOrders.Location = new Point(6, 299);
             gbProducedOrders.Name = "gbProducedOrders";
-            gbProducedOrders.Size = new Size(992, 367);
+            gbProducedOrders.Size = new Size(992, 404);
             gbProducedOrders.TabIndex = 3;
             gbProducedOrders.TabStop = false;
             gbProducedOrders.Text = "Üretim Geçmişi";
@@ -148,13 +155,14 @@
             gbAddDeleteProducedOrders.Controls.Add(cbIsStock);
             gbAddDeleteProducedOrders.Controls.Add(dtpProduceDate);
             gbAddDeleteProducedOrders.Controls.Add(lblProduceQuantity);
+            gbAddDeleteProducedOrders.Controls.Add(btnMultipleComplete);
             gbAddDeleteProducedOrders.Controls.Add(btnAddProducedQuantity);
             gbAddDeleteProducedOrders.Controls.Add(lblDate);
             gbAddDeleteProducedOrders.Controls.Add(btnDeleteProducedOrder);
             gbAddDeleteProducedOrders.Controls.Add(nudProducedQuantity);
             gbAddDeleteProducedOrders.Location = new Point(645, 161);
             gbAddDeleteProducedOrders.Name = "gbAddDeleteProducedOrders";
-            gbAddDeleteProducedOrders.Size = new Size(342, 200);
+            gbAddDeleteProducedOrders.Size = new Size(342, 237);
             gbAddDeleteProducedOrders.TabIndex = 8;
             gbAddDeleteProducedOrders.TabStop = false;
             gbAddDeleteProducedOrders.Text = "Ekle / Sil";
@@ -185,6 +193,17 @@
             lblProduceQuantity.Size = new Size(51, 20);
             lblProduceQuantity.TabIndex = 7;
             lblProduceQuantity.Text = "Miktar";
+            // 
+            // btnMultipleComplete
+            // 
+            btnMultipleComplete.Enabled = false;
+            btnMultipleComplete.Location = new Point(101, 198);
+            btnMultipleComplete.Name = "btnMultipleComplete";
+            btnMultipleComplete.Size = new Size(229, 29);
+            btnMultipleComplete.TabIndex = 7;
+            btnMultipleComplete.Text = "Seçilenleri Tamamla";
+            btnMultipleComplete.UseVisualStyleBackColor = true;
+            btnMultipleComplete.Click += btnMultipleComplete_Click;
             // 
             // btnAddProducedQuantity
             // 
@@ -217,10 +236,9 @@
             // 
             // nudProducedQuantity
             // 
-            nudProducedQuantity.DecimalPlaces = 3;
             nudProducedQuantity.Increment = new decimal(new int[] { 10, 0, 0, 0 });
             nudProducedQuantity.Location = new Point(101, 59);
-            nudProducedQuantity.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            nudProducedQuantity.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
             nudProducedQuantity.Name = "nudProducedQuantity";
             nudProducedQuantity.Size = new Size(229, 27);
             nudProducedQuantity.TabIndex = 3;
@@ -282,7 +300,7 @@
             lvProduceHistory.Location = new Point(6, 29);
             lvProduceHistory.MultiSelect = false;
             lvProduceHistory.Name = "lvProduceHistory";
-            lvProduceHistory.Size = new Size(633, 331);
+            lvProduceHistory.Size = new Size(633, 369);
             lvProduceHistory.TabIndex = 1;
             lvProduceHistory.UseCompatibleStateImageBehavior = false;
             lvProduceHistory.View = View.Details;
@@ -293,11 +311,11 @@
             // 
             // clmProducedQuantity
             // 
-            clmProducedQuantity.Text = "Üretim Miktarı";
+            clmProducedQuantity.Text = "Üretim Miktarı (AD)";
             // 
             // clmRemaningQuantity
             // 
-            clmRemaningQuantity.Text = "Kalan Üretim";
+            clmRemaningQuantity.Text = "Kalan Üretim (AD)";
             // 
             // clmIsStock
             // 
@@ -335,7 +353,7 @@
             AcceptButton = btnAddProducedQuantity;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1029, 697);
+            ClientSize = new Size(1029, 733);
             Controls.Add(gbOrderDetail);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
@@ -387,5 +405,7 @@
         private ColumnHeader clmCode;
         private CheckBox cbIsStock;
         private ColumnHeader clmIsStock;
+        private ColumnHeader clmSize;
+        private Button btnMultipleComplete;
     }
 }

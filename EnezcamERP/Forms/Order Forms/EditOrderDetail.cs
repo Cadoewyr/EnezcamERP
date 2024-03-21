@@ -22,7 +22,7 @@ namespace EnezcamERP.Forms.Order_Forms
         void LoadProducts(Product[] products, Product selectedProduct)
         {
             ListView lv = lvProducts;
-            products ??= productRepository.GetAll().ToArray();
+            products ??= productRepository.GetAll(txtSearch.Text.ToLower().Trim()).ToArray();
             lv.Items.Clear();
 
             foreach (var product in products)
@@ -65,6 +65,8 @@ namespace EnezcamERP.Forms.Order_Forms
             nudDiscountRatio.Value = orderDetail.DiscountRatio;
             nudCost.Value = orderDetail.UnitCost;
             nudPrice.Value = orderDetail.UnitPrice;
+            nudWidth.Value = orderDetail.Width * 1000;
+            nudHeight.Value = orderDetail.Height * 1000;
         }
         void LoadForm(OrderDetail orderDetail)
         {
@@ -72,19 +74,10 @@ namespace EnezcamERP.Forms.Order_Forms
             LoadControls(orderDetail);
         }
 
-        private void cbUnitCode_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if ((UnitCode)Enum.Parse<UnitCode>((sender as ComboBox).Text) == UnitCode.AD)
-                nudQuantity.DecimalPlaces = 0;
-            else
-                nudQuantity.DecimalPlaces = 3;
-        }
-
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (lvProducts.SelectedItems.Count > 0)
@@ -97,6 +90,8 @@ namespace EnezcamERP.Forms.Order_Forms
                     orderDetail.UnitPrice = nudPrice.Value;
                     orderDetail.DiscountRatio = nudDiscountRatio.Value;
                     orderDetail.TaxRatio = nudTaxRatio.Value;
+                    orderDetail.Width = nudWidth.Value / 1000;
+                    orderDetail.Height = nudHeight.Value / 1000;
 
                     OrderDetail od = new()
                     {
@@ -104,6 +99,8 @@ namespace EnezcamERP.Forms.Order_Forms
                         UnitCode = (UnitCode)Enum.Parse(typeof(UnitCode), cbUnitCode.Text),
                         UnitCost = nudCost.Value,
                         UnitPrice = nudPrice.Value,
+                        Width = nudWidth.Value / 1000,
+                        Height = nudHeight.Value / 1000,
                         TaxRatio = nudTaxRatio.Value,
                         Order = orderDetail.Order ?? new Order(),
                         Quantity = nudQuantity.Value,
@@ -117,6 +114,20 @@ namespace EnezcamERP.Forms.Order_Forms
                     {
                         od.Product.PriceHistory.LastCost = nudCost.Value;
                         od.Product.PriceHistory.LastPrice = nudPrice.Value;
+                    }
+
+                    if (cbUpdateSameProductPrices.Checked)
+                    {
+                        foreach (var item in od.Order.OrderDetails)
+                        {
+                            if (item.Product.ID == od.Product.ID)
+                            {
+                                item.UnitCost = nudCost.Value;
+                                item.UnitPrice = nudPrice.Value;
+                                item.DiscountRatio = nudDiscountRatio.Value;
+                                item.TaxRatio = nudTaxRatio.Value;
+                            }
+                        }
                     }
 
                     if (od.Order.JobNo <= 0 || od.Order.ID <= 0 || od.ID <= 0)
@@ -144,7 +155,6 @@ namespace EnezcamERP.Forms.Order_Forms
                 }
             }
         }
-
         private void lvProducts_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (lvProducts.SelectedItems.Count > 0)
@@ -152,6 +162,11 @@ namespace EnezcamERP.Forms.Order_Forms
                 nudCost.Value = (lvProducts.SelectedItems[0].Tag as Product).PriceHistory.LastCost;
                 nudPrice.Value = (lvProducts.SelectedItems[0].Tag as Product).PriceHistory.LastPrice;
             }
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadProducts(null, orderDetail.Product);
         }
     }
 }

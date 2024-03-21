@@ -3,6 +3,7 @@ using BL.Reports;
 using BL.Reports.ProductionReports;
 using BL.Reports.SalesReports;
 using BL.Repositories.Repositories;
+using DAL.DTO.Context;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
 using EnezcamERP.Forms.Customer_Forms;
@@ -61,9 +62,9 @@ namespace EnezcamERP
 
                 lvi.SubItems.Add(item.Customer.Name);
                 lvi.SubItems.Add(item.IssueDate.ToShortDateString());
-                lvi.SubItems.Add(string.Join(", ", item.ProductQuantity.Select(x => $"{x.Value.ToString(x.Key == UnitCode.M2 ? "N3" : "N0")} {x.Key}").ToArray()));
-                lvi.SubItems.Add(string.Join(", ", item.ProducedProductQuantity.Select(x => $"{x.Value.ToString(x.Key == UnitCode.M2 ? "N3" : "N0")} {x.Key}").ToArray())).ForeColor = color;
-                lvi.SubItems.Add(string.Join(", ", item.RemainingProductQuantity.Select(x => $"{x.Value.ToString(x.Key == UnitCode.M2 ? "N3" : "N0")} {x.Key}").ToArray())).ForeColor = color;
+                lvi.SubItems.Add(item.GetQuantityString());
+                lvi.SubItems.Add(item.GetProducedQuantityString()).ForeColor = color;
+                lvi.SubItems.Add(item.GetRemainingQuantityString()).ForeColor = color;
                 lvi.SubItems.Add(item.Cost.ToString("C2"));
                 lvi.SubItems.Add(item.Price.ToString("C2"));
                 lvi.SubItems.Add(item.OrderDetails.Sum(x => x.FinalPriceWithTax).ToString("C2"));
@@ -253,6 +254,9 @@ namespace EnezcamERP
             txtProfitMargin.Text = report.ProfitMargin.ToString("P2");
             txtProfitRatio.Text = report.ProfitRatioAfterOutgoing.ToString("P2");
 
+            txtProducedQuantity.Text = report.GetProducedQuantityString();
+            txtProcessQuantity.Text = report.GetProcessedQuantityString();
+            txtStockQuantity.Text = report.GetStockQuantityString();
         }
         void FillSalesReport(DataGridView dataGrid, DateRangedSalesReport report)
         {
@@ -370,6 +374,9 @@ namespace EnezcamERP
 
             txtProfitMargin.Text = report.ProfitRatio.ToString("P2");
             txtProfitRatio.Text = report.ProfitRatioAfterOutgoing.ToString("P2");
+
+            txtProducedQuantity.Text = report.GetProduceQuantityString();
+            txtProcessQuantity.Text = report.GetProcessQuantityString();
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -421,7 +428,8 @@ namespace EnezcamERP
         }
         private void checkDateFilter()
         {
-            cbIsDone.Checked = cbDateFilter.Checked & rbCompletedDate.Checked;
+            if (!cbIsDone.Checked)
+                cbIsDone.Checked = cbDateFilter.Checked & rbCompletedDate.Checked;
         }
 
         private void btnAddOrder_Click(object sender, EventArgs e)
@@ -471,7 +479,7 @@ namespace EnezcamERP
 
         private void mcDateFilter_DateSelected(object sender, DateRangeEventArgs e)
         {
-            checkDateFilter();
+            //checkDateFilter();
 
             if (cbDateFilter.Checked)
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
@@ -506,6 +514,29 @@ namespace EnezcamERP
         private void productionHistoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             EditProducedOrders();
+        }
+        private void completeOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvOrders.SelectedItems.Count > 0)
+            {
+                Order order = lvOrders.SelectedItems[0].Tag as Order;
+
+                foreach (var orderDetail in order.OrderDetails)
+                {
+                    if (orderDetail.RemainingToProduceQuantity > 0)
+                    {
+                        orderDetail.ProducedOrders.Add(new()
+                        {
+                            IsStock = false,
+                            OrderDetail = orderDetail,
+                            ProducedDate = DateTime.Now,
+                            ProducedOrderQuantity = orderDetail.RemainingToProduceQuantity
+                        });
+                    }
+                }
+                EnzDBContext.GetInstance.SaveChanges();
+                RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+            }
         }
         #endregion
 

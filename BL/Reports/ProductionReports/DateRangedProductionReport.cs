@@ -1,5 +1,8 @@
 ﻿using BL.Report.Enums;
 using BL.Reports.Enums;
+using BL.Repositories.Repositories;
+using DAL.DTO.Entities.Enums;
+using System.Runtime.InteropServices;
 
 namespace BL.Reports.ProductionReports
 {
@@ -87,8 +90,57 @@ namespace BL.Reports.ProductionReports
 
         public List<DailyProductionReport> DailyProductionReports { get; set; } = [];
 
+        public string GetProducedQuantityString()
+        {
+            return $"{ProducedQuantity.Where(x => x.Key == UnitCode.AD).First().Value.ToString("N0")} {UnitCode.AD}, {ProducedQuantity.Where(x => x.Key == UnitCode.M2).First().Value.ToString("N3")} {UnitCode.M2}";
+        }
+        public string GetProcessedQuantityString()
+        {
+            return $"{ProcessedQuantity.Where(x => x.Key == UnitCode.AD).First().Value.ToString("N0")} {UnitCode.AD}, {ProcessedQuantity.Where(x => x.Key == UnitCode.M2).First().Value.ToString("N3")} {UnitCode.M2}";
+        }
+        public string GetStockQuantityString()
+        {
+            return $"{StockQuantity.Where(x => x.Key == UnitCode.AD).First().Value.ToString("N0")} {UnitCode.AD}, {StockQuantity.Where(x => x.Key == UnitCode.M2).First().Value.ToString("N3")} {UnitCode.M2}";
+        }
+
         //Calculation properties
         #region
+        public Dictionary<UnitCode, decimal> ProducedQuantity
+        {
+            get
+            {
+                Dictionary<UnitCode, decimal> dic = [];
+
+                dic.Add(UnitCode.AD, DailyProductionReports.Sum(x => x.ProducedQuantity.Where(x=>x.Key == UnitCode.AD).Sum(x=>x.Value)));
+                dic.Add(UnitCode.M2, DailyProductionReports.Sum(x => x.ProducedQuantity.Where(x=>x.Key == UnitCode.M2).Sum(x=>x.Value)));
+
+                return dic;
+            }
+        }
+        public Dictionary<UnitCode, decimal> ProcessedQuantity
+        {
+            get
+            {
+                Dictionary<UnitCode, decimal> dic = [];
+
+                dic.Add(UnitCode.AD, DailyProductionReports.Sum(x => x.ProcessedQuantity.Where(x => x.Key == UnitCode.AD).Sum(x => x.Value)));
+                dic.Add(UnitCode.M2, DailyProductionReports.Sum(x => x.ProcessedQuantity.Where(x => x.Key == UnitCode.M2).Sum(x => x.Value)));
+
+                return dic;
+            }
+        }
+        public Dictionary<UnitCode, decimal> StockQuantity
+        {
+            get
+            {
+                Dictionary<UnitCode, decimal> dic = [];
+
+                dic.Add(UnitCode.AD, DailyProductionReports.Sum(x => x.StockQuantity.Where(x => x.Key == UnitCode.AD).Sum(x => x.Value)));
+                dic.Add(UnitCode.M2, DailyProductionReports.Sum(x => x.StockQuantity.Where(x => x.Key == UnitCode.M2).Sum(x => x.Value)));
+
+                return dic;
+            }
+        }
         public decimal Price => DailyProductionReports.Sum(x => x.Price);
         public decimal PriceTax => DailyProductionReports.Sum(x => x.PriceTax);
         public decimal PriceWithTax => Price + PriceTax;

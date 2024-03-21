@@ -1,6 +1,8 @@
 ﻿using BL.Repositories.Repositories;
+using DAL.DTO.Context;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
+using System.CodeDom;
 
 namespace EnezcamERP.Forms.Produced_Product_Forms
 {
@@ -27,9 +29,9 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
             if (orderDetail != null)
             {
                 txtProductName.Text = orderDetail.Product.Name;
-                txtQuantity.Text = orderDetail.Quantity.ToString(orderDetail.UnitCode == UnitCode.M2 ? "N3" : "N0");
-                txtProducedQuantity.Text = orderDetail.ProducedQuantity.ToString(orderDetail.UnitCode == UnitCode.M2 ? "N3" : "N0");
-                txtRemainigQuantity.Text = orderDetail.RemainingToProduceQuantity.ToString(orderDetail.UnitCode == UnitCode.M2 ? "N3" : "N0");
+                txtQuantity.Text = orderDetail.GetQuantityString();
+                txtProducedQuantity.Text = orderDetail.GetProducedQuantityString();
+                txtRemainigQuantity.Text = orderDetail.GetRemainingQuantityString();
 
                 if (orderDetail.RemainingToProduceQuantity == 0)
                 {
@@ -45,11 +47,22 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                     nudProducedQuantity.Maximum = orderDetail.RemainingToProduceQuantity;
                     nudProducedQuantity.Enabled = true;
                 }
-
-                nudProducedQuantity.DecimalPlaces = orderDetail.UnitCode == UnitCode.M2 ? 3 : 0;
             }
             else
                 ControlCleaner.Clear(this.Controls);
+        }
+        void RefreshOrderDetailsTotals(OrderDetail[] orderDetails)
+        {
+            if (orderDetails.Length > 0)
+            {
+                Order tempOrder = new();
+                tempOrder.OrderDetails = orderDetails;
+
+                txtProductName.Text = string.Empty;
+                txtQuantity.Text = tempOrder.GetQuantityString();
+                txtProducedQuantity.Text = tempOrder.GetProducedQuantityString();
+                txtRemainigQuantity.Text = tempOrder.GetRemainingQuantityString();
+            }
         }
         void RefreshOrderDetails()
         {
@@ -80,9 +93,10 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 lvi.SubItems.Add(item.UnitCost.ToString("C2"));
                 lvi.SubItems.Add(item.UnitPrice.ToString("C2"));
                 lvi.SubItems.Add(item.UnitCode.ToString());
-                lvi.SubItems.Add(item.Quantity.ToString(item.UnitCode == UnitCode.M2 ? "N3" : "N0"));
-                lvi.SubItems.Add(item.ProducedQuantity.ToString(item.UnitCode == UnitCode.M2 ? "N3" : "N0")).ForeColor = color;
-                lvi.SubItems.Add(item.RemainingToProduceQuantity.ToString(item.UnitCode == UnitCode.M2 ? "N3" : "N0")).ForeColor = color;
+                lvi.SubItems.Add($"{item.Width.ToString("N3")} * {item.Height.ToString("N3")}");
+                lvi.SubItems.Add(item.GetQuantityString());
+                lvi.SubItems.Add(item.GetProducedQuantityString()).ForeColor = color;
+                lvi.SubItems.Add(item.GetRemainingQuantityString()).ForeColor = color;
 
                 listView.Items.Add(lvi);
             }
@@ -102,8 +116,13 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                     Tag = item
                 };
 
-                lvi.SubItems.Add(item.ProducedOrderQuantity.ToString(item.OrderDetail.UnitCode == UnitCode.M2 ? "N3" : "N0"));
-                lvi.SubItems.Add((item.OrderDetail.Quantity - item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate <= item.ProducedDate).Sum(x => x.ProducedOrderQuantity)).ToString(item.OrderDetail.UnitCode == UnitCode.M2 ? "N3" : "N0"));
+                var producedQuantity = item.ProducedOrderQuantity.ToString("N0");
+                var remainigQuantity = (item.OrderDetail.Quantity - item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate <= item.ProducedDate).Sum(x => x.ProducedOrderQuantity)).ToString("N0");
+                var producedArea = item.ProducedOrderArea.ToString("N3");
+                var remainingArea = (item.OrderDetail.TotalArea - item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate <= item.ProducedDate).Sum(x => x.ProducedOrderArea)).ToString("N3");
+
+                lvi.SubItems.Add($"{producedQuantity} {UnitCode.AD}, {producedArea} {UnitCode.M2}");
+                lvi.SubItems.Add($"{remainigQuantity} {UnitCode.AD}, {remainingArea} {UnitCode.M2}");
                 lvi.SubItems.Add(item.IsStock ? "Stok" : "Üretim");
 
                 listView.Items.Add(lvi);
@@ -136,7 +155,7 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 .AddMilliseconds(DateTime.Now.Millisecond)
                 .AddMicroseconds(DateTime.Now.Microsecond);
 
-            if (lvOrderDetails.SelectedItems.Count > 0)
+            if (lvOrderDetails.SelectedItems.Count > 0 & lvOrderDetails.CheckedItems.Count == 0 & nudProducedQuantity.Value > 0)
             {
                 try
                 {
@@ -170,34 +189,109 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
 
         private void btnDeleteProducedOrder_Click(object sender, EventArgs e)
         {
-            if (lvProduceHistory.SelectedItems.Count > 0)
+            if (lvProduceHistory.SelectedItems.Count > 0 & lvOrderDetails.CheckedItems.Count == 0)
             {
                 try
                 {
                     producedOrdersRepository.Delete(lvProduceHistory.SelectedItems[0].Tag as ProducedOrder);
                     (parentForm as FormMain).RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
                 }
-                catch (Exception ex)
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
+                finally { RefreshAll(); }
+            }
+            else if (lvOrderDetails.CheckedItems.Count > 0)
+            {
+                if (MessageBox.Show("Tüm üretim geçmişi silinecek. Onaylıyor musunuz?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    MessageBox.Show(ex.Message);
-                }
+                    try
+                    {
+                        List<ProducedOrder> producedOrders = [];
 
-                RefreshAll();
+
+                        foreach (var item in lvOrderDetails.CheckedItems)
+                        {
+                            producedOrders.AddRange(((item as ListViewItem).Tag as OrderDetail).ProducedOrders.ToArray());
+                        }
+
+                        foreach (var producedOrder in producedOrders)
+                        {
+                            producedOrdersRepository.Delete(producedOrder);
+                        }
+                    }
+                    catch (Exception ex) { MessageBox.Show(ex.Message); }
+                    finally { RefreshAll(); }
+                }
             }
         }
 
-        private void lvOrderDetails_SelectedIndexChanged(object sender, EventArgs e)
+        private void lvOrderDetails_SelectedIndexChangedAndChecked(object sender, EventArgs e)
         {
             if ((sender as ListView).SelectedItems.Count > 0)
             {
                 RefreshProduceHistory(((sender as ListView).SelectedItems[0].Tag as OrderDetail).ProducedOrders);
                 RefreshOrderDetailTotals((sender as ListView).SelectedItems[0].Tag as OrderDetail);
             }
+
+            if ((sender as ListView).CheckedItems.Count > 0)
+            {
+                btnAddProducedQuantity.Enabled = false;
+                btnMultipleComplete.Enabled = true;
+                nudProducedQuantity.Enabled = false;
+
+                List<OrderDetail> orderDetails = [];
+
+                foreach (ListViewItem item in (sender as ListView).CheckedItems)
+                {
+                    orderDetails.Add(item.Tag as OrderDetail);
+                }
+
+                RefreshOrderDetailsTotals(orderDetails.ToArray());
+            }
+            else
+            {
+                btnAddProducedQuantity.Enabled = true;
+                btnMultipleComplete.Enabled = false;
+                nudProducedQuantity.Enabled = true;
+            }
         }
 
-        private void gbOrderDetail_Enter(object sender, EventArgs e)
+        private void btnMultipleComplete_Click(object sender, EventArgs e)
         {
+            if (lvOrderDetails.CheckedItems.Count > 0)
+            {
+                dtpProduceDate.Value = dtpProduceDate.Value.Date
+                .AddHours(DateTime.Now.Hour)
+                .AddMinutes(DateTime.Now.Minute)
+                .AddSeconds(DateTime.Now.Second)
+                .AddMilliseconds(DateTime.Now.Millisecond)
+                .AddMicroseconds(DateTime.Now.Microsecond);
 
+                try
+                {
+                    foreach (ListViewItem item in lvOrderDetails.CheckedItems)
+                    {
+                        var od = (item.Tag as OrderDetail);
+
+                        if (od.RemainingToProduceQuantity > 0)
+                        {
+                            od.ProducedOrders.Add(new()
+                            {
+                                IsStock = cbIsStock.Checked,
+                                OrderDetail = od,
+                                ProducedDate = dtpProduceDate.Value,
+                                ProducedOrderQuantity = od.RemainingToProduceQuantity,
+                                CreatedAt = DateTime.Now
+                            });
+                        }
+                    }
+                    EnzDBContext.GetInstance.SaveChanges();
+                }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
+                finally
+                {
+                    RefreshAll();
+                }
+            }
         }
     }
 }

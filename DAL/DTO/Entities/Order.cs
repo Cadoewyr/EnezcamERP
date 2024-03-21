@@ -11,8 +11,18 @@ namespace DAL.DTO.Entities
         public virtual Customer Customer { get; set; } = new();
         public virtual ICollection<OrderDetail> OrderDetails { get; set; } = [];
 
-        //[NotMapped]
-        //public decimal TotalArea => OrderDetails.Sum(x => x.TotalArea);
+        public string GetQuantityString()
+        {   
+            return $"{(ProductQuantity.Where(x=>x.Key == UnitCode.AD).First().Value).ToString("N0")} {UnitCode.AD}, {ProductQuantity.Where(x => x.Key == UnitCode.M2).First().Value.ToString("N3")} {UnitCode.M2}";
+        }
+        public string GetProducedQuantityString()
+        {
+            return $"{(ProducedProductQuantity.Where(x => x.Key == UnitCode.AD).First().Value).ToString("N0")} {UnitCode.AD}, {ProducedProductQuantity.Where(x => x.Key == UnitCode.M2).First().Value.ToString("N3")} {UnitCode.M2}";
+        }
+        public string GetRemainingQuantityString()
+        {
+            return $"{(ProductQuantity.Where(x => x.Key == UnitCode.AD).First().Value - ProducedProductQuantity.Where(x => x.Key == UnitCode.AD).First().Value).ToString("N0")} {UnitCode.AD}, {(ProductQuantity.Where(x => x.Key == UnitCode.M2).First().Value - ProducedProductQuantity.Where(x => x.Key == UnitCode.M2).First().Value).ToString("N3")} {UnitCode.M2}";
+        }
 
         //Satış
         #region
@@ -21,13 +31,19 @@ namespace DAL.DTO.Entities
         {
             get
             {
-                Dictionary<UnitCode, decimal> quantities = [];
-                var unitCodes = OrderDetails.Select(x => x.UnitCode).Distinct().ToList();
+                //Dictionary<UnitCode, decimal> quantities = [];
+                //var unitCodes = OrderDetails.Select(x => x.UnitCode).Distinct().ToList();
 
-                foreach (var unitCode in unitCodes)
-                {
-                    quantities.Add(unitCode, OrderDetails.Where(x => x.UnitCode == unitCode & x.Product.IsCounting).Sum(x => x.Quantity));
-                }
+                //foreach (var unitCode in unitCodes)
+                //{
+                //    quantities.Add(unitCode, OrderDetails.Where(x => x.UnitCode == unitCode & x.Product.IsCounting).Sum(x => x.Quantity));
+                //}
+
+                //return quantities;
+
+                Dictionary<UnitCode, decimal> quantities = [];
+                quantities.Add(UnitCode.AD, OrderDetails.Where(x => x.Product.IsCounting).Sum(x => x.Quantity));
+                quantities.Add(UnitCode.M2, OrderDetails.Where(x => x.Product.IsCounting).Sum(x => x.TotalArea));
 
                 return quantities;
             }
@@ -124,29 +140,38 @@ namespace DAL.DTO.Entities
         {
             get
             {
-                Dictionary<UnitCode, decimal> quantities = [];
-                var unitCodes = OrderDetails.Select(x => x.UnitCode).Distinct().ToList();
+                //Dictionary<UnitCode, decimal> quantities = [];
+                //var unitCodes = OrderDetails.Select(x => x.UnitCode).Distinct().ToList();
 
-                foreach (var unitCode in unitCodes)
-                {
-                    quantities.Add(unitCode, OrderDetails.Where(x => x.Product.IsCounting & x.UnitCode == unitCode).Sum(x => x.ProducedOrders.Sum(w => w.ProducedOrderQuantity)));
-                }
+                //foreach (var unitCode in unitCodes)
+                //{
+                //    quantities.Add(unitCode, OrderDetails.Where(x => x.Product.IsCounting & x.UnitCode == unitCode).Sum(x => x.ProducedOrders.Sum(w => w.ProducedOrderQuantity)));
+                //}
+
+                Dictionary<UnitCode, decimal> quantities = [];
+                quantities.Add(UnitCode.AD, OrderDetails.Where(x => x.Product.IsCounting).Sum(x => x.ProducedOrders.Sum(x => x.ProducedOrderQuantity)));
+                quantities.Add(UnitCode.M2, OrderDetails.Where(x => x.Product.IsCounting).Sum(x => x.ProducedOrders.Sum(x => x.ProducedOrderArea)));
 
                 return quantities;
             }
         }
 
+        [NotMapped]
         public Dictionary<UnitCode, decimal> RemainingProductQuantity
         {
             get
             {
-                Dictionary<UnitCode, decimal> quantities = [];
-                var unitCodes = OrderDetails.Select(x => x.UnitCode).Distinct().ToList();
+                //Dictionary<UnitCode, decimal> quantities = [];
+                //var unitCodes = OrderDetails.Select(x => x.UnitCode).Distinct().ToList();
 
-                foreach (var unitCode in unitCodes)
-                {
-                    quantities.Add(unitCode, OrderDetails.Where(x => x.UnitCode == unitCode & x.Product.IsCounting).Sum(x => x.Quantity) - OrderDetails.Where(x => x.Product.IsCounting & x.UnitCode == unitCode).Sum(x => x.ProducedOrders.Sum(w => w.ProducedOrderQuantity)));
-                }
+                //foreach (var unitCode in unitCodes)
+                //{
+                //    quantities.Add(unitCode, OrderDetails.Where(x => x.UnitCode == unitCode & x.Product.IsCounting).Sum(x => x.Quantity) - OrderDetails.Where(x => x.Product.IsCounting & x.UnitCode == unitCode).Sum(x => x.ProducedOrders.Sum(w => w.ProducedOrderQuantity)));
+                //}
+
+                Dictionary<UnitCode, decimal> quantities = [];
+                quantities.Add(UnitCode.AD, OrderDetails.Where(x => x.Product.IsCounting).Sum(x => x.RemainingToProduceQuantity));
+                quantities.Add(UnitCode.M2, OrderDetails.Where(x => x.Product.IsCounting).Sum(x => x.RemainingToProduceArea));
 
                 return quantities;
             }
@@ -243,14 +268,7 @@ namespace DAL.DTO.Entities
             {
                 bool isDone = true;
 
-                foreach (var item in RemainingProductQuantity)
-                {
-                    if (item.Value > 0)
-                    {
-                        isDone = false;
-                        break;
-                    }
-                }
+                isDone = !RemainingProductQuantity.Where(x => x.Key == UnitCode.AD).Any(x => x.Value > 0);
 
                 if (OrderDetails.Any(x => !x.Product.IsCounting))
                 {
