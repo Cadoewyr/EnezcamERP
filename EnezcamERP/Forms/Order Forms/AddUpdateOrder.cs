@@ -405,7 +405,6 @@ namespace EnezcamERP.Forms.Order_Forms
                 }
             }
         }
-
         private void uncheckAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (lvOrderDetails.Items.Count > 0)
@@ -416,7 +415,6 @@ namespace EnezcamERP.Forms.Order_Forms
                 }
             }
         }
-
         private void checkSameProductsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (lvOrderDetails.SelectedItems.Count > 0)
