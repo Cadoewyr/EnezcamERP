@@ -126,6 +126,7 @@ namespace EnezcamERP.Forms.Order_Forms
                                 item.UnitPrice = nudPrice.Value;
                                 item.DiscountRatio = nudDiscountRatio.Value;
                                 item.TaxRatio = nudTaxRatio.Value;
+                                item.UnitCode = (UnitCode)Enum.Parse(typeof(UnitCode), cbUnitCode.Text);
                             }
                         }
                     }

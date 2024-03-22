@@ -402,11 +402,12 @@ namespace EnezcamERP
         }
         void DeleteOrder()
         {
-            if (lvOrders.SelectedItems.Count > 0)
+            if (lvOrders.SelectedItems.Count > 0 & lvOrders.CheckedItems.Count == 0)
             {
                 try
                 {
-                    ordersDB.Delete(lvOrders.SelectedItems[0].Tag as Order);
+                    if (MessageBox.Show("Sipariþ silinecek. Onaylýyor musunuz?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        ordersDB.Delete(lvOrders.SelectedItems[0].Tag as Order);
                 }
                 catch (Exception ex)
                 {
@@ -414,6 +415,18 @@ namespace EnezcamERP
                 }
 
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+            }
+            else if (lvOrders.CheckedItems.Count > 0 && MessageBox.Show("Seçilen sipariþler silinecektir. Onaylýyor musunuz?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                try
+                {
+                    foreach(ListViewItem item in lvOrders.CheckedItems)
+                    {
+                        ordersDB.Delete(item.Tag as Order);
+                    }
+                    RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+                }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
             }
         }
         void EditProducedOrders()
@@ -710,7 +723,6 @@ namespace EnezcamERP
                     }
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
-                finally { RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize); }
             }
         }
         #endregion

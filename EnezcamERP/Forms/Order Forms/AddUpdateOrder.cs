@@ -66,7 +66,7 @@ namespace EnezcamERP.Forms.Order_Forms
         public void RefreshUnitCode()
         {
             cbUnitCode.Items.Clear();
-            cbUnitCode.Items.AddRange(Enum.GetNames(typeof(UnitCode)));
+            cbUnitCode.Items.AddRange(Enum.GetNames(typeof(UnitCode)).ToArray().Reverse().ToArray());
             cbUnitCode.SelectedIndex = 0;
         }
         public void RefreshOrderDetails(ColumnHeaderAutoResizeStyle columnHeaderAutoResizeStyle)
@@ -148,8 +148,8 @@ namespace EnezcamERP.Forms.Order_Forms
             txtProfitRatio.Text = order.ProfitRatio.ToString("P2");
             txtTotalQuantity.Text = order.GetQuantityString();
             txtPriceWithTax.Text = order.PriceWithTax.ToString("C2");
-            txtProducedQuantity.Text = order.GetProducedQuantityString(); // string.Join(", ", order.ProducedProductQuantity.Select(x => $"{x.Value.ToString(x.Key == UnitCode.M2 ? "N3" : "N0")} {x.Key}").ToArray());
-            txtRemainingQuantity.Text = order.GetRemainingQuantityString(); // string.Join(", ", order.RemainingProductQuantity.Select(x => $"{x.Value.ToString(x.Key == UnitCode.M2 ? "N3" : "N0")} {x.Key}").ToArray());
+            txtProducedQuantity.Text = order.GetProducedQuantityString();
+            txtRemainingQuantity.Text = order.GetRemainingQuantityString();
         }
         void ClearNumericUpDownControls(params Control[] controls)
         {
@@ -203,6 +203,7 @@ namespace EnezcamERP.Forms.Order_Forms
                 var selectedItem = lvProducts.SelectedIndices[0];
                 RefreshProducts(null);
                 lvProducts.Items[selectedItem].Selected = true;
+                nudWidth.Focus();
             }
         }
         private void btnSaveOrder_Click(object sender, EventArgs e)
@@ -239,11 +240,25 @@ namespace EnezcamERP.Forms.Order_Forms
         }
         private void btnDeleteOrderDetail_Click(object sender, EventArgs e)
         {
-            if (lvOrderDetails.SelectedItems.Count > 0)
+            if (lvOrderDetails.SelectedItems.Count > 0 & lvOrderDetails.CheckedItems.Count == 0)
             {
                 if (order.OrderDetails.Count > 1)
                 {
                     order.OrderDetails.Remove(lvOrderDetails.SelectedItems[0].Tag as OrderDetail);
+                    RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
+                    UpdateOrderTotals(order);
+                }
+                else
+                    MessageBox.Show("Siparişe ait en az bir kalem bulunmak zorunda.");
+            }
+            else if (lvOrderDetails.CheckedItems.Count > 0)
+            {
+                if (lvOrderDetails.CheckedItems.Count < order.OrderDetails.Count && MessageBox.Show("Seçilen ürünler silinecektir. Onaylıyor musunuz?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    foreach (ListViewItem item in lvOrderDetails.CheckedItems)
+                    {
+                        order.OrderDetails.Remove(item.Tag as OrderDetail);
+                    }
                     RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
                     UpdateOrderTotals(order);
                 }
@@ -318,6 +333,27 @@ namespace EnezcamERP.Forms.Order_Forms
                 this.Text = p.Code;
             }
         }
+        private void lvOrderDetails_SelectedIndexAndCheckedChanged(object sender, ItemCheckedEventArgs e)
+        {
+            if ((sender as ListView).CheckedItems.Count > 0)
+            {
+                List<OrderDetail> orderDetails = [];
+
+                foreach (ListViewItem item in (sender as ListView).CheckedItems)
+                {
+                    orderDetails.Add(item.Tag as OrderDetail);
+                }
+
+                Order tempOrder = new()
+                {
+                    OrderDetails = orderDetails
+                };
+
+                UpdateOrderTotals(tempOrder);
+            }
+            else
+                UpdateOrderTotals(order);
+        }
         private void ListView_KeyDown(object sender, KeyEventArgs e)
         {
             if ((sender as ListView).SelectedItems.Count > 0)
@@ -327,22 +363,73 @@ namespace EnezcamERP.Forms.Order_Forms
                     switch (e.KeyData)
                     {
                         case Keys.Delete:
-                            if (order.OrderDetails.Count > 1)
+                            if (lvOrderDetails.SelectedItems.Count > 0 & lvOrderDetails.CheckedItems.Count == 0)
                             {
-                                order.OrderDetails.Remove(lvOrderDetails.SelectedItems[0].Tag as OrderDetail);
-                                RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
-                                UpdateOrderTotals(order);
+                                if (order.OrderDetails.Count > 1)
+                                {
+                                    order.OrderDetails.Remove(lvOrderDetails.SelectedItems[0].Tag as OrderDetail);
+                                    RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
+                                    UpdateOrderTotals(order);
+                                }
+                                else
+                                    MessageBox.Show("Siparişe ait en az bir kalem bulunmak zorunda.");
                             }
-                            else
-                                MessageBox.Show("Siparişe ait en az bir kalem bulunmak zorunda.");
+                            else if (lvOrderDetails.CheckedItems.Count > 0)
+                            {
+                                if (lvOrderDetails.CheckedItems.Count < order.OrderDetails.Count && MessageBox.Show("Seçilen ürünler silinecektir. Onaylıyor musunuz?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                                {
+                                    foreach (ListViewItem item in lvOrderDetails.CheckedItems)
+                                    {
+                                        order.OrderDetails.Remove(item.Tag as OrderDetail);
+                                    }
+                                    RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
+                                    UpdateOrderTotals(order);
+                                }
+                                else
+                                    MessageBox.Show("Siparişe ait en az bir kalem bulunmak zorunda.");
+                            }
                             break;
                     }
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
-                finally
+            }
+        }
+
+        private void checkAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvOrderDetails.Items.Count > 0)
+            {
+                foreach (ListViewItem item in lvOrderDetails.Items)
                 {
-                    RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
-                    UpdateOrderTotals(order);
+                    item.Checked = true;
+                }
+            }
+        }
+
+        private void uncheckAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvOrderDetails.Items.Count > 0)
+            {
+                foreach (ListViewItem item in lvOrderDetails.Items)
+                {
+                    item.Checked = false;
+                }
+            }
+        }
+
+        private void checkSameProductsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvOrderDetails.SelectedItems.Count > 0)
+            {
+                foreach (ListViewItem item in lvOrderDetails.Items)
+                {
+                    item.Checked = false;
+                }
+
+                foreach (ListViewItem item in lvOrderDetails.Items)
+                {
+                    if ((lvOrderDetails.SelectedItems[0].Tag as OrderDetail).Product.ID == (item.Tag as OrderDetail).Product.ID)
+                        item.Checked = true;
                 }
             }
         }

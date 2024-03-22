@@ -185,7 +185,6 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 RefreshAll();
             }
         }
-
         private void btnDeleteProducedOrder_Click(object sender, EventArgs e)
         {
             if (lvProduceHistory.SelectedItems.Count > 0 & lvOrderDetails.CheckedItems.Count == 0)
@@ -222,7 +221,6 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 }
             }
         }
-
         private void lvOrderDetails_SelectedIndexChangedAndChecked(object sender, EventArgs e)
         {
             if ((sender as ListView).SelectedItems.Count > 0)
@@ -253,7 +251,6 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 nudProducedQuantity.Enabled = true;
             }
         }
-
         private void btnMultipleComplete_Click(object sender, EventArgs e)
         {
             if (lvOrderDetails.CheckedItems.Count > 0)
@@ -292,7 +289,6 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 }
             }
         }
-
         private void ListView_KeyDown(object sender, KeyEventArgs e)
         {
             if ((sender as ListView).SelectedItems.Count > 0)
@@ -305,11 +301,48 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                     {
                         case Keys.Delete:
                             producedOrdersRepository.Delete(obj as ProducedOrder);
+                            RefreshAll();
                             break;
                     }
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
-                finally { RefreshAll(); }
+            }
+        }
+
+        private void checkAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvOrderDetails.Items.Count > 0)
+            {
+                foreach (ListViewItem item in lvOrderDetails.Items)
+                {
+                    item.Checked = true;
+                }
+            }
+        }
+        private void uncheckAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvOrderDetails.Items.Count > 0)
+            {
+                foreach (ListViewItem item in lvOrderDetails.Items)
+                {
+                    item.Checked = false;
+                }
+            }
+        }
+        private void checkSameProductsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvOrderDetails.SelectedItems.Count > 0)
+            {
+                foreach (ListViewItem item in lvOrderDetails.Items)
+                {
+                    item.Checked = false;
+                }
+
+                foreach (ListViewItem item in lvOrderDetails.Items)
+                {
+                    if ((lvOrderDetails.SelectedItems[0].Tag as OrderDetail).Product.ID == (item.Tag as OrderDetail).Product.ID)
+                        item.Checked = true;
+                }
             }
         }
     }
