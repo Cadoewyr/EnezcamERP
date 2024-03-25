@@ -9,7 +9,7 @@ namespace DAL.DTO.Entities
         public DateTime IssueDate { get; set; }
         public DateTime DeliveryDate { get; set; }
         public virtual Customer Customer { get; set; } = new();
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; } = [];
+        public virtual List<OrderDetail> OrderDetails { get; set; } = [];
 
         public string GetQuantityString()
         {
@@ -122,7 +122,7 @@ namespace DAL.DTO.Entities
         }
 
         [NotMapped]
-        public decimal ProditMargin
+        public decimal ProfitMargin
         {
             get
             {

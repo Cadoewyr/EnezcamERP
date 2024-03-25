@@ -9,11 +9,11 @@ namespace BL.Repositories.Repositories
     {
         public override OrderDetail Get(int id)
         {
-            return table.Where(x => x.ID == id)
+            return table
                 .Include(x => x.Order)
                 .Include(x => x.ProducedOrders)
-                .Include(x => x.Product)
-                .Include(x => x.Product.PriceHistory)
+                .Include(x => x.Product).ThenInclude(x => x.PriceHistory)
+                .Where(x => x.ID == id)
                 .First();
         }
         public override IEnumerable<OrderDetail> GetAll()
@@ -21,8 +21,7 @@ namespace BL.Repositories.Repositories
             return table
                 .Include(x => x.Order)
                 .Include(x => x.ProducedOrders)
-                .Include(x => x.Product)
-                .Include(x => x.Product.PriceHistory)
+                .Include(x => x.Product).ThenInclude(x => x.PriceHistory)
                 .ToList().OrderBy(x => x.CreatedAt);
         }
         public override IEnumerable<OrderDetail> GetAll(string filter)
@@ -47,11 +46,11 @@ namespace BL.Repositories.Repositories
         }
         public override IEnumerable<OrderDetail> GetAll(Expression<Func<OrderDetail, bool>> predicate)
         {
-            return table.Where(predicate)
+            return table
                 .Include(x => x.Order)
                 .Include(x => x.ProducedOrders)
-                .Include(x => x.Product)
-                .Include(x => x.Product.PriceHistory)
+                .Include(x => x.Product).ThenInclude(x => x.PriceHistory)
+                .Where(predicate)
                 .ToList().OrderBy(x => x.CreatedAt);
         }
         public override bool Delete(OrderDetail entity)

@@ -55,7 +55,7 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
             if (orderDetails.Length > 0)
             {
                 Order tempOrder = new();
-                tempOrder.OrderDetails = orderDetails;
+                tempOrder.OrderDetails = orderDetails.ToList();
 
                 txtProductName.Text = string.Empty;
                 txtQuantity.Text = tempOrder.GetQuantityString();

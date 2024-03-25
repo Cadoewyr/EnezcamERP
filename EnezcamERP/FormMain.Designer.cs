@@ -146,31 +146,6 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
-            tabPage1 = new TabPage();
-            gbProductAnalyze = new GroupBox();
-            lblYear = new Label();
-            cbPAYear = new ComboBox();
-            lvProductAnalyze = new ListView();
-            clmPAMonth = new ColumnHeader();
-            clmPAProductCode = new ColumnHeader();
-            clmPAProductName = new ColumnHeader();
-            clmPACost = new ColumnHeader();
-            clmPAPrice = new ColumnHeader();
-            clmPAQuantity = new ColumnHeader();
-            clmPAProfit = new ColumnHeader();
-            clmPAProfitRatio = new ColumnHeader();
-            clmPAProfitMargin = new ColumnHeader();
-            gbSelectProduct = new GroupBox();
-            txtPASearch = new TextBox();
-            lblPASearch = new Label();
-            lvPAProducts = new ListView();
-            clmProductCode = new ColumnHeader();
-            clmProductName = new ColumnHeader();
-            clmPALastCost = new ColumnHeader();
-            clmPALastPrice = new ColumnHeader();
-            clmPALastProfit = new ColumnHeader();
-            clmPALastProfitRatio = new ColumnHeader();
-            lblProductList = new Label();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             gbDateFilterSettings.SuspendLayout();
@@ -188,9 +163,6 @@
             gbReportInterval.SuspendLayout();
             gbProductionReport.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgReport).BeginInit();
-            tabPage1.SuspendLayout();
-            gbProductAnalyze.SuspendLayout();
-            gbSelectProduct.SuspendLayout();
             SuspendLayout();
             // 
             // tabOrders
@@ -505,7 +477,6 @@
             tabProductAnalyze.Controls.Add(tabStock);
             tabProductAnalyze.Controls.Add(tabCustomer);
             tabProductAnalyze.Controls.Add(tabReports);
-            tabProductAnalyze.Controls.Add(tabPage1);
             tabProductAnalyze.Dock = DockStyle.Fill;
             tabProductAnalyze.Location = new Point(0, 0);
             tabProductAnalyze.Name = "tabProductAnalyze";
@@ -1288,164 +1259,6 @@
             dgReport.Size = new Size(1144, 441);
             dgReport.TabIndex = 0;
             // 
-            // tabPage1
-            // 
-            tabPage1.Controls.Add(gbProductAnalyze);
-            tabPage1.Controls.Add(gbSelectProduct);
-            tabPage1.Location = new Point(4, 29);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1416, 670);
-            tabPage1.TabIndex = 4;
-            tabPage1.Text = "Ürün Analizi";
-            tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // gbProductAnalyze
-            // 
-            gbProductAnalyze.Controls.Add(lblYear);
-            gbProductAnalyze.Controls.Add(cbPAYear);
-            gbProductAnalyze.Controls.Add(lvProductAnalyze);
-            gbProductAnalyze.Location = new Point(8, 234);
-            gbProductAnalyze.Name = "gbProductAnalyze";
-            gbProductAnalyze.Size = new Size(841, 430);
-            gbProductAnalyze.TabIndex = 1;
-            gbProductAnalyze.TabStop = false;
-            gbProductAnalyze.Text = "Ürün Analizi";
-            // 
-            // lblYear
-            // 
-            lblYear.AutoSize = true;
-            lblYear.Location = new Point(653, 29);
-            lblYear.Name = "lblYear";
-            lblYear.Size = new Size(25, 20);
-            lblYear.TabIndex = 2;
-            lblYear.Text = "Yıl";
-            // 
-            // cbPAYear
-            // 
-            cbPAYear.FormattingEnabled = true;
-            cbPAYear.Location = new Point(684, 26);
-            cbPAYear.Name = "cbPAYear";
-            cbPAYear.Size = new Size(151, 28);
-            cbPAYear.TabIndex = 1;
-            // 
-            // lvProductAnalyze
-            // 
-            lvProductAnalyze.Columns.AddRange(new ColumnHeader[] { clmPAMonth, clmPAProductCode, clmPAProductName, clmPACost, clmPAPrice, clmPAQuantity, clmPAProfit, clmPAProfitRatio, clmPAProfitMargin });
-            lvProductAnalyze.Location = new Point(6, 60);
-            lvProductAnalyze.Name = "lvProductAnalyze";
-            lvProductAnalyze.Size = new Size(829, 364);
-            lvProductAnalyze.TabIndex = 0;
-            lvProductAnalyze.UseCompatibleStateImageBehavior = false;
-            lvProductAnalyze.View = View.Details;
-            // 
-            // clmPAMonth
-            // 
-            clmPAMonth.Text = "Ay";
-            // 
-            // clmPAProductCode
-            // 
-            clmPAProductCode.Text = "Ürün Kodu";
-            // 
-            // clmPAProductName
-            // 
-            clmPAProductName.Text = "Ürün Adı";
-            // 
-            // clmPACost
-            // 
-            clmPACost.Text = "Maliyet";
-            // 
-            // clmPAPrice
-            // 
-            clmPAPrice.Text = "Satış";
-            // 
-            // clmPAProfit
-            // 
-            clmPAProfit.Text = "Kar";
-            // 
-            // clmPAProfitRatio
-            // 
-            clmPAProfitRatio.Text = "Kar Oranı";
-            // 
-            // clmPAProfitMargin
-            // 
-            clmPAProfitMargin.Text = "Kar Marjı";
-            // 
-            // gbSelectProduct
-            // 
-            gbSelectProduct.Controls.Add(txtPASearch);
-            gbSelectProduct.Controls.Add(lblPASearch);
-            gbSelectProduct.Controls.Add(lvPAProducts);
-            gbSelectProduct.Controls.Add(lblProductList);
-            gbSelectProduct.Location = new Point(8, 6);
-            gbSelectProduct.Name = "gbSelectProduct";
-            gbSelectProduct.Size = new Size(841, 222);
-            gbSelectProduct.TabIndex = 0;
-            gbSelectProduct.TabStop = false;
-            gbSelectProduct.Text = "Ürün Seç";
-            // 
-            // txtPASearch
-            // 
-            txtPASearch.Location = new Point(44, 182);
-            txtPASearch.MaxLength = 200;
-            txtPASearch.Name = "txtPASearch";
-            txtPASearch.Size = new Size(791, 27);
-            txtPASearch.TabIndex = 3;
-            txtPASearch.TextChanged += txtPASearch_TextChanged;
-            // 
-            // lblPASearch
-            // 
-            lblPASearch.AutoSize = true;
-            lblPASearch.Location = new Point(6, 185);
-            lblPASearch.Name = "lblPASearch";
-            lblPASearch.Size = new Size(32, 20);
-            lblPASearch.TabIndex = 2;
-            lblPASearch.Text = "Ara";
-            // 
-            // lvPAProducts
-            // 
-            lvPAProducts.Columns.AddRange(new ColumnHeader[] { clmProductCode, clmProductName, clmPALastCost, clmPALastPrice, clmPALastProfit, clmPALastProfitRatio });
-            lvPAProducts.Location = new Point(6, 55);
-            lvPAProducts.Name = "lvPAProducts";
-            lvPAProducts.Size = new Size(829, 121);
-            lvPAProducts.TabIndex = 1;
-            lvPAProducts.UseCompatibleStateImageBehavior = false;
-            lvPAProducts.View = View.Details;
-            lvPAProducts.SelectedIndexChanged += lvPAProducts_SelectedIndexChanged;
-            // 
-            // clmProductCode
-            // 
-            clmProductCode.Text = "Ürün Kodu";
-            // 
-            // clmProductName
-            // 
-            clmProductName.Text = "Ürün Adı";
-            // 
-            // clmPALastCost
-            // 
-            clmPALastCost.Text = "Son Maliyet";
-            // 
-            // clmPALastPrice
-            // 
-            clmPALastPrice.Text = "Son Satış";
-            // 
-            // clmPALastProfit
-            // 
-            clmPALastProfit.Text = "Son Kar";
-            // 
-            // clmPALastProfitRatio
-            // 
-            clmPALastProfitRatio.Text = "Son Kar Oranı";
-            // 
-            // lblProductList
-            // 
-            lblProductList.AutoSize = true;
-            lblProductList.Location = new Point(6, 32);
-            lblProductList.Name = "lblProductList";
-            lblProductList.Size = new Size(40, 20);
-            lblProductList.TabIndex = 0;
-            lblProductList.Text = "Ürün";
-            // 
             // FormMain
             // 
             AcceptButton = btnCreateReport;
@@ -1485,11 +1298,6 @@
             gbReportInterval.PerformLayout();
             gbProductionReport.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgReport).EndInit();
-            tabPage1.ResumeLayout(false);
-            gbProductAnalyze.ResumeLayout(false);
-            gbProductAnalyze.PerformLayout();
-            gbSelectProduct.ResumeLayout(false);
-            gbSelectProduct.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -1611,30 +1419,5 @@
         private Label lblProcessQuantity;
         private TextBox txtStockQuantity;
         private Label lblStockQuantity;
-        private TabPage tabPage1;
-        private GroupBox gbSelectProduct;
-        private ListView lvPAProducts;
-        private Label lblProductList;
-        private TextBox txtPASearch;
-        private Label lblPASearch;
-        private ColumnHeader clmProductCode;
-        private ColumnHeader clmProductName;
-        private GroupBox gbProductAnalyze;
-        private ListView lvProductAnalyze;
-        private ColumnHeader clmPAMonth;
-        private ColumnHeader clmPAProductCode;
-        private ColumnHeader clmPAProductName;
-        private ColumnHeader clmPACost;
-        private ColumnHeader clmPAPrice;
-        private ColumnHeader clmPAQuantity;
-        private ColumnHeader clmPAProfit;
-        private ColumnHeader clmPAProfitRatio;
-        private ColumnHeader clmPAProfitMargin;
-        private Label lblYear;
-        private ComboBox cbPAYear;
-        private ColumnHeader clmPALastCost;
-        private ColumnHeader clmPALastPrice;
-        private ColumnHeader clmPALastProfitRatio;
-        private ColumnHeader clmPALastProfit;
     }
 }

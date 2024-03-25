@@ -136,7 +136,7 @@ namespace EnezcamERP
             if (columnHeaderAutoResizeStyle != null)
                 listView.AutoResizeColumns(columnHeaderAutoResizeStyle.Value);
         }
-        public void RefreshProductAnalyze()
+        public void RefreshProductAnalyzeProducts()
         {
             lvPAProducts.Items.Clear();
 
@@ -158,11 +158,45 @@ namespace EnezcamERP
 
                 lvPAProducts.Items.Add(lvi);
             }
-        }
-        public void RefreshAnalyze(Product product, int year)
-        {
-            //var res = orderDetailsDB.GetAll(x => x.Order.IssueDate.Year == year & x.Product.ID == product.ID);
 
+            lvPAProducts.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+        public void RefreshProductAnalyzeYears()
+        {
+            cbPAYear.Items.Clear();
+
+            for (int i=ordersDB.GetAll().Min(x=>x.IssueDate.Year); i <= ordersDB.GetAll().Max(x => x.IssueDate.Year); i++)
+            {
+                cbPAYear.Items.Add(i.ToString());
+            }
+        }
+        public void RefreshAnalyzeTable(Product product, int year)
+        {
+            lvPAProducts.Items.Clear();
+
+            List<OrderDetail> res = orderDetailsDB.GetAll(x => x.Order.IssueDate.Year == year & x.Product.ID == product.ID).ToList();
+
+            string[] months = ["Ocak", "Þubat", "Mart", "Nisan", "Mayýs", "Haziran", "Temmuz", "Aðustos", "Eylül", "Ekim", "Kasým", "Aralýk"];
+
+            for (int i = 0; i < months.Length; i++)
+            {
+                ListViewItem lvi = new()
+                {
+                    Text = months[i]
+                };
+
+                lvi.SubItems.Add(res.Where(x => x.Order.IssueDate.Month == i + 1).Sum(x => x.Cost).ToString("C2"));
+                lvi.SubItems.Add(res.Where(x => x.Order.IssueDate.Month == i + 1).Sum(x => x.Price).ToString("C2"));
+                lvi.SubItems.Add(new Order() { OrderDetails = res.Where(x => x.Order.IssueDate.Month == i + 1).ToList() }.ProductQuantity.Where(x=>x.Key == DAL.DTO.Entities.Enums.UnitCode.AD).First().Value.ToString("N0"));
+                lvi.SubItems.Add(new Order() { OrderDetails = res.Where(x => x.Order.IssueDate.Month == i + 1).ToList() }.ProductQuantity.Where(x=>x.Key == DAL.DTO.Entities.Enums.UnitCode.M2).First().Value.ToString("N2"));
+                lvi.SubItems.Add(new Order() { OrderDetails = res.Where(x => x.Order.IssueDate.Month == i + 1).ToList() }.Profit.ToString("C2"));
+                lvi.SubItems.Add(new Order() { OrderDetails = res.Where(x => x.Order.IssueDate.Month == i + 1).ToList() }.ProfitRatio.ToString("C2"));
+                lvi.SubItems.Add(new Order() { OrderDetails = res.Where(x => x.Order.IssueDate.Month == i + 1).ToList() }.ProfitMargin.ToString("C2"));
+
+                lvProductAnalyze.Items.Add(lvi);
+            }
+
+            lvProductAnalyze.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         void InitialLists(ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
@@ -170,7 +204,8 @@ namespace EnezcamERP
             RefreshOrders(null, columnHeaderAutoResizeStyle);
             RefreshProducts(null, columnHeaderAutoResizeStyle);
             RefreshCustomers(null, columnHeaderAutoResizeStyle);
-            RefreshProductAnalyze();
+            RefreshProductAnalyzeProducts();
+            RefreshProductAnalyzeYears();
         }
 
         void FillProductionReport(DataGridView dataGrid, DateRangedProductionReport report)
@@ -725,11 +760,12 @@ namespace EnezcamERP
         #region
         private void txtPASearch_TextChanged(object sender, EventArgs e)
         {
-            RefreshProductAnalyze();
+            RefreshProductAnalyzeProducts();
         }
         private void lvPAProducts_SelectedIndexChanged(object sender, EventArgs e)
         {
-            RefreshAnalyze((sender as ListView).Tag as Product, int.Parse(cbPAYear.Text));
+            MessageBox.Show(int.Parse(cbPAYear.Text).ToString());
+            RefreshAnalyzeTable((sender as ListView).Tag as Product, int.Parse(cbPAYear.Text));
         }
         #endregion
 
