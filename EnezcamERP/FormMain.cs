@@ -23,6 +23,7 @@ namespace EnezcamERP
         OrderRepository ordersDB = new();
         ProductRepository productsDB = new();
         CustomerRepository customersDB = new();
+        OrderDetailsRepository orderDetailsDB = new();
 
         public void RefreshOrders(ICollection<Order>? orders, ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
         {
@@ -135,12 +136,41 @@ namespace EnezcamERP
             if (columnHeaderAutoResizeStyle != null)
                 listView.AutoResizeColumns(columnHeaderAutoResizeStyle.Value);
         }
+        public void RefreshProductAnalyze()
+        {
+            lvPAProducts.Items.Clear();
+
+            var products = productsDB.GetAll(txtPASearch.Text.Trim().ToLower());
+
+            foreach (Product p in products)
+            {
+                ListViewItem lvi = new()
+                {
+                    Text = p.Code,
+                    Tag = p
+                };
+
+                lvi.SubItems.Add(p.Name);
+                lvi.SubItems.Add(p.PriceHistory.LastCost.ToString("C2"));
+                lvi.SubItems.Add(p.PriceHistory.LastPrice.ToString("C2"));
+                lvi.SubItems.Add(p.PriceHistory.LastProfit.ToString("C2"));
+                lvi.SubItems.Add(p.PriceHistory.LastProfitRatio.ToString("P0"));
+
+                lvPAProducts.Items.Add(lvi);
+            }
+        }
+        public void RefreshAnalyze(Product product, int year)
+        {
+            //var res = orderDetailsDB.GetAll(x => x.Order.IssueDate.Year == year & x.Product.ID == product.ID);
+
+        }
 
         void InitialLists(ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
         {
             RefreshOrders(null, columnHeaderAutoResizeStyle);
             RefreshProducts(null, columnHeaderAutoResizeStyle);
             RefreshCustomers(null, columnHeaderAutoResizeStyle);
+            RefreshProductAnalyze();
         }
 
         void FillProductionReport(DataGridView dataGrid, DateRangedProductionReport report)
@@ -420,7 +450,7 @@ namespace EnezcamERP
             {
                 try
                 {
-                    foreach(ListViewItem item in lvOrders.CheckedItems)
+                    foreach (ListViewItem item in lvOrders.CheckedItems)
                     {
                         ordersDB.Delete(item.Tag as Order);
                     }
@@ -688,6 +718,18 @@ namespace EnezcamERP
                 Clipboard.SetDataObject(dgReport.GetClipboardContent());
                 dgReport.ClearSelection();
             }
+        }
+        #endregion
+
+        //Product Analyze controls
+        #region
+        private void txtPASearch_TextChanged(object sender, EventArgs e)
+        {
+            RefreshProductAnalyze();
+        }
+        private void lvPAProducts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshAnalyze((sender as ListView).Tag as Product, int.Parse(cbPAYear.Text));
         }
         #endregion
 
