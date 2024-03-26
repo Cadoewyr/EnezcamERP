@@ -10,8 +10,8 @@ namespace BL.Validators.Validators
             RuleFor(x => x.OrderDetails)
                 .NotNull().NotEmpty().WithMessage("Siparişe ait herhangi bir kalem yok.");
 
-            //RuleFor(x => x.OrderDetails.Count)
-            //    .GreaterThan(1).WithMessage("Siparişe ait en az bir kalem bulunmak zorunda.");
+            RuleFor(x => x.OrderDetails.SelectMany(x => x.ProducedOrders).DefaultIfEmpty(new() { ProducedDate = x.IssueDate.AddMicroseconds(1) }).Min(x => x.ProducedDate))
+                .GreaterThanOrEqualTo(x => x.IssueDate).WithMessage("Sipariş tarihi siparişe ait üretim tarihlerinden daha ileri bir tarih olamaz.");
 
             RuleFor(x => x.IssueDate)
                 .LessThanOrEqualTo(x => x.DeliveryDate).WithMessage("Sipariş tarihi teslim tarihinden ileri bir tarih olamaz.")

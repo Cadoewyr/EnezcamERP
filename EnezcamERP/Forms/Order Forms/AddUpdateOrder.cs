@@ -210,18 +210,28 @@ namespace EnezcamERP.Forms.Order_Forms
         {
             if (lvOrderDetails.Items.Count > 0)
             {
-                order.JobNo = !string.IsNullOrEmpty(txtJobNo.Text) ? Convert.ToInt32(txtJobNo.Text.Trim()) : -1;
-                order.Customer = cbCustomers.SelectedItem as Customer;
-                order.IssueDate = dtpOrderDate.Value.Date;
+                Order tempOrder = new()
+                {
+                    CreatedAt = order.CreatedAt,
+                    Customer = cbCustomers.SelectedItem as Customer,
+                    DeliveryDate = dtpDeliveryDate.Value.Date.AddDays(1).AddTicks(-1),
+                    IssueDate = dtpOrderDate.Value.Date,
+                    JobNo = !string.IsNullOrEmpty(txtJobNo.Text) ? Convert.ToInt32(txtJobNo.Text.Trim()) : -1,
+                    OrderDetails = order.OrderDetails,
+                    ID = order.ID
+                };
 
-                order.DeliveryDate = dtpDeliveryDate.Value.Date.AddDays(1).AddTicks(-1);
+                //order.JobNo = !string.IsNullOrEmpty(txtJobNo.Text) ? Convert.ToInt32(txtJobNo.Text.Trim()) : -1;
+                //order.Customer = cbCustomers.SelectedItem as Customer;
+                //order.IssueDate = dtpOrderDate.Value.Date;
+                //order.DeliveryDate = dtpDeliveryDate.Value.Date.AddDays(1).AddTicks(-1);
 
                 try
                 {
                     if (IsUpdate)
-                        orderDB.Update(order, order.ID);
+                        orderDB.Update(tempOrder, order.ID);
                     else
-                        orderDB.Add(order);
+                        orderDB.Add(tempOrder);
 
                     this.Close();
                 }

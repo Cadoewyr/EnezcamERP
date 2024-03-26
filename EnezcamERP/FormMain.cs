@@ -1,6 +1,7 @@
 using BL.Report.Enums;
 using BL.Reports;
 using BL.Reports.ProductionReports;
+using BL.Reports.ProductReports;
 using BL.Reports.SalesReports;
 using BL.Repositories.Repositories;
 using DAL.DTO.Context;
@@ -136,12 +137,46 @@ namespace EnezcamERP
             if (columnHeaderAutoResizeStyle != null)
                 listView.AutoResizeColumns(columnHeaderAutoResizeStyle.Value);
         }
-        
+        public void RefreshStatisticsProducts()
+        {
+            ListView listView = lvStatisticsProducts;
+            listView.Items.Clear();
+
+            var products = productsDB.GetAll(txtStatisticProductSearch.Text.Trim());
+
+            foreach (var product in products)
+            {
+                ListViewItem lvi = new()
+                {
+                    Tag = product,
+                    Text = product.Code
+                };
+
+                lvi.SubItems.Add(product.Name);
+                lvi.SubItems.Add(orderDetailsDB.GetAll(x => x.Product.ID == product.ID).Sum(x => x.Quantity).ToString("N0"));
+                lvi.SubItems.Add(orderDetailsDB.GetAll(x => x.Product.ID == product.ID).Sum(x => x.TotalArea).ToString("N2"));
+
+                listView.Items.Add(lvi);
+            }
+
+            listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+        public void LoadProductStatistics(Product product)
+        {
+            var statistic = new YearlyProductStatistic(product, DateTime.Now.Year);
+
+            txtMonthlyAverageSaleArea.Text = statistic.AverageArea.ToString("N2");
+            txtMonthlyAverageSaleQuantity.Text = statistic.AverageQuantity.ToString("N0");
+            txtMonthlyAverageCost.Text = statistic.AverageCost.ToString("C2");
+            txtMonthlyAveragePrice.Text = statistic.AveragePrice.ToString("C2");
+        }
+
         void InitialLists(ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
         {
             RefreshOrders(null, columnHeaderAutoResizeStyle);
             RefreshProducts(null, columnHeaderAutoResizeStyle);
             RefreshCustomers(null, columnHeaderAutoResizeStyle);
+            RefreshStatisticsProducts();
         }
 
         void FillProductionReport(DataGridView dataGrid, DateRangedProductionReport report)
@@ -449,37 +484,30 @@ namespace EnezcamERP
         {
             AddOrder();
         }
-
         private void btnUpdateOrder_Click(object sender, EventArgs e)
         {
             UpdateOrder();
         }
-
         private void btnDeleteOrder_Click(object sender, EventArgs e)
         {
             DeleteOrder();
         }
-
         private void btnRefreshOrder_Click(object sender, EventArgs e)
         {
             RefreshOrders(ordersDB.GetAll(txtSearchOrder.Text).ToArray(), ColumnHeaderAutoResizeStyle.HeaderSize);
         }
-
         private void txtSearchOrder_TextChanged(object sender, EventArgs e)
         {
             RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
-
         private void cbIsDone_CheckedChanged(object sender, EventArgs e)
         {
             RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
-
         private void btnEditProducedOrders_Click(object sender, EventArgs e)
         {
             EditProducedOrders();
         }
-
         private void cbDateFilter_CheckedChanged(object sender, EventArgs e)
         {
             checkDateFilter();
@@ -489,7 +517,6 @@ namespace EnezcamERP
             rbOrderDate.Enabled = cbDateFilter.Checked;
             rbCompletedDate.Enabled = cbDateFilter.Checked;
         }
-
         private void mcDateFilter_DateSelected(object sender, DateRangeEventArgs e)
         {
             //checkDateFilter();
@@ -497,7 +524,6 @@ namespace EnezcamERP
             if (cbDateFilter.Checked)
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
-
         private void DateFilterSettingsChanged(object sender, EventArgs e)
         {
             checkDateFilter();
@@ -505,6 +531,7 @@ namespace EnezcamERP
             if (cbDateFilter.Checked)
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
+        #endregion
 
         //Tool strip controls
         #region
@@ -530,7 +557,7 @@ namespace EnezcamERP
         }
         private void completeOrderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (lvOrders.SelectedItems.Count > 0)
+            if (lvOrders.SelectedItems.Count > 0 & lvOrders.CheckedItems.Count == 0)
             {
                 Order order = lvOrders.SelectedItems[0].Tag as Order;
 
@@ -550,9 +577,30 @@ namespace EnezcamERP
                 EnzDBContext.GetInstance.SaveChanges();
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
-        }
-        #endregion
+            else if (lvOrders.CheckedItems.Count > 0 && MessageBox.Show("Seçilen sipariþler tamamlanacak. Onaylýyor musunuz?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                foreach (ListViewItem item in lvOrders.CheckedItems)
+                {
+                    Order order = item.Tag as Order;
 
+                    foreach (var orderDetail in order.OrderDetails)
+                    {
+                        if (orderDetail.RemainingToProduceQuantity > 0)
+                        {
+                            orderDetail.ProducedOrders.Add(new()
+                            {
+                                IsStock = false,
+                                OrderDetail = orderDetail,
+                                ProducedDate = DateTime.Now,
+                                ProducedOrderQuantity = orderDetail.RemainingToProduceQuantity
+                            });
+                        }
+                    }
+                }
+                EnzDBContext.GetInstance.SaveChanges();
+                RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+            }
+        }
         #endregion
 
         //Product controls
@@ -725,6 +773,16 @@ namespace EnezcamERP
                 }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
             }
+        }
+
+        #endregion
+
+        //Product Statistics controls
+        #region
+        private void lvStatisticsProducts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if ((sender as ListView).SelectedItems.Count > 0)
+                LoadProductStatistics((sender as ListView).SelectedItems[0].Tag as Product);
         }
         #endregion
     }

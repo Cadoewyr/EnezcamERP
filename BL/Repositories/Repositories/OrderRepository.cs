@@ -62,8 +62,8 @@ namespace BL.Repositories.Repositories
                     }
                 }
 
-                if (entity.OrderDetails.Any(x => 
-                (x.Product.Code.ToLower().Contains(filter.ToLower())) | x.Product.Name.ToLower().Contains(filter.ToLower()) | (x.Height * 1000).ToString().Contains(filter.ToLower()) | (x.Width * 1000).ToString().Contains(filter.ToLower())) && 
+                if (entity.OrderDetails.Any(x =>
+                (x.Product.Code.ToLower().Contains(filter.ToLower())) | x.Product.Name.ToLower().Contains(filter.ToLower()) | (x.Height * 1000).ToString().Contains(filter.ToLower()) | (x.Width * 1000).ToString().Contains(filter.ToLower())) &&
                 !results.Contains(entity))
                     results.Add(entity);
             }

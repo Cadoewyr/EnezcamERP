@@ -1,7 +1,9 @@
 ﻿using BL.Repositories.Repositories;
+using BL.Validators.Validators;
 using DAL.DTO.Context;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
+using EnezcamERP.Validators;
 
 namespace EnezcamERP.Forms.Produced_Product_Forms
 {
@@ -167,10 +169,18 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                     };
 
                     var selectedOrderDetail = lvOrderDetails.SelectedItems[0].Tag as OrderDetail;
+
                     if (selectedOrderDetail.RemainingToProduceQuantity >= po.ProducedOrderQuantity)
                     {
-                        order.OrderDetails.Where(x => x == selectedOrderDetail).First().ProducedOrders.Add(po);
-                        orderRepository.Update(order, order.ID);
+                        var res = GenericValidator<ProducedOrder>.Validate(po);
+
+                        if (res.IsValid)
+                        {
+                            order.OrderDetails.Where(x => x == selectedOrderDetail).First().ProducedOrders.Add(po);
+                            orderRepository.Update(order, order.ID);
+                        }
+                        else
+                            MessageBox.Show(ErrorStringify.Stringify(res.Errors));
                     }
                     else
                         MessageBox.Show("Üretim miktarı kalan üretim miktarından daha fazla olamaz.");

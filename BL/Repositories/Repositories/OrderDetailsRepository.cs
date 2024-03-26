@@ -51,7 +51,7 @@ namespace BL.Repositories.Repositories
                 .Include(x => x.ProducedOrders)
                 .Include(x => x.Product).ThenInclude(x => x.PriceHistory)
                 .Where(predicate)
-                .ToList().OrderBy(x => x.CreatedAt);
+                .OrderBy(x => x.CreatedAt).ToList();
         }
         public override bool Delete(OrderDetail entity)
         {
