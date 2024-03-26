@@ -31,8 +31,8 @@ namespace EnezcamERP.Forms.Product_Forms
         {
             Product p = new()
             {
-                Name = txtProductName.Text.Trim(),
-                Code = txtCode.Text.Trim(),
+                Name = txtProductName.Text.Trim().ToUpper(),
+                Code = txtCode.Text.Trim().ToUpper(),
                 Type = (ProcessType)Enum.Parse(typeof(ProcessType), cbProcessTypes.SelectedItem.ToString()),
                 IsCounting = cbIsCounting.Checked
             };

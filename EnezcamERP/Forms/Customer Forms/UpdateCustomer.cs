@@ -32,7 +32,7 @@ namespace EnezcamERP.Forms.Customer_Forms
         {
             Customer newCustomer = new()
             {
-                Name = txtCustomerName.Text.Trim(),
+                Name = txtCustomerName.Text.Trim().ToUpper(),
                 Country = txtCountry.Text.Trim(),
                 City = txtCity.Text.Trim(),
                 Address = txtAddress.Text.Trim(),
