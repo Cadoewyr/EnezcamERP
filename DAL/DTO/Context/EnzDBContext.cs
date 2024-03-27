@@ -36,7 +36,7 @@ namespace DAL.DTO.Context
 
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
-            configurationBuilder.Properties<decimal>().HavePrecision(18, 6);
+            configurationBuilder.Properties<decimal>().HavePrecision(18, 3);
         }
     }
 }

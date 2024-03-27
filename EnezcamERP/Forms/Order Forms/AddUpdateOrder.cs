@@ -176,7 +176,7 @@ namespace EnezcamERP.Forms.Order_Forms
                     Product = lvProducts.SelectedItems[0].Tag as Product,
                     UnitCost = nudCost.Value,
                     UnitPrice = nudPrice.Value,
-                    Quantity = nudQuantity.Value,
+                    Quantity = (int)nudQuantity.Value,
                     DiscountRatio = nudDiscountRatio.Value,
                     UnitCode = (UnitCode)Enum.Parse(typeof(UnitCode), cbUnitCode.Text),
                     TaxRatio = nudTaxRatio.Value,

@@ -8,7 +8,7 @@ namespace DAL.DTO.Entities
     {
         public virtual OrderDetail OrderDetail { get; set; } = new();
         [Range(0, 99999)]
-        public decimal ProducedOrderQuantity { get; set; } = 0;
+        public int ProducedOrderQuantity { get; set; } = 0;
         public DateTime ProducedDate { get; set; } = DateTime.Now;
         public bool IsStock { get; set; } = false;
 

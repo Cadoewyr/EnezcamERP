@@ -12,7 +12,7 @@ namespace DAL.DTO.Entities
         public decimal UnitPrice { get; set; }
         public decimal UnitCost { get; set; }
         [Range(1, 99999)]
-        public decimal Quantity { get; set; } = 1;
+        public int Quantity { get; set; } = 1;
         [Range(0, 100)]
         public decimal TaxRatio { get; set; } = 0;
         [Range(0, 100)]
@@ -104,12 +104,12 @@ namespace DAL.DTO.Entities
             get => (ProducedFinalPrice - ProducedCost) / (ProducedFinalPrice > 0 ? ProducedFinalPrice : 1);
         }
         [NotMapped]
-        public decimal ProducedQuantity
+        public int ProducedQuantity
         {
             get => ProducedOrders.Sum(x => x.ProducedOrderQuantity);
         }
         [NotMapped]
-        public decimal RemainingToProduceQuantity
+        public int RemainingToProduceQuantity
         {
             get => Quantity - ProducedQuantity;
         }

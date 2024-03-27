@@ -164,7 +164,7 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                     {
                         ProducedDate = dtpProduceDate.Value,
                         OrderDetail = lvOrderDetails.SelectedItems[0].Tag as OrderDetail,
-                        ProducedOrderQuantity = nudProducedQuantity.Value,
+                        ProducedOrderQuantity = (int)nudProducedQuantity.Value,
                         IsStock = cbIsStock.Checked
                     };
 

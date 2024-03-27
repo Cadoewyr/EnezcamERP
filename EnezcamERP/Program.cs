@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace EnezcamERP
 {
     internal static class Program
@@ -10,6 +12,9 @@ namespace EnezcamERP
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
+            if (Process.GetProcessesByName(Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location)).Count() > 1)
+                return;
+
             ApplicationConfiguration.Initialize();
             Application.Run(new FormMain());
         }

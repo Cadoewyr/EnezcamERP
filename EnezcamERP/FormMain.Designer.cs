@@ -215,7 +215,7 @@
             // 
             // gbOrdersTotals
             // 
-            gbOrdersTotals.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            gbOrdersTotals.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             gbOrdersTotals.Controls.Add(txtTotalPriceWithTax);
             gbOrdersTotals.Controls.Add(txtTotalPrice);
             gbOrdersTotals.Controls.Add(txtTotalCost);

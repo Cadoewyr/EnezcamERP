@@ -103,7 +103,7 @@ namespace EnezcamERP.Forms.Order_Forms
                         Height = nudHeight.Value / 1000,
                         TaxRatio = nudTaxRatio.Value,
                         Order = orderDetail.Order ?? new Order(),
-                        Quantity = nudQuantity.Value,
+                        Quantity = (int)nudQuantity.Value,
                         DiscountRatio = nudDiscountRatio.Value,
                         ProducedOrders = orderDetail.ProducedOrders ?? [],
                         CreatedAt = orderDetail.CreatedAt,
