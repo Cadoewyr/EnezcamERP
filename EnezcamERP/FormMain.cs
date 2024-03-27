@@ -6,6 +6,7 @@ using BL.Reports.SalesReports;
 using BL.Repositories.Repositories;
 using DAL.DTO.Context;
 using DAL.DTO.Entities;
+using EnezcamERP.Forms;
 using EnezcamERP.Forms.Customer_Forms;
 using EnezcamERP.Forms.DataGridColumnHeaderTemplates;
 using EnezcamERP.Forms.Order_Forms;
@@ -474,6 +475,40 @@ namespace EnezcamERP
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
+        void FillOrdersTotal()
+        {
+            if (lvOrders.SelectedItems.Count > 0 & lvOrders.CheckedItems.Count == 0)
+            {
+                txtTotalQuantity.Text = (lvOrders.SelectedItems[0].Tag as Order).GetQuantityString();
+                txtTotalProducedQuantity.Text = (lvOrders.SelectedItems[0].Tag as Order).GetProducedQuantityString();
+                txtTotalRemainingQuantity.Text = (lvOrders.SelectedItems[0].Tag as Order).GetRemainingQuantityString();
+
+                txtTotalCost.Text = (lvOrders.SelectedItems[0].Tag as Order).Cost.ToString("C2");
+                txtTotalPrice.Text = (lvOrders.SelectedItems[0].Tag as Order).Price.ToString("C2");
+                txtTotalPriceWithTax.Text = (lvOrders.SelectedItems[0].Tag as Order).PriceWithTax.ToString("C2");
+            }
+            else if (lvOrders.CheckedItems.Count > 0)
+            {
+                Order tempOrder = new();
+
+                foreach (ListViewItem item in lvOrders.CheckedItems)
+                {
+                    tempOrder.OrderDetails.AddRange((item.Tag as Order).OrderDetails.ToArray());
+                }
+
+                txtTotalQuantity.Text = tempOrder.GetQuantityString();
+                txtTotalProducedQuantity.Text = tempOrder.GetProducedQuantityString();
+                txtTotalRemainingQuantity.Text = tempOrder.GetRemainingQuantityString();
+
+                txtTotalCost.Text = tempOrder.Cost.ToString("C2");
+                txtTotalPrice.Text = tempOrder.Price.ToString("C2");
+                txtTotalPriceWithTax.Text = tempOrder.PriceWithTax.ToString("C2");
+            }
+            else if(lvOrders.SelectedItems.Count == 0 & lvOrders.CheckedItems.Count == 0)
+            {
+                ControlCleaner.Clear(gbOrdersTotals.Controls);
+            }
+        }
         private void checkDateFilter()
         {
             if (!cbIsDone.Checked)
@@ -519,8 +554,6 @@ namespace EnezcamERP
         }
         private void mcDateFilter_DateSelected(object sender, DateRangeEventArgs e)
         {
-            //checkDateFilter();
-
             if (cbDateFilter.Checked)
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
@@ -530,6 +563,14 @@ namespace EnezcamERP
 
             if (cbDateFilter.Checked)
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+        private void lvOrders_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FillOrdersTotal();
+        }
+        private void lvOrders_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            FillOrdersTotal();
         }
         #endregion
 

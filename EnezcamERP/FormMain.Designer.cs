@@ -32,6 +32,19 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             tabOrders = new TabPage();
             gbOrders = new GroupBox();
+            gbOrdersTotals = new GroupBox();
+            txtTotalPriceWithTax = new TextBox();
+            txtTotalPrice = new TextBox();
+            txtTotalCost = new TextBox();
+            txtTotalRemainingQuantity = new TextBox();
+            lblTotalPriceWithTax = new Label();
+            txtTotalProducedQuantity = new TextBox();
+            lblTotalPrice = new Label();
+            lblTotalCost = new Label();
+            lblTotalRemainingQuantity = new Label();
+            txtTotalQuantity = new TextBox();
+            lblTotalProducedQuantity = new Label();
+            lblTotalQuantity = new Label();
             gbDateFilterSettings = new GroupBox();
             cbDateFilter = new CheckBox();
             rbCompletedDate = new RadioButton();
@@ -162,6 +175,7 @@
             clmPSArea = new ColumnHeader();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
+            gbOrdersTotals.SuspendLayout();
             gbDateFilterSettings.SuspendLayout();
             cmsOrders.SuspendLayout();
             tabMain.SuspendLayout();
@@ -187,7 +201,7 @@
             tabOrders.Location = new Point(4, 29);
             tabOrders.Name = "tabOrders";
             tabOrders.Padding = new Padding(3);
-            tabOrders.Size = new Size(1416, 670);
+            tabOrders.Size = new Size(1416, 839);
             tabOrders.TabIndex = 0;
             tabOrders.Text = "Siparişler";
             tabOrders.UseVisualStyleBackColor = true;
@@ -195,6 +209,7 @@
             // gbOrders
             // 
             gbOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbOrders.Controls.Add(gbOrdersTotals);
             gbOrders.Controls.Add(gbDateFilterSettings);
             gbOrders.Controls.Add(lblDateFilter);
             gbOrders.Controls.Add(mcDateFilter);
@@ -209,10 +224,140 @@
             gbOrders.Controls.Add(lvOrders);
             gbOrders.Location = new Point(6, 5);
             gbOrders.Name = "gbOrders";
-            gbOrders.Size = new Size(1402, 653);
+            gbOrders.Size = new Size(1402, 822);
             gbOrders.TabIndex = 0;
             gbOrders.TabStop = false;
             gbOrders.Text = "Siparişler";
+            // 
+            // gbOrdersTotals
+            // 
+            gbOrdersTotals.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            gbOrdersTotals.Controls.Add(txtTotalPriceWithTax);
+            gbOrdersTotals.Controls.Add(txtTotalPrice);
+            gbOrdersTotals.Controls.Add(txtTotalCost);
+            gbOrdersTotals.Controls.Add(txtTotalRemainingQuantity);
+            gbOrdersTotals.Controls.Add(lblTotalPriceWithTax);
+            gbOrdersTotals.Controls.Add(txtTotalProducedQuantity);
+            gbOrdersTotals.Controls.Add(lblTotalPrice);
+            gbOrdersTotals.Controls.Add(lblTotalCost);
+            gbOrdersTotals.Controls.Add(lblTotalRemainingQuantity);
+            gbOrdersTotals.Controls.Add(txtTotalQuantity);
+            gbOrdersTotals.Controls.Add(lblTotalProducedQuantity);
+            gbOrdersTotals.Controls.Add(lblTotalQuantity);
+            gbOrdersTotals.Location = new Point(1128, 461);
+            gbOrdersTotals.Name = "gbOrdersTotals";
+            gbOrdersTotals.Size = new Size(262, 353);
+            gbOrdersTotals.TabIndex = 17;
+            gbOrdersTotals.TabStop = false;
+            gbOrdersTotals.Text = "Sipariş Toplamları";
+            // 
+            // txtTotalPriceWithTax
+            // 
+            txtTotalPriceWithTax.Location = new Point(6, 321);
+            txtTotalPriceWithTax.MaxLength = 200;
+            txtTotalPriceWithTax.Name = "txtTotalPriceWithTax";
+            txtTotalPriceWithTax.ReadOnly = true;
+            txtTotalPriceWithTax.Size = new Size(250, 27);
+            txtTotalPriceWithTax.TabIndex = 1;
+            // 
+            // txtTotalPrice
+            // 
+            txtTotalPrice.Location = new Point(6, 268);
+            txtTotalPrice.MaxLength = 200;
+            txtTotalPrice.Name = "txtTotalPrice";
+            txtTotalPrice.ReadOnly = true;
+            txtTotalPrice.Size = new Size(250, 27);
+            txtTotalPrice.TabIndex = 1;
+            // 
+            // txtTotalCost
+            // 
+            txtTotalCost.Location = new Point(6, 215);
+            txtTotalCost.MaxLength = 200;
+            txtTotalCost.Name = "txtTotalCost";
+            txtTotalCost.ReadOnly = true;
+            txtTotalCost.Size = new Size(250, 27);
+            txtTotalCost.TabIndex = 1;
+            // 
+            // txtTotalRemainingQuantity
+            // 
+            txtTotalRemainingQuantity.Location = new Point(6, 162);
+            txtTotalRemainingQuantity.MaxLength = 200;
+            txtTotalRemainingQuantity.Name = "txtTotalRemainingQuantity";
+            txtTotalRemainingQuantity.ReadOnly = true;
+            txtTotalRemainingQuantity.Size = new Size(250, 27);
+            txtTotalRemainingQuantity.TabIndex = 1;
+            // 
+            // lblTotalPriceWithTax
+            // 
+            lblTotalPriceWithTax.AutoSize = true;
+            lblTotalPriceWithTax.Location = new Point(6, 298);
+            lblTotalPriceWithTax.Name = "lblTotalPriceWithTax";
+            lblTotalPriceWithTax.Size = new Size(174, 20);
+            lblTotalPriceWithTax.TabIndex = 0;
+            lblTotalPriceWithTax.Text = "Vergi Dahil Toplam Tutar";
+            // 
+            // txtTotalProducedQuantity
+            // 
+            txtTotalProducedQuantity.Location = new Point(6, 109);
+            txtTotalProducedQuantity.MaxLength = 200;
+            txtTotalProducedQuantity.Name = "txtTotalProducedQuantity";
+            txtTotalProducedQuantity.ReadOnly = true;
+            txtTotalProducedQuantity.Size = new Size(250, 27);
+            txtTotalProducedQuantity.TabIndex = 1;
+            // 
+            // lblTotalPrice
+            // 
+            lblTotalPrice.AutoSize = true;
+            lblTotalPrice.Location = new Point(6, 245);
+            lblTotalPrice.Name = "lblTotalPrice";
+            lblTotalPrice.Size = new Size(97, 20);
+            lblTotalPrice.TabIndex = 0;
+            lblTotalPrice.Text = "Toplam Tutar";
+            // 
+            // lblTotalCost
+            // 
+            lblTotalCost.AutoSize = true;
+            lblTotalCost.Location = new Point(6, 192);
+            lblTotalCost.Name = "lblTotalCost";
+            lblTotalCost.Size = new Size(112, 20);
+            lblTotalCost.TabIndex = 0;
+            lblTotalCost.Text = "Toplam Maliyet";
+            // 
+            // lblTotalRemainingQuantity
+            // 
+            lblTotalRemainingQuantity.AutoSize = true;
+            lblTotalRemainingQuantity.Location = new Point(6, 139);
+            lblTotalRemainingQuantity.Name = "lblTotalRemainingQuantity";
+            lblTotalRemainingQuantity.Size = new Size(92, 20);
+            lblTotalRemainingQuantity.TabIndex = 0;
+            lblTotalRemainingQuantity.Text = "Kalan Miktar";
+            // 
+            // txtTotalQuantity
+            // 
+            txtTotalQuantity.Location = new Point(6, 56);
+            txtTotalQuantity.MaxLength = 200;
+            txtTotalQuantity.Name = "txtTotalQuantity";
+            txtTotalQuantity.ReadOnly = true;
+            txtTotalQuantity.Size = new Size(250, 27);
+            txtTotalQuantity.TabIndex = 1;
+            // 
+            // lblTotalProducedQuantity
+            // 
+            lblTotalProducedQuantity.AutoSize = true;
+            lblTotalProducedQuantity.Location = new Point(6, 86);
+            lblTotalProducedQuantity.Name = "lblTotalProducedQuantity";
+            lblTotalProducedQuantity.Size = new Size(107, 20);
+            lblTotalProducedQuantity.TabIndex = 0;
+            lblTotalProducedQuantity.Text = "Üretilen Miktar";
+            // 
+            // lblTotalQuantity
+            // 
+            lblTotalQuantity.AutoSize = true;
+            lblTotalQuantity.Location = new Point(6, 33);
+            lblTotalQuantity.Name = "lblTotalQuantity";
+            lblTotalQuantity.Size = new Size(105, 20);
+            lblTotalQuantity.TabIndex = 0;
+            lblTotalQuantity.Text = "Toplam Miktar";
             // 
             // gbDateFilterSettings
             // 
@@ -220,11 +365,11 @@
             gbDateFilterSettings.Controls.Add(cbDateFilter);
             gbDateFilterSettings.Controls.Add(rbCompletedDate);
             gbDateFilterSettings.Controls.Add(rbOrderDate);
-            gbDateFilterSettings.Location = new Point(1129, 317);
+            gbDateFilterSettings.Location = new Point(1128, 317);
             gbDateFilterSettings.Margin = new Padding(3, 4, 3, 4);
             gbDateFilterSettings.Name = "gbDateFilterSettings";
             gbDateFilterSettings.Padding = new Padding(3, 4, 3, 4);
-            gbDateFilterSettings.Size = new Size(266, 137);
+            gbDateFilterSettings.Size = new Size(262, 137);
             gbDateFilterSettings.TabIndex = 16;
             gbDateFilterSettings.TabStop = false;
             gbDateFilterSettings.Text = "Filtre Ayarları";
@@ -233,7 +378,7 @@
             // 
             cbDateFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cbDateFilter.AutoSize = true;
-            cbDateFilter.Location = new Point(8, 36);
+            cbDateFilter.Location = new Point(4, 36);
             cbDateFilter.Name = "cbDateFilter";
             cbDateFilter.Size = new Size(173, 24);
             cbDateFilter.TabIndex = 9;
@@ -246,7 +391,7 @@
             rbCompletedDate.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             rbCompletedDate.AutoSize = true;
             rbCompletedDate.Enabled = false;
-            rbCompletedDate.Location = new Point(7, 99);
+            rbCompletedDate.Location = new Point(3, 99);
             rbCompletedDate.Margin = new Padding(3, 4, 3, 4);
             rbCompletedDate.Name = "rbCompletedDate";
             rbCompletedDate.Size = new Size(158, 24);
@@ -262,7 +407,7 @@
             rbOrderDate.AutoSize = true;
             rbOrderDate.Checked = true;
             rbOrderDate.Enabled = false;
-            rbOrderDate.Location = new Point(6, 67);
+            rbOrderDate.Location = new Point(2, 67);
             rbOrderDate.Margin = new Padding(3, 4, 3, 4);
             rbOrderDate.Name = "rbOrderDate";
             rbOrderDate.Size = new Size(113, 24);
@@ -385,10 +530,12 @@
             lvOrders.GridLines = true;
             lvOrders.Location = new Point(6, 59);
             lvOrders.Name = "lvOrders";
-            lvOrders.Size = new Size(1110, 587);
+            lvOrders.Size = new Size(1110, 756);
             lvOrders.TabIndex = 7;
             lvOrders.UseCompatibleStateImageBehavior = false;
             lvOrders.View = View.Details;
+            lvOrders.ItemChecked += lvOrders_ItemChecked;
+            lvOrders.SelectedIndexChanged += lvOrders_SelectedIndexChanged;
             lvOrders.DoubleClick += btnUpdateOrder_Click;
             lvOrders.KeyDown += ListView_KeyDown;
             // 
@@ -498,7 +645,7 @@
             tabMain.Location = new Point(0, 0);
             tabMain.Name = "tabMain";
             tabMain.SelectedIndex = 0;
-            tabMain.Size = new Size(1424, 703);
+            tabMain.Size = new Size(1424, 872);
             tabMain.TabIndex = 0;
             // 
             // tabStock
@@ -507,7 +654,7 @@
             tabStock.Location = new Point(4, 29);
             tabStock.Name = "tabStock";
             tabStock.Padding = new Padding(3);
-            tabStock.Size = new Size(1416, 670);
+            tabStock.Size = new Size(1416, 839);
             tabStock.TabIndex = 1;
             tabStock.Text = "Stok Kartı";
             tabStock.UseVisualStyleBackColor = true;
@@ -643,7 +790,7 @@
             tabCustomer.Location = new Point(4, 29);
             tabCustomer.Name = "tabCustomer";
             tabCustomer.Padding = new Padding(3);
-            tabCustomer.Size = new Size(1416, 670);
+            tabCustomer.Size = new Size(1416, 839);
             tabCustomer.TabIndex = 2;
             tabCustomer.Text = "Cari Kartı";
             tabCustomer.UseVisualStyleBackColor = true;
@@ -777,7 +924,7 @@
             tabReports.Location = new Point(4, 29);
             tabReports.Name = "tabReports";
             tabReports.Padding = new Padding(3);
-            tabReports.Size = new Size(1416, 670);
+            tabReports.Size = new Size(1416, 839);
             tabReports.TabIndex = 3;
             tabReports.Text = "Raporlar";
             tabReports.UseVisualStyleBackColor = true;
@@ -1281,7 +1428,7 @@
             tabStatistics.Controls.Add(gbProductStatistics);
             tabStatistics.Location = new Point(4, 29);
             tabStatistics.Name = "tabStatistics";
-            tabStatistics.Size = new Size(1416, 670);
+            tabStatistics.Size = new Size(1416, 839);
             tabStatistics.TabIndex = 4;
             tabStatistics.Text = "İstatistik";
             tabStatistics.UseVisualStyleBackColor = true;
@@ -1400,7 +1547,7 @@
             AcceptButton = btnCreateReport;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1424, 703);
+            ClientSize = new Size(1424, 872);
             Controls.Add(tabMain);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(1440, 739);
@@ -1412,6 +1559,8 @@
             tabOrders.ResumeLayout(false);
             gbOrders.ResumeLayout(false);
             gbOrders.PerformLayout();
+            gbOrdersTotals.ResumeLayout(false);
+            gbOrdersTotals.PerformLayout();
             gbDateFilterSettings.ResumeLayout(false);
             gbDateFilterSettings.PerformLayout();
             cmsOrders.ResumeLayout(false);
@@ -1572,5 +1721,18 @@
         private TextBox txtMonthlyAverageSaleQuantity;
         private ColumnHeader clmPSQuantity;
         private ColumnHeader clmPSArea;
+        private GroupBox gbOrdersTotals;
+        private TextBox txtTotalProducedQuantity;
+        private TextBox txtTotalQuantity;
+        private Label lblTotalProducedQuantity;
+        private Label lblTotalQuantity;
+        private TextBox txtTotalRemainingQuantity;
+        private Label lblTotalRemainingQuantity;
+        private TextBox txtTotalPrice;
+        private TextBox txtTotalCost;
+        private Label lblTotalPrice;
+        private Label lblTotalCost;
+        private TextBox txtTotalPriceWithTax;
+        private Label lblTotalPriceWithTax;
     }
 }
