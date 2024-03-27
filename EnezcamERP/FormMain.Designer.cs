@@ -159,20 +159,6 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
-            tabStatistics = new TabPage();
-            gbProductStatistics = new GroupBox();
-            txtMonthlyAveragePrice = new TextBox();
-            txtMonthlyAverageSaleArea = new TextBox();
-            txtMonthlyAverageCost = new TextBox();
-            txtMonthlyAverageSaleQuantity = new TextBox();
-            txtStatisticProductSearch = new TextBox();
-            lblSearch = new Label();
-            lblProducts = new Label();
-            lvStatisticsProducts = new ListView();
-            clmProductCode = new ColumnHeader();
-            clmProductName = new ColumnHeader();
-            clmPSQuantity = new ColumnHeader();
-            clmPSArea = new ColumnHeader();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             gbOrdersTotals.SuspendLayout();
@@ -191,8 +177,6 @@
             gbReportInterval.SuspendLayout();
             gbProductionReport.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgReport).BeginInit();
-            tabStatistics.SuspendLayout();
-            gbProductStatistics.SuspendLayout();
             SuspendLayout();
             // 
             // tabOrders
@@ -640,7 +624,6 @@
             tabMain.Controls.Add(tabStock);
             tabMain.Controls.Add(tabCustomer);
             tabMain.Controls.Add(tabReports);
-            tabMain.Controls.Add(tabStatistics);
             tabMain.Dock = DockStyle.Fill;
             tabMain.Location = new Point(0, 0);
             tabMain.Name = "tabMain";
@@ -671,7 +654,7 @@
             gbProducts.Controls.Add(lvProducts);
             gbProducts.Location = new Point(6, 5);
             gbProducts.Name = "gbProducts";
-            gbProducts.Size = new Size(1405, 657);
+            gbProducts.Size = new Size(1405, 828);
             gbProducts.TabIndex = 0;
             gbProducts.TabStop = false;
             gbProducts.Text = "Stok Kartları";
@@ -745,7 +728,7 @@
             lvProducts.Location = new Point(6, 59);
             lvProducts.MultiSelect = false;
             lvProducts.Name = "lvProducts";
-            lvProducts.Size = new Size(1393, 591);
+            lvProducts.Size = new Size(1393, 762);
             lvProducts.TabIndex = 0;
             lvProducts.UseCompatibleStateImageBehavior = false;
             lvProducts.View = View.Details;
@@ -807,7 +790,7 @@
             gbCustomers.Controls.Add(lvCustomers);
             gbCustomers.Location = new Point(6, 5);
             gbCustomers.Name = "gbCustomers";
-            gbCustomers.Size = new Size(1405, 657);
+            gbCustomers.Size = new Size(1405, 828);
             gbCustomers.TabIndex = 0;
             gbCustomers.TabStop = false;
             gbCustomers.Text = "Cariler";
@@ -881,7 +864,7 @@
             lvCustomers.Location = new Point(5, 59);
             lvCustomers.MultiSelect = false;
             lvCustomers.Name = "lvCustomers";
-            lvCustomers.Size = new Size(1393, 591);
+            lvCustomers.Size = new Size(1393, 762);
             lvCustomers.TabIndex = 0;
             lvCustomers.UseCompatibleStateImageBehavior = false;
             lvCustomers.View = View.Details;
@@ -960,7 +943,7 @@
             gbTotals.Controls.Add(lbPriceTax);
             gbTotals.Controls.Add(txtPrice);
             gbTotals.Controls.Add(lbPrice);
-            gbTotals.Location = new Point(8, 485);
+            gbTotals.Location = new Point(8, 664);
             gbTotals.Name = "gbTotals";
             gbTotals.Size = new Size(1157, 167);
             gbTotals.TabIndex = 3;
@@ -1245,7 +1228,7 @@
             gbProductionReportDetails.Controls.Add(gbReportInterval);
             gbProductionReportDetails.Location = new Point(1170, 5);
             gbProductionReportDetails.Name = "gbProductionReportDetails";
-            gbProductionReportDetails.Size = new Size(235, 647);
+            gbProductionReportDetails.Size = new Size(235, 653);
             gbProductionReportDetails.TabIndex = 2;
             gbProductionReportDetails.TabStop = false;
             gbProductionReportDetails.Text = "Rapor Detayları";
@@ -1310,7 +1293,7 @@
             // btnCopyTable
             // 
             btnCopyTable.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCopyTable.Location = new Point(6, 613);
+            btnCopyTable.Location = new Point(6, 619);
             btnCopyTable.Name = "btnCopyTable";
             btnCopyTable.Size = new Size(223, 29);
             btnCopyTable.TabIndex = 9;
@@ -1321,7 +1304,7 @@
             // btnCreateReport
             // 
             btnCreateReport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCreateReport.Location = new Point(6, 577);
+            btnCreateReport.Location = new Point(6, 583);
             btnCreateReport.Name = "btnCreateReport";
             btnCreateReport.Size = new Size(223, 29);
             btnCreateReport.TabIndex = 8;
@@ -1391,7 +1374,7 @@
             gbProductionReport.Controls.Add(dgReport);
             gbProductionReport.Location = new Point(8, 5);
             gbProductionReport.Name = "gbProductionReport";
-            gbProductionReport.Size = new Size(1157, 475);
+            gbProductionReport.Size = new Size(1157, 653);
             gbProductionReport.TabIndex = 1;
             gbProductionReport.TabStop = false;
             gbProductionReport.Text = "Rapor";
@@ -1420,127 +1403,8 @@
             dgReport.ShowCellToolTips = false;
             dgReport.ShowEditingIcon = false;
             dgReport.ShowRowErrors = false;
-            dgReport.Size = new Size(1144, 441);
+            dgReport.Size = new Size(1144, 619);
             dgReport.TabIndex = 0;
-            // 
-            // tabStatistics
-            // 
-            tabStatistics.Controls.Add(gbProductStatistics);
-            tabStatistics.Location = new Point(4, 29);
-            tabStatistics.Name = "tabStatistics";
-            tabStatistics.Size = new Size(1416, 839);
-            tabStatistics.TabIndex = 4;
-            tabStatistics.Text = "İstatistik";
-            tabStatistics.UseVisualStyleBackColor = true;
-            // 
-            // gbProductStatistics
-            // 
-            gbProductStatistics.Controls.Add(txtMonthlyAveragePrice);
-            gbProductStatistics.Controls.Add(txtMonthlyAverageSaleArea);
-            gbProductStatistics.Controls.Add(txtMonthlyAverageCost);
-            gbProductStatistics.Controls.Add(txtMonthlyAverageSaleQuantity);
-            gbProductStatistics.Controls.Add(txtStatisticProductSearch);
-            gbProductStatistics.Controls.Add(lblSearch);
-            gbProductStatistics.Controls.Add(lblProducts);
-            gbProductStatistics.Controls.Add(lvStatisticsProducts);
-            gbProductStatistics.Location = new Point(8, 3);
-            gbProductStatistics.Name = "gbProductStatistics";
-            gbProductStatistics.Size = new Size(1400, 659);
-            gbProductStatistics.TabIndex = 0;
-            gbProductStatistics.TabStop = false;
-            gbProductStatistics.Text = "Ürün İstatistikleri";
-            // 
-            // txtMonthlyAveragePrice
-            // 
-            txtMonthlyAveragePrice.Location = new Point(803, 88);
-            txtMonthlyAveragePrice.MaxLength = 200;
-            txtMonthlyAveragePrice.Name = "txtMonthlyAveragePrice";
-            txtMonthlyAveragePrice.ReadOnly = true;
-            txtMonthlyAveragePrice.Size = new Size(199, 27);
-            txtMonthlyAveragePrice.TabIndex = 4;
-            // 
-            // txtMonthlyAverageSaleArea
-            // 
-            txtMonthlyAverageSaleArea.Location = new Point(803, 55);
-            txtMonthlyAverageSaleArea.MaxLength = 200;
-            txtMonthlyAverageSaleArea.Name = "txtMonthlyAverageSaleArea";
-            txtMonthlyAverageSaleArea.ReadOnly = true;
-            txtMonthlyAverageSaleArea.Size = new Size(199, 27);
-            txtMonthlyAverageSaleArea.TabIndex = 4;
-            // 
-            // txtMonthlyAverageCost
-            // 
-            txtMonthlyAverageCost.Location = new Point(598, 88);
-            txtMonthlyAverageCost.MaxLength = 200;
-            txtMonthlyAverageCost.Name = "txtMonthlyAverageCost";
-            txtMonthlyAverageCost.ReadOnly = true;
-            txtMonthlyAverageCost.Size = new Size(199, 27);
-            txtMonthlyAverageCost.TabIndex = 4;
-            // 
-            // txtMonthlyAverageSaleQuantity
-            // 
-            txtMonthlyAverageSaleQuantity.Location = new Point(598, 55);
-            txtMonthlyAverageSaleQuantity.MaxLength = 200;
-            txtMonthlyAverageSaleQuantity.Name = "txtMonthlyAverageSaleQuantity";
-            txtMonthlyAverageSaleQuantity.ReadOnly = true;
-            txtMonthlyAverageSaleQuantity.Size = new Size(199, 27);
-            txtMonthlyAverageSaleQuantity.TabIndex = 4;
-            // 
-            // txtStatisticProductSearch
-            // 
-            txtStatisticProductSearch.Location = new Point(44, 626);
-            txtStatisticProductSearch.MaxLength = 200;
-            txtStatisticProductSearch.Name = "txtStatisticProductSearch";
-            txtStatisticProductSearch.Size = new Size(407, 27);
-            txtStatisticProductSearch.TabIndex = 3;
-            // 
-            // lblSearch
-            // 
-            lblSearch.AutoSize = true;
-            lblSearch.Location = new Point(6, 629);
-            lblSearch.Name = "lblSearch";
-            lblSearch.Size = new Size(32, 20);
-            lblSearch.TabIndex = 2;
-            lblSearch.Text = "Ara";
-            // 
-            // lblProducts
-            // 
-            lblProducts.AutoSize = true;
-            lblProducts.Location = new Point(6, 32);
-            lblProducts.Name = "lblProducts";
-            lblProducts.Size = new Size(57, 20);
-            lblProducts.TabIndex = 1;
-            lblProducts.Text = "Ürünler";
-            // 
-            // lvStatisticsProducts
-            // 
-            lvStatisticsProducts.Columns.AddRange(new ColumnHeader[] { clmProductCode, clmProductName, clmPSQuantity, clmPSArea });
-            lvStatisticsProducts.FullRowSelect = true;
-            lvStatisticsProducts.GridLines = true;
-            lvStatisticsProducts.Location = new Point(6, 55);
-            lvStatisticsProducts.MultiSelect = false;
-            lvStatisticsProducts.Name = "lvStatisticsProducts";
-            lvStatisticsProducts.Size = new Size(445, 565);
-            lvStatisticsProducts.TabIndex = 0;
-            lvStatisticsProducts.UseCompatibleStateImageBehavior = false;
-            lvStatisticsProducts.View = View.Details;
-            lvStatisticsProducts.SelectedIndexChanged += lvStatisticsProducts_SelectedIndexChanged;
-            // 
-            // clmProductCode
-            // 
-            clmProductCode.Text = "Ürün Kodu";
-            // 
-            // clmProductName
-            // 
-            clmProductName.Text = "Ürün Adı";
-            // 
-            // clmPSQuantity
-            // 
-            clmPSQuantity.Text = "Adet";
-            // 
-            // clmPSArea
-            // 
-            clmPSArea.Text = "Alan";
             // 
             // FormMain
             // 
@@ -1583,9 +1447,6 @@
             gbReportInterval.PerformLayout();
             gbProductionReport.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgReport).EndInit();
-            tabStatistics.ResumeLayout(false);
-            gbProductStatistics.ResumeLayout(false);
-            gbProductStatistics.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -1707,20 +1568,6 @@
         private Label lblProcessQuantity;
         private TextBox txtStockQuantity;
         private Label lblStockQuantity;
-        private TabPage tabStatistics;
-        private GroupBox gbProductStatistics;
-        private Label lblProducts;
-        private ListView lvStatisticsProducts;
-        private ColumnHeader clmProductCode;
-        private ColumnHeader clmProductName;
-        private TextBox txtStatisticProductSearch;
-        private Label lblSearch;
-        private TextBox txtMonthlyAveragePrice;
-        private TextBox txtMonthlyAverageSaleArea;
-        private TextBox txtMonthlyAverageCost;
-        private TextBox txtMonthlyAverageSaleQuantity;
-        private ColumnHeader clmPSQuantity;
-        private ColumnHeader clmPSArea;
         private GroupBox gbOrdersTotals;
         private TextBox txtTotalProducedQuantity;
         private TextBox txtTotalQuantity;
