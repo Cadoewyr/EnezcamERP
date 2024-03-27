@@ -473,6 +473,7 @@ namespace EnezcamERP
             else if(lvOrders.SelectedItems.Count == 0 & lvOrders.CheckedItems.Count == 0)
             {
                 ControlCleaner.Clear(gbOrdersTotals.Controls);
+                lvOrders.Focus();
             }
         }
         private void checkDateFilter()
