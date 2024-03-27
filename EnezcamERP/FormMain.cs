@@ -138,46 +138,12 @@ namespace EnezcamERP
             if (columnHeaderAutoResizeStyle != null)
                 listView.AutoResizeColumns(columnHeaderAutoResizeStyle.Value);
         }
-        public void RefreshStatisticsProducts()
-        {
-            ListView listView = lvStatisticsProducts;
-            listView.Items.Clear();
-
-            var products = productsDB.GetAll(txtStatisticProductSearch.Text.Trim());
-
-            foreach (var product in products)
-            {
-                ListViewItem lvi = new()
-                {
-                    Tag = product,
-                    Text = product.Code
-                };
-
-                lvi.SubItems.Add(product.Name);
-                lvi.SubItems.Add(orderDetailsDB.GetAll(x => x.Product.ID == product.ID).Sum(x => x.Quantity).ToString("N0"));
-                lvi.SubItems.Add(orderDetailsDB.GetAll(x => x.Product.ID == product.ID).Sum(x => x.TotalArea).ToString("N2"));
-
-                listView.Items.Add(lvi);
-            }
-
-            listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-        }
-        public void LoadProductStatistics(Product product)
-        {
-            var statistic = new YearlyProductStatistic(product, DateTime.Now.Year);
-
-            txtMonthlyAverageSaleArea.Text = statistic.AverageArea.ToString("N2");
-            txtMonthlyAverageSaleQuantity.Text = statistic.AverageQuantity.ToString("N0");
-            txtMonthlyAverageCost.Text = statistic.AverageCost.ToString("C2");
-            txtMonthlyAveragePrice.Text = statistic.AveragePrice.ToString("C2");
-        }
 
         void InitialLists(ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
         {
             RefreshOrders(null, columnHeaderAutoResizeStyle);
             RefreshProducts(null, columnHeaderAutoResizeStyle);
             RefreshCustomers(null, columnHeaderAutoResizeStyle);
-            RefreshStatisticsProducts();
         }
 
         void FillProductionReport(DataGridView dataGrid, DateRangedProductionReport report)
@@ -816,15 +782,6 @@ namespace EnezcamERP
             }
         }
 
-        #endregion
-
-        //Product Statistics controls
-        #region
-        private void lvStatisticsProducts_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if ((sender as ListView).SelectedItems.Count > 0)
-                LoadProductStatistics((sender as ListView).SelectedItems[0].Tag as Product);
-        }
         #endregion
     }
 }
