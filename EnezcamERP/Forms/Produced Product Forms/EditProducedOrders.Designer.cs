@@ -272,10 +272,12 @@
             // 
             nudProducedQuantity.Increment = new decimal(new int[] { 10, 0, 0, 0 });
             nudProducedQuantity.Location = new Point(101, 59);
-            nudProducedQuantity.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
+            nudProducedQuantity.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            nudProducedQuantity.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudProducedQuantity.Name = "nudProducedQuantity";
             nudProducedQuantity.Size = new Size(229, 27);
             nudProducedQuantity.TabIndex = 3;
+            nudProducedQuantity.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // txtRemainigQuantity
             // 

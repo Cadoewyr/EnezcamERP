@@ -158,6 +158,10 @@ namespace EnezcamERP.Forms.Order_Forms
                 (control as NumericUpDown).Value = 1;
             }
         }
+        void NumericUpDownEnterFocus(object sender, EventArgs e)
+        {
+            (sender as NumericUpDown).Select(0, (sender as NumericUpDown).Value.ToString().Length);
+        }
 
         CustomerRepository customerDB = new();
         OrderRepository orderDB = new();

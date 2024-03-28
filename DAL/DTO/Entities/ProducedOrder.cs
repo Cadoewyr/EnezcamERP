@@ -7,7 +7,7 @@ namespace DAL.DTO.Entities
     public record ProducedOrder : BaseEntity
     {
         public virtual OrderDetail OrderDetail { get; set; } = new();
-        [Range(0, 99999)]
+        [Range(0, 999999)]
         public int ProducedOrderQuantity { get; set; } = 0;
         public DateTime ProducedDate { get; set; } = DateTime.Now;
         public bool IsStock { get; set; } = false;

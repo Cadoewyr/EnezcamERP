@@ -526,13 +526,14 @@
             // 
             nudHeight.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             nudHeight.Location = new Point(771, 322);
-            nudHeight.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
+            nudHeight.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nudHeight.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudHeight.Name = "nudHeight";
             nudHeight.Size = new Size(130, 27);
             nudHeight.TabIndex = 13;
             nudHeight.ThousandsSeparator = true;
             nudHeight.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            nudHeight.Enter += NumericUpDownEnterFocus;
             // 
             // lblHeight
             // 
@@ -557,13 +558,14 @@
             // 
             nudWidth.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             nudWidth.Location = new Point(635, 322);
-            nudWidth.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
+            nudWidth.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nudWidth.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudWidth.Name = "nudWidth";
             nudWidth.Size = new Size(130, 27);
             nudWidth.TabIndex = 12;
             nudWidth.ThousandsSeparator = true;
             nudWidth.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            nudWidth.Enter += NumericUpDownEnterFocus;
             // 
             // lblDiscountRatio
             // 
@@ -609,13 +611,14 @@
             // 
             nudQuantity.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             nudQuantity.Location = new Point(907, 322);
-            nudQuantity.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
+            nudQuantity.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nudQuantity.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudQuantity.Name = "nudQuantity";
             nudQuantity.Size = new Size(130, 27);
             nudQuantity.TabIndex = 14;
             nudQuantity.ThousandsSeparator = true;
             nudQuantity.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            nudQuantity.Enter += NumericUpDownEnterFocus;
             // 
             // lblQuantity
             // 

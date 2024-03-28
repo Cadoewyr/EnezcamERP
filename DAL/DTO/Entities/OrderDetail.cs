@@ -11,16 +11,16 @@ namespace DAL.DTO.Entities
         public UnitCode UnitCode { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal UnitCost { get; set; }
-        [Range(1, 99999)]
+        [Range(1, 999999)]
         public int Quantity { get; set; } = 1;
         [Range(0, 100)]
         public decimal TaxRatio { get; set; } = 0;
         [Range(0, 100)]
         public decimal DiscountRatio { get; set; } = 0;
         public virtual ICollection<ProducedOrder> ProducedOrders { get; set; } = [];
-        [Range(1, 99999)]
+        [Range(1, 999999)]
         public decimal Width { get; set; } = 1;
-        [Range(1, 99999)]
+        [Range(1, 999999)]
         public decimal Height { get; set; } = 1;
 
         [NotMapped]
