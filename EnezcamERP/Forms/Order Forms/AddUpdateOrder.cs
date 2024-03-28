@@ -160,7 +160,7 @@ namespace EnezcamERP.Forms.Order_Forms
         }
         void NumericUpDownEnterFocus(object sender, EventArgs e)
         {
-            (sender as NumericUpDown).Select(0, (sender as NumericUpDown).Value.ToString().Length);
+            (sender as NumericUpDown).Select(0, (sender as NumericUpDown).Value.ToString().Length + ((sender as NumericUpDown).ToString().Length - 1) / 3);
         }
 
         CustomerRepository customerDB = new();
