@@ -16,7 +16,7 @@
                     ((MaskedTextBox)control).Clear();
 
                 else if (control is NumericUpDown)
-                    (control as NumericUpDown).Value = 0;
+                    (control as NumericUpDown).Value = (control as NumericUpDown).Minimum;
 
                 if (control.Controls.Count > 0)
                     Clear(control.Controls);
@@ -42,7 +42,7 @@
                     ((MaskedTextBox)control).Clear();
 
                 else if (control is NumericUpDown)
-                    (control as NumericUpDown).Value = 0;
+                    (control as NumericUpDown).Value = (control as NumericUpDown).Minimum;
 
                 if (control.Controls.Count > 0)
                     Clear(control.Controls);

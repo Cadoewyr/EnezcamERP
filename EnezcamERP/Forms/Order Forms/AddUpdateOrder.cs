@@ -225,11 +225,6 @@ namespace EnezcamERP.Forms.Order_Forms
                     ID = order.ID
                 };
 
-                //order.JobNo = !string.IsNullOrEmpty(txtJobNo.Text) ? Convert.ToInt32(txtJobNo.Text.Trim()) : -1;
-                //order.Customer = cbCustomers.SelectedItem as Customer;
-                //order.IssueDate = dtpOrderDate.Value.Date;
-                //order.DeliveryDate = dtpDeliveryDate.Value.Date.AddDays(1).AddTicks(-1);
-
                 try
                 {
                     if (IsUpdate)
