@@ -470,7 +470,7 @@ namespace EnezcamERP
                 txtTotalPrice.Text = tempOrder.Price.ToString("C2");
                 txtTotalPriceWithTax.Text = tempOrder.PriceWithTax.ToString("C2");
             }
-            else if(lvOrders.SelectedItems.Count == 0 & lvOrders.CheckedItems.Count == 0)
+            else if (lvOrders.SelectedItems.Count == 0 & lvOrders.CheckedItems.Count == 0)
             {
                 txtTotalQuantity.Text =
                 txtTotalProducedQuantity.Text =
@@ -611,6 +611,20 @@ namespace EnezcamERP
                 }
                 EnzDBContext.GetInstance.SaveChanges();
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+            }
+        }
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in lvOrders.Items)
+            {
+                item.Checked = true;
+            }
+        }
+        private void uncheckAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach(ListViewItem item in lvOrders.CheckedItems)
+            {
+                item.Checked = false;
             }
         }
         #endregion

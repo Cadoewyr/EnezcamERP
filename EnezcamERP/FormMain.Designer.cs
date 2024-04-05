@@ -79,6 +79,7 @@
             deleteOrderToolStripMenuItem = new ToolStripMenuItem();
             productionHistoryToolStripMenuItem = new ToolStripMenuItem();
             kalanSiparişiTamamlaToolStripMenuItem = new ToolStripMenuItem();
+            tümünüSeçToolStripMenuItem = new ToolStripMenuItem();
             tabMain = new TabControl();
             tabStock = new TabPage();
             gbProducts = new GroupBox();
@@ -159,6 +160,7 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
+            seçimleriKaldırToolStripMenuItem = new ToolStripMenuItem();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             gbOrdersTotals.SuspendLayout();
@@ -578,45 +580,52 @@
             // cmsOrders
             // 
             cmsOrders.ImageScalingSize = new Size(20, 20);
-            cmsOrders.Items.AddRange(new ToolStripItem[] { addOrderToolStripMenuItem, updateOrderToolStripMenuItem, deleteOrderToolStripMenuItem, productionHistoryToolStripMenuItem, kalanSiparişiTamamlaToolStripMenuItem });
+            cmsOrders.Items.AddRange(new ToolStripItem[] { addOrderToolStripMenuItem, updateOrderToolStripMenuItem, deleteOrderToolStripMenuItem, productionHistoryToolStripMenuItem, kalanSiparişiTamamlaToolStripMenuItem, tümünüSeçToolStripMenuItem, seçimleriKaldırToolStripMenuItem });
             cmsOrders.Name = "cmsOrders";
-            cmsOrders.Size = new Size(191, 124);
+            cmsOrders.Size = new Size(211, 200);
             cmsOrders.Opening += cmsOrders_Opening;
             // 
             // addOrderToolStripMenuItem
             // 
             addOrderToolStripMenuItem.Name = "addOrderToolStripMenuItem";
-            addOrderToolStripMenuItem.Size = new Size(190, 24);
+            addOrderToolStripMenuItem.Size = new Size(210, 24);
             addOrderToolStripMenuItem.Text = "Ekle";
             addOrderToolStripMenuItem.Click += addOrderToolStripMenuItem_Click;
             // 
             // updateOrderToolStripMenuItem
             // 
             updateOrderToolStripMenuItem.Name = "updateOrderToolStripMenuItem";
-            updateOrderToolStripMenuItem.Size = new Size(190, 24);
+            updateOrderToolStripMenuItem.Size = new Size(210, 24);
             updateOrderToolStripMenuItem.Text = "Güncelle";
             updateOrderToolStripMenuItem.Click += updateOrderToolStripMenuItem_Click;
             // 
             // deleteOrderToolStripMenuItem
             // 
             deleteOrderToolStripMenuItem.Name = "deleteOrderToolStripMenuItem";
-            deleteOrderToolStripMenuItem.Size = new Size(190, 24);
+            deleteOrderToolStripMenuItem.Size = new Size(210, 24);
             deleteOrderToolStripMenuItem.Text = "Sil";
             deleteOrderToolStripMenuItem.Click += deleteOrderToolStripMenuItem_Click;
             // 
             // productionHistoryToolStripMenuItem
             // 
             productionHistoryToolStripMenuItem.Name = "productionHistoryToolStripMenuItem";
-            productionHistoryToolStripMenuItem.Size = new Size(190, 24);
+            productionHistoryToolStripMenuItem.Size = new Size(210, 24);
             productionHistoryToolStripMenuItem.Text = "Üretim Geçmişi";
             productionHistoryToolStripMenuItem.Click += productionHistoryToolStripMenuItem_Click;
             // 
             // kalanSiparişiTamamlaToolStripMenuItem
             // 
             kalanSiparişiTamamlaToolStripMenuItem.Name = "kalanSiparişiTamamlaToolStripMenuItem";
-            kalanSiparişiTamamlaToolStripMenuItem.Size = new Size(190, 24);
+            kalanSiparişiTamamlaToolStripMenuItem.Size = new Size(210, 24);
             kalanSiparişiTamamlaToolStripMenuItem.Text = "Siparişi Tamamla";
             kalanSiparişiTamamlaToolStripMenuItem.Click += completeOrderToolStripMenuItem_Click;
+            // 
+            // tümünüSeçToolStripMenuItem
+            // 
+            tümünüSeçToolStripMenuItem.Name = "tümünüSeçToolStripMenuItem";
+            tümünüSeçToolStripMenuItem.Size = new Size(210, 24);
+            tümünüSeçToolStripMenuItem.Text = "Tümünü Seç";
+            tümünüSeçToolStripMenuItem.Click += selectAllToolStripMenuItem_Click;
             // 
             // tabMain
             // 
@@ -1406,6 +1415,13 @@
             dgReport.Size = new Size(1144, 619);
             dgReport.TabIndex = 0;
             // 
+            // seçimleriKaldırToolStripMenuItem
+            // 
+            seçimleriKaldırToolStripMenuItem.Name = "seçimleriKaldırToolStripMenuItem";
+            seçimleriKaldırToolStripMenuItem.Size = new Size(210, 24);
+            seçimleriKaldırToolStripMenuItem.Text = "Seçimleri Kaldır";
+            seçimleriKaldırToolStripMenuItem.Click += uncheckAllToolStripMenuItem_Click;
+            // 
             // FormMain
             // 
             AcceptButton = btnCreateReport;
@@ -1581,5 +1597,7 @@
         private Label lblTotalCost;
         private TextBox txtTotalPriceWithTax;
         private Label lblTotalPriceWithTax;
+        private ToolStripMenuItem tümünüSeçToolStripMenuItem;
+        private ToolStripMenuItem seçimleriKaldırToolStripMenuItem;
     }
 }
