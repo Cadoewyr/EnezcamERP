@@ -133,7 +133,12 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
         }
         void RefreshAll()
         {
-            var currentOrderDetailID = (lvOrderDetails.SelectedItems[0].Tag as OrderDetail).ID;
+            int currentOrderDetailID;
+
+            if (lvOrderDetails.SelectedItems.Count > 0)
+                currentOrderDetailID = (lvOrderDetails.SelectedItems[0].Tag as OrderDetail).ID;
+            else
+                currentOrderDetailID = (lvOrderDetails.Items[0].Tag as OrderDetail).ID;
 
             RefreshOrderDetails();
 
