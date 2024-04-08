@@ -622,9 +622,19 @@ namespace EnezcamERP
         }
         private void uncheckAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach(ListViewItem item in lvOrders.CheckedItems)
+            foreach (ListViewItem item in lvOrders.CheckedItems)
             {
                 item.Checked = false;
+            }
+        }
+        private void selectSameCustomersOrdersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(lvOrders.SelectedItems.Count > 0)
+            {
+                foreach (ListViewItem item in lvOrders.Items)
+                {
+                    item.Checked = (lvOrders.SelectedItems[0].Tag as Order).Customer.ID == (item.Tag as Order).Customer.ID;
+                }
             }
         }
         #endregion
