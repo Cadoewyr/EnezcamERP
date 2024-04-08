@@ -539,9 +539,13 @@ namespace EnezcamERP
         {
             FillOrdersTotal();
         }
-        private async void txtSearchOrder_TextChanged(object sender, EventArgs e)
+        private void txtSearchOrder_KeyPress(object sender, KeyPressEventArgs e)
         {
-            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+                e.Handled = true;
+            }
         }
         #endregion
 

@@ -458,13 +458,15 @@
             // 
             // txtSearchOrder
             // 
+            txtSearchOrder.AcceptsReturn = true;
             txtSearchOrder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtSearchOrder.Location = new Point(919, 25);
             txtSearchOrder.MaxLength = 200;
+            txtSearchOrder.Multiline = true;
             txtSearchOrder.Name = "txtSearchOrder";
             txtSearchOrder.Size = new Size(198, 27);
             txtSearchOrder.TabIndex = 6;
-            txtSearchOrder.TextChanged += txtSearchOrder_TextChanged;
+            txtSearchOrder.KeyPress += txtSearchOrder_KeyPress;
             // 
             // btnRefreshOrder
             // 
