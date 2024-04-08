@@ -12,6 +12,7 @@ using EnezcamERP.Forms.DataGridColumnHeaderTemplates;
 using EnezcamERP.Forms.Order_Forms;
 using EnezcamERP.Forms.Produced_Product_Forms;
 using EnezcamERP.Forms.Product_Forms;
+using Timer = System.Windows.Forms.Timer;
 
 namespace EnezcamERP
 {
@@ -501,10 +502,6 @@ namespace EnezcamERP
         {
             RefreshOrders(ordersDB.GetAll(txtSearchOrder.Text).ToArray(), ColumnHeaderAutoResizeStyle.HeaderSize);
         }
-        private void txtSearchOrder_TextChanged(object sender, EventArgs e)
-        {
-            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
-        }
         private void cbIsDone_CheckedChanged(object sender, EventArgs e)
         {
             RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
@@ -541,6 +538,10 @@ namespace EnezcamERP
         private void lvOrders_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             FillOrdersTotal();
+        }
+        private async void txtSearchOrder_TextChanged(object sender, EventArgs e)
+        {
+            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         #endregion
 
@@ -628,7 +629,7 @@ namespace EnezcamERP
         }
         private void selectSameCustomersOrdersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(lvOrders.SelectedItems.Count > 0)
+            if (lvOrders.SelectedItems.Count > 0)
             {
                 foreach (ListViewItem item in lvOrders.Items)
                 {

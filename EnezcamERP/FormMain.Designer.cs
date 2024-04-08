@@ -80,6 +80,7 @@
             productionHistoryToolStripMenuItem = new ToolStripMenuItem();
             kalanSiparişiTamamlaToolStripMenuItem = new ToolStripMenuItem();
             tümünüSeçToolStripMenuItem = new ToolStripMenuItem();
+            aynıMüşterininSiparişleriniSeçToolStripMenuItem = new ToolStripMenuItem();
             seçimleriKaldırToolStripMenuItem = new ToolStripMenuItem();
             tabMain = new TabControl();
             tabStock = new TabPage();
@@ -161,7 +162,6 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
-            aynıMüşterininSiparişleriniSeçToolStripMenuItem = new ToolStripMenuItem();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             gbOrdersTotals.SuspendLayout();
@@ -583,7 +583,7 @@
             cmsOrders.ImageScalingSize = new Size(20, 20);
             cmsOrders.Items.AddRange(new ToolStripItem[] { addOrderToolStripMenuItem, updateOrderToolStripMenuItem, deleteOrderToolStripMenuItem, productionHistoryToolStripMenuItem, kalanSiparişiTamamlaToolStripMenuItem, tümünüSeçToolStripMenuItem, aynıMüşterininSiparişleriniSeçToolStripMenuItem, seçimleriKaldırToolStripMenuItem });
             cmsOrders.Name = "cmsOrders";
-            cmsOrders.Size = new Size(289, 224);
+            cmsOrders.Size = new Size(289, 196);
             cmsOrders.Opening += cmsOrders_Opening;
             // 
             // addOrderToolStripMenuItem
@@ -627,6 +627,13 @@
             tümünüSeçToolStripMenuItem.Size = new Size(288, 24);
             tümünüSeçToolStripMenuItem.Text = "Tümünü Seç";
             tümünüSeçToolStripMenuItem.Click += selectAllToolStripMenuItem_Click;
+            // 
+            // aynıMüşterininSiparişleriniSeçToolStripMenuItem
+            // 
+            aynıMüşterininSiparişleriniSeçToolStripMenuItem.Name = "aynıMüşterininSiparişleriniSeçToolStripMenuItem";
+            aynıMüşterininSiparişleriniSeçToolStripMenuItem.Size = new Size(288, 24);
+            aynıMüşterininSiparişleriniSeçToolStripMenuItem.Text = "Aynı Müşterinin Siparişlerini Seç";
+            aynıMüşterininSiparişleriniSeçToolStripMenuItem.Click += selectSameCustomersOrdersToolStripMenuItem_Click;
             // 
             // seçimleriKaldırToolStripMenuItem
             // 
@@ -1422,13 +1429,6 @@
             dgReport.ShowRowErrors = false;
             dgReport.Size = new Size(1144, 619);
             dgReport.TabIndex = 0;
-            // 
-            // aynıMüşterininSiparişleriniSeçToolStripMenuItem
-            // 
-            aynıMüşterininSiparişleriniSeçToolStripMenuItem.Name = "aynıMüşterininSiparişleriniSeçToolStripMenuItem";
-            aynıMüşterininSiparişleriniSeçToolStripMenuItem.Size = new Size(288, 24);
-            aynıMüşterininSiparişleriniSeçToolStripMenuItem.Text = "Aynı Müşterinin Siparişlerini Seç";
-            aynıMüşterininSiparişleriniSeçToolStripMenuItem.Click += selectSameCustomersOrdersToolStripMenuItem_Click;
             // 
             // FormMain
             // 
