@@ -25,7 +25,6 @@ namespace EnezcamERP
         OrderRepository ordersDB = new();
         ProductRepository productsDB = new();
         CustomerRepository customersDB = new();
-        OrderDetailsRepository orderDetailsDB = new();
 
         public void RefreshOrders(ICollection<Order>? orders, ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
         {
