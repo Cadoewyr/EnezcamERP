@@ -169,5 +169,19 @@ namespace EnezcamERP.Forms.Order_Forms
         {
             LoadProducts(null, orderDetail.Product);
         }
+
+        private void btnGetCostAndPrice_Click(object sender, EventArgs e)
+        {
+            if(lvProducts.SelectedItems.Count > 0)
+            {
+                var res = orderDetailsRepository.GetAll(x => x.Width == nudWidth.Value / 1000 & x.Height == nudHeight.Value / 1000 & x.Product.ID == (lvProducts.SelectedItems[0].Tag as Product).ID)
+                .MaxBy(x => x.Order.IssueDate);
+
+                nudCost.Value = res.UnitCost;
+                nudPrice.Value = res.UnitPrice;
+            }
+            else
+                MessageBox.Show("Herhangi bir ürün seçili değil.");
+        }
     }
 }
