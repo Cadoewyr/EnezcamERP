@@ -1327,6 +1327,7 @@
             dtpDate.Name = "dtpDate";
             dtpDate.Size = new Size(223, 27);
             dtpDate.TabIndex = 6;
+            dtpDate.ValueChanged += dtpDate_ValueChanged;
             // 
             // btnCopyTable
             // 

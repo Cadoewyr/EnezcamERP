@@ -156,7 +156,7 @@ namespace BL.Reports.ProductionReports
         public decimal Outgoing => DailyProductionReports.Sum(x => x.Outgoing);
         public decimal CostWithOutgoing => DailyProductionReports.Sum(x => x.CostWithOutgoing);
         public decimal ProfitWithoutOutgoing => Profit - Outgoing;
-        public decimal ProfitRatioAfterOutgoing => Price > 0 & CostWithOutgoing > 0 ? ((Price - CostWithOutgoing) / CostWithOutgoing) : 0;
+        public decimal ProfitRatioAfterOutgoing => Price == 0 & CostWithOutgoing == 0 ? 0 : ((Price - CostWithOutgoing) / CostWithOutgoing);
         #endregion
     }
 }

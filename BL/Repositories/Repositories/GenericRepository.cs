@@ -23,7 +23,7 @@ namespace BL.Repositories.Repositories
         {
             var result = GenericValidator<T>.Validate(entity);
 
-            if (result.IsValid)
+            if (result != null && result.IsValid)
             {
                 table.Add(entity);
                 context.SaveChanges();

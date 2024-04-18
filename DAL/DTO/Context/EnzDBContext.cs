@@ -28,6 +28,7 @@ namespace DAL.DTO.Context
         public DbSet<ProducedOrder> ProducedOrders { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<PriceHistory> PricesHistory { get; set; }
+        public DbSet<MonthlyOutgoing> MonthlyOutgoings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

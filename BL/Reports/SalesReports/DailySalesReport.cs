@@ -130,8 +130,7 @@ namespace BL.Reports.SalesReports
         public decimal ProfitMargin => Price > 0 & Cost > 0 ? ((Price - Cost) / Price) : 0;
         public decimal CostWithOutgoing => Outgoing + Cost;
         public decimal WithoutOutgoing => Cost - Outgoing;
-        public decimal ProfitRatioWithOutgoing => Price > 0 & CostWithOutgoing > 0 ? ((Price - CostWithOutgoing) / CostWithOutgoing) : 0;
-        public decimal CustomProfitRatio => Profit > 0 & Price > 0 ? Profit / Price : 0;
+        public decimal ProfitRatioWithOutgoing => Price == 0 & CostWithOutgoing == 0 ? 0 : ((Price - CostWithOutgoing) / CostWithOutgoing);
         #endregion
     }
 }

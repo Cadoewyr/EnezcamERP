@@ -5,14 +5,12 @@ using BL.Reports.SalesReports;
 using BL.Repositories.Repositories;
 using DAL.DTO.Context;
 using DAL.DTO.Entities;
-using EnezcamERP.Forms;
 using EnezcamERP.Forms.Customer_Forms;
 using EnezcamERP.Forms.DataGridColumnHeaderTemplates;
 using EnezcamERP.Forms.Order_Forms;
 using EnezcamERP.Forms.Produced_Product_Forms;
 using EnezcamERP.Forms.Product_Forms;
 using EnezcamERP.Forms.Yearly_Report_Cost_Form;
-using Timer = System.Windows.Forms.Timer;
 
 namespace EnezcamERP
 {
@@ -137,6 +135,13 @@ namespace EnezcamERP
 
             if (columnHeaderAutoResizeStyle != null)
                 listView.AutoResizeColumns(columnHeaderAutoResizeStyle.Value);
+        }
+        public void InitialReportForm()
+        {
+            MonthlyOutgoingsRepository monthlyOutgoingsRepository = new();
+
+            if (monthlyOutgoingsRepository.GetByMonth(dtpDate.Value.Month) != null)
+                nudOutgoing.Value = monthlyOutgoingsRepository.GetByMonth(dtpDate.Value.Month).Outgoing;
         }
 
         void InitialLists(ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
@@ -384,6 +389,7 @@ namespace EnezcamERP
         private void Main_Load(object sender, EventArgs e)
         {
             InitialLists(ColumnHeaderAutoResizeStyle.HeaderSize);
+            InitialReportForm();
         }
 
         //Order controls
@@ -485,7 +491,7 @@ namespace EnezcamERP
             if (!cbIsDone.Checked)
                 cbIsDone.Checked = cbDateFilter.Checked & rbCompletedDate.Checked;
         }
-        
+
         private void btnAddOrder_Click(object sender, EventArgs e)
         {
             AddOrder();
@@ -763,19 +769,36 @@ namespace EnezcamERP
 
             List<decimal> monthlyOutgoings = new();
 
-            if(interval == ReportInterval.Yearly)
+            if (interval == ReportInterval.Yearly)
             {
                 FormYearlyReportCosts form = new();
                 form.ShowDialog();
 
                 if (form.DialogResult == DialogResult.OK)
-                    monthlyOutgoings.AddRange((form.ResultObject as decimal[]));
+                    monthlyOutgoings.AddRange(form.ResultObject as decimal[]);
+
+                else
+                    monthlyOutgoings.AddRange(new MonthlyOutgoingsRepository().GetAll().OrderBy(x => x.Month).Select(x => x.Outgoing).ToArray());
             }
 
             if (rbProduction.Checked)
                 FillProductionReport(dgReport, (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, monthlyOutgoings.ToArray(), cbCalculateAllInterval.Checked));
             else if (rbSales.Checked)
                 FillSalesReport(dgReport, (DateRangedSalesReport)ReportCreator<DateRangedSalesReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, monthlyOutgoings.ToArray(), cbCalculateAllInterval.Checked));
+
+            if (new MonthlyOutgoingsRepository().GetByMonth(dtpDate.Value.Month) != null)
+            new MonthlyOutgoingsRepository().Update(new()
+            {
+                Outgoing = nudOutgoing.Value,
+                Month = dtpDate.Value.Month
+            }, new MonthlyOutgoingsRepository().GetByMonth(dtpDate.Value.Month).ID);
+
+            else
+                new MonthlyOutgoingsRepository().Add(new()
+                {
+                    Month = dtpDate.Value.Month,
+                    Outgoing = nudOutgoing.Value
+                });
 
             (sender as Button).Enabled = true;
         }
@@ -788,6 +811,12 @@ namespace EnezcamERP
                 Clipboard.SetDataObject(dgReport.GetClipboardContent());
                 dgReport.ClearSelection();
             }
+        }
+
+        private void dtpDate_ValueChanged(object sender, EventArgs e)
+        {
+            if (new MonthlyOutgoingsRepository().GetByMonth((sender as DateTimePicker).Value.Month) != null)
+                nudOutgoing.Value = new MonthlyOutgoingsRepository().GetByMonth((sender as DateTimePicker).Value.Month).Outgoing;
         }
         #endregion
 
@@ -827,5 +856,7 @@ namespace EnezcamERP
         }
 
         #endregion
+
+
     }
 }

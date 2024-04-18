@@ -26,6 +26,9 @@ namespace BL.Validators.Validators
                 case ProducedOrder producedOrder:
                     result = ValidateProducedOrder(producedOrder);
                     break;
+                case MonthlyOutgoing monthlyOutgoing:
+                    result = ValidateMonthlyOutgoing(monthlyOutgoing);
+                    break;
                 default:
                     result = null;
                     break;
@@ -53,6 +56,10 @@ namespace BL.Validators.Validators
         static ValidationResult ValidateProducedOrder(ProducedOrder entity)
         {
             return new ProducedOrderValidator().Validate(entity);
+        }
+        static ValidationResult ValidateMonthlyOutgoing(MonthlyOutgoing entity)
+        {
+            return new MonthlyOutgoingValidator().Validate(entity);
         }
     }
 }
