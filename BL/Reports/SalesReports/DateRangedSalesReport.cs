@@ -6,10 +6,12 @@ namespace BL.Reports.SalesReports
 {
     public class DateRangedSalesReport : IDateRangedReport
     {
-        public DateRangedSalesReport(DateTime date, ReportInterval interval, decimal outgoing)
+        public DateRangedSalesReport(DateTime date, ReportInterval interval, decimal outgoing, decimal[]? monthlyOutgoings, bool calculateAllInterval)
         {
             _interval = interval;
             _outgoing = outgoing;
+            _monthlyOutgoings = monthlyOutgoings;
+            _calculateAllInterval = calculateAllInterval;
 
             SetDateRange(date, interval);
             CreateReport();
@@ -45,6 +47,9 @@ namespace BL.Reports.SalesReports
         public DateTime DateRangeEnd => _dateRangeEnd;
 
         decimal _outgoing;
+        decimal[] _monthlyOutgoings;
+
+        bool _calculateAllInterval;
 
         ReportInterval _interval;
         public ReportInterval Interval => _interval;
@@ -58,7 +63,7 @@ namespace BL.Reports.SalesReports
             while (date <= DateRangeEnd)
             {
                 if ((int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5)
-                    DailySalesReports.Add(new(date, ((int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5) && date.Date <= DateTime.Now.Date ? _outgoing : 0));
+                    DailySalesReports.Add(new(date, ((int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5) && date.Date <= (_calculateAllInterval ? _dateRangeEnd : DateTime.Now.Date) ? (_interval == ReportInterval.Yearly ? _monthlyOutgoings[date.Month - 1] : _outgoing) : 0));
 
                 date = date.AddDays(1);
             }

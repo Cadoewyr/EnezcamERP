@@ -147,6 +147,7 @@
             txtPrice = new TextBox();
             lbPrice = new Label();
             gbProductionReportDetails = new GroupBox();
+            cbCalculateAllInterval = new CheckBox();
             label1 = new Label();
             nudOutgoing = new NumericUpDown();
             gbReportType = new GroupBox();
@@ -1245,6 +1246,7 @@
             // gbProductionReportDetails
             // 
             gbProductionReportDetails.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            gbProductionReportDetails.Controls.Add(cbCalculateAllInterval);
             gbProductionReportDetails.Controls.Add(label1);
             gbProductionReportDetails.Controls.Add(nudOutgoing);
             gbProductionReportDetails.Controls.Add(gbReportType);
@@ -1258,6 +1260,16 @@
             gbProductionReportDetails.TabIndex = 2;
             gbProductionReportDetails.TabStop = false;
             gbProductionReportDetails.Text = "Rapor Detayları";
+            // 
+            // cbCalculateAllInterval
+            // 
+            cbCalculateAllInterval.AutoSize = true;
+            cbCalculateAllInterval.Location = new Point(6, 353);
+            cbCalculateAllInterval.Name = "cbCalculateAllInterval";
+            cbCalculateAllInterval.Size = new Size(176, 24);
+            cbCalculateAllInterval.TabIndex = 8;
+            cbCalculateAllInterval.Text = "Gelecek tarihi hesapla";
+            cbCalculateAllInterval.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -1322,7 +1334,7 @@
             btnCopyTable.Location = new Point(6, 619);
             btnCopyTable.Name = "btnCopyTable";
             btnCopyTable.Size = new Size(223, 29);
-            btnCopyTable.TabIndex = 9;
+            btnCopyTable.TabIndex = 10;
             btnCopyTable.Text = "Tabloyu Kopyala";
             btnCopyTable.UseVisualStyleBackColor = true;
             btnCopyTable.Click += btnCopyTable_Click;
@@ -1333,7 +1345,7 @@
             btnCreateReport.Location = new Point(6, 583);
             btnCreateReport.Name = "btnCreateReport";
             btnCreateReport.Size = new Size(223, 29);
-            btnCreateReport.TabIndex = 8;
+            btnCreateReport.TabIndex = 9;
             btnCreateReport.Text = "Oluştur";
             btnCreateReport.UseVisualStyleBackColor = true;
             btnCreateReport.Click += btnCreateReport_Click;
@@ -1610,5 +1622,6 @@
         private ToolStripMenuItem tümünüSeçToolStripMenuItem;
         private ToolStripMenuItem seçimleriKaldırToolStripMenuItem;
         private ToolStripMenuItem aynıMüşterininSiparişleriniSeçToolStripMenuItem;
+        private CheckBox cbCalculateAllInterval;
     }
 }

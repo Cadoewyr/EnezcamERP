@@ -1,7 +1,6 @@
 using BL.Report.Enums;
 using BL.Reports;
 using BL.Reports.ProductionReports;
-using BL.Reports.ProductReports;
 using BL.Reports.SalesReports;
 using BL.Repositories.Repositories;
 using DAL.DTO.Context;
@@ -12,6 +11,7 @@ using EnezcamERP.Forms.DataGridColumnHeaderTemplates;
 using EnezcamERP.Forms.Order_Forms;
 using EnezcamERP.Forms.Produced_Product_Forms;
 using EnezcamERP.Forms.Product_Forms;
+using EnezcamERP.Forms.Yearly_Report_Cost_Form;
 using Timer = System.Windows.Forms.Timer;
 
 namespace EnezcamERP
@@ -761,10 +761,21 @@ namespace EnezcamERP
 
             var interval = rbDaily.Checked ? ReportInterval.Daily : (rbWeekly.Checked ? ReportInterval.Weekly : (rbMonthly.Checked ? ReportInterval.Monthly : (rbYearly.Checked ? ReportInterval.Yearly : ReportInterval.Daily)));
 
+            List<decimal> monthlyOutgoings = new();
+
+            if(interval == ReportInterval.Yearly)
+            {
+                FormYearlyReportCosts form = new();
+                form.ShowDialog();
+
+                if (form.DialogResult == DialogResult.OK)
+                    monthlyOutgoings.AddRange((form.ResultObject as decimal[]));
+            }
+
             if (rbProduction.Checked)
-                FillProductionReport(dgReport, (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value));
+                FillProductionReport(dgReport, (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, monthlyOutgoings.ToArray(), cbCalculateAllInterval.Checked));
             else if (rbSales.Checked)
-                FillSalesReport(dgReport, (DateRangedSalesReport)ReportCreator<DateRangedSalesReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value));
+                FillSalesReport(dgReport, (DateRangedSalesReport)ReportCreator<DateRangedSalesReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, monthlyOutgoings.ToArray(), cbCalculateAllInterval.Checked));
 
             (sender as Button).Enabled = true;
         }
