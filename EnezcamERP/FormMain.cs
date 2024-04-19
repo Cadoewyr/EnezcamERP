@@ -140,8 +140,8 @@ namespace EnezcamERP
         {
             MonthlyOutgoingsRepository monthlyOutgoingsRepository = new();
 
-            if (monthlyOutgoingsRepository.GetByMonth(dtpDate.Value.Month) != null)
-                nudOutgoing.Value = monthlyOutgoingsRepository.GetByMonth(dtpDate.Value.Month).Outgoing;
+            if (monthlyOutgoingsRepository.GetByDate(dtpDate.Value.Year, dtpDate.Value.Month) != null)
+                nudOutgoing.Value = monthlyOutgoingsRepository.GetByDate(dtpDate.Value.Year, dtpDate.Value.Month).Outgoing;
         }
 
         void InitialLists(ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
@@ -767,35 +767,31 @@ namespace EnezcamERP
 
             var interval = rbDaily.Checked ? ReportInterval.Daily : (rbWeekly.Checked ? ReportInterval.Weekly : (rbMonthly.Checked ? ReportInterval.Monthly : (rbYearly.Checked ? ReportInterval.Yearly : ReportInterval.Daily)));
 
-            List<decimal> monthlyOutgoings = new();
+            
 
             if (interval == ReportInterval.Yearly)
             {
-                FormYearlyReportCosts form = new();
+                FormYearlyReportCosts form = new(dtpDate.Value.Year);
                 form.ShowDialog();
-
-                if (form.DialogResult == DialogResult.OK)
-                    monthlyOutgoings.AddRange(form.ResultObject as decimal[]);
-
-                else
-                    monthlyOutgoings.AddRange(new MonthlyOutgoingsRepository().GetAll().OrderBy(x => x.Month).Select(x => x.Outgoing).ToArray());
             }
 
             if (rbProduction.Checked)
-                FillProductionReport(dgReport, (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, monthlyOutgoings.ToArray(), cbCalculateAllInterval.Checked));
+                FillProductionReport(dgReport, (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked));
             else if (rbSales.Checked)
-                FillSalesReport(dgReport, (DateRangedSalesReport)ReportCreator<DateRangedSalesReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, monthlyOutgoings.ToArray(), cbCalculateAllInterval.Checked));
+                FillSalesReport(dgReport, (DateRangedSalesReport)ReportCreator<DateRangedSalesReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked));
 
-            if (new MonthlyOutgoingsRepository().GetByMonth(dtpDate.Value.Month) != null)
+            if (new MonthlyOutgoingsRepository().GetByDate(dtpDate.Value.Year, dtpDate.Value.Month) != null)
             new MonthlyOutgoingsRepository().Update(new()
             {
-                Outgoing = nudOutgoing.Value,
-                Month = dtpDate.Value.Month
-            }, new MonthlyOutgoingsRepository().GetByMonth(dtpDate.Value.Month).ID);
+                Year = dtpDate.Value.Year,
+                Month = dtpDate.Value.Month,
+                Outgoing = nudOutgoing.Value
+            }, new MonthlyOutgoingsRepository().GetByDate(dtpDate.Value.Year, dtpDate.Value.Month).ID);
 
             else
                 new MonthlyOutgoingsRepository().Add(new()
                 {
+                    Year = dtpDate.Value.Year,
                     Month = dtpDate.Value.Month,
                     Outgoing = nudOutgoing.Value
                 });
@@ -815,8 +811,8 @@ namespace EnezcamERP
 
         private void dtpDate_ValueChanged(object sender, EventArgs e)
         {
-            if (new MonthlyOutgoingsRepository().GetByMonth((sender as DateTimePicker).Value.Month) != null)
-                nudOutgoing.Value = new MonthlyOutgoingsRepository().GetByMonth((sender as DateTimePicker).Value.Month).Outgoing;
+            if (new MonthlyOutgoingsRepository().GetByDate((sender as DateTimePicker).Value.Year, (sender as DateTimePicker).Value.Month) != null)
+                nudOutgoing.Value = new MonthlyOutgoingsRepository().GetByDate((sender as DateTimePicker).Value.Year, (sender as DateTimePicker).Value.Month).Outgoing;
         }
         #endregion
 

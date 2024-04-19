@@ -5,9 +5,9 @@ namespace BL.Repositories.Repositories
 {
     public class MonthlyOutgoingsRepository : GenericRepository<MonthlyOutgoing>, IRepository<MonthlyOutgoing>
     {
-        public MonthlyOutgoing GetByMonth(int month)
+        public MonthlyOutgoing GetByDate(int year, int month)
         {
-            return base.GetAll(x => x.Month == month).FirstOrDefault();
+            return base.GetAll(x => x.Month == month & x.Year == year).FirstOrDefault();
         }
     }
 }

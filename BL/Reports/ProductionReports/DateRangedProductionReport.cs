@@ -1,16 +1,17 @@
 ﻿using BL.Report.Enums;
 using BL.Reports.Enums;
+using BL.Repositories.Repositories;
+using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
 
 namespace BL.Reports.ProductionReports
 {
     public class DateRangedProductionReport : IDateRangedReport
     {
-        public DateRangedProductionReport(DateTime date, ReportInterval interval, decimal outgoing, decimal[]? monthlyOutgoings, bool calculateAllInterval)
+        public DateRangedProductionReport(DateTime date, ReportInterval interval, decimal outgoing, bool calculateAllInterval)
         {
             _interval = interval;
             _outgoing = outgoing;
-            _monthlyOutgoings = monthlyOutgoings;
             _calculateAllInterval = calculateAllInterval;
 
             SetDateRange(date, interval);
@@ -47,7 +48,7 @@ namespace BL.Reports.ProductionReports
         public DateTime DateRangeEnd => _dateRangeEnd;
 
         decimal _outgoing;
-        decimal[] _monthlyOutgoings;
+        List<MonthlyOutgoing> _monthlyOutgoings;
 
         bool _calculateAllInterval;
 
@@ -60,10 +61,12 @@ namespace BL.Reports.ProductionReports
 
             DateTime date = DateRangeStart;
 
+            _monthlyOutgoings = new MonthlyOutgoingsRepository().GetAll(x => (x.Year >= DateRangeStart.Year & x.Month >= DateRangeStart.Month) & (x.Year <= DateRangeEnd.Year & x.Month <= DateRangeEnd.Month)).ToList();
+
             while (date <= DateRangeEnd)
             {
                 if ((int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5)
-                    DailyProductionReports.Add(new(date, ((int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5) && date.Date <= (_calculateAllInterval ? _dateRangeEnd : DateTime.Now.Date) ? (_interval == ReportInterval.Yearly ? _monthlyOutgoings[date.Month - 1] : _outgoing) : 0));
+                    DailyProductionReports.Add(new(date, ((int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5) && date.Date <= (_calculateAllInterval ? _dateRangeEnd : DateTime.Now.Date) ? (_interval == ReportInterval.Yearly ? _monthlyOutgoings.Where(x=>x.Year == date.Year & x.Month >= date.Month).FirstOrDefault().Outgoing : _outgoing) : 0));
                 date = date.AddDays(1);
             }
         }

@@ -4,10 +4,13 @@ namespace EnezcamERP.Forms.Yearly_Report_Cost_Form
 {
     public partial class FormYearlyReportCosts : Form
     {
-        public FormYearlyReportCosts()
+        public FormYearlyReportCosts(int year)
         {
+            _year = year;
             InitializeComponent();
         }
+
+        int _year;
 
         private void FormYearlyReportCosts_Load(object sender, EventArgs e)
         {
@@ -54,7 +57,7 @@ namespace EnezcamERP.Forms.Yearly_Report_Cost_Form
 
             for (int i = 0; i < outgoings.Count; i++)
             {
-                var res = moRepository.GetByMonth(i + 1);
+                var res = moRepository.GetByDate(_year ,i + 1);
 
                 if (res != null)
                     res.Outgoing = outgoings[i];

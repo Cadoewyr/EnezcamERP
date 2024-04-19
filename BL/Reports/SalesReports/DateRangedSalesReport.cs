@@ -1,16 +1,16 @@
 ﻿using BL.Report.Enums;
 using BL.Reports.Enums;
+using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
 
 namespace BL.Reports.SalesReports
 {
     public class DateRangedSalesReport : IDateRangedReport
     {
-        public DateRangedSalesReport(DateTime date, ReportInterval interval, decimal outgoing, decimal[]? monthlyOutgoings, bool calculateAllInterval)
+        public DateRangedSalesReport(DateTime date, ReportInterval interval, decimal outgoing, bool calculateAllInterval)
         {
             _interval = interval;
             _outgoing = outgoing;
-            _monthlyOutgoings = monthlyOutgoings;
             _calculateAllInterval = calculateAllInterval;
 
             SetDateRange(date, interval);
@@ -47,7 +47,7 @@ namespace BL.Reports.SalesReports
         public DateTime DateRangeEnd => _dateRangeEnd;
 
         decimal _outgoing;
-        decimal[] _monthlyOutgoings;
+        List<MonthlyOutgoing> _monthlyOutgoings;
 
         bool _calculateAllInterval;
 
@@ -63,7 +63,7 @@ namespace BL.Reports.SalesReports
             while (date <= DateRangeEnd)
             {
                 if ((int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5)
-                    DailySalesReports.Add(new(date, ((int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5) && date.Date <= (_calculateAllInterval ? _dateRangeEnd : DateTime.Now.Date) ? (_interval == ReportInterval.Yearly ? _monthlyOutgoings[date.Month - 1] : _outgoing) : 0));
+                    DailySalesReports.Add(new(date, ((int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5) && date.Date <= (_calculateAllInterval ? _dateRangeEnd : DateTime.Now.Date) ? (_interval == ReportInterval.Yearly ? _monthlyOutgoings.Where(x => x.Year == date.Year & x.Month >= date.Month).FirstOrDefault().Outgoing : _outgoing) : 0));
 
                 date = date.AddDays(1);
             }
