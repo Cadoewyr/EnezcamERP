@@ -66,13 +66,11 @@ namespace EnezcamERP.Forms.Yearly_Report_Cost_Form
                     moRepository.Add(new()
                     {
                         Outgoing = outgoings[i],
-                        Month = i + 1
+                        Month = i + 1,
+                        Year = _year
                     });
                 }
             }
-
-            this.ResultObject = outgoings.ToArray();
-            this.DialogResult = DialogResult.OK;
         }
     }
 }
