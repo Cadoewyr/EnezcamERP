@@ -183,5 +183,10 @@ namespace EnezcamERP.Forms.Order_Forms
             else
                 MessageBox.Show("Herhangi bir ürün seçili değil.");
         }
+
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Seçilen ürün koduna ait aynı ölçülerle girilmiş en son siparişteki maliyet ve fiyatı getirir.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }

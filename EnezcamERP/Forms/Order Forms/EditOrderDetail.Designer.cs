@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             gbOrderDetail = new GroupBox();
+            btnGetCostAndPrice = new Button();
             lblSearch = new Label();
             txtSearch = new TextBox();
             nudHeight = new NumericUpDown();
@@ -59,7 +60,7 @@
             clmLastPrice = new ColumnHeader();
             clmIsCounting = new ColumnHeader();
             lblProduct = new Label();
-            btnGetCostAndPrice = new Button();
+            btnHelp = new Button();
             gbOrderDetail.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudHeight).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudWidth).BeginInit();
@@ -73,6 +74,7 @@
             // gbOrderDetail
             // 
             gbOrderDetail.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbOrderDetail.Controls.Add(btnHelp);
             gbOrderDetail.Controls.Add(btnGetCostAndPrice);
             gbOrderDetail.Controls.Add(lblSearch);
             gbOrderDetail.Controls.Add(txtSearch);
@@ -104,6 +106,17 @@
             gbOrderDetail.TabIndex = 0;
             gbOrderDetail.TabStop = false;
             gbOrderDetail.Text = "Sipariş Detayı";
+            // 
+            // btnGetCostAndPrice
+            // 
+            btnGetCostAndPrice.Location = new Point(534, 297);
+            btnGetCostAndPrice.Name = "btnGetCostAndPrice";
+            btnGetCostAndPrice.Size = new Size(251, 29);
+            btnGetCostAndPrice.TabIndex = 30;
+            btnGetCostAndPrice.TabStop = false;
+            btnGetCostAndPrice.Text = "Maliyet ve Fiyat Getir";
+            btnGetCostAndPrice.UseVisualStyleBackColor = true;
+            btnGetCostAndPrice.Click += btnGetCostAndPrice_Click;
             // 
             // lblSearch
             // 
@@ -382,16 +395,16 @@
             lblProduct.TabIndex = 0;
             lblProduct.Text = "Ürün";
             // 
-            // btnGetCostAndPrice
+            // btnHelp
             // 
-            btnGetCostAndPrice.Location = new Point(534, 297);
-            btnGetCostAndPrice.Name = "btnGetCostAndPrice";
-            btnGetCostAndPrice.Size = new Size(251, 29);
-            btnGetCostAndPrice.TabIndex = 30;
-            btnGetCostAndPrice.TabStop = false;
-            btnGetCostAndPrice.Text = "Maliyet ve Fiyat Getir";
-            btnGetCostAndPrice.UseVisualStyleBackColor = true;
-            btnGetCostAndPrice.Click += btnGetCostAndPrice_Click;
+            btnHelp.Location = new Point(499, 297);
+            btnHelp.Name = "btnHelp";
+            btnHelp.Size = new Size(29, 29);
+            btnHelp.TabIndex = 31;
+            btnHelp.TabStop = false;
+            btnHelp.Text = "?";
+            btnHelp.UseVisualStyleBackColor = true;
+            btnHelp.Click += btnHelp_Click;
             // 
             // EditOrderDetail
             // 
@@ -452,5 +465,6 @@
         private TextBox txtSearch;
         private CheckBox cbUpdateSameProducts;
         private Button btnGetCostAndPrice;
+        private Button btnHelp;
     }
 }
