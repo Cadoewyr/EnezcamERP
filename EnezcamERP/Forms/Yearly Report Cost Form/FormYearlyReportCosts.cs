@@ -1,4 +1,5 @@
 ﻿using BL.Repositories.Repositories;
+using DAL.DTO.Entities;
 
 namespace EnezcamERP.Forms.Yearly_Report_Cost_Form
 {
@@ -18,7 +19,6 @@ namespace EnezcamERP.Forms.Yearly_Report_Cost_Form
         }
 
         MonthlyOutgoingsRepository moRepository = new();
-        public object ResultObject { get; set; }
 
         void FillNumericUpDownControls()
         {
@@ -60,7 +60,14 @@ namespace EnezcamERP.Forms.Yearly_Report_Cost_Form
                 var res = moRepository.GetByDate(_year ,i + 1);
 
                 if (res != null)
-                    res.Outgoing = outgoings[i];
+                {
+                    moRepository.Update(new MonthlyOutgoing()
+                    {
+                        Month = res.Month,
+                        Year = res.Year,
+                        Outgoing = outgoings[i]
+                    }, res.ID);
+                }
                 else
                 {
                     moRepository.Add(new()
