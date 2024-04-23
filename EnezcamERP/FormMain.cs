@@ -65,7 +65,6 @@ namespace EnezcamERP
                 lvi.SubItems.Add(item.GetQuantityString());
                 lvi.SubItems.Add(item.GetProducedQuantityString()).ForeColor = color;
                 lvi.SubItems.Add(item.GetRemainingQuantityString()).ForeColor = color;
-                lvi.SubItems.Add(item.Cost.ToString("C2"));
                 lvi.SubItems.Add(item.Price.ToString("C2"));
                 lvi.SubItems.Add(item.OrderDetails.Sum(x => x.FinalPriceWithTax).ToString("C2"));
                 lvi.SubItems.Add(item.Profit.ToString("C2"));
@@ -129,6 +128,7 @@ namespace EnezcamERP
                 lvi.SubItems.Add(item.ContactName);
                 lvi.SubItems.Add(item.ContactPhone);
                 lvi.SubItems.Add(item.Address);
+                lvi.SubItems.Add(ordersDB.GetAll(x => x.Customer.ID == item.ID).Sum(x => x.Price).ToString("C2"));
 
                 listView.Items.Add(lvi);
             }

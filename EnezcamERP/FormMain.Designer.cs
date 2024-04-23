@@ -66,7 +66,6 @@
             clmQuantity = new ColumnHeader();
             clmProducedQuantity = new ColumnHeader();
             clmRemainingQuantity = new ColumnHeader();
-            clmCost = new ColumnHeader();
             clmPrice = new ColumnHeader();
             clmPriceWithTax = new ColumnHeader();
             clmProfit = new ColumnHeader();
@@ -116,6 +115,7 @@
             clmContactName = new ColumnHeader();
             clmContactPhone = new ColumnHeader();
             clmAddress = new ColumnHeader();
+            clmTotalPrice = new ColumnHeader();
             tabReports = new TabPage();
             gbTotals = new GroupBox();
             txtStockQuantity = new TextBox();
@@ -513,7 +513,7 @@
             // 
             lvOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lvOrders.CheckBoxes = true;
-            lvOrders.Columns.AddRange(new ColumnHeader[] { clmJobNo, clmCustomer, clmIssueDate, clmQuantity, clmProducedQuantity, clmRemainingQuantity, clmCost, clmPrice, clmPriceWithTax, clmProfit, clmProfitRatio, clmIsDone, clmCompletedDate });
+            lvOrders.Columns.AddRange(new ColumnHeader[] { clmJobNo, clmCustomer, clmIssueDate, clmQuantity, clmProducedQuantity, clmRemainingQuantity, clmPrice, clmPriceWithTax, clmProfit, clmProfitRatio, clmIsDone, clmCompletedDate });
             lvOrders.ContextMenuStrip = cmsOrders;
             lvOrders.Font = new Font("Segoe UI", 10F);
             lvOrders.FullRowSelect = true;
@@ -552,10 +552,6 @@
             // clmRemainingQuantity
             // 
             clmRemainingQuantity.Text = "Kalan Üretim";
-            // 
-            // clmCost
-            // 
-            clmCost.Text = "Maliyet";
             // 
             // clmPrice
             // 
@@ -884,7 +880,7 @@
             // lvCustomers
             // 
             lvCustomers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lvCustomers.Columns.AddRange(new ColumnHeader[] { clmCustomerName, clmCountry, clmCity, clmDescription, clmContactName, clmContactPhone, clmAddress });
+            lvCustomers.Columns.AddRange(new ColumnHeader[] { clmCustomerName, clmCountry, clmCity, clmDescription, clmContactName, clmContactPhone, clmAddress, clmTotalPrice });
             lvCustomers.Font = new Font("Segoe UI", 10F);
             lvCustomers.FullRowSelect = true;
             lvCustomers.GridLines = true;
@@ -925,6 +921,10 @@
             // clmAddress
             // 
             clmAddress.Text = "Adres";
+            // 
+            // clmTotalPrice
+            // 
+            clmTotalPrice.Text = "Toplam Satış Tutarı";
             // 
             // tabReports
             // 
@@ -1503,7 +1503,6 @@
         private ColumnHeader clmQuantity;
         private ColumnHeader clmProducedQuantity;
         private ColumnHeader clmPrice;
-        private ColumnHeader clmCost;
         private ColumnHeader clmProfit;
         private ColumnHeader clmProfitRatio;
         private TabControl tabMain;
@@ -1624,5 +1623,6 @@
         private ToolStripMenuItem seçimleriKaldırToolStripMenuItem;
         private ToolStripMenuItem aynıMüşterininSiparişleriniSeçToolStripMenuItem;
         private CheckBox cbCalculateAllInterval;
+        private ColumnHeader clmTotalPrice;
     }
 }
