@@ -38,6 +38,8 @@ namespace EnezcamERP
                     items = items.Where(x => x.IssueDate >= mcDateFilter.SelectionStart.Date & x.IssueDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1));
                 else if (rbCompletedDate.Checked)
                     items = items.Where(x => x.IsDone & x.CompletedDate >= mcDateFilter.SelectionStart.Date & x.CompletedDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1));
+                else if (rbDeliveryDate.Checked)
+                    items = items.Where(x => x.DeliveryDate >= mcDateFilter.SelectionStart.Date & x.DeliveryDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1));
             }
 
             foreach (var item in items.Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false))
@@ -62,6 +64,7 @@ namespace EnezcamERP
 
                 lvi.SubItems.Add(item.Customer.Name);
                 lvi.SubItems.Add(item.IssueDate.ToShortDateString());
+                lvi.SubItems.Add(item.DeliveryDate.ToShortDateString());
                 lvi.SubItems.Add(item.GetQuantityString());
                 lvi.SubItems.Add(item.GetProducedQuantityString()).ForeColor = color;
                 lvi.SubItems.Add(item.GetRemainingQuantityString()).ForeColor = color;
@@ -524,6 +527,7 @@ namespace EnezcamERP
             mcDateFilter.Enabled = cbDateFilter.Checked;
             rbOrderDate.Enabled = cbDateFilter.Checked;
             rbCompletedDate.Enabled = cbDateFilter.Checked;
+            rbDeliveryDate.Enabled = cbDateFilter.Checked;
         }
         private void mcDateFilter_DateSelected(object sender, DateRangeEventArgs e)
         {

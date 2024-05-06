@@ -47,9 +47,9 @@
             lblTotalQuantity = new Label();
             gbDateFilterSettings = new GroupBox();
             cbDateFilter = new CheckBox();
+            rbDeliveryDate = new RadioButton();
             rbCompletedDate = new RadioButton();
             rbOrderDate = new RadioButton();
-            lblDateFilter = new Label();
             mcDateFilter = new MonthCalendar();
             cbIsDone = new CheckBox();
             btnEditProducedOrders = new Button();
@@ -163,6 +163,7 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
+            clmDeliveryDate = new ColumnHeader();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             gbOrdersTotals.SuspendLayout();
@@ -199,7 +200,6 @@
             gbOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             gbOrders.Controls.Add(gbOrdersTotals);
             gbOrders.Controls.Add(gbDateFilterSettings);
-            gbOrders.Controls.Add(lblDateFilter);
             gbOrders.Controls.Add(mcDateFilter);
             gbOrders.Controls.Add(cbIsDone);
             gbOrders.Controls.Add(btnEditProducedOrders);
@@ -232,7 +232,7 @@
             gbOrdersTotals.Controls.Add(txtTotalQuantity);
             gbOrdersTotals.Controls.Add(lblTotalProducedQuantity);
             gbOrdersTotals.Controls.Add(lblTotalQuantity);
-            gbOrdersTotals.Location = new Point(1128, 461);
+            gbOrdersTotals.Location = new Point(1128, 462);
             gbOrdersTotals.Name = "gbOrdersTotals";
             gbOrdersTotals.Size = new Size(262, 353);
             gbOrdersTotals.TabIndex = 17;
@@ -351,13 +351,14 @@
             // 
             gbDateFilterSettings.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             gbDateFilterSettings.Controls.Add(cbDateFilter);
+            gbDateFilterSettings.Controls.Add(rbDeliveryDate);
             gbDateFilterSettings.Controls.Add(rbCompletedDate);
             gbDateFilterSettings.Controls.Add(rbOrderDate);
-            gbDateFilterSettings.Location = new Point(1128, 317);
+            gbDateFilterSettings.Location = new Point(1128, 279);
             gbDateFilterSettings.Margin = new Padding(3, 4, 3, 4);
             gbDateFilterSettings.Name = "gbDateFilterSettings";
             gbDateFilterSettings.Padding = new Padding(3, 4, 3, 4);
-            gbDateFilterSettings.Size = new Size(262, 137);
+            gbDateFilterSettings.Size = new Size(262, 176);
             gbDateFilterSettings.TabIndex = 16;
             gbDateFilterSettings.TabStop = false;
             gbDateFilterSettings.Text = "Filtre Ayarları";
@@ -366,7 +367,7 @@
             // 
             cbDateFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cbDateFilter.AutoSize = true;
-            cbDateFilter.Location = new Point(4, 36);
+            cbDateFilter.Location = new Point(6, 27);
             cbDateFilter.Name = "cbDateFilter";
             cbDateFilter.Size = new Size(173, 24);
             cbDateFilter.TabIndex = 9;
@@ -374,12 +375,27 @@
             cbDateFilter.UseVisualStyleBackColor = true;
             cbDateFilter.CheckedChanged += cbDateFilter_CheckedChanged;
             // 
+            // rbDeliveryDate
+            // 
+            rbDeliveryDate.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            rbDeliveryDate.AutoSize = true;
+            rbDeliveryDate.Enabled = false;
+            rbDeliveryDate.Location = new Point(6, 122);
+            rbDeliveryDate.Margin = new Padding(3, 4, 3, 4);
+            rbDeliveryDate.Name = "rbDeliveryDate";
+            rbDeliveryDate.Size = new Size(111, 24);
+            rbDeliveryDate.TabIndex = 12;
+            rbDeliveryDate.TabStop = true;
+            rbDeliveryDate.Text = "Teslim Tarihi";
+            rbDeliveryDate.UseVisualStyleBackColor = true;
+            rbDeliveryDate.CheckedChanged += DateFilterSettingsChanged;
+            // 
             // rbCompletedDate
             // 
             rbCompletedDate.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             rbCompletedDate.AutoSize = true;
             rbCompletedDate.Enabled = false;
-            rbCompletedDate.Location = new Point(3, 99);
+            rbCompletedDate.Location = new Point(6, 90);
             rbCompletedDate.Margin = new Padding(3, 4, 3, 4);
             rbCompletedDate.Name = "rbCompletedDate";
             rbCompletedDate.Size = new Size(158, 24);
@@ -395,7 +411,7 @@
             rbOrderDate.AutoSize = true;
             rbOrderDate.Checked = true;
             rbOrderDate.Enabled = false;
-            rbOrderDate.Location = new Point(2, 67);
+            rbOrderDate.Location = new Point(6, 58);
             rbOrderDate.Margin = new Padding(3, 4, 3, 4);
             rbOrderDate.Name = "rbOrderDate";
             rbOrderDate.Size = new Size(113, 24);
@@ -405,21 +421,11 @@
             rbOrderDate.UseVisualStyleBackColor = true;
             rbOrderDate.CheckedChanged += DateFilterSettingsChanged;
             // 
-            // lblDateFilter
-            // 
-            lblDateFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            lblDateFilter.AutoSize = true;
-            lblDateFilter.Location = new Point(1128, 59);
-            lblDateFilter.Name = "lblDateFilter";
-            lblDateFilter.Size = new Size(88, 20);
-            lblDateFilter.TabIndex = 14;
-            lblDateFilter.Text = "Tarih Aralığı";
-            // 
             // mcDateFilter
             // 
             mcDateFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             mcDateFilter.Enabled = false;
-            mcDateFilter.Location = new Point(1128, 88);
+            mcDateFilter.Location = new Point(1128, 59);
             mcDateFilter.MaxSelectionCount = 42;
             mcDateFilter.MinDate = new DateTime(2020, 1, 1, 0, 0, 0, 0);
             mcDateFilter.Name = "mcDateFilter";
@@ -513,7 +519,7 @@
             // 
             lvOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lvOrders.CheckBoxes = true;
-            lvOrders.Columns.AddRange(new ColumnHeader[] { clmJobNo, clmCustomer, clmIssueDate, clmQuantity, clmProducedQuantity, clmRemainingQuantity, clmPrice, clmPriceWithTax, clmProfit, clmProfitRatio, clmIsDone, clmCompletedDate });
+            lvOrders.Columns.AddRange(new ColumnHeader[] { clmJobNo, clmCustomer, clmIssueDate, clmDeliveryDate, clmQuantity, clmProducedQuantity, clmRemainingQuantity, clmPrice, clmPriceWithTax, clmProfit, clmProfitRatio, clmIsDone, clmCompletedDate });
             lvOrders.ContextMenuStrip = cmsOrders;
             lvOrders.Font = new Font("Segoe UI", 10F);
             lvOrders.FullRowSelect = true;
@@ -1445,6 +1451,10 @@
             dgReport.Size = new Size(1144, 619);
             dgReport.TabIndex = 0;
             // 
+            // clmDeliveryDate
+            // 
+            clmDeliveryDate.Text = "Teslim Tarihi";
+            // 
             // FormMain
             // 
             AcceptButton = btnCreateReport;
@@ -1545,7 +1555,6 @@
         private ColumnHeader clmAddress;
         private ColumnHeader clmPriceWithTax;
         private ColumnHeader clmIsDone;
-        private Label lblDateFilter;
         private MonthCalendar mcDateFilter;
         private CheckBox cbDateFilter;
         private TabPage tabReports;
@@ -1624,5 +1633,7 @@
         private ToolStripMenuItem aynıMüşterininSiparişleriniSeçToolStripMenuItem;
         private CheckBox cbCalculateAllInterval;
         private ColumnHeader clmTotalPrice;
+        private RadioButton rbDeliveryDate;
+        private ColumnHeader clmDeliveryDate;
     }
 }
