@@ -494,7 +494,6 @@ namespace EnezcamERP
             if (!cbIsDone.Checked)
                 cbIsDone.Checked = cbDateFilter.Checked & rbCompletedDate.Checked;
         }
-
         private void btnAddOrder_Click(object sender, EventArgs e)
         {
             AddOrder();
@@ -856,7 +855,5 @@ namespace EnezcamERP
         }
 
         #endregion
-
-
     }
 }

@@ -91,8 +91,20 @@ namespace EnezcamERP.Forms.Order_Forms
                 ListViewItem lvi = new()
                 {
                     Tag = item,
-                    Text = item.Product.Code
+                    Text = item.Product.Code,
+                    UseItemStyleForSubItems = false
                 };
+
+                Color color;
+
+                if (item.ProducedQuantity == 0)
+                    color = Color.MediumVioletRed;
+                else if (item.ProducedQuantity > 0 & item.ProducedQuantity < item.Quantity)
+                    color = Color.MediumPurple;
+                else if (item.ProducedQuantity >= item.Quantity)
+                    color = Color.Green;
+                else
+                    color = Color.Black;
 
                 lvi.SubItems.Add(item.Product.Name);
                 lvi.SubItems.Add(item.GetSizeString());
@@ -102,6 +114,7 @@ namespace EnezcamERP.Forms.Order_Forms
                 lvi.SubItems.Add(item.UnitCode.ToString());
                 lvi.SubItems.Add(item.UnitCost.ToString("C2"));
                 lvi.SubItems.Add(item.UnitPrice.ToString("C2"));
+
                 if (order.OrderDetails.Any(x => x.DiscountRatio > 0))
                 {
                     if (!lvOrderDetails.Columns.Contains(clmDiscountedUnitPrice))
@@ -113,9 +126,10 @@ namespace EnezcamERP.Forms.Order_Forms
                     lvi.SubItems.Add(item.FinalUnitPrice.ToString("C2"));
                     lvi.SubItems.Add((item.DiscountRatio / 100).ToString("P0"));
                 }
+
                 lvi.SubItems.Add((item.TaxRatio / 100).ToString("P0"));
-                lvi.SubItems.Add(item.GetProducedQuantityString());
-                lvi.SubItems.Add(item.GetRemainingQuantityString());
+                lvi.SubItems.Add(item.GetProducedQuantityString()).ForeColor = color;
+                lvi.SubItems.Add(item.GetRemainingQuantityString()).ForeColor = color;
                 lvi.SubItems.Add(item.Cost.ToString("C2"));
                 lvi.SubItems.Add(item.FinalPrice.ToString("C2"));
                 lvi.SubItems.Add(item.Profit.ToString("C2"));

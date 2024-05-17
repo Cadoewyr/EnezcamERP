@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             gbOrderDetail = new GroupBox();
+            btnHelp = new Button();
             btnGetCostAndPrice = new Button();
             lblSearch = new Label();
             txtSearch = new TextBox();
@@ -60,7 +61,6 @@
             clmLastPrice = new ColumnHeader();
             clmIsCounting = new ColumnHeader();
             lblProduct = new Label();
-            btnHelp = new Button();
             gbOrderDetail.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudHeight).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudWidth).BeginInit();
@@ -107,8 +107,21 @@
             gbOrderDetail.TabStop = false;
             gbOrderDetail.Text = "Sipariş Detayı";
             // 
+            // btnHelp
+            // 
+            btnHelp.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnHelp.Location = new Point(499, 297);
+            btnHelp.Name = "btnHelp";
+            btnHelp.Size = new Size(29, 29);
+            btnHelp.TabIndex = 31;
+            btnHelp.TabStop = false;
+            btnHelp.Text = "?";
+            btnHelp.UseVisualStyleBackColor = true;
+            btnHelp.Click += btnHelp_Click;
+            // 
             // btnGetCostAndPrice
             // 
+            btnGetCostAndPrice.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnGetCostAndPrice.Location = new Point(534, 297);
             btnGetCostAndPrice.Name = "btnGetCostAndPrice";
             btnGetCostAndPrice.Size = new Size(251, 29);
@@ -394,17 +407,6 @@
             lblProduct.Size = new Size(40, 20);
             lblProduct.TabIndex = 0;
             lblProduct.Text = "Ürün";
-            // 
-            // btnHelp
-            // 
-            btnHelp.Location = new Point(499, 297);
-            btnHelp.Name = "btnHelp";
-            btnHelp.Size = new Size(29, 29);
-            btnHelp.TabIndex = 31;
-            btnHelp.TabStop = false;
-            btnHelp.Text = "?";
-            btnHelp.UseVisualStyleBackColor = true;
-            btnHelp.Click += btnHelp_Click;
             // 
             // EditOrderDetail
             // 
