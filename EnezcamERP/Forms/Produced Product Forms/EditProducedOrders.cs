@@ -238,13 +238,13 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
         }
         private void lvOrderDetails_SelectedIndexChangedAndChecked(object sender, EventArgs e)
         {
-            if ((sender as ListView).SelectedItems.Count > 0)
+            if ((sender as ListView).SelectedItems.Count > 0 & !cbListAllProductionHistory.Checked & (sender as ListView).CheckedItems.Count == 0)
             {
                 RefreshProduceHistory(((sender as ListView).SelectedItems[0].Tag as OrderDetail).ProducedOrders);
                 RefreshOrderDetailTotals((sender as ListView).SelectedItems[0].Tag as OrderDetail);
             }
 
-            if ((sender as ListView).CheckedItems.Count > 0)
+            if ((sender as ListView).CheckedItems.Count > 0 & !cbListAllProductionHistory.Checked & (sender as ListView).CheckedItems.Count > 0)
             {
                 btnAddProducedQuantity.Enabled = false;
                 btnMultipleComplete.Enabled = true;
@@ -257,6 +257,7 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                     orderDetails.Add(item.Tag as OrderDetail);
                 }
 
+                RefreshProduceHistory(orderDetails.SelectMany(x => x.ProducedOrders).OrderBy(x => x.ProducedDate));
                 RefreshOrderDetailsTotals(orderDetails.ToArray());
             }
             else
@@ -359,6 +360,17 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                         item.Checked = true;
                 }
             }
+        }
+
+        private void cbListAllProductionHistory_CheckedChanged(object sender, EventArgs e)
+        {
+            if ((sender as CheckBox).Enabled)
+            {
+                RefreshProduceHistory(order.OrderDetails.SelectMany(x => x.ProducedOrders).OrderBy(x => x.ProducedDate));
+                RefreshOrderDetailsTotals(order.OrderDetails.ToArray());
+            }
+            else
+                lvOrderDetails_SelectedIndexChangedAndChecked(lvProduceHistory, e); 
         }
     }
 }

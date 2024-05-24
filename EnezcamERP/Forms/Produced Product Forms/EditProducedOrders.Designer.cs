@@ -67,6 +67,7 @@
             lblRemainingQuantity = new Label();
             lnlProductName = new Label();
             lblQuantity = new Label();
+            cbListAllProductionHistory = new CheckBox();
             gbOrderDetail.SuspendLayout();
             cmsProducedOrders.SuspendLayout();
             gbProducedOrders.SuspendLayout();
@@ -170,6 +171,7 @@
             // gbProducedOrders
             // 
             gbProducedOrders.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbProducedOrders.Controls.Add(cbListAllProductionHistory);
             gbProducedOrders.Controls.Add(gbAddDeleteProducedOrders);
             gbProducedOrders.Controls.Add(txtRemainigQuantity);
             gbProducedOrders.Controls.Add(txtProducedQuantity);
@@ -342,10 +344,10 @@
             lvProduceHistory.Columns.AddRange(new ColumnHeader[] { clmDate, clmProducedQuantity, clmRemaningQuantity, clmIsStock });
             lvProduceHistory.FullRowSelect = true;
             lvProduceHistory.GridLines = true;
-            lvProduceHistory.Location = new Point(6, 29);
+            lvProduceHistory.Location = new Point(6, 59);
             lvProduceHistory.MultiSelect = false;
             lvProduceHistory.Name = "lvProduceHistory";
-            lvProduceHistory.Size = new Size(633, 369);
+            lvProduceHistory.Size = new Size(633, 339);
             lvProduceHistory.TabIndex = 1;
             lvProduceHistory.UseCompatibleStateImageBehavior = false;
             lvProduceHistory.View = View.Details;
@@ -396,6 +398,19 @@
             lblQuantity.Size = new Size(51, 20);
             lblQuantity.TabIndex = 0;
             lblQuantity.Text = "Miktar";
+            // 
+            // cbListAllProductionHistory
+            // 
+            cbListAllProductionHistory.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            cbListAllProductionHistory.AutoSize = true;
+            cbListAllProductionHistory.Location = new Point(6, 29);
+            cbListAllProductionHistory.Name = "cbListAllProductionHistory";
+            cbListAllProductionHistory.Size = new Size(165, 24);
+            cbListAllProductionHistory.TabIndex = 9;
+            cbListAllProductionHistory.TabStop = false;
+            cbListAllProductionHistory.Text = "Tüm Üretim Geçmişi";
+            cbListAllProductionHistory.UseVisualStyleBackColor = true;
+            cbListAllProductionHistory.CheckedChanged += cbListAllProductionHistory_CheckedChanged;
             // 
             // EditProducedOrders
             // 
@@ -459,5 +474,6 @@
         private ToolStripMenuItem checkAllToolStripMenuItem;
         private ToolStripMenuItem checkSameProductsToolStripMenuItem;
         private ToolStripMenuItem uncheckAllToolStripMenuItem;
+        private CheckBox cbListAllProductionHistory;
     }
 }
