@@ -148,8 +148,37 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                     item.Selected = true;
             }
 
-            RefreshProduceHistory(order.OrderDetails.First(x => x == lvOrderDetails.SelectedItems[0].Tag as OrderDetail).ProducedOrders);
-            RefreshOrderDetailTotals(lvOrderDetails.SelectedItems[0].Tag as OrderDetail);
+            if(!cbListAllProductionHistory.Checked & lvOrderDetails.SelectedItems.Count > 0 & lvOrderDetails.CheckedItems.Count == 0)
+            {
+                RefreshProduceHistory(order.OrderDetails.First(x => x == lvOrderDetails.SelectedItems[0].Tag as OrderDetail).ProducedOrders);
+                RefreshOrderDetailTotals(lvOrderDetails.SelectedItems[0].Tag as OrderDetail);
+            }
+            else if (!cbListAllProductionHistory.Checked & lvOrderDetails.CheckedItems.Count > 0)
+            {
+                List<OrderDetail> orderDetails = [];
+
+                foreach (ListViewItem item in lvOrderDetails.CheckedItems)
+                {
+                    orderDetails.Add(item.Tag as OrderDetail);
+                }
+
+                RefreshProduceHistory(orderDetails.SelectMany(x => x.ProducedOrders).OrderBy(x => x.ProducedDate));
+                RefreshOrderDetailsTotals(orderDetails.ToArray());
+            }
+            else if (cbListAllProductionHistory.Checked)
+            {
+                List<OrderDetail> orderDetails = [];
+
+                foreach (ListViewItem item in lvOrderDetails.CheckedItems)
+                {
+                    orderDetails.Add(item.Tag as OrderDetail);
+                }
+
+                RefreshProduceHistory(order.OrderDetails.SelectMany(x => x.ProducedOrders).OrderBy(x => x.ProducedDate));
+                RefreshOrderDetailsTotals(orderDetails.ToArray());
+            }
+
+            
         }
 
         private void btnAddProducedOrder_Click(object sender, EventArgs e)
