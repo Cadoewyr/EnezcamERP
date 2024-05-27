@@ -42,6 +42,8 @@ namespace EnezcamERP
                     items = items.Where(x => x.DeliveryDate >= mcDateFilter.SelectionStart.Date & x.DeliveryDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1));
             }
 
+            List<ListViewItem> lviList = [];
+
             foreach (var item in items.Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false))
             {
                 ListViewItem lvi = new()
@@ -75,8 +77,10 @@ namespace EnezcamERP
                 lvi.SubItems.Add(item.IsDone ? "Tamamlandý" : "Üretimde");
                 lvi.SubItems.Add(item.IsDone & item.CompletedDate.HasValue ? item.CompletedDate.Value.ToShortDateString() : string.Empty);
 
-                listView.Items.Add(lvi);
+                lviList.Add(lvi);
             }
+
+            listView.Items.AddRange(lviList.ToArray());
 
             if (columnHeaderAutoResizeStyle != null)
                 listView.AutoResizeColumns(columnHeaderAutoResizeStyle.Value);
