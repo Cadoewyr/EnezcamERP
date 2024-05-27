@@ -34,7 +34,8 @@ namespace BL.Reports.SalesReports
                     x.DiscountRatio == item.DiscountRatio &
                     x.TaxRatio == item.TaxRatio &
                     x.FinalUnitPrice == item.FinalUnitPrice &
-                    x.DiscountRatio == item.DiscountRatio
+                    x.DiscountRatio == item.DiscountRatio &
+                    x.Product.ID == item.Product.ID
                 ))
                     entry = DailySalesEntries.First(x =>
                     x.JobNo == item.Order.JobNo &
@@ -45,7 +46,8 @@ namespace BL.Reports.SalesReports
                     x.DiscountRatio == item.DiscountRatio &
                     x.TaxRatio == item.TaxRatio &
                     x.FinalUnitPrice == item.FinalUnitPrice &
-                    x.DiscountRatio == item.DiscountRatio
+                    x.DiscountRatio == item.DiscountRatio &
+                    x.Product.ID == item.Product.ID
                 );
 
                 if (entry != null)
@@ -54,6 +56,7 @@ namespace BL.Reports.SalesReports
                 {
                     DailySalesEntries.Add(new()
                     {
+                        Product = item.Product,
                         IssueDate = item.Order.IssueDate.Date,
                         TaxRatio = item.TaxRatio,
                         CustomerName = item.Order.Customer.Name,

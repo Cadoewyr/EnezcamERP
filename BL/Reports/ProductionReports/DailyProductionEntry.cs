@@ -1,9 +1,13 @@
-﻿using DAL.DTO.Entities.Enums;
+﻿using DAL.DTO.Entities;
+using DAL.DTO.Entities.Enums;
+using Microsoft.Identity.Client;
 
 namespace BL.Reports.ProductionReports
 {
     public class DailyProductionEntry
     {
+        public Product Product { get; set; }
+
         public DateTime IssueDate { get; set; }
         public string CustomerName { get; set; }
         public int JobNo { get; set; }
