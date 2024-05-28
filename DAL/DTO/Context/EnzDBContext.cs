@@ -35,6 +35,25 @@ namespace DAL.DTO.Context
             optionsBuilder.UseSqlServer("Server=.;Database=EnezcamERP;Trusted_Connection=True;TrustServerCertificate=True;");
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<PriceHistory>()
+                .Property(e => e.LastCost)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<PriceHistory>()
+                .Property(e => e.LastPrice)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<OrderDetail>()
+                .Property(e => e.UnitCost)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<OrderDetail>()
+                .Property(e => e.UnitPrice)
+                .HasPrecision(18, 2);
+        }
+
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
             configurationBuilder.Properties<decimal>().HavePrecision(18, 3);
