@@ -78,6 +78,8 @@ namespace EnezcamERP.Forms.Yearly_Report_Cost_Form
                     });
                 }
             }
+
+            this.Close();
         }
     }
 }

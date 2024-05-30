@@ -1,5 +1,6 @@
 ﻿using BL.Report.Enums;
 using BL.Reports.Enums;
+using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
 
@@ -59,6 +60,8 @@ namespace BL.Reports.SalesReports
             DailySalesReports.Clear();
 
             DateTime date = DateRangeStart;
+
+            _monthlyOutgoings = new MonthlyOutgoingsRepository().GetAll(x => (x.Year >= DateRangeStart.Year & x.Month >= DateRangeStart.Month) & (x.Year <= DateRangeEnd.Year & x.Month <= DateRangeEnd.Month)).ToList();
 
             while (date <= DateRangeEnd)
             {

@@ -9,6 +9,9 @@ namespace BL.Reports.SalesReports
     {
         public DailySalesReport(DateTime date, decimal outgoing)
         {
+            if (date == null | outgoing == null)
+                throw new ArgumentNullException("null");
+
             _date = date.Date;
             _outgoing = outgoing;
 
