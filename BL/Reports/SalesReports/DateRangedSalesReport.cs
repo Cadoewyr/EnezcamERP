@@ -24,7 +24,7 @@ namespace BL.Reports.SalesReports
         }
         DateTime GetWeekEnd(DateTime date)
         {
-            return GetWeekStart(date).AddDays(5).AddTicks(-1);
+            return GetWeekStart(date).AddDays(7).AddTicks(-1);
         }
         DateTime GetMonthStart(DateTime date)
         {
@@ -65,8 +65,8 @@ namespace BL.Reports.SalesReports
 
             while (date <= DateRangeEnd)
             {
-                if ((int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5)
-                    DailySalesReports.Add(new(date, ((int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5) && date.Date <= (_calculateAllInterval ? _dateRangeEnd : DateTime.Now.Date) ? (_interval == ReportInterval.Yearly ? _monthlyOutgoings.Where(x => x.Year == date.Year & x.Month >= date.Month).FirstOrDefault().Outgoing : _outgoing) : 0));
+                if (new OrderRepository().GetAll(x => x.IssueDate.Date == date.Date).Count() > 0 || (int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5)
+                    DailySalesReports.Add(new(date, (new OrderRepository().GetAll(x => x.IssueDate.Date == date.Date).Count() > 0 || (int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5) && date.Date <= (_calculateAllInterval ? _dateRangeEnd : DateTime.Now.Date) ? (_interval == ReportInterval.Yearly ? _monthlyOutgoings.Where(x => x.Year == date.Year & x.Month >= date.Month).FirstOrDefault().Outgoing : _outgoing) : 0));
 
                 date = date.AddDays(1);
             }
