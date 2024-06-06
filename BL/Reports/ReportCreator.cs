@@ -7,12 +7,12 @@ namespace BL.Reports
 {
     public class ReportCreator<T> where T : class, IDateRangedReport
     {
-        public static IDateRangedReport Create(DateTime date, ReportInterval interval, decimal outgoing, bool calculateAllInterval)
+        public static IDateRangedReport Create(DateTime date, ReportInterval interval, decimal outgoing, bool calculateAllInterval, bool IsOvertime)
         {
             IDateRangedReport report = null;
 
             if (typeof(T) == typeof(DateRangedProductionReport))
-                report = new DateRangedProductionReport(date, interval, outgoing, calculateAllInterval);
+                report = new DateRangedProductionReport(date, interval, outgoing, calculateAllInterval, IsOvertime);
             else if (typeof(T) == typeof(DateRangedSalesReport))
                 report = new DateRangedSalesReport(date, interval, outgoing, calculateAllInterval);
 

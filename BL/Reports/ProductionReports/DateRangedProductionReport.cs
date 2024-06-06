@@ -8,11 +8,12 @@ namespace BL.Reports.ProductionReports
 {
     public class DateRangedProductionReport : IDateRangedReport
     {
-        public DateRangedProductionReport(DateTime date, ReportInterval interval, decimal outgoing, bool calculateAllInterval)
+        public DateRangedProductionReport(DateTime date, ReportInterval interval, decimal outgoing, bool calculateAllInterval, bool IsOvertime)
         {
             _interval = interval;
             _outgoing = outgoing;
             _calculateAllInterval = calculateAllInterval;
+            _IsOvertime = IsOvertime;
 
             SetDateRange(date, interval);
             CreateReport();
@@ -51,6 +52,7 @@ namespace BL.Reports.ProductionReports
         List<MonthlyOutgoing> _monthlyOutgoings;
 
         bool _calculateAllInterval;
+        bool _IsOvertime;
 
         ReportInterval _interval;
         public ReportInterval Interval => _interval;
@@ -65,8 +67,8 @@ namespace BL.Reports.ProductionReports
 
             while (date <= DateRangeEnd)
             {
-                if (new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date).Count() > 0 || (int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5)
-                    DailyProductionReports.Add(new(date, (new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date).Count() > 0 || (int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5) && date.Date <= (_calculateAllInterval ? _dateRangeEnd : DateTime.Now.Date) ? (_interval == ReportInterval.Yearly ? _monthlyOutgoings.Where(x=>x.Year == date.Year & x.Month >= date.Month).FirstOrDefault().Outgoing : _outgoing) : 0));
+                if (new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date & x.IsOvertime == _IsOvertime).Count() > 0 || (int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5)
+                    DailyProductionReports.Add(new(date, (new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date & x.IsOvertime == _IsOvertime).Count() > 0 || (int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5) && date.Date <= (_calculateAllInterval ? _dateRangeEnd : DateTime.Now.Date) ? (_interval == ReportInterval.Yearly ? _monthlyOutgoings.Where(x => x.Year == date.Year & x.Month >= date.Month).FirstOrDefault().Outgoing : _outgoing) : 0, _IsOvertime));
                 date = date.AddDays(1);
             }
         }

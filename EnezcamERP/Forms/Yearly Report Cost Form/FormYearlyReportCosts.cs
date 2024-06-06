@@ -24,7 +24,7 @@ namespace EnezcamERP.Forms.Yearly_Report_Cost_Form
         {
             var res = moRepository.GetAll();
 
-            nudM1.Value = res.Where(x=>x.Month == 1).First() != null ? res.Where(x => x.Month == 1).First().Outgoing : 0;
+            nudM1.Value = res.Where(x => x.Month == 1).First() != null ? res.Where(x => x.Month == 1).First().Outgoing : 0;
             nudM2.Value = res.Where(x => x.Month == 2).First() != null ? res.Where(x => x.Month == 2).First().Outgoing : 0;
             nudM3.Value = res.Where(x => x.Month == 3).First() != null ? res.Where(x => x.Month == 3).First().Outgoing : 0;
             nudM4.Value = res.Where(x => x.Month == 4).First() != null ? res.Where(x => x.Month == 4).First().Outgoing : 0;
@@ -57,7 +57,7 @@ namespace EnezcamERP.Forms.Yearly_Report_Cost_Form
 
             for (int i = 0; i < outgoings.Count; i++)
             {
-                var res = moRepository.GetByDate(_year ,i + 1);
+                var res = moRepository.GetByDate(_year, i + 1);
 
                 if (res != null)
                 {

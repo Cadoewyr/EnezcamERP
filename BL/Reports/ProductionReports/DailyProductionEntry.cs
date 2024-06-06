@@ -1,6 +1,5 @@
 ﻿using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
-using Microsoft.Identity.Client;
 
 namespace BL.Reports.ProductionReports
 {
@@ -49,5 +48,6 @@ namespace BL.Reports.ProductionReports
         {
             get => (FinalPrice - Cost) / Cost;
         }
+        public bool IsOvertime { get; set; }
     }
 }

@@ -63,6 +63,7 @@
             clmJobNo = new ColumnHeader();
             clmCustomer = new ColumnHeader();
             clmIssueDate = new ColumnHeader();
+            clmDeliveryDate = new ColumnHeader();
             clmQuantity = new ColumnHeader();
             clmProducedQuantity = new ColumnHeader();
             clmRemainingQuantity = new ColumnHeader();
@@ -147,6 +148,7 @@
             txtPrice = new TextBox();
             lbPrice = new Label();
             gbProductionReportDetails = new GroupBox();
+            cbIsOvertime = new CheckBox();
             cbCalculateAllInterval = new CheckBox();
             label1 = new Label();
             nudOutgoing = new NumericUpDown();
@@ -163,7 +165,6 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
-            clmDeliveryDate = new ColumnHeader();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             gbOrdersTotals.SuspendLayout();
@@ -546,6 +547,10 @@
             // clmIssueDate
             // 
             clmIssueDate.Text = "Sipariş Tarihi";
+            // 
+            // clmDeliveryDate
+            // 
+            clmDeliveryDate.Text = "Teslim Tarihi";
             // 
             // clmQuantity
             // 
@@ -1252,6 +1257,7 @@
             // gbProductionReportDetails
             // 
             gbProductionReportDetails.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            gbProductionReportDetails.Controls.Add(cbIsOvertime);
             gbProductionReportDetails.Controls.Add(cbCalculateAllInterval);
             gbProductionReportDetails.Controls.Add(label1);
             gbProductionReportDetails.Controls.Add(nudOutgoing);
@@ -1266,6 +1272,17 @@
             gbProductionReportDetails.TabIndex = 2;
             gbProductionReportDetails.TabStop = false;
             gbProductionReportDetails.Text = "Rapor Detayları";
+            // 
+            // cbIsOvertime
+            // 
+            cbIsOvertime.AutoSize = true;
+            cbIsOvertime.Location = new Point(6, 383);
+            cbIsOvertime.Name = "cbIsOvertime";
+            cbIsOvertime.Size = new Size(122, 24);
+            cbIsOvertime.TabIndex = 11;
+            cbIsOvertime.Text = "Mesai Raporu";
+            cbIsOvertime.UseVisualStyleBackColor = true;
+            cbIsOvertime.CheckedChanged += cbIsOvertime_CheckedChanged;
             // 
             // cbCalculateAllInterval
             // 
@@ -1288,6 +1305,7 @@
             // 
             // nudOutgoing
             // 
+            nudOutgoing.DecimalPlaces = 2;
             nudOutgoing.Location = new Point(6, 320);
             nudOutgoing.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
             nudOutgoing.Name = "nudOutgoing";
@@ -1450,10 +1468,6 @@
             dgReport.ShowRowErrors = false;
             dgReport.Size = new Size(1144, 619);
             dgReport.TabIndex = 0;
-            // 
-            // clmDeliveryDate
-            // 
-            clmDeliveryDate.Text = "Teslim Tarihi";
             // 
             // FormMain
             // 
@@ -1635,5 +1649,6 @@
         private ColumnHeader clmTotalPrice;
         private RadioButton rbDeliveryDate;
         private ColumnHeader clmDeliveryDate;
+        private CheckBox cbIsOvertime;
     }
 }

@@ -123,8 +123,10 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 var remainingArea = (item.OrderDetail.TotalArea - item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate <= item.ProducedDate).Sum(x => x.ProducedOrderArea)).ToString("N3");
 
                 lvi.SubItems.Add($"{producedQuantity} {UnitCode.AD}, {producedArea} {UnitCode.M2}");
+                lvi.SubItems.Add(item.OrderDetail.Product.Code);
                 lvi.SubItems.Add($"{remainigQuantity} {UnitCode.AD}, {remainingArea} {UnitCode.M2}");
                 lvi.SubItems.Add(item.IsStock ? "Stok" : "Üretim");
+                lvi.SubItems.Add(item.IsOvertime ? "Evet" : "Hayır");
 
                 listView.Items.Add(lvi);
             }
@@ -148,7 +150,7 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                     item.Selected = true;
             }
 
-            if(!cbListAllProductionHistory.Checked & lvOrderDetails.SelectedItems.Count > 0 & lvOrderDetails.CheckedItems.Count == 0)
+            if (!cbListAllProductionHistory.Checked & lvOrderDetails.SelectedItems.Count > 0 & lvOrderDetails.CheckedItems.Count == 0)
             {
                 RefreshProduceHistory(order.OrderDetails.First(x => x == lvOrderDetails.SelectedItems[0].Tag as OrderDetail).ProducedOrders);
                 RefreshOrderDetailTotals(lvOrderDetails.SelectedItems[0].Tag as OrderDetail);
@@ -178,7 +180,7 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 RefreshOrderDetailsTotals(orderDetails.ToArray());
             }
 
-            
+
         }
 
         private void btnAddProducedOrder_Click(object sender, EventArgs e)
@@ -199,7 +201,8 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                         ProducedDate = dtpProduceDate.Value,
                         OrderDetail = lvOrderDetails.SelectedItems[0].Tag as OrderDetail,
                         ProducedOrderQuantity = (int)nudProducedQuantity.Value,
-                        IsStock = cbIsStock.Checked
+                        IsStock = cbIsStock.Checked,
+                        IsOvertime = cbOvertime.Checked
                     };
 
                     var selectedOrderDetail = lvOrderDetails.SelectedItems[0].Tag as OrderDetail;
@@ -399,7 +402,7 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 RefreshOrderDetailsTotals(order.OrderDetails.ToArray());
             }
             else
-                lvOrderDetails_SelectedIndexChangedAndChecked(lvProduceHistory, e); 
+                lvOrderDetails_SelectedIndexChangedAndChecked(lvProduceHistory, e);
         }
     }
 }

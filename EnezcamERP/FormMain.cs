@@ -774,8 +774,6 @@ namespace EnezcamERP
 
             var interval = rbDaily.Checked ? ReportInterval.Daily : (rbWeekly.Checked ? ReportInterval.Weekly : (rbMonthly.Checked ? ReportInterval.Monthly : (rbYearly.Checked ? ReportInterval.Yearly : ReportInterval.Daily)));
 
-            
-
             if (interval == ReportInterval.Yearly)
             {
                 FormYearlyReportCosts form = new(dtpDate.Value.Year);
@@ -783,19 +781,19 @@ namespace EnezcamERP
             }
 
             if (rbProduction.Checked)
-                FillProductionReport(dgReport, (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked));
+                FillProductionReport(dgReport, (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, cbIsOvertime.Checked));
             else if (rbSales.Checked)
-                FillSalesReport(dgReport, (DateRangedSalesReport)ReportCreator<DateRangedSalesReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked));
+                FillSalesReport(dgReport, (DateRangedSalesReport)ReportCreator<DateRangedSalesReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, cbIsOvertime.Checked));
 
-            if (new MonthlyOutgoingsRepository().GetByDate(dtpDate.Value.Year, dtpDate.Value.Month) != null)
-            new MonthlyOutgoingsRepository().Update(new()
-            {
-                Year = dtpDate.Value.Year,
-                Month = dtpDate.Value.Month,
-                Outgoing = nudOutgoing.Value
-            }, new MonthlyOutgoingsRepository().GetByDate(dtpDate.Value.Year, dtpDate.Value.Month).ID);
+            if (!cbIsOvertime.Checked & new MonthlyOutgoingsRepository().GetByDate(dtpDate.Value.Year, dtpDate.Value.Month) != null)
+                new MonthlyOutgoingsRepository().Update(new()
+                {
+                    Year = dtpDate.Value.Year,
+                    Month = dtpDate.Value.Month,
+                    Outgoing = nudOutgoing.Value
+                }, new MonthlyOutgoingsRepository().GetByDate(dtpDate.Value.Year, dtpDate.Value.Month).ID);
 
-            else
+            else if (!cbCalculateAllInterval.Checked)
                 new MonthlyOutgoingsRepository().Add(new()
                 {
                     Year = dtpDate.Value.Year,
@@ -859,5 +857,13 @@ namespace EnezcamERP
         }
 
         #endregion
+
+        private void cbIsOvertime_CheckedChanged(object sender, EventArgs e)
+        {
+            decimal outgoing = new MonthlyOutgoingsRepository().GetByDate(dtpDate.Value.Year, dtpDate.Value.Month).Outgoing;
+
+            if (!(sender as CheckBox).Checked)
+                nudOutgoing.Value = outgoing == null ? 0 : outgoing;
+        }
     }
 }

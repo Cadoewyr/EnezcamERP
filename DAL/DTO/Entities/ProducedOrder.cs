@@ -11,6 +11,7 @@ namespace DAL.DTO.Entities
         public int ProducedOrderQuantity { get; set; } = 0;
         public DateTime ProducedDate { get; set; } = DateTime.Now;
         public bool IsStock { get; set; } = false;
+        public bool IsOvertime { get; set; } = false;
 
         [NotMapped]
         public decimal ProducedOrderArea => decimal.Round(ProducedOrderQuantity * OrderDetail.UnitArea, 3, MidpointRounding.AwayFromZero);

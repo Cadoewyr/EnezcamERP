@@ -7,12 +7,13 @@ namespace BL.Reports.ProductionReports
 {
     public class DailyProductionReport
     {
-        public DailyProductionReport(DateTime date, decimal outgoing)
+        public DailyProductionReport(DateTime date, decimal outgoing, bool IsOvertime)
         {
             _date = date.Date;
             _outgoing = outgoing;
+            _IsOvertime = IsOvertime;
 
-            ProducedOrders.AddRange(producedOrdersDB.GetAll(x => x.ProducedDate.Date == date.Date && !x.IsStock));
+            ProducedOrders.AddRange(producedOrdersDB.GetAll(x => x.ProducedDate.Date == date.Date & !x.IsStock & x.IsOvertime == _IsOvertime));
 
             ProducedOrders = MergeProducedOrders(ProducedOrders);
             CreateEntries(ProducedOrders);
@@ -36,7 +37,8 @@ namespace BL.Reports.ProductionReports
                     x.TaxRatio == item.OrderDetail.TaxRatio &
                     x.FinalUnitPrice == item.OrderDetail.FinalUnitPrice &
                     x.DiscountRatio == item.OrderDetail.DiscountRatio &
-                    x.Product == item.OrderDetail.Product
+                    x.Product == item.OrderDetail.Product &
+                    x.IsOvertime == item.IsOvertime
                 ))
                     entry = DailyProductionEntries.First(x =>
                     x.JobNo == item.OrderDetail.Order.JobNo &
@@ -48,11 +50,12 @@ namespace BL.Reports.ProductionReports
                     x.TaxRatio == item.OrderDetail.TaxRatio &
                     x.FinalUnitPrice == item.OrderDetail.FinalUnitPrice &
                     x.DiscountRatio == item.OrderDetail.DiscountRatio &
-                    x.Product == item.OrderDetail.Product
+                    x.Product == item.OrderDetail.Product &
+                    x.IsOvertime == item.IsOvertime
                 );
 
                 if (entry != null)
-                    entry.Quantity += item.OrderDetail.UnitCode == UnitCode.AD ? item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date && !x.IsStock).Sum(x => x.ProducedOrderQuantity) : item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date && !x.IsStock).Sum(x => x.ProducedOrderArea);
+                    entry.Quantity += item.OrderDetail.UnitCode == UnitCode.AD ? item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date & !x.IsStock & x.IsOvertime == _IsOvertime).Sum(x => x.ProducedOrderQuantity) : item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date & !x.IsStock & x.IsOvertime == _IsOvertime).Sum(x => x.ProducedOrderArea);
                 else
                 {
                     DailyProductionEntries.Add(new()
@@ -68,7 +71,8 @@ namespace BL.Reports.ProductionReports
                         UnitPrice = item.OrderDetail.UnitPrice,
                         DiscountRatio = item.OrderDetail.DiscountRatio,
                         TaxRatio = item.OrderDetail.TaxRatio,
-                        Quantity = item.OrderDetail.UnitCode == UnitCode.AD ? item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date && !x.IsStock).Sum(x => x.ProducedOrderQuantity) : item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date && !x.IsStock).Sum(x => x.ProducedOrderArea)
+                        Quantity = item.OrderDetail.UnitCode == UnitCode.AD ? item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date & !x.IsStock & x.IsOvertime == _IsOvertime).Sum(x => x.ProducedOrderQuantity) : item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date & !x.IsStock & x.IsOvertime == _IsOvertime).Sum(x => x.ProducedOrderArea),
+                        IsOvertime = item.IsOvertime
                     });
                 }
             }
@@ -82,12 +86,12 @@ namespace BL.Reports.ProductionReports
             {
                 var currentProducedOrder = producedOrders[i] with { };
 
-                if (mergedProducedOrders.Any(x => x.OrderDetail.ID == currentProducedOrder.OrderDetail.ID))
+                if (mergedProducedOrders.Any(x => x.OrderDetail.ID == currentProducedOrder.OrderDetail.ID & x.IsOvertime == currentProducedOrder.IsOvertime))
                 {
-                    var producedOrder = mergedProducedOrders.Where(x => x.OrderDetail.ID == currentProducedOrder.OrderDetail.ID).First();
+                    var producedOrder = mergedProducedOrders.Where(x => x.OrderDetail.ID == currentProducedOrder.OrderDetail.ID & x.IsOvertime == currentProducedOrder.IsOvertime).First();
                     producedOrder.ProducedOrderQuantity += currentProducedOrder.ProducedOrderQuantity;
                 }
-                else
+                else if (currentProducedOrder.IsOvertime == _IsOvertime)
                     mergedProducedOrders.Add(currentProducedOrder);
             }
 
@@ -96,6 +100,9 @@ namespace BL.Reports.ProductionReports
 
         decimal _outgoing;
         public decimal Outgoing => _outgoing;
+
+        bool _IsOvertime;
+        public bool IsOvertime => _IsOvertime;
 
         public ReportInterval Interval => ReportInterval.Daily;
         public ReportType Type => ReportType.Production;
@@ -147,7 +154,7 @@ namespace BL.Reports.ProductionReports
             {
                 Dictionary<UnitCode, decimal> dic = [];
 
-                var res = producedOrdersDB.GetAll(x => x.ProducedDate.Date == _date.Date && x.IsStock & x.OrderDetail.Product.IsCounting);
+                var res = producedOrdersDB.GetAll(x => x.ProducedDate.Date == _date.Date && x.IsStock & x.IsOvertime == IsOvertime & x.OrderDetail.Product.IsCounting);
 
                 dic.Add(UnitCode.AD, res.Sum(x => x.ProducedOrderQuantity));
                 dic.Add(UnitCode.M2, res.Sum(x => x.ProducedOrderArea));
