@@ -9,6 +9,10 @@ namespace BL.Repositories.Repositories
 {
     public class OrderRepository : GenericRepository<Order>, IRepository<Order>
     {
+        public int TotalCount()
+        {
+            return table.Count();
+        }
         public override bool Add(Order entity)
         {
             var result = GenericValidator<Order>.Validate(entity);
@@ -41,8 +45,18 @@ namespace BL.Repositories.Repositories
                 .Include(x => x.OrderDetails).ThenInclude(x => x.Product)
                 .Include(x => x.OrderDetails).ThenInclude(x => x.ProducedOrders)
                 .ToList()
-                .TakeLast(100)
                 .OrderByDescending(x => x.JobNo);
+        }
+        public IEnumerable<Order> GetAll(int pageNumber, int pageSize = 50)
+        {
+            return table
+                .Include(x => x.Customer)
+                .Include(x => x.OrderDetails).ThenInclude(x => x.Product)
+                .Include(x => x.OrderDetails).ThenInclude(x => x.ProducedOrders)
+                .OrderByDescending(x => x.JobNo)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
         }
         public override IEnumerable<Order> GetAll(string filter)
         {
@@ -70,7 +84,35 @@ namespace BL.Repositories.Repositories
                     results.Add(entity);
             }
 
-            return results.ToList().TakeLast(100).OrderByDescending(x => x.JobNo);
+            return results.ToList().OrderByDescending(x => x.JobNo);
+        }
+        public IEnumerable<Order> GetAll(string filter, int pageNumber, int pageSize = 50)
+        {
+            ICollection<Order> results = [];
+
+            foreach (var entity in GetAll())
+            {
+                foreach (var prop in typeof(Order).GetProperties())
+                {
+                    if (prop.GetValue(entity) == null)
+                        continue;
+
+                    var value = prop.GetValue(entity).ToString().ToLower();
+
+                    if (value.Contains(filter.ToLower()) && !results.Contains(entity))
+                    {
+                        results.Add(entity);
+                        continue;
+                    }
+                }
+
+                if (entity.OrderDetails.Any(x =>
+                (x.Product.Code.ToLower().Contains(filter.ToLower())) | x.Product.Name.ToLower().Contains(filter.ToLower()) | (x.Height * 1000).ToString().Contains(filter.ToLower()) | (x.Width * 1000).ToString().Contains(filter.ToLower())) &&
+                !results.Contains(entity))
+                    results.Add(entity);
+            }
+
+            return results.OrderByDescending(x => x.JobNo).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
         }
         public override IEnumerable<Order> GetAll(Expression<Func<Order, bool>> predicate)
         {
@@ -80,8 +122,19 @@ namespace BL.Repositories.Repositories
                 .Include(x => x.OrderDetails).ThenInclude(x => x.ProducedOrders)
                 .Where(predicate)
                 .ToList()
-                .TakeLast(100)
                 .OrderByDescending(x => x.JobNo);
+        }
+        public IEnumerable<Order> GetAll(Expression<Func<Order, bool>> predicate, int pageNumber, int pageSize = 50)
+        {
+            return table
+                .Include(x => x.Customer)
+                .Include(x => x.OrderDetails).ThenInclude(x => x.Product)
+                .Include(x => x.OrderDetails).ThenInclude(x => x.ProducedOrders)
+                .Where(predicate)
+                .OrderByDescending(x => x.JobNo)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .ToList();
         }
         public override bool Update(Order entity, int id)
         {

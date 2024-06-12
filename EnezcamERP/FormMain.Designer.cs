@@ -32,6 +32,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             tabOrders = new TabPage();
             gbOrders = new GroupBox();
+            lblPageNumber = new Label();
+            btnLastPage = new Button();
+            btnNextPage = new Button();
+            btnFirstPage = new Button();
+            btnPreviousPage = new Button();
             gbOrdersTotals = new GroupBox();
             txtTotalPriceWithTax = new TextBox();
             txtTotalPrice = new TextBox();
@@ -191,7 +196,7 @@
             tabOrders.Location = new Point(4, 29);
             tabOrders.Name = "tabOrders";
             tabOrders.Padding = new Padding(3);
-            tabOrders.Size = new Size(1416, 839);
+            tabOrders.Size = new Size(1544, 874);
             tabOrders.TabIndex = 0;
             tabOrders.Text = "Siparişler";
             tabOrders.UseVisualStyleBackColor = true;
@@ -199,6 +204,11 @@
             // gbOrders
             // 
             gbOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbOrders.Controls.Add(lblPageNumber);
+            gbOrders.Controls.Add(btnLastPage);
+            gbOrders.Controls.Add(btnNextPage);
+            gbOrders.Controls.Add(btnFirstPage);
+            gbOrders.Controls.Add(btnPreviousPage);
             gbOrders.Controls.Add(gbOrdersTotals);
             gbOrders.Controls.Add(gbDateFilterSettings);
             gbOrders.Controls.Add(mcDateFilter);
@@ -213,10 +223,64 @@
             gbOrders.Controls.Add(lvOrders);
             gbOrders.Location = new Point(6, 5);
             gbOrders.Name = "gbOrders";
-            gbOrders.Size = new Size(1402, 822);
+            gbOrders.Size = new Size(1530, 857);
             gbOrders.TabIndex = 0;
             gbOrders.TabStop = false;
             gbOrders.Text = "Siparişler";
+            // 
+            // lblPageNumber
+            // 
+            lblPageNumber.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblPageNumber.AutoSize = true;
+            lblPageNumber.Location = new Point(1137, 28);
+            lblPageNumber.Name = "lblPageNumber";
+            lblPageNumber.Size = new Size(17, 20);
+            lblPageNumber.TabIndex = 19;
+            lblPageNumber.Text = "1";
+            // 
+            // btnLastPage
+            // 
+            btnLastPage.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnLastPage.Location = new Point(1206, 24);
+            btnLastPage.Name = "btnLastPage";
+            btnLastPage.Size = new Size(38, 29);
+            btnLastPage.TabIndex = 18;
+            btnLastPage.Text = ">>";
+            btnLastPage.UseVisualStyleBackColor = true;
+            btnLastPage.Click += btnLastPage_Click;
+            // 
+            // btnNextPage
+            // 
+            btnNextPage.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnNextPage.Location = new Point(1171, 24);
+            btnNextPage.Name = "btnNextPage";
+            btnNextPage.Size = new Size(29, 29);
+            btnNextPage.TabIndex = 18;
+            btnNextPage.Text = ">";
+            btnNextPage.UseVisualStyleBackColor = true;
+            btnNextPage.Click += btnNextPage_Click;
+            // 
+            // btnFirstPage
+            // 
+            btnFirstPage.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnFirstPage.Location = new Point(1049, 24);
+            btnFirstPage.Name = "btnFirstPage";
+            btnFirstPage.Size = new Size(38, 29);
+            btnFirstPage.TabIndex = 18;
+            btnFirstPage.Text = "<<";
+            btnFirstPage.UseVisualStyleBackColor = true;
+            btnFirstPage.Click += btnFirstPage_Click;
+            // 
+            // btnPreviousPage
+            // 
+            btnPreviousPage.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnPreviousPage.Location = new Point(1093, 24);
+            btnPreviousPage.Name = "btnPreviousPage";
+            btnPreviousPage.Size = new Size(29, 29);
+            btnPreviousPage.TabIndex = 18;
+            btnPreviousPage.Text = "<";
+            btnPreviousPage.UseVisualStyleBackColor = true;
+            btnPreviousPage.Click += btnPreviousPage_Click;
             // 
             // gbOrdersTotals
             // 
@@ -233,7 +297,7 @@
             gbOrdersTotals.Controls.Add(txtTotalQuantity);
             gbOrdersTotals.Controls.Add(lblTotalProducedQuantity);
             gbOrdersTotals.Controls.Add(lblTotalQuantity);
-            gbOrdersTotals.Location = new Point(1128, 462);
+            gbOrdersTotals.Location = new Point(1250, 497);
             gbOrdersTotals.Name = "gbOrdersTotals";
             gbOrdersTotals.Size = new Size(262, 353);
             gbOrdersTotals.TabIndex = 17;
@@ -355,7 +419,7 @@
             gbDateFilterSettings.Controls.Add(rbDeliveryDate);
             gbDateFilterSettings.Controls.Add(rbCompletedDate);
             gbDateFilterSettings.Controls.Add(rbOrderDate);
-            gbDateFilterSettings.Location = new Point(1128, 279);
+            gbDateFilterSettings.Location = new Point(1250, 314);
             gbDateFilterSettings.Margin = new Padding(3, 4, 3, 4);
             gbDateFilterSettings.Name = "gbDateFilterSettings";
             gbDateFilterSettings.Padding = new Padding(3, 4, 3, 4);
@@ -426,7 +490,7 @@
             // 
             mcDateFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             mcDateFilter.Enabled = false;
-            mcDateFilter.Location = new Point(1128, 59);
+            mcDateFilter.Location = new Point(1250, 94);
             mcDateFilter.MaxSelectionCount = 42;
             mcDateFilter.MinDate = new DateTime(2020, 1, 1, 0, 0, 0, 0);
             mcDateFilter.Name = "mcDateFilter";
@@ -458,7 +522,7 @@
             // 
             lblSearchOrder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblSearchOrder.AutoSize = true;
-            lblSearchOrder.Location = new Point(881, 31);
+            lblSearchOrder.Location = new Point(1250, 65);
             lblSearchOrder.Name = "lblSearchOrder";
             lblSearchOrder.Size = new Size(32, 20);
             lblSearchOrder.TabIndex = 10;
@@ -468,11 +532,11 @@
             // 
             txtSearchOrder.AcceptsReturn = true;
             txtSearchOrder.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtSearchOrder.Location = new Point(919, 25);
+            txtSearchOrder.Location = new Point(1288, 59);
             txtSearchOrder.MaxLength = 200;
             txtSearchOrder.Multiline = true;
             txtSearchOrder.Name = "txtSearchOrder";
-            txtSearchOrder.Size = new Size(198, 27);
+            txtSearchOrder.Size = new Size(224, 27);
             txtSearchOrder.TabIndex = 6;
             txtSearchOrder.KeyPress += txtSearchOrder_KeyPress;
             // 
@@ -527,7 +591,7 @@
             lvOrders.GridLines = true;
             lvOrders.Location = new Point(6, 59);
             lvOrders.Name = "lvOrders";
-            lvOrders.Size = new Size(1110, 756);
+            lvOrders.Size = new Size(1238, 791);
             lvOrders.TabIndex = 7;
             lvOrders.UseCompatibleStateImageBehavior = false;
             lvOrders.View = View.Details;
@@ -662,7 +726,7 @@
             tabMain.Location = new Point(0, 0);
             tabMain.Name = "tabMain";
             tabMain.SelectedIndex = 0;
-            tabMain.Size = new Size(1424, 872);
+            tabMain.Size = new Size(1552, 907);
             tabMain.TabIndex = 0;
             // 
             // tabStock
@@ -671,7 +735,7 @@
             tabStock.Location = new Point(4, 29);
             tabStock.Name = "tabStock";
             tabStock.Padding = new Padding(3);
-            tabStock.Size = new Size(1416, 839);
+            tabStock.Size = new Size(1544, 874);
             tabStock.TabIndex = 1;
             tabStock.Text = "Stok Kartı";
             tabStock.UseVisualStyleBackColor = true;
@@ -807,7 +871,7 @@
             tabCustomer.Location = new Point(4, 29);
             tabCustomer.Name = "tabCustomer";
             tabCustomer.Padding = new Padding(3);
-            tabCustomer.Size = new Size(1416, 839);
+            tabCustomer.Size = new Size(1544, 874);
             tabCustomer.TabIndex = 2;
             tabCustomer.Text = "Cari Kartı";
             tabCustomer.UseVisualStyleBackColor = true;
@@ -945,7 +1009,7 @@
             tabReports.Location = new Point(4, 29);
             tabReports.Name = "tabReports";
             tabReports.Padding = new Padding(3);
-            tabReports.Size = new Size(1416, 839);
+            tabReports.Size = new Size(1544, 874);
             tabReports.TabIndex = 3;
             tabReports.Text = "Raporlar";
             tabReports.UseVisualStyleBackColor = true;
@@ -1474,10 +1538,10 @@
             AcceptButton = btnCreateReport;
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1424, 872);
+            ClientSize = new Size(1552, 907);
             Controls.Add(tabMain);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            MinimumSize = new Size(1440, 739);
+            MinimumSize = new Size(1570, 919);
             Name = "FormMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Enezcam ERP";
@@ -1650,5 +1714,10 @@
         private RadioButton rbDeliveryDate;
         private ColumnHeader clmDeliveryDate;
         private CheckBox cbIsOvertime;
+        private Label lblPageNumber;
+        private Button btnNextPage;
+        private Button btnPreviousPage;
+        private Button btnLastPage;
+        private Button btnFirstPage;
     }
 }

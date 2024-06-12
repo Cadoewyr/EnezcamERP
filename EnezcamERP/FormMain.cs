@@ -30,7 +30,7 @@ namespace EnezcamERP
             ListView listView = lvOrders;
             listView.Items.Clear();
 
-            var items = orders ?? ordersDB.GetAll(txtSearchOrder.Text.Trim().ToLower());
+            var items = orders ?? (!string.IsNullOrEmpty(txtSearchOrder.Text) ? ordersDB.GetAll(txtSearchOrder.Text.Trim().ToLower(), PageNumber) : ordersDB.GetAll(PageNumber));
 
             if (cbDateFilter.Checked)
             {
@@ -401,6 +401,23 @@ namespace EnezcamERP
 
         //Order controls
         #region
+        int _pageNumber = 1;
+        int PageNumber
+        {
+            get
+            {
+                return _pageNumber;
+            }
+            set
+            {
+                if (value >= 1 & value <= 999)
+                {
+                    _pageNumber = value;
+                    lblPageNumber.Text = value.ToString();
+                }
+            }
+        }
+
         void AddOrder()
         {
             AddUpdateOrder form = new(null);
@@ -512,7 +529,7 @@ namespace EnezcamERP
         }
         private void btnRefreshOrder_Click(object sender, EventArgs e)
         {
-            RefreshOrders(ordersDB.GetAll(txtSearchOrder.Text).ToArray(), ColumnHeaderAutoResizeStyle.HeaderSize);
+            RefreshOrders(ordersDB.GetAll(txtSearchOrder.Text.Trim().ToLower(), PageNumber).ToArray(), ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         private void cbIsDone_CheckedChanged(object sender, EventArgs e)
         {
@@ -559,6 +576,29 @@ namespace EnezcamERP
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
                 e.Handled = true;
             }
+        }
+
+        //Pagination controls
+        private void btnFirstPage_Click(object sender, EventArgs e)
+        {
+            PageNumber = 1;
+            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+        private void btnPreviousPage_Click(object sender, EventArgs e)
+        {
+            PageNumber -= 1;
+            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+        private void btnNextPage_Click(object sender, EventArgs e)
+        {
+            PageNumber += 1;
+            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+        private void btnLastPage_Click(object sender, EventArgs e)
+        {
+            int totalPages = (int)Math.Ceiling((double)ordersDB.TotalCount() / 50);
+            PageNumber = totalPages;
+            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         #endregion
 
@@ -819,6 +859,14 @@ namespace EnezcamERP
             if (new MonthlyOutgoingsRepository().GetByDate((sender as DateTimePicker).Value.Year, (sender as DateTimePicker).Value.Month) != null)
                 nudOutgoing.Value = new MonthlyOutgoingsRepository().GetByDate((sender as DateTimePicker).Value.Year, (sender as DateTimePicker).Value.Month).Outgoing;
         }
+
+        private void cbIsOvertime_CheckedChanged(object sender, EventArgs e)
+        {
+            decimal outgoing = new MonthlyOutgoingsRepository().GetByDate(dtpDate.Value.Year, dtpDate.Value.Month).Outgoing;
+
+            if (!(sender as CheckBox).Checked)
+                nudOutgoing.Value = outgoing == null ? 0 : outgoing;
+        }
         #endregion
 
         //General controls
@@ -857,13 +905,5 @@ namespace EnezcamERP
         }
 
         #endregion
-
-        private void cbIsOvertime_CheckedChanged(object sender, EventArgs e)
-        {
-            decimal outgoing = new MonthlyOutgoingsRepository().GetByDate(dtpDate.Value.Year, dtpDate.Value.Month).Outgoing;
-
-            if (!(sender as CheckBox).Checked)
-                nudOutgoing.Value = outgoing == null ? 0 : outgoing;
-        }
     }
 }
