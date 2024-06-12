@@ -40,7 +40,9 @@ namespace BL.Repositories.Repositories
                 .Include(x => x.Customer)
                 .Include(x => x.OrderDetails).ThenInclude(x => x.Product)
                 .Include(x => x.OrderDetails).ThenInclude(x => x.ProducedOrders)
-                .ToList().OrderByDescending(x => x.JobNo);
+                .ToList()
+                .TakeLast(100)
+                .OrderByDescending(x => x.JobNo);
         }
         public override IEnumerable<Order> GetAll(string filter)
         {
@@ -68,7 +70,7 @@ namespace BL.Repositories.Repositories
                     results.Add(entity);
             }
 
-            return results.OrderByDescending(x => x.JobNo);
+            return results.ToList().TakeLast(100).OrderByDescending(x => x.JobNo);
         }
         public override IEnumerable<Order> GetAll(Expression<Func<Order, bool>> predicate)
         {
@@ -77,7 +79,9 @@ namespace BL.Repositories.Repositories
                 .Include(x => x.OrderDetails).ThenInclude(x => x.Product)
                 .Include(x => x.OrderDetails).ThenInclude(x => x.ProducedOrders)
                 .Where(predicate)
-                .ToList().OrderByDescending(x => x.JobNo);
+                .ToList()
+                .TakeLast(100)
+                .OrderByDescending(x => x.JobNo);
         }
         public override bool Update(Order entity, int id)
         {
