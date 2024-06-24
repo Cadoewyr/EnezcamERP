@@ -30,7 +30,7 @@ namespace EnezcamERP
             ListView listView = lvOrders;
             listView.Items.Clear();
 
-            var items = orders ?? (!string.IsNullOrEmpty(txtSearchOrder.Text) ? ordersDB.GetAll(txtSearchOrder.Text.Trim().ToLower(), PageNumber) : ordersDB.GetAll(PageNumber));
+            var items = orders ?? (!string.IsNullOrEmpty(txtSearchOrder.Text) ? ordersDB.GetAll(txtSearchOrder.Text.Trim().ToLower()).Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false).Skip(50 * (PageNumber - 1)).Take(50) : ordersDB.GetAll().Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false).Skip(50 * (PageNumber - 1)).Take(50));
 
             if (cbDateFilter.Checked)
             {
@@ -44,7 +44,7 @@ namespace EnezcamERP
 
             List<ListViewItem> lviList = [];
 
-            foreach (var item in items.Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false))
+            foreach (var item in items /*.Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false)*/)
             {
                 ListViewItem lvi = new()
                 {
@@ -529,7 +529,7 @@ namespace EnezcamERP
         }
         private void btnRefreshOrder_Click(object sender, EventArgs e)
         {
-            RefreshOrders(ordersDB.GetAll(txtSearchOrder.Text.Trim().ToLower(), PageNumber).ToArray(), ColumnHeaderAutoResizeStyle.HeaderSize);
+            RefreshOrders(ordersDB.GetAll(txtSearchOrder.Text.Trim().ToLower()).Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false).Skip(50 * (PageNumber - 1)).Take(50).ToArray(), ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         private void cbIsDone_CheckedChanged(object sender, EventArgs e)
         {

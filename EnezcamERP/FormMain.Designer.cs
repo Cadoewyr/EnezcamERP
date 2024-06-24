@@ -752,7 +752,7 @@
             gbProducts.Controls.Add(lvProducts);
             gbProducts.Location = new Point(6, 5);
             gbProducts.Name = "gbProducts";
-            gbProducts.Size = new Size(1405, 828);
+            gbProducts.Size = new Size(1532, 863);
             gbProducts.TabIndex = 0;
             gbProducts.TabStop = false;
             gbProducts.Text = "Stok Kartları";
@@ -761,7 +761,7 @@
             // 
             lblSearchProduct.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblSearchProduct.AutoSize = true;
-            lblSearchProduct.Location = new Point(1162, 28);
+            lblSearchProduct.Location = new Point(1289, 28);
             lblSearchProduct.Name = "lblSearchProduct";
             lblSearchProduct.Size = new Size(32, 20);
             lblSearchProduct.TabIndex = 8;
@@ -770,7 +770,7 @@
             // txtSearchProduct
             // 
             txtSearchProduct.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtSearchProduct.Location = new Point(1200, 27);
+            txtSearchProduct.Location = new Point(1327, 27);
             txtSearchProduct.Name = "txtSearchProduct";
             txtSearchProduct.Size = new Size(198, 27);
             txtSearchProduct.TabIndex = 7;
@@ -826,7 +826,7 @@
             lvProducts.Location = new Point(6, 59);
             lvProducts.MultiSelect = false;
             lvProducts.Name = "lvProducts";
-            lvProducts.Size = new Size(1393, 762);
+            lvProducts.Size = new Size(1520, 797);
             lvProducts.TabIndex = 0;
             lvProducts.UseCompatibleStateImageBehavior = false;
             lvProducts.View = View.Details;
@@ -888,7 +888,7 @@
             gbCustomers.Controls.Add(lvCustomers);
             gbCustomers.Location = new Point(6, 5);
             gbCustomers.Name = "gbCustomers";
-            gbCustomers.Size = new Size(1405, 828);
+            gbCustomers.Size = new Size(1532, 863);
             gbCustomers.TabIndex = 0;
             gbCustomers.TabStop = false;
             gbCustomers.Text = "Cariler";
@@ -897,7 +897,7 @@
             // 
             lblSearchCustomer.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblSearchCustomer.AutoSize = true;
-            lblSearchCustomer.Location = new Point(1162, 29);
+            lblSearchCustomer.Location = new Point(1289, 29);
             lblSearchCustomer.Name = "lblSearchCustomer";
             lblSearchCustomer.Size = new Size(32, 20);
             lblSearchCustomer.TabIndex = 6;
@@ -906,7 +906,7 @@
             // txtSearchCustomer
             // 
             txtSearchCustomer.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            txtSearchCustomer.Location = new Point(1200, 27);
+            txtSearchCustomer.Location = new Point(1327, 27);
             txtSearchCustomer.Name = "txtSearchCustomer";
             txtSearchCustomer.Size = new Size(198, 27);
             txtSearchCustomer.TabIndex = 5;
@@ -962,7 +962,7 @@
             lvCustomers.Location = new Point(5, 59);
             lvCustomers.MultiSelect = false;
             lvCustomers.Name = "lvCustomers";
-            lvCustomers.Size = new Size(1393, 762);
+            lvCustomers.Size = new Size(1520, 797);
             lvCustomers.TabIndex = 0;
             lvCustomers.UseCompatibleStateImageBehavior = false;
             lvCustomers.View = View.Details;
@@ -1045,7 +1045,7 @@
             gbTotals.Controls.Add(lbPriceTax);
             gbTotals.Controls.Add(txtPrice);
             gbTotals.Controls.Add(lbPrice);
-            gbTotals.Location = new Point(8, 664);
+            gbTotals.Location = new Point(6, 701);
             gbTotals.Name = "gbTotals";
             gbTotals.Size = new Size(1157, 167);
             gbTotals.TabIndex = 3;
@@ -1330,7 +1330,7 @@
             gbProductionReportDetails.Controls.Add(btnCopyTable);
             gbProductionReportDetails.Controls.Add(btnCreateReport);
             gbProductionReportDetails.Controls.Add(gbReportInterval);
-            gbProductionReportDetails.Location = new Point(1170, 5);
+            gbProductionReportDetails.Location = new Point(1303, 6);
             gbProductionReportDetails.Name = "gbProductionReportDetails";
             gbProductionReportDetails.Size = new Size(235, 653);
             gbProductionReportDetails.TabIndex = 2;
@@ -1501,7 +1501,7 @@
             gbProductionReport.Controls.Add(dgReport);
             gbProductionReport.Location = new Point(8, 5);
             gbProductionReport.Name = "gbProductionReport";
-            gbProductionReport.Size = new Size(1157, 653);
+            gbProductionReport.Size = new Size(1289, 690);
             gbProductionReport.TabIndex = 1;
             gbProductionReport.TabStop = false;
             gbProductionReport.Text = "Rapor";
@@ -1530,7 +1530,7 @@
             dgReport.ShowCellToolTips = false;
             dgReport.ShowEditingIcon = false;
             dgReport.ShowRowErrors = false;
-            dgReport.Size = new Size(1144, 619);
+            dgReport.Size = new Size(1276, 656);
             dgReport.TabIndex = 0;
             // 
             // FormMain
