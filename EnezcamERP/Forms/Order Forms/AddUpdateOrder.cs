@@ -2,6 +2,7 @@
 using BL.Validators.Validators;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
+using DAL.DTO.Entities.Interfaces;
 using EnezcamERP.Validators;
 
 namespace EnezcamERP.Forms.Order_Forms
@@ -69,7 +70,7 @@ namespace EnezcamERP.Forms.Order_Forms
             cbUnitCode.Items.AddRange(Enum.GetNames(typeof(UnitCode)).ToArray().Reverse().ToArray());
             cbUnitCode.SelectedIndex = 0;
         }
-        public void RefreshOrderDetails(ColumnHeaderAutoResizeStyle columnHeaderAutoResizeStyle)
+        public void RefreshOrderDetails(Order order, string filter, ColumnHeaderAutoResizeStyle columnHeaderAutoResizeStyle)
         {
             lvOrderDetails.Items.Clear();
 
@@ -86,56 +87,71 @@ namespace EnezcamERP.Forms.Order_Forms
                 DisplayIndex = 10
             };
 
+            ICollection<OrderDetail> results = [];
+
             foreach (var item in order.OrderDetails)
             {
-                ListViewItem lvi = new()
+                foreach (var prop in typeof(OrderDetail).GetProperties())
                 {
-                    Tag = item,
-                    Text = item.Product.Code,
-                    UseItemStyleForSubItems = false
-                };
+                    if (prop.GetValue(item) == null)
+                        continue;
 
-                Color color;
+                    var value = prop.GetValue(item).ToString().ToLower();
 
-                if (item.ProducedQuantity == 0)
-                    color = Color.MediumVioletRed;
-                else if (item.ProducedQuantity > 0 & item.ProducedQuantity < item.Quantity)
-                    color = Color.MediumPurple;
-                else if (item.ProducedQuantity >= item.Quantity)
-                    color = Color.Green;
-                else
-                    color = Color.Black;
+                    if (value.Contains(filter.ToLower()) && !results.Contains(item))
+                    {
+                        results.Add(item);
 
-                lvi.SubItems.Add(item.Product.Name);
-                lvi.SubItems.Add(item.GetSizeString());
-                lvi.SubItems.Add(item.UnitArea.ToString("N3"));
-                lvi.SubItems.Add(item.TotalArea.ToString("N3"));
-                lvi.SubItems.Add(item.Quantity.ToString("N0"));
-                lvi.SubItems.Add(item.UnitCode.ToString());
-                lvi.SubItems.Add(item.UnitCost.ToString("C2"));
-                lvi.SubItems.Add(item.UnitPrice.ToString("C2"));
+                        ListViewItem lvi = new()
+                        {
+                            Tag = item,
+                            Text = item.Product.Code,
+                            UseItemStyleForSubItems = false
+                        };
 
-                if (order.OrderDetails.Any(x => x.DiscountRatio > 0))
-                {
-                    if (!lvOrderDetails.Columns.Contains(clmDiscountedUnitPrice))
-                        lvOrderDetails.Columns.Insert(9, clmDiscountedUnitPrice);
+                        Color color;
 
-                    if (!lvOrderDetails.Columns.Contains(clmDiscountRatio))
-                        lvOrderDetails.Columns.Insert(10, clmDiscountRatio);
+                        if (item.ProducedQuantity == 0)
+                            color = Color.MediumVioletRed;
+                        else if (item.ProducedQuantity > 0 & item.ProducedQuantity < item.Quantity)
+                            color = Color.MediumPurple;
+                        else if (item.ProducedQuantity >= item.Quantity)
+                            color = Color.Green;
+                        else
+                            color = Color.Black;
 
-                    lvi.SubItems.Add(item.FinalUnitPrice.ToString("C2"));
-                    lvi.SubItems.Add((item.DiscountRatio / 100).ToString("P0"));
+                        lvi.SubItems.Add(item.Product.Name);
+                        lvi.SubItems.Add(item.GetSizeString());
+                        lvi.SubItems.Add(item.UnitArea.ToString("N3"));
+                        lvi.SubItems.Add(item.TotalArea.ToString("N3"));
+                        lvi.SubItems.Add(item.Quantity.ToString("N0"));
+                        lvi.SubItems.Add(item.UnitCode.ToString());
+                        lvi.SubItems.Add(item.UnitCost.ToString("C2"));
+                        lvi.SubItems.Add(item.UnitPrice.ToString("C2"));
+
+                        if (order.OrderDetails.Any(x => x.DiscountRatio > 0))
+                        {
+                            if (!lvOrderDetails.Columns.Contains(clmDiscountedUnitPrice))
+                                lvOrderDetails.Columns.Insert(9, clmDiscountedUnitPrice);
+
+                            if (!lvOrderDetails.Columns.Contains(clmDiscountRatio))
+                                lvOrderDetails.Columns.Insert(10, clmDiscountRatio);
+
+                            lvi.SubItems.Add(item.FinalUnitPrice.ToString("C2"));
+                            lvi.SubItems.Add((item.DiscountRatio / 100).ToString("P0"));
+                        }
+
+                        lvi.SubItems.Add((item.TaxRatio / 100).ToString("P0"));
+                        lvi.SubItems.Add(item.GetProducedQuantityString()).ForeColor = color;
+                        lvi.SubItems.Add(item.GetRemainingQuantityString()).ForeColor = color;
+                        lvi.SubItems.Add(item.Cost.ToString("C2"));
+                        lvi.SubItems.Add(item.FinalPrice.ToString("C2"));
+                        lvi.SubItems.Add(item.Profit.ToString("C2"));
+                        lvi.SubItems.Add(item.ProfitRatio.ToString("P2"));
+
+                        lvOrderDetails.Items.Add(lvi);
+                    }
                 }
-
-                lvi.SubItems.Add((item.TaxRatio / 100).ToString("P0"));
-                lvi.SubItems.Add(item.GetProducedQuantityString()).ForeColor = color;
-                lvi.SubItems.Add(item.GetRemainingQuantityString()).ForeColor = color;
-                lvi.SubItems.Add(item.Cost.ToString("C2"));
-                lvi.SubItems.Add(item.FinalPrice.ToString("C2"));
-                lvi.SubItems.Add(item.Profit.ToString("C2"));
-                lvi.SubItems.Add(item.ProfitRatio.ToString("P2"));
-
-                lvOrderDetails.Items.Add(lvi);
             }
 
             lvOrderDetails.AutoResizeColumns(columnHeaderAutoResizeStyle);
@@ -152,7 +168,7 @@ namespace EnezcamERP.Forms.Order_Forms
 
             UpdateOrderTotals(order);
 
-            RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
+            RefreshOrderDetails(order, txtSearchOrderDetail.Text, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         public void UpdateOrderTotals(Order order)
         {
@@ -211,7 +227,7 @@ namespace EnezcamERP.Forms.Order_Forms
                 if (res.IsValid)
                 {
                     order.OrderDetails.Add(od);
-                    RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
+                    RefreshOrderDetails(order, txtSearchOrderDetail.Text, ColumnHeaderAutoResizeStyle.HeaderSize);
                     ClearNumericUpDownControls(nudCost, nudPrice, nudQuantity);
                     UpdateOrderTotals(order);
                 }
@@ -268,7 +284,7 @@ namespace EnezcamERP.Forms.Order_Forms
                 if (order.OrderDetails.Count > 1)
                 {
                     order.OrderDetails.Remove(lvOrderDetails.SelectedItems[0].Tag as OrderDetail);
-                    RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
+                    RefreshOrderDetails(order, txtSearchOrderDetail.Text, ColumnHeaderAutoResizeStyle.HeaderSize);
                     UpdateOrderTotals(order);
                 }
                 else
@@ -282,7 +298,7 @@ namespace EnezcamERP.Forms.Order_Forms
                     {
                         order.OrderDetails.Remove(item.Tag as OrderDetail);
                     }
-                    RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
+                    RefreshOrderDetails(order, txtSearchOrderDetail.Text, ColumnHeaderAutoResizeStyle.HeaderSize);
                     UpdateOrderTotals(order);
                 }
                 else
@@ -317,7 +333,7 @@ namespace EnezcamERP.Forms.Order_Forms
                 EditOrderDetail form = new(this, (sender as ListView).SelectedItems[0].Tag as OrderDetail);
                 form.ShowDialog();
 
-                RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
+                RefreshOrderDetails(order, txtSearchOrderDetail.Text, ColumnHeaderAutoResizeStyle.HeaderSize);
                 ClearNumericUpDownControls(nudPrice, nudCost, nudQuantity);
                 UpdateOrderTotals(order);
             }
@@ -391,7 +407,7 @@ namespace EnezcamERP.Forms.Order_Forms
                                 if (order.OrderDetails.Count > 1)
                                 {
                                     order.OrderDetails.Remove(lvOrderDetails.SelectedItems[0].Tag as OrderDetail);
-                                    RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
+                                    RefreshOrderDetails(order, txtSearchOrderDetail.Text, ColumnHeaderAutoResizeStyle.HeaderSize);
                                     UpdateOrderTotals(order);
                                 }
                                 else
@@ -405,7 +421,7 @@ namespace EnezcamERP.Forms.Order_Forms
                                     {
                                         order.OrderDetails.Remove(item.Tag as OrderDetail);
                                     }
-                                    RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
+                                    RefreshOrderDetails(order, txtSearchOrderDetail.Text, ColumnHeaderAutoResizeStyle.HeaderSize);
                                     UpdateOrderTotals(order);
                                 }
                                 else
@@ -453,6 +469,11 @@ namespace EnezcamERP.Forms.Order_Forms
                         item.Checked = true;
                 }
             }
+        }
+
+        private void txtSearchOrderDetail_TextChanged(object sender, EventArgs e)
+        {
+            RefreshOrderDetails(order, (sender as TextBox).Text, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
     }
 }

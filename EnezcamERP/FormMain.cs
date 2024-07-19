@@ -741,9 +741,9 @@ namespace EnezcamERP
         {
             var control = (sender as TextBox);
 
-            if (!string.IsNullOrEmpty(control.Text))
+            if (!string.IsNullOrEmpty(control.Text.Trim()))
             {
-                var res = productsDB.GetAll(control.Text.ToLower());
+                var res = productsDB.GetAll(control.Text.Trim().ToLower());
                 RefreshProducts(res.ToArray(), ColumnHeaderAutoResizeStyle.HeaderSize);
             }
             else

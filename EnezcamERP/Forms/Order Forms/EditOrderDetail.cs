@@ -146,7 +146,7 @@ namespace EnezcamERP.Forms.Order_Forms
                         orderDetailsRepository.Update(od, orderDetail.ID);
 
                     LoadForm(orderDetail);
-                    (parentForm as AddUpdateOrder).RefreshOrderDetails(ColumnHeaderAutoResizeStyle.HeaderSize);
+                    (parentForm as AddUpdateOrder).RefreshOrderDetails(this.orderDetail.Order, null, ColumnHeaderAutoResizeStyle.HeaderSize);
                     (parentForm as AddUpdateOrder).UpdateOrderTotals(orderDetail.Order);
                     this.Close();
                 }
@@ -174,13 +174,24 @@ namespace EnezcamERP.Forms.Order_Forms
         {
             if (lvProducts.SelectedItems.Count > 0)
             {
-                var res = orderDetailsRepository.GetAll(x => x.Width == nudWidth.Value / 1000 & x.Height == nudHeight.Value / 1000 & x.Product.ID == (lvProducts.SelectedItems[0].Tag as Product).ID)
-                .MaxBy(x => x.Order.IssueDate);
+                //var res = orderDetailsRepository.GetAll(x => x.Width == nudWidth.Value / 1000 & x.Height == nudHeight.Value / 1000 & x.Product.ID == (lvProducts.SelectedItems[0].Tag as Product).ID)
+                //.MaxBy(x => x.Order.IssueDate);
 
-                if (res != null)
+                //if (res != null)
+                //{
+                //    nudCost.Value = res.UnitCost;
+                //    nudPrice.Value = res.UnitPrice;
+                //}
+
+                ProductPriceHistory form = new(lvProducts.SelectedItems[0].Tag as Product, nudCost.Value, nudPrice.Value);
+                form.ShowDialog();
+
+                if (form.DialogResult == DialogResult.OK)
                 {
-                    nudCost.Value = res.UnitCost;
-                    nudPrice.Value = res.UnitPrice;
+                    var res = form.Result;
+
+                    nudCost.Value = res.Cost;
+                    nudPrice.Value = res.Price;
                 }
             }
             else
@@ -190,6 +201,11 @@ namespace EnezcamERP.Forms.Order_Forms
         private void btnHelp_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Seçilen ürün koduna ait aynı ölçülerle girilmiş en son siparişteki maliyet ve fiyatı getirir.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void numericUpDown_Enter(object sender, EventArgs e)
+        {
+            (sender as NumericUpDown).Select(0, (sender as NumericUpDown).Value.ToString().Length + ((sender as NumericUpDown).ToString().Length - 1) / 3);
         }
     }
 }
