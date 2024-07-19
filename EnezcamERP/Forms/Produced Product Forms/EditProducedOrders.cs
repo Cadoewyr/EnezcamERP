@@ -93,8 +93,9 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 lvi.SubItems.Add(item.Product.Code);
                 lvi.SubItems.Add(item.UnitCost.ToString("C2"));
                 lvi.SubItems.Add(item.UnitPrice.ToString("C2"));
-                lvi.SubItems.Add(item.UnitCode.ToString());
                 lvi.SubItems.Add($"{item.Width.ToString("N3")} * {item.Height.ToString("N3")}");
+                lvi.SubItems.Add(item.UnitArea.ToString("N3"));
+                lvi.SubItems.Add(item.UnitCode.ToString());
                 lvi.SubItems.Add(item.GetQuantityString());
                 lvi.SubItems.Add(item.GetProducedQuantityString()).ForeColor = color;
                 lvi.SubItems.Add(item.GetRemainingQuantityString()).ForeColor = color;
