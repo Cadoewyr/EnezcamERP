@@ -146,7 +146,7 @@ namespace EnezcamERP.Forms.Order_Forms
                         orderDetailsRepository.Update(od, orderDetail.ID);
 
                     LoadForm(orderDetail);
-                    (parentForm as AddUpdateOrder).RefreshOrderDetails(this.orderDetail.Order, null, ColumnHeaderAutoResizeStyle.HeaderSize);
+                    (parentForm as AddUpdateOrder).RefreshOrderDetails(this.orderDetail.Order, "", ColumnHeaderAutoResizeStyle.HeaderSize);
                     (parentForm as AddUpdateOrder).UpdateOrderTotals(orderDetail.Order);
                     this.Close();
                 }
