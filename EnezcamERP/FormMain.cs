@@ -38,7 +38,7 @@ namespace EnezcamERP
                     items = ordersDB.GetAll(x => x.IssueDate >= mcDateFilter.SelectionStart.Date & x.IssueDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1)).Skip(50 * (PageNumber - 1)).Take(50);
                     //items = items.Where(x => x.IssueDate >= mcDateFilter.SelectionStart.Date & x.IssueDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1)).Skip(50 * (PageNumber - 1)).Take(50);
                 else if (rbCompletedDate.Checked)
-                    items = ordersDB.GetAll().AsEnumerable().Where(x => x.CompletedDate >= mcDateFilter.SelectionStart.Date && x.CompletedDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1)).Skip(50 * (PageNumber - 1)).Take(50).ToList();
+                    items = ordersDB.GetAll().AsEnumerable().Where(x => x.IsDone && x.CompletedDate >= mcDateFilter.SelectionStart.Date && x.CompletedDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1)).Skip(50 * (PageNumber - 1)).Take(50).ToList();
                 else if (rbDeliveryDate.Checked)
                     items = ordersDB.GetAll(x => x.DeliveryDate >= mcDateFilter.SelectionStart.Date & x.DeliveryDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1)).Skip(50 * (PageNumber - 1)).Take(50);
             }
