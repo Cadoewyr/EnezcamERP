@@ -35,12 +35,13 @@
             Cost = new ColumnHeader();
             Price = new ColumnHeader();
             btnSelect = new Button();
+            clmSize = new ColumnHeader();
             SuspendLayout();
             // 
             // lvPriceHistory
             // 
             lvPriceHistory.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lvPriceHistory.Columns.AddRange(new ColumnHeader[] { Date, clmCode, clmName, Cost, Price });
+            lvPriceHistory.Columns.AddRange(new ColumnHeader[] { Date, clmCode, clmName, clmSize, Cost, Price });
             lvPriceHistory.FullRowSelect = true;
             lvPriceHistory.GridLines = true;
             lvPriceHistory.Location = new Point(12, 12);
@@ -82,6 +83,10 @@
             btnSelect.UseVisualStyleBackColor = true;
             btnSelect.Click += btnSelect_Click;
             // 
+            // clmSize
+            // 
+            clmSize.Text = "Boyut";
+            // 
             // ProductPriceHistory
             // 
             AcceptButton = btnSelect;
@@ -110,5 +115,6 @@
         private ColumnHeader Cost;
         private ColumnHeader Price;
         private ColumnHeader Date;
+        private ColumnHeader clmSize;
     }
 }

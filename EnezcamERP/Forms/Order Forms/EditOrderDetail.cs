@@ -174,16 +174,7 @@ namespace EnezcamERP.Forms.Order_Forms
         {
             if (lvProducts.SelectedItems.Count > 0)
             {
-                //var res = orderDetailsRepository.GetAll(x => x.Width == nudWidth.Value / 1000 & x.Height == nudHeight.Value / 1000 & x.Product.ID == (lvProducts.SelectedItems[0].Tag as Product).ID)
-                //.MaxBy(x => x.Order.IssueDate);
-
-                //if (res != null)
-                //{
-                //    nudCost.Value = res.UnitCost;
-                //    nudPrice.Value = res.UnitPrice;
-                //}
-
-                ProductPriceHistory form = new(lvProducts.SelectedItems[0].Tag as Product, nudCost.Value, nudPrice.Value);
+                ProductPriceHistory form = new(orderDetail);
                 form.ShowDialog();
 
                 if (form.DialogResult == DialogResult.OK)

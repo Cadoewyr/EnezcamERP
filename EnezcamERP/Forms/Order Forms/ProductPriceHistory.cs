@@ -5,25 +5,35 @@ namespace EnezcamERP.Forms.Order_Forms
 {
     public partial class ProductPriceHistory : Form
     {
-        public ProductPriceHistory(Product? product, decimal cost, decimal price)
+        public ProductPriceHistory(OrderDetail orderDetail)
         {
             InitializeComponent();
 
-            if (product == null)
-                this.Close();
-
-            this.product = product;
-            this.cost = cost;
-            this.price = price;
-
-            GetPriceHistory();
+            GetPriceHistory(orderDetail);
             RefreshList();
         }
 
-        async void GetPriceHistory()
+        void GetPriceHistory(OrderDetail orderDetail)
         {
             OrderDetailsRepository orderDetailsRepository = new();
-            var res = orderDetailsRepository.GetAll(x => x.Product.Code == product.Code | x.Product.Name == product.Name | x.UnitPrice == price | x.UnitCost == cost).DistinctBy(x => x.CreatedAt.Date).OrderByDescending(x => x.CreatedAt);
+
+            var res = orderDetailsRepository.GetAll()
+            .Where(x => x.Product.Code == orderDetail.Product.Code ||
+                       (x.Width == orderDetail.Width || x.Width == orderDetail.Height) &&
+                       (x.Height == orderDetail.Width || x.Height == orderDetail.Height))
+            .AsEnumerable()
+            .DistinctBy(x => x.CreatedAt.Date)
+            .OrderByDescending(x => x.CreatedAt)
+            .Select(x => new
+            {
+                x.CreatedAt,
+                x.Product,
+                x.Width,
+                x.Height,
+                x.UnitCost,
+                x.UnitPrice
+            })
+            .ToList();
 
             foreach (var item in res)
             {
@@ -34,7 +44,9 @@ namespace EnezcamERP.Forms.Order_Forms
                     Cost = item.UnitCost,
                     Price = item.UnitPrice,
                     Product = item.Product,
-                    Date = item.CreatedAt
+                    Date = item.CreatedAt,
+                    Width = item.Width,
+                    Height = item.Height
                 });
                 //}
             }
@@ -54,6 +66,7 @@ namespace EnezcamERP.Forms.Order_Forms
 
                 lvItem.SubItems.Add(item.Product.Code);
                 lvItem.SubItems.Add(item.Product.Name);
+                lvItem.SubItems.Add($"{item.Width} * {item.Height}");
                 lvItem.SubItems.Add(item.Cost.ToString("C2"));
                 lvItem.SubItems.Add(item.Price.ToString("C2"));
 
@@ -69,10 +82,10 @@ namespace EnezcamERP.Forms.Order_Forms
             public Product Product { get; set; }
             public decimal Cost { get; set; }
             public decimal Price { get; set; }
+            public decimal Width { get; set; }
+            public decimal Height { get; set; }
         }
 
-        Product product;
-        decimal cost, price;
         List<PriceHistory> PriceHistoryResults = [];
 
         public PriceHistory Result = new();
