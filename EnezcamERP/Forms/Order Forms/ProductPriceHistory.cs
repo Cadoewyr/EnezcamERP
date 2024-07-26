@@ -22,7 +22,7 @@ namespace EnezcamERP.Forms.Order_Forms
                        (x.Width == orderDetail.Width || x.Width == orderDetail.Height) &&
                        (x.Height == orderDetail.Width || x.Height == orderDetail.Height))
             .AsEnumerable()
-            .DistinctBy(x => x.CreatedAt.Date)
+            .DistinctBy(x => x.UnitPrice)
             .OrderByDescending(x => x.CreatedAt)
             .Select(x => new
             {
