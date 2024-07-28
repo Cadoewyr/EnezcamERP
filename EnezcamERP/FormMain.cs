@@ -36,7 +36,7 @@ namespace EnezcamERP
             {
                 if (rbOrderDate.Checked)
                     items = ordersDB.GetAll(x => x.IssueDate >= mcDateFilter.SelectionStart.Date & x.IssueDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1)).Skip(50 * (PageNumber - 1)).Take(50);
-                    //items = items.Where(x => x.IssueDate >= mcDateFilter.SelectionStart.Date & x.IssueDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1)).Skip(50 * (PageNumber - 1)).Take(50);
+                //items = items.Where(x => x.IssueDate >= mcDateFilter.SelectionStart.Date & x.IssueDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1)).Skip(50 * (PageNumber - 1)).Take(50);
                 else if (rbCompletedDate.Checked)
                     items = ordersDB.GetAll().AsEnumerable().Where(x => x.IsDone && x.CompletedDate >= mcDateFilter.SelectionStart.Date && x.CompletedDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1)).Skip(50 * (PageNumber - 1)).Take(50).ToList();
                 else if (rbDeliveryDate.Checked)
@@ -398,6 +398,31 @@ namespace EnezcamERP
         {
             InitialLists(ColumnHeaderAutoResizeStyle.HeaderSize);
             InitialReportForm();
+        }
+
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DateTime now = DateTime.Now;
+            bool isEndOfWeek = now.DayOfWeek == DayOfWeek.Friday;
+            bool isEndOfMonth = now.AddDays(1).Month != now.Month;
+            bool isEndOfYear = now.AddDays(1).Year != now.Year;
+
+            string message = string.Empty;
+
+            if (isEndOfYear)
+                message = "Yýllýk rapor almak ister misiniz?";
+            else if (isEndOfMonth)
+                message = "Aylýk rapor almak ister misiniz?";
+            else if (isEndOfWeek)
+                message = "Haftalýk rapor almak ister misiniz?";
+
+            if (!string.IsNullOrEmpty(message))
+            {
+                DialogResult result = MessageBox.Show(message, "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                    e.Cancel = true;
+            }
         }
 
         //Order controls
