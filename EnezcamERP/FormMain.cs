@@ -404,19 +404,40 @@ namespace EnezcamERP
         {
             DateTime now = DateTime.Now;
             bool isEndOfWeek = now.DayOfWeek == DayOfWeek.Friday;
-            bool isEndOfMonth = now.AddDays(1).Month != now.Month;
-            bool isEndOfYear = now.AddDays(1).Year != now.Year;
 
+            DateTime lastDayOfMonth = new DateTime(now.Year, now.Month, DateTime.DaysInMonth(now.Year, now.Month));
+
+            if (lastDayOfMonth.DayOfWeek == DayOfWeek.Saturday || lastDayOfMonth.DayOfWeek == DayOfWeek.Sunday)
+                lastDayOfMonth = lastDayOfMonth.AddDays(-(lastDayOfMonth.DayOfWeek == DayOfWeek.Saturday ? 1 : 2));
+
+            bool isEndOfMonth = now.Date == lastDayOfMonth.Date;
+
+            DateTime lastDayOfYear = new DateTime(now.Year, 12, 31);
+
+            if (lastDayOfYear.DayOfWeek == DayOfWeek.Saturday || lastDayOfYear.DayOfWeek == DayOfWeek.Sunday)
+                lastDayOfYear = lastDayOfYear.AddDays(-(lastDayOfYear.DayOfWeek == DayOfWeek.Saturday ? 1 : 2));
+
+            bool isEndOfYear = now.Date == lastDayOfYear.Date;
+
+            string[] reports = { "Yýllýk", "Aylýk", "Haftalýk" };
+
+            List<string> selectedStrings = [];
+            string questionString = " rapor almak ister misiniz?";
             string message = string.Empty;
 
+            if (isEndOfWeek)
+                selectedStrings.Add(reports[2]);
+            if(isEndOfMonth)
+                selectedStrings.Add(reports[1]);
             if (isEndOfYear)
-                message = "Yýllýk rapor almak ister misiniz?";
-            else if (isEndOfMonth)
-                message = "Aylýk rapor almak ister misiniz?";
-            else if (isEndOfWeek)
-                message = "Haftalýk rapor almak ister misiniz?";
+                selectedStrings.Add(reports[0]);
 
-            if (!string.IsNullOrEmpty(message))
+            message = string.Join(", ", selectedStrings.ToArray()).ToString() + questionString;
+
+            //Capitalize first letter
+            message = char.ToUpper(message[0]) + message.Substring(1).ToLower();
+
+            if (isEndOfYear || isEndOfMonth || isEndOfWeek)
             {
                 DialogResult result = MessageBox.Show(message, "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
