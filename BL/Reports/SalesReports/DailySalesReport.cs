@@ -125,7 +125,7 @@ namespace BL.Reports.SalesReports
             }
         }
         public decimal Price => DailySalesEntries.Sum(x => x.FinalPrice);
-        public decimal PriceTax => Price > 0 ? (Price / 100) * 20 : 0;
+        public decimal PriceTax => Price > 0 ? DailySalesEntries.Sum(x => x.FinalPrice * (x.TaxRatio / 100)) : 0;
         public decimal PriceWithTax => Price + PriceTax;
         public decimal Cost => DailySalesEntries.Sum(x => x.Cost);
         public decimal CostTax => Cost > 0 ? (Cost / 100) * 20 : 0;
