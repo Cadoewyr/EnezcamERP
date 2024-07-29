@@ -34,7 +34,7 @@ namespace BL.Reports.ProductionReports
                     x.UnitCost == item.OrderDetail.UnitCost &
                     x.UnitCode == item.OrderDetail.UnitCode &
                     x.DiscountRatio == item.OrderDetail.DiscountRatio &
-                    x.TaxRatio == item.OrderDetail.TaxRatio &
+                    //x.TaxRatio == item.OrderDetail.TaxRatio &
                     x.FinalUnitPrice == item.OrderDetail.FinalUnitPrice &
                     x.DiscountRatio == item.OrderDetail.DiscountRatio &
                     x.Product == item.OrderDetail.Product &
@@ -47,7 +47,7 @@ namespace BL.Reports.ProductionReports
                     x.UnitCost == item.OrderDetail.UnitCost &
                     x.UnitCode == item.OrderDetail.UnitCode &
                     x.DiscountRatio == item.OrderDetail.DiscountRatio &
-                    x.TaxRatio == item.OrderDetail.TaxRatio &
+                    //x.TaxRatio == item.OrderDetail.TaxRatio &
                     x.FinalUnitPrice == item.OrderDetail.FinalUnitPrice &
                     x.DiscountRatio == item.OrderDetail.DiscountRatio &
                     x.Product == item.OrderDetail.Product &
@@ -163,7 +163,7 @@ namespace BL.Reports.ProductionReports
             }
         }
         public decimal Price => DailyProductionEntries.Sum(x => x.FinalPrice);
-        public decimal PriceTax => Price > 0 ? (Price / 100) * 20 : 0;
+        public decimal PriceTax => Price > 0 ? DailyProductionEntries.Sum(x=> x.FinalPrice * (x.TaxRatio / 100)) : 0;
         public decimal PriceWithTax => Price + PriceTax;
         public decimal Cost => DailyProductionEntries.Sum(x => x.Cost);
         public decimal CostTax => Cost > 0 ? (Cost / 100) * 20 : 0;
