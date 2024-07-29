@@ -36,7 +36,6 @@ namespace EnezcamERP
             {
                 if (rbOrderDate.Checked)
                     items = ordersDB.GetAll(x => x.IssueDate >= mcDateFilter.SelectionStart.Date & x.IssueDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1)).Skip(50 * (PageNumber - 1)).Take(50);
-                //items = items.Where(x => x.IssueDate >= mcDateFilter.SelectionStart.Date & x.IssueDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1)).Skip(50 * (PageNumber - 1)).Take(50);
                 else if (rbCompletedDate.Checked)
                     items = ordersDB.GetAll().AsEnumerable().Where(x => x.IsDone && x.CompletedDate >= mcDateFilter.SelectionStart.Date && x.CompletedDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1)).Skip(50 * (PageNumber - 1)).Take(50).ToList();
                 else if (rbDeliveryDate.Checked)
@@ -45,7 +44,7 @@ namespace EnezcamERP
 
             List<ListViewItem> lviList = [];
 
-            foreach (var item in items /*.Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false)*/)
+            foreach (var item in items)
             {
                 ListViewItem lvi = new()
                 {
@@ -85,6 +84,8 @@ namespace EnezcamERP
 
             if (columnHeaderAutoResizeStyle != null)
                 listView.AutoResizeColumns(columnHeaderAutoResizeStyle.Value);
+
+            CheckExpiredOrders(false);
         }
         public void RefreshProducts(ICollection<Product>? products, ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
         {
@@ -150,6 +151,21 @@ namespace EnezcamERP
 
             if (monthlyOutgoingsRepository.GetByDate(dtpDate.Value.Year, dtpDate.Value.Month) != null)
                 nudOutgoing.Value = monthlyOutgoingsRepository.GetByDate(dtpDate.Value.Year, dtpDate.Value.Month).Outgoing;
+        }
+        public void CheckExpiredOrders(bool checkListViewItems)
+        {
+            int i = 0;
+            foreach (ListViewItem item in lvOrders.Items)
+            {
+                if ((item.Tag as Order).DeliveryDate.Date <= DateTime.Now.Date && !(item.Tag as Order).IsDone)
+                {
+                    if (checkListViewItems)
+                        item.Checked = true;
+                    i++;
+                }
+            }
+
+            btnExpiredOrders.Text = $"{i} gecikmiþ sipariþ";
         }
 
         void InitialLists(ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
@@ -397,6 +413,7 @@ namespace EnezcamERP
         private void Main_Load(object sender, EventArgs e)
         {
             InitialLists(ColumnHeaderAutoResizeStyle.HeaderSize);
+            CheckExpiredOrders(false);
             InitialReportForm();
         }
 
@@ -427,7 +444,7 @@ namespace EnezcamERP
 
             if (isEndOfWeek)
                 selectedStrings.Add(reports[2]);
-            if(isEndOfMonth)
+            if (isEndOfMonth)
                 selectedStrings.Add(reports[1]);
             if (isEndOfYear)
                 selectedStrings.Add(reports[0]);
@@ -623,6 +640,10 @@ namespace EnezcamERP
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
                 e.Handled = true;
             }
+        }
+        private void btnExpiredOrders_Click(object sender, EventArgs e)
+        {
+            CheckExpiredOrders(true);
         }
 
         //Pagination controls

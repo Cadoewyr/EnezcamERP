@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             tabOrders = new TabPage();
             gbOrders = new GroupBox();
+            btnExpiredOrders = new Button();
             lblPageNumber = new Label();
             btnLastPage = new Button();
             btnNextPage = new Button();
@@ -195,7 +196,7 @@
             tabOrders.Controls.Add(gbOrders);
             tabOrders.Location = new Point(4, 29);
             tabOrders.Name = "tabOrders";
-            tabOrders.Padding = new Padding(3, 3, 3, 3);
+            tabOrders.Padding = new Padding(3);
             tabOrders.Size = new Size(1546, 874);
             tabOrders.TabIndex = 0;
             tabOrders.Text = "Siparişler";
@@ -204,6 +205,7 @@
             // gbOrders
             // 
             gbOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbOrders.Controls.Add(btnExpiredOrders);
             gbOrders.Controls.Add(lblPageNumber);
             gbOrders.Controls.Add(btnLastPage);
             gbOrders.Controls.Add(btnNextPage);
@@ -227,6 +229,16 @@
             gbOrders.TabIndex = 0;
             gbOrders.TabStop = false;
             gbOrders.Text = "Siparişler";
+            // 
+            // btnExpiredOrders
+            // 
+            btnExpiredOrders.Location = new Point(821, 24);
+            btnExpiredOrders.Name = "btnExpiredOrders";
+            btnExpiredOrders.Size = new Size(191, 29);
+            btnExpiredOrders.TabIndex = 20;
+            btnExpiredOrders.TabStop = false;
+            btnExpiredOrders.UseVisualStyleBackColor = true;
+            btnExpiredOrders.Click += btnExpiredOrders_Click;
             // 
             // lblPageNumber
             // 
@@ -734,7 +746,7 @@
             tabStock.Controls.Add(gbProducts);
             tabStock.Location = new Point(4, 29);
             tabStock.Name = "tabStock";
-            tabStock.Padding = new Padding(3, 3, 3, 3);
+            tabStock.Padding = new Padding(3);
             tabStock.Size = new Size(1546, 874);
             tabStock.TabIndex = 1;
             tabStock.Text = "Stok Kartı";
@@ -870,7 +882,7 @@
             tabCustomer.Controls.Add(gbCustomers);
             tabCustomer.Location = new Point(4, 29);
             tabCustomer.Name = "tabCustomer";
-            tabCustomer.Padding = new Padding(3, 3, 3, 3);
+            tabCustomer.Padding = new Padding(3);
             tabCustomer.Size = new Size(1546, 874);
             tabCustomer.TabIndex = 2;
             tabCustomer.Text = "Cari Kartı";
@@ -1008,7 +1020,7 @@
             tabReports.Controls.Add(gbProductionReport);
             tabReports.Location = new Point(4, 29);
             tabReports.Name = "tabReports";
-            tabReports.Padding = new Padding(3, 3, 3, 3);
+            tabReports.Padding = new Padding(3);
             tabReports.Size = new Size(1546, 874);
             tabReports.TabIndex = 3;
             tabReports.Text = "Raporlar";
@@ -1720,5 +1732,6 @@
         private Button btnPreviousPage;
         private Button btnLastPage;
         private Button btnFirstPage;
+        private Button btnExpiredOrders;
     }
 }
