@@ -20,7 +20,8 @@ namespace EnezcamERP.Forms.Order_Forms
             var res = orderDetailsRepository.GetAll()
             .Where(x => x.Product.Code == orderDetail.Product.Code ||
                        (x.Width == orderDetail.Width || x.Width == orderDetail.Height) &&
-                       (x.Height == orderDetail.Width || x.Height == orderDetail.Height))
+                       (x.Height == orderDetail.Width || x.Height == orderDetail.Height) ||
+                       (x.UnitPrice == orderDetail.UnitPrice || x.UnitCost == orderDetail.UnitCost))
             .AsEnumerable()
             .DistinctBy(x => x.UnitPrice)
             .OrderByDescending(x => x.CreatedAt)
