@@ -520,38 +520,41 @@ namespace EnezcamERP.Forms.Order_Forms
             List<OrderDetail> details = [];
             List<Product> products = [];
 
-            foreach(ListViewItem item in checkedItems)
-            {
-                OrderDetail detail = item.Tag as OrderDetail;
-
-                if (!products.Exists(x => x.ID == detail.Product.ID))
-                    products.Add(detail.Product);
-            }
-
-            foreach(ListViewItem item in checkedItems)
+            //Get all checked order details
+            foreach (ListViewItem item in checkedItems)
             {
                 OrderDetail detail = item.Tag as OrderDetail;
 
                 details.Add(detail);
             }
 
-            foreach(var item in details)
+            //Remove multiple priced order details
+            foreach (var detail in details.ToList())
             {
-                if (details.Exists(x => x.Product.ID == item.ID & (x.Price != item.Price | x.Cost != item.Cost)))
+                var orderDetails = details.Where(x => x.Product.ID == detail.Product.ID).ToList();
+
+                if (orderDetails.Any(x => x.UnitPrice != detail.UnitPrice | x.UnitCost != x.UnitCost))
                 {
-                    details.RemoveAll(x => x.Product.ID == item.Product.ID);
-                    products.RemoveAll(x=>x.ID == item.Product.ID);
+                    details.RemoveAll(x => x.Product.ID == detail.Product.ID);
                 }
-                    
             }
 
-            int i = 0;
-
-            foreach (var item in products)
+            //Get all products to get updated
+            foreach (var detail in details.ToList())
             {
-                item.PriceHistory.LastCost = details.Find(x => x.Product.ID == item.ID).Product.PriceHistory.LastCost;
-                item.PriceHistory.LastPrice = details.Find(x => x.Product.ID == item.ID).Product.PriceHistory.LastPrice;
-                i++;
+                if (!products.Exists(x => x.ID == detail.Product.ID))
+                    products.Add(detail.Product);
+            }
+
+            int updatedCount = 0;
+            int selectedCount = 0;
+
+            foreach (var product in products)
+            {
+                var detail = details.Find(x => x.Product.ID == product.ID);
+                product.PriceHistory.LastCost = detail.Product.PriceHistory.LastCost;
+                product.PriceHistory.LastPrice = detail.Product.PriceHistory.LastPrice;
+                updatedCount++;
             }
 
             RefreshOrderDetails(order, txtSearchOrderDetail.Text, ColumnHeaderAutoResizeStyle.HeaderSize);
@@ -559,10 +562,13 @@ namespace EnezcamERP.Forms.Order_Forms
             foreach (ListViewItem item in lvOrderDetails.Items)
             {
                 if (!products.Exists(x => x.ID == (item.Tag as OrderDetail).Product.ID))
+                {
+                    selectedCount++;
                     item.Checked = true;
+                }
             }
 
-            MessageBox.Show($"{i} adet ürün güncellendi. Güncellenmeyen ürünler seçili.");
+            MessageBox.Show($"{updatedCount} adet ürün güncellendi. Güncellenmeyen {selectedCount} adet ürün seçildi.");
         }
     }
 }
