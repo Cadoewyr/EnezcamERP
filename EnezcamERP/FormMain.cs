@@ -990,9 +990,9 @@ namespace EnezcamERP
                     product.PriceHistory.LastCost = closestOrder.Cost;
                     product.PriceHistory.LastPrice = closestOrder.Price;
                 }
-
-                RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
+
+            RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
     }
 }
