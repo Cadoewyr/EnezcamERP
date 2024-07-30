@@ -538,7 +538,11 @@ namespace EnezcamERP.Forms.Order_Forms
             foreach(var item in details)
             {
                 if (details.Exists(x => x.Product.ID == item.ID & (x.Price != item.Price | x.Cost != item.Cost)))
+                {
                     details.RemoveAll(x => x.Product.ID == item.Product.ID);
+                    products.RemoveAll(x=>x.ID = = item.Product.ID);
+                }
+                    
             }
 
             int i = 0;
