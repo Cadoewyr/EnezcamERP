@@ -91,7 +91,6 @@
             tabMain = new TabControl();
             tabStock = new TabPage();
             gbProducts = new GroupBox();
-            btnUpdatePriceHistory = new Button();
             lblSearchProduct = new Label();
             txtSearchProduct = new TextBox();
             btnAddProduct = new Button();
@@ -756,7 +755,6 @@
             // gbProducts
             // 
             gbProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            gbProducts.Controls.Add(btnUpdatePriceHistory);
             gbProducts.Controls.Add(lblSearchProduct);
             gbProducts.Controls.Add(txtSearchProduct);
             gbProducts.Controls.Add(btnAddProduct);
@@ -770,16 +768,6 @@
             gbProducts.TabIndex = 0;
             gbProducts.TabStop = false;
             gbProducts.Text = "Stok Kartları";
-            // 
-            // btnUpdatePriceHistory
-            // 
-            btnUpdatePriceHistory.Location = new Point(406, 24);
-            btnUpdatePriceHistory.Name = "btnUpdatePriceHistory";
-            btnUpdatePriceHistory.Size = new Size(179, 29);
-            btnUpdatePriceHistory.TabIndex = 9;
-            btnUpdatePriceHistory.Text = "Son Maliyet ve Fiyatı Güncelle";
-            btnUpdatePriceHistory.UseVisualStyleBackColor = true;
-            btnUpdatePriceHistory.Click += btnUpdatePriceHistory_Click;
             // 
             // lblSearchProduct
             // 
@@ -1745,6 +1733,5 @@
         private Button btnLastPage;
         private Button btnFirstPage;
         private Button btnExpiredOrders;
-        private Button btnUpdatePriceHistory;
     }
 }

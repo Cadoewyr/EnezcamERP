@@ -110,6 +110,7 @@
             checkAllToolStripMenuItem = new ToolStripMenuItem();
             checkSameProductsToolStripMenuItem = new ToolStripMenuItem();
             uncheckAllToolStripMenuItem = new ToolStripMenuItem();
+            btnUpdateLastCostPrice = new Button();
             gbOrderHeader.SuspendLayout();
             gbOrderDetails.SuspendLayout();
             gbOrderTotals.SuspendLayout();
@@ -212,6 +213,7 @@
             // gbOrderDetails
             // 
             gbOrderDetails.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbOrderDetails.Controls.Add(btnUpdateLastCostPrice);
             gbOrderDetails.Controls.Add(lblSearchOrderDetail);
             gbOrderDetails.Controls.Add(txtSearchOrderDetail);
             gbOrderDetails.Controls.Add(gbOrderTotals);
@@ -226,8 +228,9 @@
             // 
             // lblSearchOrderDetail
             // 
+            lblSearchOrderDetail.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lblSearchOrderDetail.AutoSize = true;
-            lblSearchOrderDetail.Location = new Point(1030, 29);
+            lblSearchOrderDetail.Location = new Point(1052, 29);
             lblSearchOrderDetail.Name = "lblSearchOrderDetail";
             lblSearchOrderDetail.Size = new Size(32, 20);
             lblSearchOrderDetail.TabIndex = 6;
@@ -235,7 +238,8 @@
             // 
             // txtSearchOrderDetail
             // 
-            txtSearchOrderDetail.Location = new Point(1068, 26);
+            txtSearchOrderDetail.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtSearchOrderDetail.Location = new Point(1090, 26);
             txtSearchOrderDetail.Name = "txtSearchOrderDetail";
             txtSearchOrderDetail.Size = new Size(306, 27);
             txtSearchOrderDetail.TabIndex = 5;
@@ -845,6 +849,17 @@
             uncheckAllToolStripMenuItem.Text = "Seçimleri Kaldır";
             uncheckAllToolStripMenuItem.Click += uncheckAllToolStripMenuItem_Click;
             // 
+            // btnUpdateLastCostPrice
+            // 
+            btnUpdateLastCostPrice.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnUpdateLastCostPrice.Location = new Point(784, 24);
+            btnUpdateLastCostPrice.Name = "btnUpdateLastCostPrice";
+            btnUpdateLastCostPrice.Size = new Size(193, 29);
+            btnUpdateLastCostPrice.TabIndex = 7;
+            btnUpdateLastCostPrice.Text = "Maliyet ve Fiyat Güncelle";
+            btnUpdateLastCostPrice.UseVisualStyleBackColor = true;
+            btnUpdateLastCostPrice.Click += btnUpdateLastCostPrice_Click;
+            // 
             // AddUpdateOrder
             // 
             AcceptButton = btnAddOrderDetail;
@@ -962,5 +977,6 @@
         private ToolStripMenuItem uncheckAllToolStripMenuItem;
         private Label lblSearchOrderDetail;
         private TextBox txtSearchOrderDetail;
+        private Button btnUpdateLastCostPrice;
     }
 }

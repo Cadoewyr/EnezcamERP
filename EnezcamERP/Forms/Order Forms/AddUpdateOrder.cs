@@ -97,7 +97,7 @@ namespace EnezcamERP.Forms.Order_Forms
 
                     var value = prop.GetValue(item).ToString().ToLower();
 
-                    if (value.Contains(filter.ToLower()) && !results.Contains(item))
+                    if (value.Contains(filter.ToLower().Trim()) && !results.Contains(item))
                     {
                         results.Add(item);
 
@@ -512,6 +512,53 @@ namespace EnezcamERP.Forms.Order_Forms
         private void txtSearchOrderDetail_TextChanged(object sender, EventArgs e)
         {
             RefreshOrderDetails(order, (sender as TextBox).Text, ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+
+        private void btnUpdateLastCostPrice_Click(object sender, EventArgs e)
+        {
+            var checkedItems = lvOrderDetails.CheckedItems;
+            List<OrderDetail> details = [];
+            List<Product> products = [];
+
+            foreach(ListViewItem item in checkedItems)
+            {
+                OrderDetail detail = item.Tag as OrderDetail;
+
+                if (!products.Exists(x => x.ID == detail.Product.ID))
+                    products.Add(detail.Product);
+            }
+
+            foreach(ListViewItem item in checkedItems)
+            {
+                OrderDetail detail = item.Tag as OrderDetail;
+
+                details.Add(detail);
+            }
+
+            foreach(var item in details)
+            {
+                if (details.Exists(x => x.Product.ID == item.ID & (x.Price != item.Price | x.Cost != item.Cost)))
+                    details.RemoveAll(x => x.Product.ID == item.Product.ID);
+            }
+
+            int i = 0;
+
+            foreach (var item in products)
+            {
+                item.PriceHistory.LastCost = details.Find(x => x.Product.ID == item.ID).Product.PriceHistory.LastCost;
+                item.PriceHistory.LastPrice = details.Find(x => x.Product.ID == item.ID).Product.PriceHistory.LastPrice;
+                i++;
+            }
+
+            RefreshOrderDetails(order, txtSearchOrderDetail.Text, ColumnHeaderAutoResizeStyle.HeaderSize);
+
+            foreach (ListViewItem item in lvOrderDetails.Items)
+            {
+                if (!products.Exists(x => x.ID == (item.Tag as OrderDetail).Product.ID))
+                    item.Checked = true;
+            }
+
+            MessageBox.Show($"{i} adet ürün güncellendi. Güncellenmeyen ürünler seçili.");
         }
     }
 }
