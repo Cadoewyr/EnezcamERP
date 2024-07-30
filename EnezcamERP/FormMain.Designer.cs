@@ -91,6 +91,7 @@
             tabMain = new TabControl();
             tabStock = new TabPage();
             gbProducts = new GroupBox();
+            btnUpdatePriceHistory = new Button();
             lblSearchProduct = new Label();
             txtSearchProduct = new TextBox();
             btnAddProduct = new Button();
@@ -755,6 +756,7 @@
             // gbProducts
             // 
             gbProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbProducts.Controls.Add(btnUpdatePriceHistory);
             gbProducts.Controls.Add(lblSearchProduct);
             gbProducts.Controls.Add(txtSearchProduct);
             gbProducts.Controls.Add(btnAddProduct);
@@ -768,6 +770,16 @@
             gbProducts.TabIndex = 0;
             gbProducts.TabStop = false;
             gbProducts.Text = "Stok Kartları";
+            // 
+            // btnUpdatePriceHistory
+            // 
+            btnUpdatePriceHistory.Location = new Point(406, 24);
+            btnUpdatePriceHistory.Name = "btnUpdatePriceHistory";
+            btnUpdatePriceHistory.Size = new Size(179, 29);
+            btnUpdatePriceHistory.TabIndex = 9;
+            btnUpdatePriceHistory.Text = "Son Maliyet ve Fiyatı Güncelle";
+            btnUpdatePriceHistory.UseVisualStyleBackColor = true;
+            btnUpdatePriceHistory.Click += btnUpdatePriceHistory_Click;
             // 
             // lblSearchProduct
             // 
@@ -831,12 +843,12 @@
             // lvProducts
             // 
             lvProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            lvProducts.CheckBoxes = true;
             lvProducts.Columns.AddRange(new ColumnHeader[] { clmName, clmCode, clmProcessType, clmIsCounting, clmLastCost, clmLastPrice, clmLastProfit, clmLastProfitRatio });
             lvProducts.Font = new Font("Segoe UI", 10F);
             lvProducts.FullRowSelect = true;
             lvProducts.GridLines = true;
             lvProducts.Location = new Point(6, 59);
-            lvProducts.MultiSelect = false;
             lvProducts.Name = "lvProducts";
             lvProducts.Size = new Size(1519, 797);
             lvProducts.TabIndex = 0;
@@ -1733,5 +1745,6 @@
         private Button btnLastPage;
         private Button btnFirstPage;
         private Button btnExpiredOrders;
+        private Button btnUpdatePriceHistory;
     }
 }

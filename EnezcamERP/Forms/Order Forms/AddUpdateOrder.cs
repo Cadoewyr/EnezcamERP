@@ -2,7 +2,6 @@
 using BL.Validators.Validators;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
-using DAL.DTO.Entities.Interfaces;
 using EnezcamERP.Validators;
 
 namespace EnezcamERP.Forms.Order_Forms
@@ -470,6 +469,45 @@ namespace EnezcamERP.Forms.Order_Forms
                 }
             }
         }
+        //private void updateLastCostPriceToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    List<OrderDetail> selections = [];
+        //    List<OrderDetail> deselections = [];
+        //    int i = 0;
+
+        //    foreach (ListViewItem item in lvOrderDetails.CheckedItems)
+        //    {
+        //        var orderDetail = item.Tag as OrderDetail;
+
+        //        if (!selections.Exists(x => x.Product.ID == orderDetail.Product.ID && (x.Cost != orderDetail.Cost || x.Price != orderDetail.Price)) || !deselections.Exists(x => x.Product.ID == orderDetail.Product.ID))
+        //            selections.Add(orderDetail);
+        //        else
+        //            deselections.Add(orderDetail);
+        //    }
+
+        //    foreach (var item in selections)
+        //    {
+        //        if (item.Product.PriceHistory.LastCost != item.Cost || item.Product.PriceHistory.LastPrice != item.Price)
+        //            i++;
+
+        //        item.Product.PriceHistory.LastCost = item.Cost;
+        //        item.Product.PriceHistory.LastPrice = item.Price;
+        //    }
+
+        //    RefreshOrderDetails(order, txtSearchOrderDetail.Text, ColumnHeaderAutoResizeStyle.HeaderSize);
+
+        //    foreach (ListViewItem item in lvOrderDetails.Items)
+        //    {
+        //        var orderDetail = item.Tag as OrderDetail;
+
+        //        item.Checked = selections.Exists(x => x.ID == orderDetail.ID);
+        //    }
+
+        //    if(deselections.Count > 0)
+        //        MessageBox.Show($"{deselections.Count} adet ürün birden fazla fiyatlandırmaya sahip olduğu için güncellenmedi.");
+
+        //    //MessageBox.Show($"{i} adet ürünün son fiyat bilgileri güncellendi.");
+        //}
 
         private void txtSearchOrderDetail_TextChanged(object sender, EventArgs e)
         {
