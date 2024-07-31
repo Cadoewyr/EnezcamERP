@@ -56,7 +56,7 @@ namespace EnezcamERP.Forms.Order_Forms
         void LoadControls(OrderDetail orderDetail)
         {
             cbUnitCode.Items.Clear();
-            cbUnitCode.Items.AddRange(Enum.GetNames(typeof(UnitCode)));
+            cbUnitCode.Items.AddRange(Enum.GetNames(typeof(UnitCode)).ToArray().Reverse().ToArray());
             cbUnitCode.SelectedIndex = cbUnitCode.Items.IndexOf(orderDetail.UnitCode.ToString());
 
             nudQuantity.Value = orderDetail.Quantity;
