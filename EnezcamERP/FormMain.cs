@@ -154,7 +154,13 @@ namespace EnezcamERP
         }
         public void CheckExpiredOrders(bool checkListViewItems)
         {
+            foreach(ListViewItem item in lvOrders.CheckedItems)
+            {
+                item.Checked = false;
+            }
+
             int i = 0;
+            
             foreach (ListViewItem item in lvOrders.Items)
             {
                 if ((item.Tag as Order).DeliveryDate.Date <= DateTime.Now.Date && !(item.Tag as Order).IsDone)
