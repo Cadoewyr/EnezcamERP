@@ -510,7 +510,12 @@ namespace EnezcamERP
                 try
                 {
                     if (MessageBox.Show("Sipariþ silinecek. Onaylýyor musunuz?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        ordersDB.Delete(lvOrders.SelectedItems[0].Tag as Order);
+                    {
+                        foreach (ListViewItem item in lvOrders.SelectedItems)
+                        {
+                            ordersDB.Delete(item.Tag as Order);
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -700,23 +705,27 @@ namespace EnezcamERP
         }
         private void completeOrderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (lvOrders.SelectedItems.Count > 0 & lvOrders.CheckedItems.Count == 0)
+            if ((lvOrders.SelectedItems.Count > 0 & lvOrders.CheckedItems.Count == 0) && MessageBox.Show("Seçilen sipariþler tamamlanacak. Onaylýyor musunuz?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                Order order = lvOrders.SelectedItems[0].Tag as Order;
-
-                foreach (var orderDetail in order.OrderDetails)
+                foreach(ListViewItem item in lvOrders.SelectedItems)
                 {
-                    if (orderDetail.RemainingToProduceQuantity > 0)
+                    Order order = item.Tag as Order;
+
+                    foreach (var orderDetail in order.OrderDetails)
                     {
-                        orderDetail.ProducedOrders.Add(new()
+                        if (orderDetail.RemainingToProduceQuantity > 0)
                         {
-                            IsStock = false,
-                            OrderDetail = orderDetail,
-                            ProducedDate = DateTime.Now,
-                            ProducedOrderQuantity = orderDetail.RemainingToProduceQuantity
-                        });
+                            orderDetail.ProducedOrders.Add(new()
+                            {
+                                IsStock = false,
+                                OrderDetail = orderDetail,
+                                ProducedDate = DateTime.Now,
+                                ProducedOrderQuantity = orderDetail.RemainingToProduceQuantity
+                            });
+                        }
                     }
                 }
+                
                 EnzDBContext.GetInstance.SaveChanges();
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
