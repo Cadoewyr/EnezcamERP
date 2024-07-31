@@ -191,6 +191,62 @@ namespace EnezcamERP.Forms.Order_Forms
         {
             (sender as NumericUpDown).Select(0, (sender as NumericUpDown).Value.ToString().Length + ((sender as NumericUpDown).ToString().Length - 1) / 3);
         }
+        void UpdateCostPrice()
+        {
+            var checkedItems = lvOrderDetails.CheckedItems;
+            List<OrderDetail> details = [];
+            List<Product> products = [];
+
+            //Get all checked order details
+            foreach (ListViewItem item in checkedItems)
+            {
+                OrderDetail detail = item.Tag as OrderDetail;
+
+                details.Add(detail);
+            }
+
+            //Remove multiple priced order details
+            foreach (var detail in details.ToList())
+            {
+                var orderDetails = details.Where(x => x.Product.ID == detail.Product.ID).ToList();
+
+                if (orderDetails.Any(x => x.UnitPrice != detail.UnitPrice | x.UnitCost != x.UnitCost))
+                {
+                    details.RemoveAll(x => x.Product.ID == detail.Product.ID);
+                }
+            }
+
+            //Get all products to get updated
+            foreach (var detail in details.ToList())
+            {
+                if (!products.Exists(x => x.ID == detail.Product.ID))
+                    products.Add(detail.Product);
+            }
+
+            int updatedCount = 0;
+            int selectedCount = 0;
+
+            foreach (var product in products)
+            {
+                var detail = details.Find(x => x.Product.ID == product.ID);
+                product.PriceHistory.LastCost = detail.Product.PriceHistory.LastCost;
+                product.PriceHistory.LastPrice = detail.Product.PriceHistory.LastPrice;
+                updatedCount++;
+            }
+
+            RefreshOrderDetails(order, txtSearchOrderDetail.Text, ColumnHeaderAutoResizeStyle.HeaderSize);
+
+            foreach (ListViewItem item in lvOrderDetails.Items)
+            {
+                if (!products.Exists(x => x.ID == (item.Tag as OrderDetail).Product.ID))
+                {
+                    selectedCount++;
+                    item.Checked = true;
+                }
+            }
+
+            MessageBox.Show($"{updatedCount} adet ürün güncellendi. Güncellenmeyen {selectedCount} adet ürün seçildi.");
+        }
 
         CustomerRepository customerDB = new();
         OrderRepository orderDB = new();
@@ -469,106 +525,14 @@ namespace EnezcamERP.Forms.Order_Forms
                 }
             }
         }
-        //private void updateLastCostPriceToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    List<OrderDetail> selections = [];
-        //    List<OrderDetail> deselections = [];
-        //    int i = 0;
-
-        //    foreach (ListViewItem item in lvOrderDetails.CheckedItems)
-        //    {
-        //        var orderDetail = item.Tag as OrderDetail;
-
-        //        if (!selections.Exists(x => x.Product.ID == orderDetail.Product.ID && (x.Cost != orderDetail.Cost || x.Price != orderDetail.Price)) || !deselections.Exists(x => x.Product.ID == orderDetail.Product.ID))
-        //            selections.Add(orderDetail);
-        //        else
-        //            deselections.Add(orderDetail);
-        //    }
-
-        //    foreach (var item in selections)
-        //    {
-        //        if (item.Product.PriceHistory.LastCost != item.Cost || item.Product.PriceHistory.LastPrice != item.Price)
-        //            i++;
-
-        //        item.Product.PriceHistory.LastCost = item.Cost;
-        //        item.Product.PriceHistory.LastPrice = item.Price;
-        //    }
-
-        //    RefreshOrderDetails(order, txtSearchOrderDetail.Text, ColumnHeaderAutoResizeStyle.HeaderSize);
-
-        //    foreach (ListViewItem item in lvOrderDetails.Items)
-        //    {
-        //        var orderDetail = item.Tag as OrderDetail;
-
-        //        item.Checked = selections.Exists(x => x.ID == orderDetail.ID);
-        //    }
-
-        //    if(deselections.Count > 0)
-        //        MessageBox.Show($"{deselections.Count} adet ürün birden fazla fiyatlandırmaya sahip olduğu için güncellenmedi.");
-
-        //    //MessageBox.Show($"{i} adet ürünün son fiyat bilgileri güncellendi.");
-        //}
 
         private void txtSearchOrderDetail_TextChanged(object sender, EventArgs e)
         {
             RefreshOrderDetails(order, (sender as TextBox).Text, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
-
         private void btnUpdateLastCostPrice_Click(object sender, EventArgs e)
         {
-            var checkedItems = lvOrderDetails.CheckedItems;
-            List<OrderDetail> details = [];
-            List<Product> products = [];
-
-            //Get all checked order details
-            foreach (ListViewItem item in checkedItems)
-            {
-                OrderDetail detail = item.Tag as OrderDetail;
-
-                details.Add(detail);
-            }
-
-            //Remove multiple priced order details
-            foreach (var detail in details.ToList())
-            {
-                var orderDetails = details.Where(x => x.Product.ID == detail.Product.ID).ToList();
-
-                if (orderDetails.Any(x => x.UnitPrice != detail.UnitPrice | x.UnitCost != x.UnitCost))
-                {
-                    details.RemoveAll(x => x.Product.ID == detail.Product.ID);
-                }
-            }
-
-            //Get all products to get updated
-            foreach (var detail in details.ToList())
-            {
-                if (!products.Exists(x => x.ID == detail.Product.ID))
-                    products.Add(detail.Product);
-            }
-
-            int updatedCount = 0;
-            int selectedCount = 0;
-
-            foreach (var product in products)
-            {
-                var detail = details.Find(x => x.Product.ID == product.ID);
-                product.PriceHistory.LastCost = detail.Product.PriceHistory.LastCost;
-                product.PriceHistory.LastPrice = detail.Product.PriceHistory.LastPrice;
-                updatedCount++;
-            }
-
-            RefreshOrderDetails(order, txtSearchOrderDetail.Text, ColumnHeaderAutoResizeStyle.HeaderSize);
-
-            foreach (ListViewItem item in lvOrderDetails.Items)
-            {
-                if (!products.Exists(x => x.ID == (item.Tag as OrderDetail).Product.ID))
-                {
-                    selectedCount++;
-                    item.Checked = true;
-                }
-            }
-
-            MessageBox.Show($"{updatedCount} adet ürün güncellendi. Güncellenmeyen {selectedCount} adet ürün seçildi.");
+            UpdateCostPrice();
         }
     }
 }

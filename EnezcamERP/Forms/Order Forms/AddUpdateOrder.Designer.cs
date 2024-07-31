@@ -39,6 +39,7 @@
             lblCustomer = new Label();
             lblJobNo = new Label();
             gbOrderDetails = new GroupBox();
+            btnUpdateLastCostPrice = new Button();
             lblSearchOrderDetail = new Label();
             txtSearchOrderDetail = new TextBox();
             gbOrderTotals = new GroupBox();
@@ -110,7 +111,6 @@
             checkAllToolStripMenuItem = new ToolStripMenuItem();
             checkSameProductsToolStripMenuItem = new ToolStripMenuItem();
             uncheckAllToolStripMenuItem = new ToolStripMenuItem();
-            btnUpdateLastCostPrice = new Button();
             gbOrderHeader.SuspendLayout();
             gbOrderDetails.SuspendLayout();
             gbOrderTotals.SuspendLayout();
@@ -225,6 +225,17 @@
             gbOrderDetails.TabIndex = 1;
             gbOrderDetails.TabStop = false;
             gbOrderDetails.Text = "Sipariş Detayı";
+            // 
+            // btnUpdateLastCostPrice
+            // 
+            btnUpdateLastCostPrice.Location = new Point(7, 24);
+            btnUpdateLastCostPrice.Name = "btnUpdateLastCostPrice";
+            btnUpdateLastCostPrice.Size = new Size(193, 29);
+            btnUpdateLastCostPrice.TabIndex = 7;
+            btnUpdateLastCostPrice.TabStop = false;
+            btnUpdateLastCostPrice.Text = "Maliyet ve Fiyat Güncelle";
+            btnUpdateLastCostPrice.UseVisualStyleBackColor = true;
+            btnUpdateLastCostPrice.Click += btnUpdateLastCostPrice_Click;
             // 
             // lblSearchOrderDetail
             // 
@@ -848,17 +859,6 @@
             uncheckAllToolStripMenuItem.Size = new Size(190, 24);
             uncheckAllToolStripMenuItem.Text = "Seçimleri Kaldır";
             uncheckAllToolStripMenuItem.Click += uncheckAllToolStripMenuItem_Click;
-            // 
-            // btnUpdateLastCostPrice
-            // 
-            btnUpdateLastCostPrice.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnUpdateLastCostPrice.Location = new Point(784, 24);
-            btnUpdateLastCostPrice.Name = "btnUpdateLastCostPrice";
-            btnUpdateLastCostPrice.Size = new Size(193, 29);
-            btnUpdateLastCostPrice.TabIndex = 7;
-            btnUpdateLastCostPrice.Text = "Maliyet ve Fiyat Güncelle";
-            btnUpdateLastCostPrice.UseVisualStyleBackColor = true;
-            btnUpdateLastCostPrice.Click += btnUpdateLastCostPrice_Click;
             // 
             // AddUpdateOrder
             // 
