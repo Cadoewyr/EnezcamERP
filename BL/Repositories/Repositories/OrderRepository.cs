@@ -79,7 +79,11 @@ namespace BL.Repositories.Repositories
                 }
 
                 if (entity.OrderDetails.Any(x =>
-                (x.Product.Code.ToLower().Contains(filter.ToLower())) | x.Product.Name.ToLower().Contains(filter.ToLower()) | (x.Height * 1000).ToString().Contains(filter.ToLower()) | (x.Width * 1000).ToString().Contains(filter.ToLower())) &&
+                (x.Product.Code.ToLower().Contains(filter.ToLower())) |
+                x.Product.Name.ToLower().Contains(filter.ToLower()) |
+                (x.Height * 1000).ToString().Contains(filter.ToLower()) |
+                $"{x.Height * 1000} * {x.Width * 1000}" == filter.ToLower() | $"{Convert.ToInt32(x.Width * 1000)} * {Convert.ToInt32(x.Height * 1000)}" == filter.ToLower() |
+                (x.Width * 1000).ToString().Contains(filter.ToLower())) &&
                 !results.Contains(entity))
                     results.Add(entity);
             }
@@ -107,7 +111,11 @@ namespace BL.Repositories.Repositories
                 }
 
                 if (entity.OrderDetails.Any(x =>
-                (x.Product.Code.ToLower().Contains(filter.ToLower())) | x.Product.Name.ToLower().Contains(filter.ToLower()) | (x.Height * 1000).ToString().Contains(filter.ToLower()) | (x.Width * 1000).ToString().Contains(filter.ToLower())) &&
+                (x.Product.Code.ToLower().Contains(filter.ToLower())) |
+                x.Product.Name.ToLower().Contains(filter.ToLower()) |
+                (x.Height * 1000).ToString().Contains(filter.ToLower()) |
+                $"{x.Height * 1000} * {x.Width * 1000}".Contains(filter.ToLower()) | $"{Convert.ToInt32(x.Width * 1000)} * {Convert.ToInt32(x.Height * 1000)}".Contains(filter.ToLower()) |
+                (x.Width * 1000).ToString().Contains(filter.ToLower())) &&
                 !results.Contains(entity))
                     results.Add(entity);
             }

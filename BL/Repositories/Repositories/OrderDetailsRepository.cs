@@ -1,4 +1,4 @@
-﻿using BL.Models.Interfaces;
+﻿ using BL.Models.Interfaces;
 using DAL.DTO.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -40,6 +40,9 @@ namespace BL.Repositories.Repositories
                         continue;
                     }
                 }
+
+                if ($"{Convert.ToInt32(entity.Width * 1000)} * {entity.Height * 1000}".Contains(filter.ToLower()) | $"{Convert.ToInt32(entity.Height* 1000)} * {entity.Width * 1000}".Contains(filter.ToLower()) && !results.Contains(entity) )
+                    results.Add(entity);
             }
 
             return results.OrderBy(x => x.CreatedAt);
