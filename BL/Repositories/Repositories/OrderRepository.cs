@@ -82,10 +82,17 @@ namespace BL.Repositories.Repositories
                 (x.Product.Code.ToLower().Contains(filter.ToLower())) |
                 x.Product.Name.ToLower().Contains(filter.ToLower()) |
                 (x.Height * 1000).ToString().Contains(filter.ToLower()) |
-                $"{x.Height * 1000} * {x.Width * 1000}" == filter.ToLower() | $"{Convert.ToInt32(x.Width * 1000)} * {Convert.ToInt32(x.Height * 1000)}" == filter.ToLower() |
                 (x.Width * 1000).ToString().Contains(filter.ToLower())) &&
                 !results.Contains(entity))
                     results.Add(entity);
+
+                if (filter.Contains('*'))
+                {
+                    string[] sizes = filter.Split('*').Select(x => x.Trim()).ToArray();
+
+                    if (entity.OrderDetails.Any(x => sizes.Any(s => s == Convert.ToInt32(x.Width * 1000).ToString()) | sizes.Any(s => s == Convert.ToInt32(x.Height * 1000).ToString()) && !results.Contains(entity)))
+                        results.Add(entity);
+                }
             }
 
             return results.ToList().OrderByDescending(x => x.JobNo);
@@ -114,10 +121,17 @@ namespace BL.Repositories.Repositories
                 (x.Product.Code.ToLower().Contains(filter.ToLower())) |
                 x.Product.Name.ToLower().Contains(filter.ToLower()) |
                 (x.Height * 1000).ToString().Contains(filter.ToLower()) |
-                $"{x.Height * 1000} * {x.Width * 1000}".Contains(filter.ToLower()) | $"{Convert.ToInt32(x.Width * 1000)} * {Convert.ToInt32(x.Height * 1000)}".Contains(filter.ToLower()) |
                 (x.Width * 1000).ToString().Contains(filter.ToLower())) &&
                 !results.Contains(entity))
                     results.Add(entity);
+
+                if (filter.Contains('*'))
+                {
+                    string[] sizes = filter.Split('*').Select(x => x.Trim()).ToArray();
+                   
+                    if (entity.OrderDetails.Any(x => sizes.Any(s => s == Convert.ToInt32(x.Width * 1000).ToString()) | sizes.Any(s => s == Convert.ToInt32(x.Height * 1000).ToString()) && !results.Contains(entity)))
+                        results.Add(entity);
+                }
             }
 
             return results.OrderByDescending(x => x.JobNo).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
