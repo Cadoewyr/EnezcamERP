@@ -229,8 +229,8 @@ namespace EnezcamERP.Forms.Order_Forms
             foreach (var product in products)
             {
                 var detail = details.Find(x => x.Product.ID == product.ID);
-                product.PriceHistory.LastCost = detail.Product.PriceHistory.LastCost;
-                product.PriceHistory.LastPrice = detail.Product.PriceHistory.LastPrice;
+                product.PriceHistory.LastCost = detail.UnitCost;
+                product.PriceHistory.LastPrice = detail.UnitPrice;
                 updatedCount++;
             }
 
