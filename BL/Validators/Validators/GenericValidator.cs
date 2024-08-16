@@ -1,5 +1,4 @@
 ﻿using DAL.DTO.Entities;
-using DAL.DTO.Entities.Interfaces;
 using FluentValidation.Results;
 
 namespace BL.Validators.Validators
