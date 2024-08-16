@@ -177,6 +177,7 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
+            specRepositoryBindingSource = new BindingSource(components);
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             gbOrdersTotals.SuspendLayout();
@@ -195,6 +196,7 @@
             gbReportInterval.SuspendLayout();
             gbProductionReport.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgReport).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)specRepositoryBindingSource).BeginInit();
             SuspendLayout();
             // 
             // tabOrders
@@ -1616,6 +1618,10 @@
             dgReport.Size = new Size(1275, 692);
             dgReport.TabIndex = 0;
             // 
+            // specRepositoryBindingSource
+            // 
+            specRepositoryBindingSource.DataSource = typeof(BL.Repositories.Repositories.SpecRepository);
+            // 
             // FormMain
             // 
             AcceptButton = btnCreateReport;
@@ -1658,6 +1664,7 @@
             gbReportInterval.PerformLayout();
             gbProductionReport.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgReport).EndInit();
+            ((System.ComponentModel.ISupportInitialize)specRepositoryBindingSource).EndInit();
             ResumeLayout(false);
         }
 
@@ -1810,5 +1817,6 @@
         private RadioButton rbStock;
         private RadioButton rbProcessed;
         private RadioButton rbProduced;
+        private BindingSource specRepositoryBindingSource;
     }
 }

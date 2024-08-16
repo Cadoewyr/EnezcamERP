@@ -183,6 +183,7 @@ namespace EnezcamERP
             cbSpecs.Items.Clear();
             cbSpecs.DisplayMember = "Name";
             cbSpecs.Items.AddRange(new SpecRepository().GetAll().OrderBy(x => x.Name).ToArray());
+            cbSpecs.SelectedIndex = 0;
         }
 
         void FillProductionReport(DataGridView dataGrid, DateRangedProductionReport report)
