@@ -1,4 +1,4 @@
-﻿ using BL.Models.Interfaces;
+﻿using BL.Models.Interfaces;
 using DAL.DTO.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -22,6 +22,7 @@ namespace BL.Repositories.Repositories
                 .Include(x => x.Order)
                 .Include(x => x.ProducedOrders)
                 .Include(x => x.Product).ThenInclude(x => x.PriceHistory)
+                .Include(x => x.Specs).ThenInclude(x => x.Spec)
                 .ToList().OrderBy(x => x.CreatedAt);
         }
         public override IEnumerable<OrderDetail> GetAll(string filter)
@@ -41,7 +42,7 @@ namespace BL.Repositories.Repositories
                     }
                 }
 
-                if ($"{Convert.ToInt32(entity.Width * 1000)} * {entity.Height * 1000}".Contains(filter.ToLower()) | $"{Convert.ToInt32(entity.Height* 1000)} * {entity.Width * 1000}".Contains(filter.ToLower()) && !results.Contains(entity) )
+                if ($"{Convert.ToInt32(entity.Width * 1000)} * {entity.Height * 1000}".Contains(filter.ToLower()) | $"{Convert.ToInt32(entity.Height * 1000)} * {entity.Width * 1000}".Contains(filter.ToLower()) && !results.Contains(entity))
                     results.Add(entity);
             }
 
@@ -53,6 +54,7 @@ namespace BL.Repositories.Repositories
                 .Include(x => x.Order)
                 .Include(x => x.ProducedOrders)
                 .Include(x => x.Product).ThenInclude(x => x.PriceHistory)
+                .Include(x => x.Specs).ThenInclude(x => x.Spec)
                 .Where(predicate)
                 .OrderBy(x => x.CreatedAt).ToList();
         }

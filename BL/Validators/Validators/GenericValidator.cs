@@ -1,4 +1,5 @@
 ﻿using DAL.DTO.Entities;
+using DAL.DTO.Entities.Interfaces;
 using FluentValidation.Results;
 
 namespace BL.Validators.Validators
@@ -29,6 +30,12 @@ namespace BL.Validators.Validators
                 case MonthlyOutgoing monthlyOutgoing:
                     result = ValidateMonthlyOutgoing(monthlyOutgoing);
                     break;
+                case Spec spec:
+                    result = ValidateSpec(spec);
+                    break;
+                case OrderDetailSpec orderDetailSpec:
+                    result = ValidateOrderDetailSpec(orderDetailSpec);
+                    break;
                 default:
                     result = null;
                     break;
@@ -37,6 +44,14 @@ namespace BL.Validators.Validators
             return result;
         }
 
+        static ValidationResult ValidateSpec(Spec entity)
+        {
+            return new SpecValidator().Validate(entity);
+        }
+        static ValidationResult ValidateOrderDetailSpec(OrderDetailSpec entity)
+        {
+            return new OrderDetailSpecValidator().Validate(entity);
+        }
         static ValidationResult ValidateCustomer(Customer entity)
         {
             return new CustomerValidator().Validate(entity);

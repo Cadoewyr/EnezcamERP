@@ -154,13 +154,13 @@ namespace EnezcamERP
         }
         public void CheckExpiredOrders(bool checkListViewItems)
         {
-            foreach(ListViewItem item in lvOrders.CheckedItems)
+            foreach (ListViewItem item in lvOrders.CheckedItems)
             {
                 item.Checked = false;
             }
 
             int i = 0;
-            
+
             foreach (ListViewItem item in lvOrders.Items)
             {
                 if ((item.Tag as Order).DeliveryDate.Date <= DateTime.Now.Date && !(item.Tag as Order).IsDone)
@@ -707,7 +707,7 @@ namespace EnezcamERP
         {
             if ((lvOrders.SelectedItems.Count > 0 & lvOrders.CheckedItems.Count == 0) && MessageBox.Show("Seçilen sipariþler tamamlanacak. Onaylýyor musunuz?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                foreach(ListViewItem item in lvOrders.SelectedItems)
+                foreach (ListViewItem item in lvOrders.SelectedItems)
                 {
                     Order order = item.Tag as Order;
 
@@ -725,7 +725,7 @@ namespace EnezcamERP
                         }
                     }
                 }
-                
+
                 EnzDBContext.GetInstance.SaveChanges();
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
@@ -993,7 +993,7 @@ namespace EnezcamERP
         {
             List<Product> products = [];
 
-            foreach(ListViewItem item in lvProducts.CheckedItems)
+            foreach (ListViewItem item in lvProducts.CheckedItems)
             {
                 var product = item.Tag as Product;
                 var orderDetails = new OrderDetailsRepository().GetAll(x => x.Product.ID == product.ID).ToList();
@@ -1001,7 +1001,8 @@ namespace EnezcamERP
 
                 var closestOrder = orderDetails.OrderBy(x => Math.Abs((x.CreatedAt.Date - today).TotalDays)).FirstOrDefault();
 
-                if (closestOrder != null) {
+                if (closestOrder != null)
+                {
                     product.PriceHistory.LastCost = closestOrder.Cost;
                     product.PriceHistory.LastPrice = closestOrder.Price;
                 }

@@ -22,6 +22,7 @@ namespace DAL.DTO.Entities
         public decimal Width { get; set; } = 1;
         [Range(1, 999999)]
         public decimal Height { get; set; } = 1;
+        public virtual ICollection<OrderDetailSpec> Specs { get; set; } = [];
 
         [NotMapped]
         public decimal UnitArea => decimal.Round((Width * Height) < (decimal)0.25 ? (decimal)0.25 : Width * Height, 3, MidpointRounding.AwayFromZero);

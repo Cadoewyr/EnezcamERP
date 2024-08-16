@@ -107,7 +107,8 @@ namespace EnezcamERP.Forms.Order_Forms
                         DiscountRatio = nudDiscountRatio.Value,
                         ProducedOrders = orderDetail.ProducedOrders ?? [],
                         CreatedAt = orderDetail.CreatedAt,
-                        ID = orderDetail.ID
+                        ID = orderDetail.ID,
+                        Specs = orderDetail.Specs
                     };
 
                     if (cbUpdatePriceHistory.Checked)
@@ -189,14 +190,15 @@ namespace EnezcamERP.Forms.Order_Forms
                 MessageBox.Show("Herhangi bir ürün seçili değil.");
         }
 
-        private void btnHelp_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Seçilen ürün koduna ait aynı ölçülerle girilmiş en son siparişteki maliyet ve fiyatı getirir.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
         private void numericUpDown_Enter(object sender, EventArgs e)
         {
             (sender as NumericUpDown).Select(0, (sender as NumericUpDown).Value.ToString().Length + ((sender as NumericUpDown).ToString().Length - 1) / 3);
+        }
+
+        private void btnSpecs_Click(object sender, EventArgs e)
+        {
+            OrderDetailSpecs form = new(this.orderDetail);
+            form.ShowDialog();
         }
     }
 }

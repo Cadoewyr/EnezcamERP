@@ -35,6 +35,7 @@ namespace BL.Repositories.Repositories
                 .Include(x => x.Customer)
                 .Include(x => x.OrderDetails).ThenInclude(x => x.Product)
                 .Include(x => x.OrderDetails).ThenInclude(x => x.ProducedOrders)
+                .Include(x => x.OrderDetails).ThenInclude(x => x.Specs).ThenInclude(x => x.Spec)
                 .Where(x => x.ID == id)
                 .First();
         }
@@ -44,6 +45,7 @@ namespace BL.Repositories.Repositories
                 .Include(x => x.Customer)
                 .Include(x => x.OrderDetails).ThenInclude(x => x.Product)
                 .Include(x => x.OrderDetails).ThenInclude(x => x.ProducedOrders)
+                .Include(x => x.OrderDetails).ThenInclude(x => x.Specs).ThenInclude(x => x.Spec)
                 .ToList()
                 .OrderByDescending(x => x.JobNo);
         }
@@ -53,6 +55,7 @@ namespace BL.Repositories.Repositories
                 .Include(x => x.Customer)
                 .Include(x => x.OrderDetails).ThenInclude(x => x.Product)
                 .Include(x => x.OrderDetails).ThenInclude(x => x.ProducedOrders)
+                .Include(x => x.OrderDetails).ThenInclude(x => x.Specs).ThenInclude(x => x.Spec)
                 .OrderByDescending(x => x.JobNo)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
@@ -128,7 +131,7 @@ namespace BL.Repositories.Repositories
                 if (filter.Contains('*'))
                 {
                     string[] sizes = filter.Split('*').Select(x => x.Trim()).ToArray();
-                   
+
                     if (entity.OrderDetails.Any(x => sizes.Any(s => s == Convert.ToInt32(x.Width * 1000).ToString()) | sizes.Any(s => s == Convert.ToInt32(x.Height * 1000).ToString()) && !results.Contains(entity)))
                         results.Add(entity);
                 }
@@ -142,6 +145,7 @@ namespace BL.Repositories.Repositories
                 .Include(x => x.Customer)
                 .Include(x => x.OrderDetails).ThenInclude(x => x.Product)
                 .Include(x => x.OrderDetails).ThenInclude(x => x.ProducedOrders)
+                .Include(x => x.OrderDetails).ThenInclude(x => x.Specs).ThenInclude(x => x.Spec)
                 .Where(predicate)
                 .ToList()
                 .OrderByDescending(x => x.JobNo);
@@ -152,6 +156,7 @@ namespace BL.Repositories.Repositories
                 .Include(x => x.Customer)
                 .Include(x => x.OrderDetails).ThenInclude(x => x.Product)
                 .Include(x => x.OrderDetails).ThenInclude(x => x.ProducedOrders)
+                .Include(x => x.OrderDetails).ThenInclude(x => x.Specs).ThenInclude(x => x.Spec)
                 .Where(predicate)
                 .OrderByDescending(x => x.JobNo)
                 .Skip(pageSize * (pageNumber - 1))

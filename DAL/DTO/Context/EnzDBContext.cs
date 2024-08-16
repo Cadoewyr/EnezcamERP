@@ -8,10 +8,12 @@ namespace DAL.DTO.Context
         public EnzDBContext()
         {
             this.ChangeTracker.LazyLoadingEnabled = true;
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
+            //Database.Migrate();
         }
 
         private static EnzDBContext? _context;
+        //public static EnzDBContext _context;
 
         public static EnzDBContext GetInstance
         {
@@ -29,10 +31,12 @@ namespace DAL.DTO.Context
         public DbSet<Customer> Customers { get; set; }
         public DbSet<PriceHistory> PricesHistory { get; set; }
         public DbSet<MonthlyOutgoing> MonthlyOutgoings { get; set; }
+        public DbSet<Spec> Specs { get; set; }
+        public DbSet<OrderDetailSpec> OrderDetailsSpecs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=.;Database=EnezcamERP;Trusted_Connection=True;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("Server=.;Database=EnezcamERP;Trusted_Connection=True;TrustServerCertificate=True;Encrypt=False;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
