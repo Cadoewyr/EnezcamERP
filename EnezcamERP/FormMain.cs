@@ -179,6 +179,10 @@ namespace EnezcamERP
             RefreshOrders(null, columnHeaderAutoResizeStyle);
             RefreshProducts(null, columnHeaderAutoResizeStyle);
             RefreshCustomers(null, columnHeaderAutoResizeStyle);
+
+            cbSpecs.Items.Clear();
+            cbSpecs.DisplayMember = "Name";
+            cbSpecs.Items.AddRange(new SpecRepository().GetAll().OrderBy(x => x.Name).ToArray());
         }
 
         void FillProductionReport(DataGridView dataGrid, DateRangedProductionReport report)
@@ -294,6 +298,18 @@ namespace EnezcamERP
             txtProducedQuantity.Text = report.GetProducedQuantityString();
             txtProcessQuantity.Text = report.GetProcessedQuantityString();
             txtStockQuantity.Text = report.GetStockQuantityString();
+
+
+            ProductionType productionType = ProductionType.Produced;
+
+            if (rbProduced.Checked)
+                productionType = ProductionType.Produced;
+            else if (rbProcessed.Checked)
+                productionType = ProductionType.Processed;
+            else if (rbStock.Checked)
+                productionType = ProductionType.Stock;
+
+            txtSpecQuantity.Text = report.GetSpecQuantityString(report.GetSpecQuantity(cbSpecs.SelectedItem as Spec, productionType));
         }
         void FillSalesReport(DataGridView dataGrid, DateRangedSalesReport report)
         {

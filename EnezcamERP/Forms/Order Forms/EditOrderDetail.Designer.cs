@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             gbOrderDetail = new GroupBox();
+            btnSpecs = new Button();
             btnGetCostAndPrice = new Button();
             lblSearch = new Label();
             txtSearch = new TextBox();
@@ -60,7 +61,6 @@
             clmLastPrice = new ColumnHeader();
             clmIsCounting = new ColumnHeader();
             lblProduct = new Label();
-            btnSpecs = new Button();
             gbOrderDetail.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudHeight).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudWidth).BeginInit();
@@ -107,14 +107,23 @@
             gbOrderDetail.TabStop = false;
             gbOrderDetail.Text = "Sipariş Detayı";
             // 
+            // btnSpecs
+            // 
+            btnSpecs.Location = new Point(408, 298);
+            btnSpecs.Name = "btnSpecs";
+            btnSpecs.Size = new Size(122, 29);
+            btnSpecs.TabIndex = 12;
+            btnSpecs.Text = "Ürün Özellikleri";
+            btnSpecs.UseVisualStyleBackColor = true;
+            btnSpecs.Click += btnSpecs_Click;
+            // 
             // btnGetCostAndPrice
             // 
             btnGetCostAndPrice.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnGetCostAndPrice.Location = new Point(537, 298);
             btnGetCostAndPrice.Name = "btnGetCostAndPrice";
             btnGetCostAndPrice.Size = new Size(251, 29);
-            btnGetCostAndPrice.TabIndex = 30;
-            btnGetCostAndPrice.TabStop = false;
+            btnGetCostAndPrice.TabIndex = 13;
             btnGetCostAndPrice.Text = "Maliyet ve Fiyat Getir";
             btnGetCostAndPrice.UseVisualStyleBackColor = true;
             btnGetCostAndPrice.Click += btnGetCostAndPrice_Click;
@@ -136,7 +145,7 @@
             txtSearch.MaxLength = 200;
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(269, 27);
-            txtSearch.TabIndex = 28;
+            txtSearch.TabIndex = 0;
             txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // nudHeight
@@ -147,7 +156,7 @@
             nudHeight.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudHeight.Name = "nudHeight";
             nudHeight.Size = new Size(122, 27);
-            nudHeight.TabIndex = 8;
+            nudHeight.TabIndex = 9;
             nudHeight.ThousandsSeparator = true;
             nudHeight.Value = new decimal(new int[] { 1, 0, 0, 0 });
             nudHeight.Enter += numericUpDown_Enter;
@@ -170,7 +179,7 @@
             nudWidth.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudWidth.Name = "nudWidth";
             nudWidth.Size = new Size(122, 27);
-            nudWidth.TabIndex = 7;
+            nudWidth.TabIndex = 8;
             nudWidth.ThousandsSeparator = true;
             nudWidth.Value = new decimal(new int[] { 1, 0, 0, 0 });
             nudWidth.Enter += numericUpDown_Enter;
@@ -192,7 +201,7 @@
             cbUpdateSameProducts.Location = new Point(160, 300);
             cbUpdateSameProducts.Name = "cbUpdateSameProducts";
             cbUpdateSameProducts.Size = new Size(177, 24);
-            cbUpdateSameProducts.TabIndex = 10;
+            cbUpdateSameProducts.TabIndex = 11;
             cbUpdateSameProducts.Text = "Aynı Ürünleri Güncelle";
             cbUpdateSameProducts.UseVisualStyleBackColor = true;
             // 
@@ -203,7 +212,7 @@
             cbUpdatePriceHistory.Location = new Point(9, 300);
             cbUpdatePriceHistory.Name = "cbUpdatePriceHistory";
             cbUpdatePriceHistory.Size = new Size(156, 24);
-            cbUpdatePriceHistory.TabIndex = 9;
+            cbUpdatePriceHistory.TabIndex = 10;
             cbUpdatePriceHistory.Text = "Son Fiyatı Güncelle";
             cbUpdatePriceHistory.UseVisualStyleBackColor = true;
             // 
@@ -213,7 +222,7 @@
             btnCancel.Location = new Point(794, 298);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(122, 29);
-            btnCancel.TabIndex = 11;
+            btnCancel.TabIndex = 14;
             btnCancel.Text = "İptal";
             btnCancel.UseVisualStyleBackColor = true;
             btnCancel.Click += btnCancel_Click;
@@ -224,7 +233,7 @@
             btnSave.Location = new Point(922, 298);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(122, 29);
-            btnSave.TabIndex = 12;
+            btnSave.TabIndex = 15;
             btnSave.Text = "Güncelle";
             btnSave.UseVisualStyleBackColor = true;
             btnSave.Click += btnSave_Click;
@@ -235,7 +244,7 @@
             nudDiscountRatio.Location = new Point(408, 262);
             nudDiscountRatio.Name = "nudDiscountRatio";
             nudDiscountRatio.Size = new Size(122, 27);
-            nudDiscountRatio.TabIndex = 4;
+            nudDiscountRatio.TabIndex = 5;
             nudDiscountRatio.ThousandsSeparator = true;
             // 
             // nudTaxRatio
@@ -244,7 +253,7 @@
             nudTaxRatio.Location = new Point(278, 262);
             nudTaxRatio.Name = "nudTaxRatio";
             nudTaxRatio.Size = new Size(122, 27);
-            nudTaxRatio.TabIndex = 3;
+            nudTaxRatio.TabIndex = 4;
             nudTaxRatio.ThousandsSeparator = true;
             // 
             // lblDiscountRatio
@@ -275,7 +284,7 @@
             nudQuantity.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudQuantity.Name = "nudQuantity";
             nudQuantity.Size = new Size(122, 27);
-            nudQuantity.TabIndex = 2;
+            nudQuantity.TabIndex = 3;
             nudQuantity.ThousandsSeparator = true;
             nudQuantity.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
@@ -297,7 +306,7 @@
             nudPrice.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nudPrice.Name = "nudPrice";
             nudPrice.Size = new Size(122, 27);
-            nudPrice.TabIndex = 6;
+            nudPrice.TabIndex = 7;
             nudPrice.ThousandsSeparator = true;
             // 
             // lblPrice
@@ -318,7 +327,7 @@
             nudCost.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nudCost.Name = "nudCost";
             nudCost.Size = new Size(122, 27);
-            nudCost.TabIndex = 5;
+            nudCost.TabIndex = 6;
             nudCost.ThousandsSeparator = true;
             // 
             // lblCost
@@ -338,7 +347,7 @@
             cbUnitCode.Location = new Point(10, 262);
             cbUnitCode.Name = "cbUnitCode";
             cbUnitCode.Size = new Size(132, 28);
-            cbUnitCode.TabIndex = 1;
+            cbUnitCode.TabIndex = 2;
             // 
             // lblUnitCode
             // 
@@ -360,7 +369,7 @@
             lvProducts.MultiSelect = false;
             lvProducts.Name = "lvProducts";
             lvProducts.Size = new Size(1038, 178);
-            lvProducts.TabIndex = 0;
+            lvProducts.TabIndex = 1;
             lvProducts.UseCompatibleStateImageBehavior = false;
             lvProducts.View = View.Details;
             lvProducts.SelectedIndexChanged += lvProducts_SelectedIndexChanged;
@@ -397,16 +406,6 @@
             lblProduct.Size = new Size(40, 20);
             lblProduct.TabIndex = 0;
             lblProduct.Text = "Ürün";
-            // 
-            // btnSpecs
-            // 
-            btnSpecs.Location = new Point(408, 298);
-            btnSpecs.Name = "btnSpecs";
-            btnSpecs.Size = new Size(122, 29);
-            btnSpecs.TabIndex = 31;
-            btnSpecs.Text = "Ürün Özellikleri";
-            btnSpecs.UseVisualStyleBackColor = true;
-            btnSpecs.Click += btnSpecs_Click;
             // 
             // EditOrderDetail
             // 

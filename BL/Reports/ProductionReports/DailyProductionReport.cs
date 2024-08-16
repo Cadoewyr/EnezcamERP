@@ -163,13 +163,29 @@ namespace BL.Reports.ProductionReports
                 return dic;
             }
         }
-        //public List<Dictionary<UnitCode, Dictionary<Spec, decimal>>> ProducedSpecQuantity
-        //{
-            //get
-            //{
-            //    List<Dictionary<Spec, decimal>> tempSpecDecimalList = [];
-            //}
-        //}
+        public Dictionary<UnitCode, decimal> GetSpecQuantity(Spec spec, ProductionType productionType)
+        {
+            Dictionary<UnitCode, decimal> dic = [];
+
+            switch (productionType)
+            {
+                case ProductionType.Stock:
+                    var res = producedOrdersDB.GetAll(x => x.ProducedDate.Date == _date.Date && x.IsStock & x.IsOvertime == IsOvertime & x.OrderDetail.Product.IsCounting & x.OrderDetail.Specs.Any(s => s.Spec.ID == spec.ID));
+                    dic.Add(UnitCode.AD, res.Sum(x => x.ProducedOrderQuantity));
+                    dic.Add(UnitCode.M2, res.Sum(x => x.ProducedOrderArea));
+                    break;
+                case ProductionType.Produced:
+                    dic.Add(UnitCode.AD, ProducedOrders.Where(x => x.OrderDetail.Product.Type == ProcessType.ISICAM & !x.IsStock & x.OrderDetail.Product.IsCounting & x.OrderDetail.Specs.Any(s => s.Spec.ID == spec.ID)).Sum(x => x.ProducedOrderQuantity));
+                    dic.Add(UnitCode.M2, ProducedOrders.Where(x => x.OrderDetail.Product.Type == ProcessType.ISICAM & !x.IsStock & x.OrderDetail.Product.IsCounting & x.OrderDetail.Specs.Any(s => s.Spec.ID == spec.ID)).Sum(x => x.ProducedOrderArea));
+                    break;
+                case ProductionType.Processed:
+                    dic.Add(UnitCode.AD, ProducedOrders.Where(x => x.OrderDetail.Product.Type == ProcessType.İŞLEME & !x.IsStock & x.OrderDetail.Product.IsCounting & x.OrderDetail.Specs.Any(s => s.Spec.ID == spec.ID)).Sum(x => x.ProducedOrderQuantity));
+                    dic.Add(UnitCode.M2, ProducedOrders.Where(x => x.OrderDetail.Product.Type == ProcessType.İŞLEME & !x.IsStock & x.OrderDetail.Product.IsCounting & x.OrderDetail.Specs.Any(s => s.Spec.ID == spec.ID)).Sum(x => x.ProducedOrderArea));
+                    break;
+            }
+
+            return dic;
+        }
         public decimal Price => DailyProductionEntries.Sum(x => x.FinalPrice);
         public decimal PriceTax => Price > 0 ? DailyProductionEntries.Sum(x => x.FinalPrice * (x.TaxRatio / 100)) : 0;
         public decimal PriceWithTax => Price + PriceTax;

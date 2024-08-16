@@ -38,7 +38,7 @@
             btnSave.Location = new Point(12, 528);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(327, 29);
-            btnSave.TabIndex = 1;
+            btnSave.TabIndex = 2;
             btnSave.Text = "Kaydet";
             btnSave.UseVisualStyleBackColor = true;
             btnSave.Click += btnSave_Click;
@@ -50,7 +50,7 @@
             lvOrderDetailsSpecs.Location = new Point(12, 12);
             lvOrderDetailsSpecs.Name = "lvOrderDetailsSpecs";
             lvOrderDetailsSpecs.Size = new Size(327, 510);
-            lvOrderDetailsSpecs.TabIndex = 2;
+            lvOrderDetailsSpecs.TabIndex = 1;
             lvOrderDetailsSpecs.UseCompatibleStateImageBehavior = false;
             lvOrderDetailsSpecs.View = View.List;
             lvOrderDetailsSpecs.ItemChecked += lvOrderDetailsSpecs_ItemChecked;

@@ -13,4 +13,11 @@
         Production,
         Sales
     }
+
+    public enum ProductionType
+    {
+        Stock,
+        Produced,
+        Processed
+    }
 }

@@ -110,6 +110,10 @@ namespace BL.Reports.ProductionReports
         {
             return $"{StockQuantity.Where(x => x.Key == UnitCode.AD).First().Value.ToString("N0")} {UnitCode.AD}, {StockQuantity.Where(x => x.Key == UnitCode.M2).First().Value.ToString("N3")} {UnitCode.M2}";
         }
+        public string GetSpecQuantityString(Dictionary<UnitCode, decimal> dic)
+        {
+            return $"{dic.Where(x => x.Key == UnitCode.AD).First().Value.ToString("N0")} {UnitCode.AD}, {dic.Where(x => x.Key == UnitCode.M2).First().Value.ToString("N3")} {UnitCode.M2}";
+        }
 
         //Calculation properties
         #region
@@ -148,6 +152,15 @@ namespace BL.Reports.ProductionReports
 
                 return dic;
             }
+        }
+        public Dictionary<UnitCode, decimal> GetSpecQuantity(Spec spec, ProductionType productionType)
+        {
+            Dictionary<UnitCode, decimal> dic = [];
+
+            dic.Add(UnitCode.AD, DailyProductionReports.Sum(x => x.GetSpecQuantity(spec, productionType).Where(x => x.Key == UnitCode.AD).Sum(x => x.Value)));
+            dic.Add(UnitCode.M2, DailyProductionReports.Sum(x => x.GetSpecQuantity(spec, productionType).Where(x => x.Key == UnitCode.M2).Sum(x => x.Value)));
+
+            return dic;
         }
         public decimal Price => DailyProductionReports.Sum(x => x.Price);
         public decimal PriceTax => DailyProductionReports.Sum(x => x.PriceTax);
