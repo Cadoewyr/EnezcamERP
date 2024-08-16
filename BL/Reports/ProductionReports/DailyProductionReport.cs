@@ -72,7 +72,8 @@ namespace BL.Reports.ProductionReports
                         DiscountRatio = item.OrderDetail.DiscountRatio,
                         TaxRatio = item.OrderDetail.TaxRatio,
                         Quantity = item.OrderDetail.UnitCode == UnitCode.AD ? item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date & !x.IsStock & x.IsOvertime == _IsOvertime).Sum(x => x.ProducedOrderQuantity) : item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date & !x.IsStock & x.IsOvertime == _IsOvertime).Sum(x => x.ProducedOrderArea),
-                        IsOvertime = item.IsOvertime
+                        IsOvertime = item.IsOvertime,
+                        Specs = item.OrderDetail.Specs
                     });
                 }
             }
@@ -162,8 +163,15 @@ namespace BL.Reports.ProductionReports
                 return dic;
             }
         }
+        //public List<Dictionary<UnitCode, Dictionary<Spec, decimal>>> ProducedSpecQuantity
+        //{
+            //get
+            //{
+            //    List<Dictionary<Spec, decimal>> tempSpecDecimalList = [];
+            //}
+        //}
         public decimal Price => DailyProductionEntries.Sum(x => x.FinalPrice);
-        public decimal PriceTax => Price > 0 ? DailyProductionEntries.Sum(x=> x.FinalPrice * (x.TaxRatio / 100)) : 0;
+        public decimal PriceTax => Price > 0 ? DailyProductionEntries.Sum(x => x.FinalPrice * (x.TaxRatio / 100)) : 0;
         public decimal PriceWithTax => Price + PriceTax;
         public decimal Cost => DailyProductionEntries.Sum(x => x.Cost);
         public decimal CostTax => Cost > 0 ? (Cost / 100) * 20 : 0;

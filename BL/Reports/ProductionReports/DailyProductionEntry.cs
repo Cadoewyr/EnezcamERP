@@ -7,6 +7,7 @@ namespace BL.Reports.ProductionReports
     {
         public Product Product { get; set; }
 
+        public ICollection<OrderDetailSpec> Specs { get; set; } = [];
         public DateTime IssueDate { get; set; }
         public string CustomerName { get; set; }
         public int JobNo { get; set; }
