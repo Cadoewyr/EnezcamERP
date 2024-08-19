@@ -39,6 +39,7 @@
             lblCustomer = new Label();
             lblJobNo = new Label();
             gbOrderDetails = new GroupBox();
+            btnUpdateOrderDetailsSpecs = new Button();
             btnUpdateLastCostPrice = new Button();
             lblSearchOrderDetail = new Label();
             txtSearchOrderDetail = new TextBox();
@@ -213,6 +214,7 @@
             // gbOrderDetails
             // 
             gbOrderDetails.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbOrderDetails.Controls.Add(btnUpdateOrderDetailsSpecs);
             gbOrderDetails.Controls.Add(btnUpdateLastCostPrice);
             gbOrderDetails.Controls.Add(lblSearchOrderDetail);
             gbOrderDetails.Controls.Add(txtSearchOrderDetail);
@@ -225,6 +227,17 @@
             gbOrderDetails.TabIndex = 1;
             gbOrderDetails.TabStop = false;
             gbOrderDetails.Text = "Sipariş Detayı";
+            // 
+            // btnUpdateOrderDetailsSpecs
+            // 
+            btnUpdateOrderDetailsSpecs.Location = new Point(206, 24);
+            btnUpdateOrderDetailsSpecs.Name = "btnUpdateOrderDetailsSpecs";
+            btnUpdateOrderDetailsSpecs.Size = new Size(210, 29);
+            btnUpdateOrderDetailsSpecs.TabIndex = 7;
+            btnUpdateOrderDetailsSpecs.TabStop = false;
+            btnUpdateOrderDetailsSpecs.Text = "Toplu Ürün Özelliği Güncelle";
+            btnUpdateOrderDetailsSpecs.UseVisualStyleBackColor = true;
+            btnUpdateOrderDetailsSpecs.Click += btnUpdate_Click;
             // 
             // btnUpdateLastCostPrice
             // 
@@ -978,5 +991,6 @@
         private Label lblSearchOrderDetail;
         private TextBox txtSearchOrderDetail;
         private Button btnUpdateLastCostPrice;
+        private Button btnUpdateOrderDetailsSpecs;
     }
 }

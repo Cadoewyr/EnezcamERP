@@ -151,6 +151,11 @@ namespace EnezcamERP
 
             if (monthlyOutgoingsRepository.GetByDate(dtpDate.Value.Year, dtpDate.Value.Month) != null)
                 nudOutgoing.Value = monthlyOutgoingsRepository.GetByDate(dtpDate.Value.Year, dtpDate.Value.Month).Outgoing;
+
+            cbSpecs.Items.Clear();
+            cbSpecs.DisplayMember = "Name";
+            cbSpecs.Items.AddRange(new SpecRepository().GetAll().OrderBy(x => x.Name).ToArray());
+            cbSpecs.SelectedIndex = 0;
         }
         public void CheckExpiredOrders(bool checkListViewItems)
         {
@@ -179,11 +184,6 @@ namespace EnezcamERP
             RefreshOrders(null, columnHeaderAutoResizeStyle);
             RefreshProducts(null, columnHeaderAutoResizeStyle);
             RefreshCustomers(null, columnHeaderAutoResizeStyle);
-
-            cbSpecs.Items.Clear();
-            cbSpecs.DisplayMember = "Name";
-            cbSpecs.Items.AddRange(new SpecRepository().GetAll().OrderBy(x => x.Name).ToArray());
-            cbSpecs.SelectedIndex = 0;
         }
 
         void FillProductionReport(DataGridView dataGrid, DateRangedProductionReport report)
@@ -966,6 +966,11 @@ namespace EnezcamERP
 
             if (!(sender as CheckBox).Checked)
                 nudOutgoing.Value = outgoing == null ? 0 : outgoing;
+        }
+
+        private void SpecControlsChanged()
+        {
+
         }
         #endregion
 

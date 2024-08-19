@@ -247,6 +247,24 @@ namespace EnezcamERP.Forms.Order_Forms
 
             MessageBox.Show($"{updatedCount} adet ürün güncellendi. Güncellenmeyen {selectedCount} adet ürün seçildi.");
         }
+        void UpdateOrderDetailSpecs()
+        {
+            if (lvOrderDetails.SelectedItems.Count > 0)
+            {
+                List<OrderDetail> orderDetails = [];
+
+                foreach (ListViewItem lvi in lvOrderDetails.CheckedItems)
+                {
+                    if ((lvi.Tag as OrderDetail).Product.IsCounting)
+                        orderDetails.Add(lvi.Tag as OrderDetail);
+                    else
+                        lvi.Checked = false;
+                }
+
+                OrderDetailSpecs form = new(orderDetails.ToArray());
+                form.ShowDialog();
+            }
+        }
 
         CustomerRepository customerDB = new();
         OrderRepository orderDB = new();
@@ -530,6 +548,11 @@ namespace EnezcamERP.Forms.Order_Forms
         {
             RefreshOrderDetails(order, (sender as TextBox).Text, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            UpdateOrderDetailSpecs();
+        }
+
         private void btnUpdateLastCostPrice_Click(object sender, EventArgs e)
         {
             UpdateCostPrice();
