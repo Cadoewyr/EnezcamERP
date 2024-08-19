@@ -55,10 +55,12 @@ namespace EnezcamERP
 
                 Color color;
 
-                if (item.ProducedProductQuantity.Sum(x => x.Value) == 0)
+                if (item.ProducedProductQuantity.Sum(x => x.Value) == 0 & item.ProductQuantity.Sum(x => x.Value) > 0)
                     color = Color.MediumVioletRed;
                 else if (item.ProducedProductQuantity.Sum(x => x.Value) > 0 && !item.IsDone)
                     color = Color.MediumPurple;
+                else if (item.ProducedProductQuantity.Sum(x => x.Value) == 0 & item.ProductQuantity.Sum(x => x.Value) == 0)
+                    color = Color.Green;
                 else if (item.IsDone)
                     color = Color.Green;
                 else
