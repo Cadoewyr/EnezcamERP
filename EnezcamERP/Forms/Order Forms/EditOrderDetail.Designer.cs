@@ -109,6 +109,7 @@
             // 
             // btnSpecs
             // 
+            btnSpecs.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnSpecs.Location = new Point(408, 298);
             btnSpecs.Name = "btnSpecs";
             btnSpecs.Size = new Size(122, 29);

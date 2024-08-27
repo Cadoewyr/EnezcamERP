@@ -413,7 +413,7 @@ namespace EnezcamERP.Forms.Order_Forms
         }
         private void cbCustomers_Leave(object sender, EventArgs e)
         {
-            var control = (sender as ComboBox);
+            var control = sender as ComboBox;
 
             if (!string.IsNullOrEmpty(control.Text))
             {
