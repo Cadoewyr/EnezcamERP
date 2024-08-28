@@ -416,6 +416,7 @@
             CancelButton = btnCancel;
             ClientSize = new Size(1070, 353);
             Controls.Add(gbOrderDetail);
+            MinimumSize = new Size(1088, 400);
             Name = "EditOrderDetail";
             ShowIcon = false;
             ShowInTaskbar = false;
