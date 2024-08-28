@@ -415,14 +415,23 @@ namespace EnezcamERP.Forms.Order_Forms
         {
             var control = sender as ComboBox;
 
-            if (!string.IsNullOrEmpty(control.Text))
+            Customer customer = customerDB.GetAll(x => x.Name == control.Text.ToUpper().Trim()).FirstOrDefault();
+
+            if (customer != null)
             {
-                foreach (var item in control.Items)
+                control.SelectedIndex = control.Items.IndexOf(customer);
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(control.Text))
                 {
-                    if (item.ToString().Contains(control.Text.ToUpper()))
+                    foreach (var item in control.Items)
                     {
-                        control.SelectedIndex = control.Items.IndexOf(item);
-                        break;
+                        if (item.ToString().Contains(control.Text.ToUpper()))
+                        {
+                            control.SelectedIndex = control.Items.IndexOf(item);
+                            break;
+                        }
                     }
                 }
             }
