@@ -62,5 +62,32 @@ namespace DAL.DTO.Context
         {
             configurationBuilder.Properties<decimal>().HavePrecision(18, 3);
         }
+
+        public override int SaveChanges()
+        {
+            AddTimestamps();
+            return base.SaveChanges();
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            AddTimestamps();
+            return base.SaveChangesAsync();
+        }
+
+        void AddTimestamps()
+        {
+            var entries = ChangeTracker.Entries().Where(x => x.Entity is BaseEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+
+            foreach (var entry in entries)
+            {
+                var now = DateTime.Now;
+
+                if(entry.State == EntityState.Added)
+                    ((BaseEntity)entry.Entity).CreatedAt = now;
+                else
+                    ((BaseEntity)entry.Entity).UpdatedAt = now;
+            }
+        }
     }
 }

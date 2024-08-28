@@ -9,5 +9,6 @@ namespace DAL.DTO.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity), Key]
         public int ID { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
     }
 }

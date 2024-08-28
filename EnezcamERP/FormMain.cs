@@ -111,6 +111,7 @@ namespace EnezcamERP
                 lvi.SubItems.Add(item.PriceHistory.LastPrice.ToString("C2"));
                 lvi.SubItems.Add(item.PriceHistory.LastProfit.ToString("C2"));
                 lvi.SubItems.Add(item.PriceHistory.LastProfitRatio.ToString("P2"));
+                lvi.SubItems.Add(item.PriceHistory.UpdatedAt.ToShortDateString());
 
                 listView.Items.Add(lvi);
             }
@@ -968,11 +969,6 @@ namespace EnezcamERP
 
             if (!(sender as CheckBox).Checked)
                 nudOutgoing.Value = outgoing == null ? 0 : outgoing;
-        }
-
-        private void SpecControlsChanged()
-        {
-
         }
         #endregion
 

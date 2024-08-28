@@ -177,6 +177,7 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
+            clmLastUpdateDate = new ColumnHeader();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             gbOrdersTotals.SuspendLayout();
@@ -838,7 +839,7 @@
             // 
             lvProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lvProducts.CheckBoxes = true;
-            lvProducts.Columns.AddRange(new ColumnHeader[] { clmName, clmCode, clmProcessType, clmIsCounting, clmLastCost, clmLastPrice, clmLastProfit, clmLastProfitRatio });
+            lvProducts.Columns.AddRange(new ColumnHeader[] { clmName, clmCode, clmProcessType, clmIsCounting, clmLastCost, clmLastPrice, clmLastProfit, clmLastProfitRatio, clmLastUpdateDate });
             lvProducts.Font = new Font("Segoe UI", 10F);
             lvProducts.FullRowSelect = true;
             lvProducts.GridLines = true;
@@ -1616,6 +1617,10 @@
             dgReport.Size = new Size(1275, 692);
             dgReport.TabIndex = 0;
             // 
+            // clmLastUpdateDate
+            // 
+            clmLastUpdateDate.Text = "Son Güncellenme Tarihi";
+            // 
             // FormMain
             // 
             AcceptButton = btnCreateReport;
@@ -1810,5 +1815,6 @@
         private RadioButton rbStock;
         private RadioButton rbProcessed;
         private RadioButton rbProduced;
+        private ColumnHeader clmLastUpdateDate;
     }
 }
