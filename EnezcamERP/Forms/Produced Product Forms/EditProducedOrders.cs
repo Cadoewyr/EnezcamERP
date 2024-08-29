@@ -322,6 +322,7 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                             od.ProducedOrders.Add(new()
                             {
                                 IsStock = cbIsStock.Checked,
+                                IsOvertime = cbOvertime.Checked,
                                 OrderDetail = od,
                                 ProducedDate = dtpProduceDate.Value,
                                 ProducedOrderQuantity = od.RemainingToProduceQuantity,
