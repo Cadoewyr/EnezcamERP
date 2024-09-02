@@ -123,8 +123,8 @@ namespace EnezcamERP.Forms.Produced_Product_Forms
                 var producedArea = item.ProducedOrderArea.ToString("N3");
                 var remainingArea = (item.OrderDetail.TotalArea - item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate <= item.ProducedDate).Sum(x => x.ProducedOrderArea)).ToString("N3");
 
-                lvi.SubItems.Add($"{producedQuantity} {UnitCode.AD}, {producedArea} {UnitCode.M2}");
                 lvi.SubItems.Add(item.OrderDetail.Product.Code);
+                lvi.SubItems.Add($"{producedQuantity} {UnitCode.AD}, {producedArea} {UnitCode.M2}");
                 lvi.SubItems.Add($"{remainigQuantity} {UnitCode.AD}, {remainingArea} {UnitCode.M2}");
                 lvi.SubItems.Add(item.IsStock ? "Stok" : "Üretim");
                 lvi.SubItems.Add(item.IsOvertime ? "Evet" : "Hayır");
