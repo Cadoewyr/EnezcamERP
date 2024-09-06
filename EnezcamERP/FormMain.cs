@@ -485,7 +485,10 @@ namespace EnezcamERP
                 DialogResult result = MessageBox.Show(message, "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
+                {
                     e.Cancel = true;
+                    tabMain.SelectedTab = tabMain.TabPages[3];
+                }
             }
         }
 
