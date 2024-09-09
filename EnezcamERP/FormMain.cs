@@ -35,7 +35,7 @@ namespace EnezcamERP
             if (cbDateFilter.Checked)
             {
                 if (rbOrderDate.Checked)
-                    items = ordersDB.GetAll(x => x.IssueDate >= mcDateFilter.SelectionStart.Date & x.IssueDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1)).Skip(50 * (PageNumber - 1)).Take(50);
+                    items = ordersDB.GetAll().AsEnumerable().Where(x => (!x.IsDone | x.IsDone == cbIsDone.Checked) && x.IssueDate >= mcDateFilter.SelectionStart.Date & x.IssueDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1)).Skip(50 * (PageNumber - 1)).Take(50);
                 else if (rbCompletedDate.Checked)
                     items = ordersDB.GetAll().AsEnumerable().Where(x => x.IsDone && x.CompletedDate >= mcDateFilter.SelectionStart.Date && x.CompletedDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1)).Skip(50 * (PageNumber - 1)).Take(50).ToList();
                 else if (rbDeliveryDate.Checked)
