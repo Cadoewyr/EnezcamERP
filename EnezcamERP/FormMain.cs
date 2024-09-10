@@ -1011,27 +1011,5 @@ namespace EnezcamERP
         }
 
         #endregion
-
-        private void btnUpdatePriceHistory_Click(object sender, EventArgs e)
-        {
-            List<Product> products = [];
-
-            foreach (ListViewItem item in lvProducts.CheckedItems)
-            {
-                var product = item.Tag as Product;
-                var orderDetails = new OrderDetailsRepository().GetAll(x => x.Product.ID == product.ID).ToList();
-                var today = DateTime.Now;
-
-                var closestOrder = orderDetails.OrderBy(x => Math.Abs((x.CreatedAt.Date - today).TotalDays)).FirstOrDefault();
-
-                if (closestOrder != null)
-                {
-                    product.PriceHistory.LastCost = closestOrder.Cost;
-                    product.PriceHistory.LastPrice = closestOrder.Price;
-                }
-            }
-
-            RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
-        }
     }
 }
