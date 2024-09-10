@@ -48,6 +48,7 @@ namespace BL.Repositories.Repositories
                         }
                     }
 
+                    oldEntity.UpdatedAt = DateTime.Now;
                     context.SaveChanges();
                 }
                 else

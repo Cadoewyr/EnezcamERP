@@ -92,6 +92,7 @@ namespace BL.Repositories.Repositories
                         prop.SetValue(oldEntity, prop.GetValue(entity));
                 }
 
+                oldEntity.UpdatedAt = DateTime.Now;
                 context.SaveChanges();
             }
             else

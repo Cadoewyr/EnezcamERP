@@ -20,7 +20,10 @@ namespace EnezcamERP.Forms.Order_Forms
                 IsUpdate = true;
             }
             else
+            {
                 IsUpdate = false;
+                txtJobNo.Text = $"{orderDB.GetAll().Max(x => x.JobNo) + 1}";
+            }
         }
 
         public void InitializeForm()
@@ -293,6 +296,8 @@ namespace EnezcamERP.Forms.Order_Forms
 
                 (lvProducts.SelectedItems[0].Tag as Product).PriceHistory.LastCost = nudCost.Value;
                 (lvProducts.SelectedItems[0].Tag as Product).PriceHistory.LastPrice = nudPrice.Value;
+
+                (lvProducts.SelectedItems[0].Tag as Product).PriceHistory.UpdatedAt = DateTime.Now;
 
                 OrderDetailValidator odv = new();
                 var res = odv.Validate(od);

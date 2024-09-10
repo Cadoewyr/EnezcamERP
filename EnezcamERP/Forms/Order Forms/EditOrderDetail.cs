@@ -115,6 +115,8 @@ namespace EnezcamERP.Forms.Order_Forms
                     {
                         od.Product.PriceHistory.LastCost = nudCost.Value;
                         od.Product.PriceHistory.LastPrice = nudPrice.Value;
+
+                        od.Product.PriceHistory.UpdatedAt = DateTime.Now;
                     }
 
                     if (cbUpdateSameProducts.Checked)
