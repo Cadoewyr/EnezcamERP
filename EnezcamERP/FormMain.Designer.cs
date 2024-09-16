@@ -106,6 +106,7 @@
             clmLastPrice = new ColumnHeader();
             clmLastProfit = new ColumnHeader();
             clmLastProfitRatio = new ColumnHeader();
+            clmLastUpdateDate = new ColumnHeader();
             tabCustomer = new TabPage();
             gbCustomers = new GroupBox();
             lblSearchCustomer = new Label();
@@ -125,11 +126,7 @@
             clmTotalPrice = new ColumnHeader();
             tabReports = new TabPage();
             gbTotals = new GroupBox();
-            rbStock = new RadioButton();
-            rbProcessed = new RadioButton();
-            rbProduced = new RadioButton();
-            cbSpecs = new ComboBox();
-            lblSpec = new Label();
+            btnSpecQuantity = new Button();
             txtStockQuantity = new TextBox();
             lblStockQuantity = new Label();
             txtProcessQuantity = new TextBox();
@@ -139,7 +136,6 @@
             txtOutgoing = new TextBox();
             lbOutgoing = new Label();
             txtProducedQuantity = new TextBox();
-            txtSpecQuantity = new TextBox();
             txtProfitRatio = new TextBox();
             lblProducedQuantity = new Label();
             lbProfitRatio = new Label();
@@ -177,7 +173,6 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
-            clmLastUpdateDate = new ColumnHeader();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             gbOrdersTotals.SuspendLayout();
@@ -884,6 +879,10 @@
             // 
             clmLastProfitRatio.Text = "Son Kar Oranı";
             // 
+            // clmLastUpdateDate
+            // 
+            clmLastUpdateDate.Text = "Son Güncellenme Tarihi";
+            // 
             // tabCustomer
             // 
             tabCustomer.Controls.Add(gbCustomers);
@@ -1036,11 +1035,7 @@
             // gbTotals
             // 
             gbTotals.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            gbTotals.Controls.Add(rbStock);
-            gbTotals.Controls.Add(rbProcessed);
-            gbTotals.Controls.Add(rbProduced);
-            gbTotals.Controls.Add(cbSpecs);
-            gbTotals.Controls.Add(lblSpec);
+            gbTotals.Controls.Add(btnSpecQuantity);
             gbTotals.Controls.Add(txtStockQuantity);
             gbTotals.Controls.Add(lblStockQuantity);
             gbTotals.Controls.Add(txtProcessQuantity);
@@ -1050,7 +1045,6 @@
             gbTotals.Controls.Add(txtOutgoing);
             gbTotals.Controls.Add(lbOutgoing);
             gbTotals.Controls.Add(txtProducedQuantity);
-            gbTotals.Controls.Add(txtSpecQuantity);
             gbTotals.Controls.Add(txtProfitRatio);
             gbTotals.Controls.Add(lblProducedQuantity);
             gbTotals.Controls.Add(lbProfitRatio);
@@ -1072,59 +1066,20 @@
             gbTotals.Controls.Add(lbPrice);
             gbTotals.Location = new Point(8, 738);
             gbTotals.Name = "gbTotals";
-            gbTotals.Size = new Size(1526, 167);
+            gbTotals.Size = new Size(1530, 167);
             gbTotals.TabIndex = 3;
             gbTotals.TabStop = false;
             gbTotals.Text = "Toplamlar";
             // 
-            // rbStock
+            // btnSpecQuantity
             // 
-            rbStock.AutoSize = true;
-            rbStock.Location = new Point(1389, 88);
-            rbStock.Name = "rbStock";
-            rbStock.Size = new Size(59, 24);
-            rbStock.TabIndex = 14;
-            rbStock.Text = "Stok";
-            rbStock.UseVisualStyleBackColor = true;
-            // 
-            // rbProcessed
-            // 
-            rbProcessed.AutoSize = true;
-            rbProcessed.Location = new Point(1311, 119);
-            rbProcessed.Name = "rbProcessed";
-            rbProcessed.Size = new Size(73, 24);
-            rbProcessed.TabIndex = 13;
-            rbProcessed.Text = "İşleme";
-            rbProcessed.UseVisualStyleBackColor = true;
-            // 
-            // rbProduced
-            // 
-            rbProduced.AutoSize = true;
-            rbProduced.Checked = true;
-            rbProduced.Location = new Point(1311, 89);
-            rbProduced.Name = "rbProduced";
-            rbProduced.Size = new Size(72, 24);
-            rbProduced.TabIndex = 12;
-            rbProduced.TabStop = true;
-            rbProduced.Text = "Isıcam";
-            rbProduced.UseVisualStyleBackColor = true;
-            // 
-            // cbSpecs
-            // 
-            cbSpecs.FormattingEnabled = true;
-            cbSpecs.Location = new Point(1311, 22);
-            cbSpecs.Name = "cbSpecs";
-            cbSpecs.Size = new Size(133, 28);
-            cbSpecs.TabIndex = 11;
-            // 
-            // lblSpec
-            // 
-            lblSpec.AutoSize = true;
-            lblSpec.Location = new Point(1210, 27);
-            lblSpec.Name = "lblSpec";
-            lblSpec.Size = new Size(95, 20);
-            lblSpec.TabIndex = 25;
-            lblSpec.Text = "Ürün Özelliği";
+            btnSpecQuantity.Location = new Point(1301, 18);
+            btnSpecQuantity.Name = "btnSpecQuantity";
+            btnSpecQuantity.Size = new Size(223, 29);
+            btnSpecQuantity.TabIndex = 26;
+            btnSpecQuantity.Text = "Ürün Özelliklerine Göre Miktar";
+            btnSpecQuantity.UseVisualStyleBackColor = true;
+            btnSpecQuantity.Click += btnSpecQuantity_Click;
             // 
             // txtStockQuantity
             // 
@@ -1211,16 +1166,6 @@
             txtProducedQuantity.Size = new Size(133, 27);
             txtProducedQuantity.TabIndex = 20;
             txtProducedQuantity.TabStop = false;
-            // 
-            // txtSpecQuantity
-            // 
-            txtSpecQuantity.Location = new Point(1311, 56);
-            txtSpecQuantity.MaxLength = 25;
-            txtSpecQuantity.Name = "txtSpecQuantity";
-            txtSpecQuantity.ReadOnly = true;
-            txtSpecQuantity.Size = new Size(133, 27);
-            txtSpecQuantity.TabIndex = 20;
-            txtSpecQuantity.TabStop = false;
             // 
             // txtProfitRatio
             // 
@@ -1617,10 +1562,6 @@
             dgReport.Size = new Size(1275, 692);
             dgReport.TabIndex = 0;
             // 
-            // clmLastUpdateDate
-            // 
-            clmLastUpdateDate.Text = "Son Güncellenme Tarihi";
-            // 
             // FormMain
             // 
             AcceptButton = btnCreateReport;
@@ -1809,12 +1750,7 @@
         private Button btnLastPage;
         private Button btnFirstPage;
         private Button btnExpiredOrders;
-        private Label lblSpec;
-        private ComboBox cbSpecs;
-        private TextBox txtSpecQuantity;
-        private RadioButton rbStock;
-        private RadioButton rbProcessed;
-        private RadioButton rbProduced;
         private ColumnHeader clmLastUpdateDate;
+        private Button btnSpecQuantity;
     }
 }

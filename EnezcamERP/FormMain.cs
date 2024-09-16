@@ -1,16 +1,20 @@
 using BL.Report.Enums;
 using BL.Reports;
+using BL.Reports.Enums;
 using BL.Reports.ProductionReports;
 using BL.Reports.SalesReports;
 using BL.Repositories.Repositories;
 using DAL.DTO.Context;
 using DAL.DTO.Entities;
+using DAL.DTO.Entities.Enums;
 using EnezcamERP.Forms.Customer_Forms;
 using EnezcamERP.Forms.DataGridColumnHeaderTemplates;
 using EnezcamERP.Forms.Order_Forms;
 using EnezcamERP.Forms.Produced_Product_Forms;
 using EnezcamERP.Forms.Product_Forms;
+using EnezcamERP.Forms.Report_Forms;
 using EnezcamERP.Forms.Yearly_Report_Cost_Form;
+using System.Text;
 
 namespace EnezcamERP
 {
@@ -24,6 +28,8 @@ namespace EnezcamERP
         OrderRepository ordersDB = new();
         ProductRepository productsDB = new();
         CustomerRepository customersDB = new();
+
+        IDateRangedReport report = null;
 
         public void RefreshOrders(ICollection<Order>? orders, ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
         {
@@ -155,10 +161,7 @@ namespace EnezcamERP
             if (monthlyOutgoingsRepository.GetByDate(dtpDate.Value.Year, dtpDate.Value.Month) != null)
                 nudOutgoing.Value = monthlyOutgoingsRepository.GetByDate(dtpDate.Value.Year, dtpDate.Value.Month).Outgoing;
 
-            cbSpecs.Items.Clear();
-            cbSpecs.DisplayMember = "Name";
-            cbSpecs.Items.AddRange(new SpecRepository().GetAll().OrderBy(x => x.Name).ToArray());
-            cbSpecs.SelectedIndex = 0;
+
         }
         public void CheckExpiredOrders(bool checkListViewItems)
         {
@@ -180,6 +183,29 @@ namespace EnezcamERP
             }
 
             btnExpiredOrders.Text = $"{i} gecikmiþ sipariþ";
+        }
+        public string GetSpecsQuantityStrings(IDateRangedReport report)
+        {
+            StringBuilder sb = new();
+
+            foreach (ProductionType type in Enum.GetValues(typeof(ProductionType)))
+            {
+                sb.AppendLine(type.ToString().ToUpper());
+                sb.AppendLine();
+
+                foreach (Spec spec in new SpecRepository().GetAll())
+                {
+                    if (((DateRangedProductionReport)report).GetSpecQuantity(spec, type).Any(x => x.Value > 0))
+                    {
+                        sb.AppendLine(spec.Name);
+                        sb.AppendLine(((DateRangedProductionReport)report).GetSpecQuantityString(((DateRangedProductionReport)report).GetSpecQuantity(spec, type)));
+                    }
+                }
+
+                sb.AppendLine().AppendLine();
+            }
+
+            return sb.ToString();
         }
 
         void InitialLists(ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
@@ -302,18 +328,6 @@ namespace EnezcamERP
             txtProducedQuantity.Text = report.GetProducedQuantityString();
             txtProcessQuantity.Text = report.GetProcessedQuantityString();
             txtStockQuantity.Text = report.GetStockQuantityString();
-
-
-            ProductionType productionType = ProductionType.Produced;
-
-            if (rbProduced.Checked)
-                productionType = ProductionType.Produced;
-            else if (rbProcessed.Checked)
-                productionType = ProductionType.Processed;
-            else if (rbStock.Checked)
-                productionType = ProductionType.Stock;
-
-            txtSpecQuantity.Text = report.GetSpecQuantityString(report.GetSpecQuantity(cbSpecs.SelectedItem as Spec, productionType));
         }
         void FillSalesReport(DataGridView dataGrid, DateRangedSalesReport report)
         {
@@ -927,9 +941,15 @@ namespace EnezcamERP
             }
 
             if (rbProduction.Checked)
-                FillProductionReport(dgReport, (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, cbIsOvertime.Checked));
+            {
+                report = (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, cbIsOvertime.Checked);
+                FillProductionReport(dgReport, (DateRangedProductionReport)report);
+            }
             else if (rbSales.Checked)
-                FillSalesReport(dgReport, (DateRangedSalesReport)ReportCreator<DateRangedSalesReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, cbIsOvertime.Checked));
+            {
+                report = (DateRangedSalesReport)ReportCreator<DateRangedSalesReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, cbIsOvertime.Checked);
+                FillSalesReport(dgReport, (DateRangedSalesReport)report);
+            }
 
             if (!cbIsOvertime.Checked & new MonthlyOutgoingsRepository().GetByDate(dtpDate.Value.Year, dtpDate.Value.Month) != null)
                 new MonthlyOutgoingsRepository().Update(new()
@@ -972,6 +992,15 @@ namespace EnezcamERP
 
             if (!(sender as CheckBox).Checked)
                 nudOutgoing.Value = outgoing == null ? 0 : outgoing;
+        }
+
+        private void btnSpecQuantity_Click(object sender, EventArgs e)
+        {
+            if (report != null)
+            {
+                SpecQuantities specQuantitiesForm = new((DateRangedProductionReport)report);
+                specQuantitiesForm.ShowDialog();
+            }
         }
         #endregion
 
