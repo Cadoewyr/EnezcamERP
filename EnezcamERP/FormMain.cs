@@ -996,7 +996,7 @@ namespace EnezcamERP
 
         private void btnSpecQuantity_Click(object sender, EventArgs e)
         {
-            if (report != null)
+            if (report != null & report is DateRangedProductionReport)
             {
                 SpecQuantities specQuantitiesForm = new((DateRangedProductionReport)report);
                 specQuantitiesForm.ShowDialog();
