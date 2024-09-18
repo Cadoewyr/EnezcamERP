@@ -158,7 +158,7 @@
             gbProductionReportDetails = new GroupBox();
             cbIsOvertime = new CheckBox();
             cbCalculateAllInterval = new CheckBox();
-            label1 = new Label();
+            lblDailyCost = new Label();
             nudOutgoing = new NumericUpDown();
             gbReportType = new GroupBox();
             rbSales = new RadioButton();
@@ -173,6 +173,7 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
+            btnProductSpecs = new Button();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             gbOrdersTotals.SuspendLayout();
@@ -757,6 +758,7 @@
             // gbProducts
             // 
             gbProducts.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbProducts.Controls.Add(btnProductSpecs);
             gbProducts.Controls.Add(lblSearchProduct);
             gbProducts.Controls.Add(txtSearchProduct);
             gbProducts.Controls.Add(btnAddProduct);
@@ -1352,7 +1354,7 @@
             gbProductionReportDetails.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             gbProductionReportDetails.Controls.Add(cbIsOvertime);
             gbProductionReportDetails.Controls.Add(cbCalculateAllInterval);
-            gbProductionReportDetails.Controls.Add(label1);
+            gbProductionReportDetails.Controls.Add(lblDailyCost);
             gbProductionReportDetails.Controls.Add(nudOutgoing);
             gbProductionReportDetails.Controls.Add(gbReportType);
             gbProductionReportDetails.Controls.Add(dtpDate);
@@ -1387,14 +1389,14 @@
             cbCalculateAllInterval.Text = "Gelecek tarihi hesapla";
             cbCalculateAllInterval.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // lblDailyCost
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(6, 296);
-            label1.Name = "label1";
-            label1.Size = new Size(94, 20);
-            label1.TabIndex = 7;
-            label1.Text = "Günlük Gider";
+            lblDailyCost.AutoSize = true;
+            lblDailyCost.Location = new Point(6, 296);
+            lblDailyCost.Name = "lblDailyCost";
+            lblDailyCost.Size = new Size(94, 20);
+            lblDailyCost.TabIndex = 7;
+            lblDailyCost.Text = "Günlük Gider";
             // 
             // nudOutgoing
             // 
@@ -1562,6 +1564,16 @@
             dgReport.Size = new Size(1275, 692);
             dgReport.TabIndex = 0;
             // 
+            // btnProductSpecs
+            // 
+            btnProductSpecs.Location = new Point(406, 24);
+            btnProductSpecs.Name = "btnProductSpecs";
+            btnProductSpecs.Size = new Size(133, 29);
+            btnProductSpecs.TabIndex = 9;
+            btnProductSpecs.Text = "Ürün Özellikleri";
+            btnProductSpecs.UseVisualStyleBackColor = true;
+            btnProductSpecs.Click += btnProductSpecs_Click;
+            // 
             // FormMain
             // 
             AcceptButton = btnCreateReport;
@@ -1680,7 +1692,7 @@
         private RadioButton rbProduction;
         private ColumnHeader clmCode;
         private DateTimePicker dtpDate;
-        private Label label1;
+        private Label lblDailyCost;
         private NumericUpDown nudOutgoing;
         private RadioButton rbOrderDate;
         private GroupBox gbDateFilterSettings;
@@ -1752,5 +1764,6 @@
         private Button btnExpiredOrders;
         private ColumnHeader clmLastUpdateDate;
         private Button btnSpecQuantity;
+        private Button btnProductSpecs;
     }
 }

@@ -14,14 +14,10 @@ namespace BL.Repositories.Repositories
 
             if (result.IsValid)
             {
-                try
-                {
-                    if (!table.Any(x => x.Name == entity.Name))
-                        return base.Add(entity);
-                    else
-                        throw new Exception("Aynı özellikten birden fazla oluşturulamaz.");
-                }
-                catch { }
+                if (!table.Any(x => x.Name == entity.Name))
+                    base.Add(entity);
+                else
+                    throw new Exception("Aynı özellikten birden fazla oluşturulamaz.");
             }
             else
                 throw new FormatException(ErrorStringify.Stringify(result.Errors));
@@ -36,23 +32,21 @@ namespace BL.Repositories.Repositories
             {
                 var oldEntity = Get(id);
 
-                if (table.Where(x => x.Name == entity.Name & x.ID != id).FirstOrDefault() == null)
+                if (table.Where(x => (x.Name == entity.Name) & x.ID != id).FirstOrDefault() == null)
                 {
                     var entityType = typeof(Spec);
 
                     foreach (var prop in entityType.GetProperties().Where(x => x.SetMethod != null))
                     {
                         if (prop.Name != "ID")
-                        {
                             prop.SetValue(oldEntity, prop.GetValue(entity));
-                        }
                     }
 
                     oldEntity.UpdatedAt = DateTime.Now;
                     context.SaveChanges();
                 }
                 else
-                    throw new Exception($"{entity.Name} adlı başka bir özellik oluşturulmuş. Aynı ad ile birden fazla özellik oluşturulamaz.");
+                    throw new Exception($"{entity.Name} adlı başka bir ürün oluşturulmuş. Aynı ad ile birden fazla ürün oluşturulamaz.");
             }
             else
                 throw new FormatException(ErrorStringify.Stringify(result.Errors));

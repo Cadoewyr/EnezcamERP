@@ -6,12 +6,12 @@ using BL.Reports.SalesReports;
 using BL.Repositories.Repositories;
 using DAL.DTO.Context;
 using DAL.DTO.Entities;
-using DAL.DTO.Entities.Enums;
 using EnezcamERP.Forms.Customer_Forms;
 using EnezcamERP.Forms.DataGridColumnHeaderTemplates;
 using EnezcamERP.Forms.Order_Forms;
 using EnezcamERP.Forms.Produced_Product_Forms;
 using EnezcamERP.Forms.Product_Forms;
+using EnezcamERP.Forms.Product_Specs_Forms;
 using EnezcamERP.Forms.Report_Forms;
 using EnezcamERP.Forms.Yearly_Report_Cost_Form;
 using System.Text;
@@ -868,6 +868,12 @@ namespace EnezcamERP
             }
             else
                 RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+
+        private void btnProductSpecs_Click(object sender, EventArgs e)
+        {
+            ProductSpecs form = new();
+            form.ShowDialog();
         }
         #endregion
 

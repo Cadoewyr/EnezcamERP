@@ -1,9 +1,7 @@
 ﻿using BL.Report.Enums;
-using BL.Reports.Enums;
 using BL.Reports.ProductionReports;
 using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
-using System.Data.Common;
 
 namespace EnezcamERP.Forms.Report_Forms
 {
@@ -59,7 +57,7 @@ namespace EnezcamERP.Forms.Report_Forms
 
                     row.Cells.Add(new DataGridViewTextBoxCell()
                     {
-                        Value = report.GetSpecQuantity(spec, productionType).Any(x=>x.Value > 0) ? report.GetSpecQuantityString(report.GetSpecQuantity(spec, productionType)) : string.Empty
+                        Value = report.GetSpecQuantity(spec, productionType).Any(x => x.Value > 0) ? report.GetSpecQuantityString(report.GetSpecQuantity(spec, productionType)) : string.Empty
                     });
                 }
 

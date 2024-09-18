@@ -106,7 +106,6 @@ namespace BL.Repositories.Repositories
                 throw new FormatException(ErrorStringify.Stringify(result.Errors));
 
             return true;
-
         }
     }
 }

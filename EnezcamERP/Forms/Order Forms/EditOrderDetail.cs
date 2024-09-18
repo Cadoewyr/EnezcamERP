@@ -199,7 +199,7 @@ namespace EnezcamERP.Forms.Order_Forms
 
         private void btnSpecs_Click(object sender, EventArgs e)
         {
-            if(orderDetail.Product.IsCounting)
+            if (orderDetail.Product.IsCounting)
             {
                 OrderDetailSpecs form = new(this.orderDetail);
                 form.ShowDialog();

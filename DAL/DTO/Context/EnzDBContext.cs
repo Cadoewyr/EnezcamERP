@@ -83,7 +83,7 @@ namespace DAL.DTO.Context
             {
                 var now = DateTime.Now;
 
-                if(entry.State == EntityState.Added)
+                if (entry.State == EntityState.Added)
                     ((BaseEntity)entry.Entity).CreatedAt = now;
                 else
                     ((BaseEntity)entry.Entity).UpdatedAt = now;

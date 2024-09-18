@@ -26,7 +26,7 @@ namespace EnezcamERP.Forms.Order_Forms
         {
             lvOrderDetailsSpecs.Items.Clear();
 
-            if(orderDetail != null)
+            if (orderDetail != null)
             {
                 foreach (Spec spec in new SpecRepository().GetAll().OrderBy(x => x.Name).ToArray())
                 {
@@ -72,7 +72,7 @@ namespace EnezcamERP.Forms.Order_Forms
         }
         void Update(OrderDetail[] orderDetails)
         {
-            foreach(OrderDetail orderDetail in orderDetails)
+            foreach (OrderDetail orderDetail in orderDetails)
             {
                 orderDetail.Specs.Clear();
 

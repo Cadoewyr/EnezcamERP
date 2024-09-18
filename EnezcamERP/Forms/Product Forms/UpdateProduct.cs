@@ -48,6 +48,7 @@ namespace EnezcamERP.Forms.Product_Forms
 
             try
             {
+                newProduct.PriceHistory.UpdatedAt = DateTime.Now;
                 productDB.Update(newProduct, product.ID);
             }
             catch (Exception ex)
