@@ -14,7 +14,7 @@ namespace EnezcamERP.Forms.Order_Forms
             gHeigth = orderDetail.Height * 1000;
         }
 
-        decimal plateWidth = 1, plateHeigth = 1, gWidth, gHeigth;
+        decimal plateWidth = 3210, plateHeigth = 2500, gWidth, gHeigth;
         OrderDetail orderDetail;
 
         void DrawFireVisualization(object sender, PaintEventArgs e)

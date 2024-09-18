@@ -64,7 +64,7 @@
             nudWidth.Name = "nudWidth";
             nudWidth.Size = new Size(118, 27);
             nudWidth.TabIndex = 0;
-            nudWidth.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            nudWidth.Value = new decimal(new int[] { 3210, 0, 0, 0 });
             // 
             // nudHeight
             // 
@@ -74,7 +74,7 @@
             nudHeight.Name = "nudHeight";
             nudHeight.Size = new Size(118, 27);
             nudHeight.TabIndex = 1;
-            nudHeight.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            nudHeight.Value = new decimal(new int[] { 2500, 0, 0, 0 });
             // 
             // btnCalculate
             // 
