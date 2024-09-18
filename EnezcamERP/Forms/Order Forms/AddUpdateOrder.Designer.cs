@@ -112,6 +112,7 @@
             checkAllToolStripMenuItem = new ToolStripMenuItem();
             checkSameProductsToolStripMenuItem = new ToolStripMenuItem();
             uncheckAllToolStripMenuItem = new ToolStripMenuItem();
+            btnFire = new Button();
             gbOrderHeader.SuspendLayout();
             gbOrderDetails.SuspendLayout();
             gbOrderTotals.SuspendLayout();
@@ -272,6 +273,7 @@
             // gbOrderTotals
             // 
             gbOrderTotals.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            gbOrderTotals.Controls.Add(btnFire);
             gbOrderTotals.Controls.Add(txtProducedQuantity);
             gbOrderTotals.Controls.Add(lblProducedQuantity);
             gbOrderTotals.Controls.Add(txtPriceWithTax);
@@ -873,6 +875,16 @@
             uncheckAllToolStripMenuItem.Text = "Seçimleri Kaldır";
             uncheckAllToolStripMenuItem.Click += uncheckAllToolStripMenuItem_Click;
             // 
+            // btnFire
+            // 
+            btnFire.Location = new Point(6, 356);
+            btnFire.Name = "btnFire";
+            btnFire.Size = new Size(318, 29);
+            btnFire.TabIndex = 19;
+            btnFire.Text = "Fire";
+            btnFire.UseVisualStyleBackColor = true;
+            btnFire.Click += btnFire_Click;
+            // 
             // AddUpdateOrder
             // 
             AcceptButton = btnAddOrderDetail;
@@ -992,5 +1004,6 @@
         private TextBox txtSearchOrderDetail;
         private Button btnUpdateLastCostPrice;
         private Button btnUpdateOrderDetailsSpecs;
+        private Button btnFire;
     }
 }

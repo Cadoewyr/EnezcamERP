@@ -571,5 +571,14 @@ namespace EnezcamERP.Forms.Order_Forms
         {
             UpdateCostPrice();
         }
+
+        private void btnFire_Click(object sender, EventArgs e)
+        {
+            if(lvOrderDetails.SelectedItems.Count > 0)
+            {
+                Fire form = new(lvOrderDetails.SelectedItems[0].Tag as OrderDetail);
+                form.ShowDialog();
+            }
+        }
     }
 }
