@@ -107,7 +107,6 @@
             Controls.Add(nudWidth);
             Controls.Add(lblHeight);
             Controls.Add(lblWidth);
-            MaximizeBox = false;
             MinimizeBox = false;
             Name = "Fire";
             ShowIcon = false;
