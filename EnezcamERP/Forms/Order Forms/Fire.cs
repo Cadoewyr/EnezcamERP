@@ -78,7 +78,7 @@ namespace EnezcamERP.Forms.Order_Forms
                     }
                 }
 
-                if(nonPlacedGlassQuantity > 0)
+                if (nonPlacedGlassQuantity > 0)
                     AddOrUpdateNonPlacedGlasses(orderDetails[i], nonPlacedGlassQuantity);
             }
 
