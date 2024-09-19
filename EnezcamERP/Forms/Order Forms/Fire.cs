@@ -49,6 +49,7 @@ namespace EnezcamERP.Forms.Order_Forms
             decimal currentX = 0;
             decimal currentY = 0;
             decimal maxRowHeight = 0;
+            decimal totalGlassArea = 0;
 
             bool useQuantity = cbUseQuantity.Checked;
 
@@ -71,13 +72,41 @@ namespace EnezcamERP.Forms.Order_Forms
                         break;
                     }
                     else
+                    {
+                        totalGlassArea += glassWidth * glassHeight;
                         nonPlacedGlassQuantity--;
+                    }
                 }
 
                 if(nonPlacedGlassQuantity > 0)
                     AddOrUpdateNonPlacedGlasses(orderDetails[i], nonPlacedGlassQuantity);
             }
+
+            decimal plateArea = plateWidth * plateHeight;  // Plakanın toplam alanı
+            decimal fireArea = plateArea - totalGlassArea;  // Fire alanı
+            decimal fireRatio = (fireArea / plateArea) * 100;  // Fire oranı (yüzde)
+
+            // Fire oranını bitmap'in sağ alt köşesine yazdırıyoruz
+            DrawFireRatio(g, fireRatio, plateWidth, plateHeight);
         }
+
+        private void DrawFireRatio(Graphics g, decimal fireRatio, int plateWidth, int plateHeight)
+        {
+            // Fire oranı yazısı
+            string fireText = $"Fire Oranı: {fireRatio:F2}%";
+
+            // Yazı için font ve boyut ayarlıyoruz
+            Font font = new Font("Arial", 20, FontStyle.Bold);
+            SizeF textSize = g.MeasureString(fireText, font);
+
+            // Yazıyı sağ alt köşeye yerleştiriyoruz
+            float textX = plateWidth - textSize.Width - 10;  // Sağdan 10 piksel boşluk
+            float textY = plateHeight - textSize.Height - 10;  // Alttan 10 piksel boşluk
+
+            // Yazıyı çiziyoruz
+            g.DrawString(fireText, font, Brushes.Black, new PointF(textX, textY));
+        }
+
 
         // Camları bitmap üzerine yerleştirme fonksiyonu
         private bool TryPlaceGlassOnBitmap(Graphics g, OrderDetail orderDetail, ref decimal currentX, ref decimal currentY, ref decimal maxRowHeight, decimal glassWidth, decimal glassHeight, int plateWidth, int plateHeight)
@@ -169,7 +198,7 @@ namespace EnezcamERP.Forms.Order_Forms
             fontSize = Math.Max(fontSize, 8);  // Minimum yazı boyutu: 8
 
             // Camın ölçüsünü ortada gösteriyoruz
-            string glassSizeText = $"{(int)(orderDetail.Width * 1000)} x {(int)(orderDetail.Height * 1000)}";
+            string glassSizeText = $"{(int)width} x {(int)height}";
             Font font = new Font("Arial", fontSize, FontStyle.Bold);
             SizeF textSize = g.MeasureString(glassSizeText, font);
 

@@ -122,7 +122,7 @@
             // 
             // lvNonPlacedGlasses
             // 
-            lvNonPlacedGlasses.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            lvNonPlacedGlasses.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             lvNonPlacedGlasses.Columns.AddRange(new ColumnHeader[] { clmProductCode, clmSize, clmQuantity });
             lvNonPlacedGlasses.Location = new Point(12, 247);
             lvNonPlacedGlasses.Name = "lvNonPlacedGlasses";
