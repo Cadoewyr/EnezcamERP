@@ -574,9 +574,21 @@ namespace EnezcamERP.Forms.Order_Forms
 
         private void btnFire_Click(object sender, EventArgs e)
         {
-            if(lvOrderDetails.SelectedItems.Count > 0)
+            if(lvOrderDetails.CheckedItems.Count > 0)
             {
-                Fire form = new(lvOrderDetails.SelectedItems[0].Tag as OrderDetail);
+                List<OrderDetail> selectedOrderDetails = [];
+
+                foreach(ListViewItem item in lvOrderDetails.CheckedItems)
+                {
+                    selectedOrderDetails.Add(item.Tag as OrderDetail);
+                }
+
+                Fire form = new(selectedOrderDetails.ToArray());
+                form.ShowDialog();
+            }
+            else if (lvOrderDetails.SelectedItems.Count > 0)
+            {
+                Fire form = new([lvOrderDetails.SelectedItems[0].Tag as OrderDetail]);
                 form.ShowDialog();
             }
         }
