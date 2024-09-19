@@ -180,7 +180,6 @@
         private Button btnCalculate;
         private GroupBox gbPaint;
         private CheckBox cbUseQuantity;
-        private ListBox listBox1;
         private Label lblNonPlacedGlasses;
         private ListView lvNonPlacedGlasses;
         private ColumnHeader clmProductCode;
