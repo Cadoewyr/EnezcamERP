@@ -580,7 +580,10 @@ namespace EnezcamERP.Forms.Order_Forms
 
                 foreach (ListViewItem item in lvOrderDetails.CheckedItems)
                 {
-                    selectedOrderDetails.Add(item.Tag as OrderDetail);
+                    OrderDetail od = item.Tag as OrderDetail;
+                    
+                    if(od.Product.IsCounting)
+                        selectedOrderDetails.Add(item.Tag as OrderDetail);
                 }
 
                 Fire form = new(selectedOrderDetails.ToArray());
