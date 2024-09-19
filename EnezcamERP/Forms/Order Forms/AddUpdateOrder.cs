@@ -586,13 +586,21 @@ namespace EnezcamERP.Forms.Order_Forms
                         selectedOrderDetails.Add(item.Tag as OrderDetail);
                 }
 
-                Fire form = new(selectedOrderDetails.ToArray());
-                form.ShowDialog();
+                if(selectedOrderDetails.Count > 0)
+                {
+                    Fire form = new(selectedOrderDetails.ToArray());
+                    form.ShowDialog();
+                }
             }
             else if (lvOrderDetails.SelectedItems.Count > 0)
             {
-                Fire form = new([lvOrderDetails.SelectedItems[0].Tag as OrderDetail]);
-                form.ShowDialog();
+                OrderDetail orderDetail = lvOrderDetails.SelectedItems[0].Tag as OrderDetail;
+                
+                if(orderDetail.Product.IsCounting)
+                {
+                    Fire form = new([orderDetail]);
+                    form.ShowDialog();
+                }
             }
         }
     }
