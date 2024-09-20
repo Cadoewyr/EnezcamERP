@@ -571,37 +571,5 @@ namespace EnezcamERP.Forms.Order_Forms
         {
             UpdateCostPrice();
         }
-
-        private void btnFire_Click(object sender, EventArgs e)
-        {
-            if (lvOrderDetails.CheckedItems.Count > 0)
-            {
-                List<OrderDetail> selectedOrderDetails = [];
-
-                foreach (ListViewItem item in lvOrderDetails.CheckedItems)
-                {
-                    OrderDetail od = item.Tag as OrderDetail;
-                    
-                    if(od.Product.IsCounting)
-                        selectedOrderDetails.Add(item.Tag as OrderDetail);
-                }
-
-                if(selectedOrderDetails.Count > 0)
-                {
-                    Fire form = new(selectedOrderDetails.ToArray());
-                    form.ShowDialog();
-                }
-            }
-            else if (lvOrderDetails.SelectedItems.Count > 0)
-            {
-                OrderDetail orderDetail = lvOrderDetails.SelectedItems[0].Tag as OrderDetail;
-                
-                if(orderDetail.Product.IsCounting)
-                {
-                    Fire form = new([orderDetail]);
-                    form.ShowDialog();
-                }
-            }
-        }
     }
 }
