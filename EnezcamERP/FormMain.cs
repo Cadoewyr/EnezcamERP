@@ -15,6 +15,7 @@ using EnezcamERP.Forms.Product_Specs_Forms;
 using EnezcamERP.Forms.Report_Forms;
 using EnezcamERP.Forms.Yearly_Report_Cost_Form;
 using System.Text;
+using System.Windows.Forms;
 
 namespace EnezcamERP
 {
@@ -28,6 +29,8 @@ namespace EnezcamERP
         OrderRepository ordersDB = new();
         ProductRepository productsDB = new();
         CustomerRepository customersDB = new();
+
+        bool customerTabLoaded, stockTabLoaded, orderTabLoaded = false;
 
         IDateRangedReport report = null;
 
@@ -147,6 +150,8 @@ namespace EnezcamERP
                 lvi.SubItems.Add(item.ContactPhone);
                 lvi.SubItems.Add(item.Address);
                 lvi.SubItems.Add(ordersDB.GetAll(x => x.Customer.ID == item.ID).Sum(x => x.Price).ToString("C2"));
+                lvi.SubItems.Add(new OrderDetailsRepository().GetAll(x => x.Order.Customer.ID == item.ID & x.Product.IsCounting).Sum(x => x.Quantity).ToString());
+                lvi.SubItems.Add($"{new OrderDetailsRepository().GetAll(x => x.Order.Customer.ID == item.ID & x.Product.IsCounting).Sum(x => x.TotalArea)} M2");
 
                 listView.Items.Add(lvi);
             }
@@ -206,13 +211,6 @@ namespace EnezcamERP
             }
 
             return sb.ToString();
-        }
-
-        void InitialLists(ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
-        {
-            RefreshOrders(null, columnHeaderAutoResizeStyle);
-            RefreshProducts(null, columnHeaderAutoResizeStyle);
-            RefreshCustomers(null, columnHeaderAutoResizeStyle);
         }
 
         void FillProductionReport(DataGridView dataGrid, DateRangedProductionReport report)
@@ -452,7 +450,6 @@ namespace EnezcamERP
 
         private void Main_Load(object sender, EventArgs e)
         {
-            InitialLists(ColumnHeaderAutoResizeStyle.HeaderSize);
             CheckExpiredOrders(false);
             InitialReportForm();
         }
@@ -918,17 +915,13 @@ namespace EnezcamERP
             RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
-        private void txtSearchCustomer_TextChanged(object sender, EventArgs e)
+        private void txtSearchCustomer_KeyPress(object sender, KeyPressEventArgs e)
         {
-            var control = (sender as TextBox);
-
-            if (!string.IsNullOrEmpty(control.Text))
+            if (e.KeyChar == (char)Keys.Enter)
             {
-                var res = customersDB.GetAll(control.Text.ToLower());
-                RefreshCustomers(res.ToArray(), ColumnHeaderAutoResizeStyle.HeaderSize);
-            }
-            else
+                e.Handled = true;
                 RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+            }
         }
         #endregion
 
@@ -1045,6 +1038,27 @@ namespace EnezcamERP
             }
         }
 
+        private void tabOrders_Enter(object sender, EventArgs e)
+        {
+            if (!orderTabLoaded)
+                RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+
+            orderTabLoaded = true;
+        }
+        private void tabStock_Enter(object sender, EventArgs e)
+        {
+            if (!stockTabLoaded)
+                RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+
+            stockTabLoaded = true;
+        }
+        private void tabCustomer_Enter(object sender, EventArgs e)
+        {
+            if (!customerTabLoaded)
+                RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+
+            customerTabLoaded = true;
+        }
         #endregion
     }
 }

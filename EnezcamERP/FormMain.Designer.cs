@@ -91,6 +91,7 @@
             tabMain = new TabControl();
             tabStock = new TabPage();
             gbProducts = new GroupBox();
+            btnProductSpecs = new Button();
             lblSearchProduct = new Label();
             txtSearchProduct = new TextBox();
             btnAddProduct = new Button();
@@ -124,6 +125,8 @@
             clmContactPhone = new ColumnHeader();
             clmAddress = new ColumnHeader();
             clmTotalPrice = new ColumnHeader();
+            clmTotalQuantity = new ColumnHeader();
+            clmTotalArea = new ColumnHeader();
             tabReports = new TabPage();
             gbTotals = new GroupBox();
             btnSpecQuantity = new Button();
@@ -173,7 +176,6 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
-            btnProductSpecs = new Button();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             gbOrdersTotals.SuspendLayout();
@@ -204,6 +206,7 @@
             tabOrders.TabIndex = 0;
             tabOrders.Text = "Siparişler";
             tabOrders.UseVisualStyleBackColor = true;
+            tabOrders.Enter += tabOrders_Enter;
             // 
             // gbOrders
             // 
@@ -754,6 +757,7 @@
             tabStock.TabIndex = 1;
             tabStock.Text = "Stok Kartı";
             tabStock.UseVisualStyleBackColor = true;
+            tabStock.Enter += tabStock_Enter;
             // 
             // gbProducts
             // 
@@ -772,6 +776,16 @@
             gbProducts.TabIndex = 0;
             gbProducts.TabStop = false;
             gbProducts.Text = "Stok Kartları";
+            // 
+            // btnProductSpecs
+            // 
+            btnProductSpecs.Location = new Point(406, 24);
+            btnProductSpecs.Name = "btnProductSpecs";
+            btnProductSpecs.Size = new Size(133, 29);
+            btnProductSpecs.TabIndex = 9;
+            btnProductSpecs.Text = "Ürün Özellikleri";
+            btnProductSpecs.UseVisualStyleBackColor = true;
+            btnProductSpecs.Click += btnProductSpecs_Click;
             // 
             // lblSearchProduct
             // 
@@ -895,6 +909,7 @@
             tabCustomer.TabIndex = 2;
             tabCustomer.Text = "Cari Kartı";
             tabCustomer.UseVisualStyleBackColor = true;
+            tabCustomer.Enter += tabCustomer_Enter;
             // 
             // gbCustomers
             // 
@@ -925,12 +940,15 @@
             // 
             // txtSearchCustomer
             // 
+            txtSearchCustomer.AcceptsReturn = true;
             txtSearchCustomer.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             txtSearchCustomer.Location = new Point(1327, 27);
+            txtSearchCustomer.MaxLength = 200;
+            txtSearchCustomer.Multiline = true;
             txtSearchCustomer.Name = "txtSearchCustomer";
             txtSearchCustomer.Size = new Size(198, 27);
             txtSearchCustomer.TabIndex = 5;
-            txtSearchCustomer.TextChanged += txtSearchCustomer_TextChanged;
+            txtSearchCustomer.KeyPress += txtSearchCustomer_KeyPress;
             // 
             // btnRefreshCustomer
             // 
@@ -975,7 +993,7 @@
             // lvCustomers
             // 
             lvCustomers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lvCustomers.Columns.AddRange(new ColumnHeader[] { clmCustomerName, clmCountry, clmCity, clmDescription, clmContactName, clmContactPhone, clmAddress, clmTotalPrice });
+            lvCustomers.Columns.AddRange(new ColumnHeader[] { clmCustomerName, clmCountry, clmCity, clmDescription, clmContactName, clmContactPhone, clmAddress, clmTotalPrice, clmTotalQuantity, clmTotalArea });
             lvCustomers.Font = new Font("Segoe UI", 10F);
             lvCustomers.FullRowSelect = true;
             lvCustomers.GridLines = true;
@@ -1020,6 +1038,14 @@
             // clmTotalPrice
             // 
             clmTotalPrice.Text = "Toplam Satış Tutarı";
+            // 
+            // clmTotalQuantity
+            // 
+            clmTotalQuantity.Text = "Ürün Miktarı";
+            // 
+            // clmTotalArea
+            // 
+            clmTotalArea.Text = "Toplam Alan";
             // 
             // tabReports
             // 
@@ -1564,16 +1590,6 @@
             dgReport.Size = new Size(1275, 692);
             dgReport.TabIndex = 0;
             // 
-            // btnProductSpecs
-            // 
-            btnProductSpecs.Location = new Point(406, 24);
-            btnProductSpecs.Name = "btnProductSpecs";
-            btnProductSpecs.Size = new Size(133, 29);
-            btnProductSpecs.TabIndex = 9;
-            btnProductSpecs.Text = "Ürün Özellikleri";
-            btnProductSpecs.UseVisualStyleBackColor = true;
-            btnProductSpecs.Click += btnProductSpecs_Click;
-            // 
             // FormMain
             // 
             AcceptButton = btnCreateReport;
@@ -1765,5 +1781,7 @@
         private ColumnHeader clmLastUpdateDate;
         private Button btnSpecQuantity;
         private Button btnProductSpecs;
+        private ColumnHeader clmTotalQuantity;
+        private ColumnHeader clmTotalArea;
     }
 }
