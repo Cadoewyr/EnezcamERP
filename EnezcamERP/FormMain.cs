@@ -6,6 +6,8 @@ using BL.Reports.SalesReports;
 using BL.Repositories.Repositories;
 using DAL.DTO.Context;
 using DAL.DTO.Entities;
+using EnezcamERP.Forms;
+using EnezcamERP.Forms.ColumnSettings;
 using EnezcamERP.Forms.Customer_Forms;
 using EnezcamERP.Forms.DataGridColumnHeaderTemplates;
 using EnezcamERP.Forms.Order_Forms;
@@ -143,21 +145,33 @@ namespace EnezcamERP
                     Tag = item
                 };
 
+                var totalCustomerSalesColumn = new ColumnSettingsRepository().GetAll(x => x.FormName == this.Name && x.ColumnName == "Toplam Satýþ Tutarý").FirstOrDefault();
+                var totalOrderedProductCountColumn = new ColumnSettingsRepository().GetAll(x => x.FormName == this.Name && x.ColumnName == "Ürün Miktarý").FirstOrDefault();
+                var totalOrderedProductAreaColumn = new ColumnSettingsRepository().GetAll(x => x.FormName == this.Name && x.ColumnName == "Toplam Alan").FirstOrDefault();
+
                 lvi.SubItems.Add(item.Country);
                 lvi.SubItems.Add(item.City);
                 lvi.SubItems.Add(item.Description);
                 lvi.SubItems.Add(item.ContactName);
                 lvi.SubItems.Add(item.ContactPhone);
                 lvi.SubItems.Add(item.Address);
-                lvi.SubItems.Add(ordersDB.GetAll(x => x.Customer.ID == item.ID).Sum(x => x.Price).ToString("C2"));
-                lvi.SubItems.Add(new OrderDetailsRepository().GetAll(x => x.Order.Customer.ID == item.ID & x.Product.IsCounting).Sum(x => x.Quantity).ToString());
-                lvi.SubItems.Add($"{new OrderDetailsRepository().GetAll(x => x.Order.Customer.ID == item.ID & x.Product.IsCounting).Sum(x => x.TotalArea)} M2");
+
+                if (totalCustomerSalesColumn != null && totalCustomerSalesColumn.IsActive)
+                    lvi.SubItems.Add(ordersDB.GetAll(x => x.Customer.ID == item.ID).Sum(x => x.Price).ToString("C2"));
+
+                if (totalOrderedProductCountColumn != null && totalOrderedProductCountColumn.IsActive)
+                    lvi.SubItems.Add(new OrderDetailsRepository().GetAll(x => x.Order.Customer.ID == item.ID & x.Product.IsCounting).Sum(x => x.Quantity).ToString());
+
+                if (totalOrderedProductAreaColumn != null && totalOrderedProductAreaColumn.IsActive)
+                    lvi.SubItems.Add($"{new OrderDetailsRepository().GetAll(x => x.Order.Customer.ID == item.ID & x.Product.IsCounting).Sum(x => x.TotalArea)} M2");
 
                 listView.Items.Add(lvi);
             }
 
-            if (columnHeaderAutoResizeStyle != null)
-                listView.AutoResizeColumns(columnHeaderAutoResizeStyle.Value);
+            //if (columnHeaderAutoResizeStyle != null)
+            //    listView.AutoResizeColumns(columnHeaderAutoResizeStyle.Value);
+
+            ColumnSettingsManager.SetColumns(this, listView);
         }
         public void InitialReportForm()
         {
@@ -880,7 +894,6 @@ namespace EnezcamERP
         {
             AddCustomer form = new(this);
             form.ShowDialog();
-            RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         private void btnUpdateCustomer_Click(object sender, EventArgs e)
@@ -922,6 +935,14 @@ namespace EnezcamERP
                 e.Handled = true;
                 RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
+        }
+
+        private void btnColumnSettings_Click(object sender, EventArgs e)
+        {
+            ColumnSettingsForm form = new(this, lvCustomers);
+            form.ShowDialog();
+
+            RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         #endregion
 

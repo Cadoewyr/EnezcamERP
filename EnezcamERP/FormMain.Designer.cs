@@ -176,6 +176,7 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
+            btnColumnSettings = new Button();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             gbOrdersTotals.SuspendLayout();
@@ -914,6 +915,7 @@
             // gbCustomers
             // 
             gbCustomers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbCustomers.Controls.Add(btnColumnSettings);
             gbCustomers.Controls.Add(lblSearchCustomer);
             gbCustomers.Controls.Add(txtSearchCustomer);
             gbCustomers.Controls.Add(btnRefreshCustomer);
@@ -1590,6 +1592,16 @@
             dgReport.Size = new Size(1275, 692);
             dgReport.TabIndex = 0;
             // 
+            // btnColumnSettings
+            // 
+            btnColumnSettings.Location = new Point(406, 24);
+            btnColumnSettings.Name = "btnColumnSettings";
+            btnColumnSettings.Size = new Size(111, 29);
+            btnColumnSettings.TabIndex = 7;
+            btnColumnSettings.Text = "Sütun Ayarları";
+            btnColumnSettings.UseVisualStyleBackColor = true;
+            btnColumnSettings.Click += btnColumnSettings_Click;
+            // 
             // FormMain
             // 
             AcceptButton = btnCreateReport;
@@ -1783,5 +1795,6 @@
         private Button btnProductSpecs;
         private ColumnHeader clmTotalQuantity;
         private ColumnHeader clmTotalArea;
+        private Button btnColumnSettings;
     }
 }
