@@ -49,6 +49,7 @@ namespace EnezcamERP.Forms.ColumnSettings
         private void cbColumnSettings_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             isSaved = false;
+            btnSave.Enabled = !isSaved;
         }
 
         private void cbCheckAll_CheckedChanged(object sender, EventArgs e)

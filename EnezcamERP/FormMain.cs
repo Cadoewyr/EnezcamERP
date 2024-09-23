@@ -158,12 +158,18 @@ namespace EnezcamERP
 
                 if (totalCustomerSalesColumn != null && totalCustomerSalesColumn.IsActive)
                     lvi.SubItems.Add(ordersDB.GetAll(x => x.Customer.ID == item.ID).Sum(x => x.Price).ToString("C2"));
+                else
+                    lvi.SubItems.Add(string.Empty);
 
                 if (totalOrderedProductCountColumn != null && totalOrderedProductCountColumn.IsActive)
                     lvi.SubItems.Add(new OrderDetailsRepository().GetAll(x => x.Order.Customer.ID == item.ID & x.Product.IsCounting).Sum(x => x.Quantity).ToString());
+                else
+                    lvi.SubItems.Add(string.Empty);
 
                 if (totalOrderedProductAreaColumn != null && totalOrderedProductAreaColumn.IsActive)
                     lvi.SubItems.Add($"{new OrderDetailsRepository().GetAll(x => x.Order.Customer.ID == item.ID & x.Product.IsCounting).Sum(x => x.TotalArea)} M2");
+                else
+                    lvi.SubItems.Add(string.Empty);
 
                 listView.Items.Add(lvi);
             }
