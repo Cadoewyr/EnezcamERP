@@ -2,6 +2,7 @@
 using BL.Validators.Validators;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
+using EnezcamERP.Forms.ColumnSettings;
 using EnezcamERP.Validators;
 
 namespace EnezcamERP.Forms.Order_Forms
@@ -156,7 +157,8 @@ namespace EnezcamERP.Forms.Order_Forms
                 }
             }
 
-            lvOrderDetails.AutoResizeColumns(columnHeaderAutoResizeStyle);
+            //lvOrderDetails.AutoResizeColumns(columnHeaderAutoResizeStyle);
+            ColumnSettingsManager.SetColumns(this, lvOrderDetails);
         }
         public void LoadOrder(Order order)
         {
@@ -272,6 +274,7 @@ namespace EnezcamERP.Forms.Order_Forms
         CustomerRepository customerDB = new();
         OrderRepository orderDB = new();
         ProductRepository productDB = new();
+        ColumnSettingsRepository columnSettingsDB = new();
 
         Order order;
         bool IsUpdate;
@@ -570,6 +573,14 @@ namespace EnezcamERP.Forms.Order_Forms
         private void btnUpdateLastCostPrice_Click(object sender, EventArgs e)
         {
             UpdateCostPrice();
+        }
+
+        private void btnColumnSettings_Click(object sender, EventArgs e)
+        {
+            ColumnSettingsForm form = new(this, lvOrderDetails);
+            form.ShowDialog();
+
+            RefreshOrderDetails(order, txtSearchProduct.Text, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
     }
 }

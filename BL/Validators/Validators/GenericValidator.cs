@@ -35,6 +35,9 @@ namespace BL.Validators.Validators
                 case OrderDetailSpec orderDetailSpec:
                     result = ValidateOrderDetailSpec(orderDetailSpec);
                     break;
+                case ColumnSetting columnSetting:
+                    result = ValidateColumnSetting(columnSetting);
+                    break;
                 default:
                     result = null;
                     break;
@@ -46,6 +49,10 @@ namespace BL.Validators.Validators
         static ValidationResult ValidateSpec(Spec entity)
         {
             return new SpecValidator().Validate(entity);
+        }
+        static ValidationResult ValidateColumnSetting(ColumnSetting columnSetting)
+        {
+            return new ColumnSettingValidator().Validate(columnSetting);
         }
         static ValidationResult ValidateOrderDetailSpec(OrderDetailSpec entity)
         {

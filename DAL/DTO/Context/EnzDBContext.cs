@@ -33,6 +33,7 @@ namespace DAL.DTO.Context
         public DbSet<MonthlyOutgoing> MonthlyOutgoings { get; set; }
         public DbSet<Spec> Specs { get; set; }
         public DbSet<OrderDetailSpec> OrderDetailsSpecs { get; set; }
+        public DbSet<ColumnSetting> ColumnSettings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

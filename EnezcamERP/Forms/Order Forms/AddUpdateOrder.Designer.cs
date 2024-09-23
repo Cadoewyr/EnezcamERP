@@ -112,6 +112,7 @@
             checkAllToolStripMenuItem = new ToolStripMenuItem();
             checkSameProductsToolStripMenuItem = new ToolStripMenuItem();
             uncheckAllToolStripMenuItem = new ToolStripMenuItem();
+            btnColumnSettings = new Button();
             gbOrderHeader.SuspendLayout();
             gbOrderDetails.SuspendLayout();
             gbOrderTotals.SuspendLayout();
@@ -214,6 +215,7 @@
             // gbOrderDetails
             // 
             gbOrderDetails.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbOrderDetails.Controls.Add(btnColumnSettings);
             gbOrderDetails.Controls.Add(btnUpdateOrderDetailsSpecs);
             gbOrderDetails.Controls.Add(btnUpdateLastCostPrice);
             gbOrderDetails.Controls.Add(lblSearchOrderDetail);
@@ -873,6 +875,17 @@
             uncheckAllToolStripMenuItem.Text = "Seçimleri Kaldır";
             uncheckAllToolStripMenuItem.Click += uncheckAllToolStripMenuItem_Click;
             // 
+            // btnColumnSettings
+            // 
+            btnColumnSettings.Location = new Point(422, 24);
+            btnColumnSettings.Name = "btnColumnSettings";
+            btnColumnSettings.Size = new Size(111, 29);
+            btnColumnSettings.TabIndex = 8;
+            btnColumnSettings.TabStop = false;
+            btnColumnSettings.Text = "Sütun Ayarları";
+            btnColumnSettings.UseVisualStyleBackColor = true;
+            btnColumnSettings.Click += btnColumnSettings_Click;
+            // 
             // AddUpdateOrder
             // 
             AcceptButton = btnAddOrderDetail;
@@ -992,5 +1005,6 @@
         private TextBox txtSearchOrderDetail;
         private Button btnUpdateLastCostPrice;
         private Button btnUpdateOrderDetailsSpecs;
+        private Button btnColumnSettings;
     }
 }
