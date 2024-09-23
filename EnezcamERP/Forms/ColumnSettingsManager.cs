@@ -17,7 +17,8 @@ namespace EnezcamERP.Forms
                     columnSettingsDB.Add(new ColumnSetting()
                     {
                         FormName = form.Name,
-                        ColumnName = col.Text
+                        ColumnName = col.Text,
+                        DisplayIndex = col.DisplayIndex
                     });
 
                 if (colSet != null && !colSet.IsActive)

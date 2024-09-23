@@ -22,7 +22,7 @@ namespace EnezcamERP.Forms.ColumnSettings
         {
             cbColumnSettings.Items.Clear();
 
-            foreach (var col in new ColumnSettingsRepository().GetAll().Where(x => x.FormName == form.Name))
+            foreach (var col in new ColumnSettingsRepository().GetAll().Where(x => x.FormName == form.Name).OrderBy(x=>x.DisplayIndex))
             {
                 cbColumnSettings.Items.Add(col.ColumnName, col.IsActive);
             }

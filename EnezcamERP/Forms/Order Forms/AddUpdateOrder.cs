@@ -92,6 +92,8 @@ namespace EnezcamERP.Forms.Order_Forms
 
             ICollection<OrderDetail> results = [];
 
+            int index = 1;
+
             foreach (var item in order.OrderDetails)
             {
                 foreach (var prop in typeof(OrderDetail).GetProperties())
@@ -135,10 +137,10 @@ namespace EnezcamERP.Forms.Order_Forms
                         if (order.OrderDetails.Any(x => x.DiscountRatio > 0))
                         {
                             if (!lvOrderDetails.Columns.Contains(clmDiscountedUnitPrice))
-                                lvOrderDetails.Columns.Insert(9, clmDiscountedUnitPrice);
+                                lvOrderDetails.Columns.Insert(10, clmDiscountedUnitPrice);
 
                             if (!lvOrderDetails.Columns.Contains(clmDiscountRatio))
-                                lvOrderDetails.Columns.Insert(10, clmDiscountRatio);
+                                lvOrderDetails.Columns.Insert(11, clmDiscountRatio);
 
                             lvi.SubItems.Add(item.FinalUnitPrice.ToString("C2"));
                             lvi.SubItems.Add((item.DiscountRatio / 100).ToString("P0"));
@@ -157,8 +159,8 @@ namespace EnezcamERP.Forms.Order_Forms
                 }
             }
 
-            //lvOrderDetails.AutoResizeColumns(columnHeaderAutoResizeStyle);
             ColumnSettingsManager.SetColumns(this, lvOrderDetails);
+            lvOrderDetails.CheckBoxes = true;
         }
         public void LoadOrder(Order order)
         {

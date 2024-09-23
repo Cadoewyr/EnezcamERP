@@ -7,5 +7,6 @@ namespace DAL.DTO.Entities
         public string FormName { get; set; }
         public string ColumnName { get; set; }
         public bool IsActive { get; set; } = true;
+        public int DisplayIndex { get; set; }
     }
 }

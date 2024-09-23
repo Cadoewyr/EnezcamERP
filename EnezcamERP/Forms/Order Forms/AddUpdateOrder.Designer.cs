@@ -39,6 +39,7 @@
             lblCustomer = new Label();
             lblJobNo = new Label();
             gbOrderDetails = new GroupBox();
+            btnColumnSettings = new Button();
             btnUpdateOrderDetailsSpecs = new Button();
             btnUpdateLastCostPrice = new Button();
             lblSearchOrderDetail = new Label();
@@ -112,7 +113,6 @@
             checkAllToolStripMenuItem = new ToolStripMenuItem();
             checkSameProductsToolStripMenuItem = new ToolStripMenuItem();
             uncheckAllToolStripMenuItem = new ToolStripMenuItem();
-            btnColumnSettings = new Button();
             gbOrderHeader.SuspendLayout();
             gbOrderDetails.SuspendLayout();
             gbOrderTotals.SuspendLayout();
@@ -229,6 +229,17 @@
             gbOrderDetails.TabIndex = 1;
             gbOrderDetails.TabStop = false;
             gbOrderDetails.Text = "Sipariş Detayı";
+            // 
+            // btnColumnSettings
+            // 
+            btnColumnSettings.Location = new Point(422, 24);
+            btnColumnSettings.Name = "btnColumnSettings";
+            btnColumnSettings.Size = new Size(111, 29);
+            btnColumnSettings.TabIndex = 8;
+            btnColumnSettings.TabStop = false;
+            btnColumnSettings.Text = "Sütun Ayarları";
+            btnColumnSettings.UseVisualStyleBackColor = true;
+            btnColumnSettings.Click += btnColumnSettings_Click;
             // 
             // btnUpdateOrderDetailsSpecs
             // 
@@ -874,17 +885,6 @@
             uncheckAllToolStripMenuItem.Size = new Size(190, 24);
             uncheckAllToolStripMenuItem.Text = "Seçimleri Kaldır";
             uncheckAllToolStripMenuItem.Click += uncheckAllToolStripMenuItem_Click;
-            // 
-            // btnColumnSettings
-            // 
-            btnColumnSettings.Location = new Point(422, 24);
-            btnColumnSettings.Name = "btnColumnSettings";
-            btnColumnSettings.Size = new Size(111, 29);
-            btnColumnSettings.TabIndex = 8;
-            btnColumnSettings.TabStop = false;
-            btnColumnSettings.Text = "Sütun Ayarları";
-            btnColumnSettings.UseVisualStyleBackColor = true;
-            btnColumnSettings.Click += btnColumnSettings_Click;
             // 
             // AddUpdateOrder
             // 
