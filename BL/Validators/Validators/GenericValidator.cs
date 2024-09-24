@@ -38,6 +38,9 @@ namespace BL.Validators.Validators
                 case ColumnSetting columnSetting:
                     result = ValidateColumnSetting(columnSetting);
                     break;
+                case OvertimeOutgoing overtimeOutgoing:
+                    result = ValidateOvertimeOutgoing(overtimeOutgoing);
+                    break;
                 default:
                     result = null;
                     break;
@@ -81,6 +84,10 @@ namespace BL.Validators.Validators
         static ValidationResult ValidateMonthlyOutgoing(MonthlyOutgoing entity)
         {
             return new MonthlyOutgoingValidator().Validate(entity);
+        }
+        static ValidationResult ValidateOvertimeOutgoing(OvertimeOutgoing entity)
+        {
+            return new OvertimeOutgoingValidator().Validate(entity);
         }
     }
 }

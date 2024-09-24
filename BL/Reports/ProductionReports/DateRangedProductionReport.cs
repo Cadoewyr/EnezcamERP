@@ -8,12 +8,12 @@ namespace BL.Reports.ProductionReports
 {
     public class DateRangedProductionReport : IDateRangedReport
     {
-        public DateRangedProductionReport(DateTime date, ReportInterval interval, decimal outgoing, bool calculateAllInterval, bool IsOvertime)
+        public DateRangedProductionReport(DateTime date, ReportInterval interval, decimal outgoing, bool calculateAllInterval, bool isOvertime)
         {
             _interval = interval;
             _outgoing = outgoing;
             _calculateAllInterval = calculateAllInterval;
-            _IsOvertime = IsOvertime;
+            _IsOvertime = isOvertime;
 
             SetDateRange(date, interval);
             CreateReport();
@@ -65,11 +65,31 @@ namespace BL.Reports.ProductionReports
 
             _monthlyOutgoings = new MonthlyOutgoingsRepository().GetAll(x => (x.Year >= DateRangeStart.Year & x.Month >= DateRangeStart.Month) & (x.Year <= DateRangeEnd.Year & x.Month <= DateRangeEnd.Month)).ToList();
 
-            while (date <= DateRangeEnd)
+            if(_interval == ReportInterval.Daily)
             {
-                if (new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date & x.IsOvertime == _IsOvertime).Count() > 0 || (int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5)
-                    DailyProductionReports.Add(new(date, (new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date & x.IsOvertime == _IsOvertime).Count() > 0 || (int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5) && date.Date <= (_calculateAllInterval ? _dateRangeEnd : DateTime.Now.Date) ? (_interval == ReportInterval.Yearly ? _monthlyOutgoings.Where(x => x.Year == date.Year & x.Month >= date.Month).FirstOrDefault().Outgoing : _outgoing) : 0, _IsOvertime));
-                date = date.AddDays(1);
+                decimal outgoing = _IsOvertime ? (new OvertimeOutgoingsRepository().GetAll(x => x.Date.Date == date.Date).FirstOrDefault() != null ? new OvertimeOutgoingsRepository().GetAll(x => x.Date.Date == date.Date).FirstOrDefault().Outgoing : 0) : _monthlyOutgoings.Where(x => x.Month == date.Month & x.Year == date.Year).FirstOrDefault().Outgoing;
+                DailyProductionReports.Add(new(date, outgoing, _IsOvertime));
+            }
+            else
+            {
+                while (date <= DateRangeEnd)
+                {
+                    //check conditions
+                    if (new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date & !x.IsOvertime).Count() > 0 || (int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5)
+                    {
+                        DailyProductionReports.Add(new(date, (new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date & !x.IsOvertime).Count() > 0 || (int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5) && date.Date <= (_calculateAllInterval ? _dateRangeEnd : DateTime.Now.Date) ? (_interval == ReportInterval.Yearly ? _monthlyOutgoings.Where(x => x.Year == date.Year & x.Month >= date.Month).FirstOrDefault().Outgoing : _outgoing) : 0, false));
+                    }
+
+                    if (new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date & x.IsOvertime).Count() > 0)
+                    {
+                        OvertimeOutgoing overtimeOutgoing = new OvertimeOutgoingsRepository().GetAll(x => x.Date.Date == date.Date).FirstOrDefault();
+                        var outgoing = overtimeOutgoing != null ? overtimeOutgoing.Outgoing : 0;
+
+                        DailyProductionReports.Add(new(date, outgoing, true));
+                    }
+
+                    date = date.AddDays(1);
+                }
             }
         }
 

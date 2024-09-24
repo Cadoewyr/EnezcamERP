@@ -34,6 +34,7 @@ namespace DAL.DTO.Context
         public DbSet<Spec> Specs { get; set; }
         public DbSet<OrderDetailSpec> OrderDetailsSpecs { get; set; }
         public DbSet<ColumnSetting> ColumnSettings { get; set; }
+        public DbSet<OvertimeOutgoing> OvertimeOutgoings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

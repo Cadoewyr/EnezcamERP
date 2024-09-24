@@ -110,6 +110,7 @@
             clmLastUpdateDate = new ColumnHeader();
             tabCustomer = new TabPage();
             gbCustomers = new GroupBox();
+            btnColumnSettings = new Button();
             lblSearchCustomer = new Label();
             txtSearchCustomer = new TextBox();
             btnRefreshCustomer = new Button();
@@ -176,7 +177,6 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
-            btnColumnSettings = new Button();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             gbOrdersTotals.SuspendLayout();
@@ -930,6 +930,16 @@
             gbCustomers.TabStop = false;
             gbCustomers.Text = "Cariler";
             // 
+            // btnColumnSettings
+            // 
+            btnColumnSettings.Location = new Point(406, 24);
+            btnColumnSettings.Name = "btnColumnSettings";
+            btnColumnSettings.Size = new Size(111, 29);
+            btnColumnSettings.TabIndex = 7;
+            btnColumnSettings.Text = "Sütun Ayarları";
+            btnColumnSettings.UseVisualStyleBackColor = true;
+            btnColumnSettings.Click += btnColumnSettings_Click;
+            // 
             // lblSearchCustomer
             // 
             lblSearchCustomer.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -1523,6 +1533,7 @@
             rbDaily.TabStop = true;
             rbDaily.Text = "Günlük";
             rbDaily.UseVisualStyleBackColor = true;
+            rbDaily.CheckedChanged += RadioButtonCheckedChange;
             // 
             // rbYearly
             // 
@@ -1533,6 +1544,7 @@
             rbYearly.TabIndex = 3;
             rbYearly.Text = "Yıllık";
             rbYearly.UseVisualStyleBackColor = true;
+            rbYearly.CheckedChanged += RadioButtonCheckedChange;
             // 
             // rbWeekly
             // 
@@ -1543,6 +1555,7 @@
             rbWeekly.TabIndex = 1;
             rbWeekly.Text = "Haftalık";
             rbWeekly.UseVisualStyleBackColor = true;
+            rbWeekly.CheckedChanged += RadioButtonCheckedChange;
             // 
             // rbMonthly
             // 
@@ -1553,6 +1566,7 @@
             rbMonthly.TabIndex = 2;
             rbMonthly.Text = "Aylık";
             rbMonthly.UseVisualStyleBackColor = true;
+            rbMonthly.CheckedChanged += RadioButtonCheckedChange;
             // 
             // gbProductionReport
             // 
@@ -1591,16 +1605,6 @@
             dgReport.ShowRowErrors = false;
             dgReport.Size = new Size(1275, 692);
             dgReport.TabIndex = 0;
-            // 
-            // btnColumnSettings
-            // 
-            btnColumnSettings.Location = new Point(406, 24);
-            btnColumnSettings.Name = "btnColumnSettings";
-            btnColumnSettings.Size = new Size(111, 29);
-            btnColumnSettings.TabIndex = 7;
-            btnColumnSettings.Text = "Sütun Ayarları";
-            btnColumnSettings.UseVisualStyleBackColor = true;
-            btnColumnSettings.Click += btnColumnSettings_Click;
             // 
             // FormMain
             // 

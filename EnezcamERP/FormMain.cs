@@ -841,7 +841,6 @@ namespace EnezcamERP
             form.ShowDialog();
             RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
-
         private void btnUpdateProduct_Click(object sender, EventArgs e)
         {
             if (lvProducts.SelectedItems.Count > 0)
@@ -851,7 +850,6 @@ namespace EnezcamERP
                 RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
-
         private void btnDeleteProduct_Click(object sender, EventArgs e)
         {
             if (lvProducts.SelectedItems.Count > 0)
@@ -868,12 +866,10 @@ namespace EnezcamERP
                 RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
-
         private void btnRefreshStock_Click(object sender, EventArgs e)
         {
             RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
-
         private void txtSearchProduct_TextChanged(object sender, EventArgs e)
         {
             var control = (sender as TextBox);
@@ -886,7 +882,6 @@ namespace EnezcamERP
             else
                 RefreshProducts(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
-
         private void btnProductSpecs_Click(object sender, EventArgs e)
         {
             ProductSpecs form = new();
@@ -901,7 +896,6 @@ namespace EnezcamERP
             AddCustomer form = new(this);
             form.ShowDialog();
         }
-
         private void btnUpdateCustomer_Click(object sender, EventArgs e)
         {
             if (lvCustomers.SelectedItems.Count > 0)
@@ -911,7 +905,6 @@ namespace EnezcamERP
                 RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
-
         private void btnDeleteCustomer_Click(object sender, EventArgs e)
         {
             if (lvCustomers.SelectedItems.Count > 0)
@@ -928,12 +921,10 @@ namespace EnezcamERP
                 RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
-
         private void btnRefreshCustomer_Click(object sender, EventArgs e)
         {
             RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
-
         private void txtSearchCustomer_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -942,7 +933,6 @@ namespace EnezcamERP
                 RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }
-
         private void btnColumnSettings_Click(object sender, EventArgs e)
         {
             ColumnSettingsForm form = new(this, lvCustomers);
@@ -954,11 +944,62 @@ namespace EnezcamERP
 
         //Report controls
         #region
+        void AddOrUpdateOvertimeOutgoing(DateTime date, decimal outgoing)
+        {
+            var res = new OvertimeOutgoingsRepository().GetAll(x => x.Date.Date == date.Date).FirstOrDefault();
+
+            if (res == null & outgoing > 0)
+                new OvertimeOutgoingsRepository().Add(new()
+                {
+                    Date = date,
+                    Outgoing = outgoing
+                });
+            else
+                new OvertimeOutgoingsRepository().Update(res with
+                {
+                    Outgoing = outgoing,
+                    Date = date
+                }, res.ID);
+        }
+        void AddOrUpdateMonthlyOutgoing(DateTime date, decimal outgoing)
+        {
+            var res = new MonthlyOutgoingsRepository().GetByDate(date.Year, date.Month);
+
+            if (res == null)
+                new MonthlyOutgoingsRepository().Add(new()
+                {
+                    Month = date.Month,
+                    Year = date.Year,
+                    Outgoing = outgoing
+                });
+            else
+                new MonthlyOutgoingsRepository().Update(res with
+                {
+                    Month = date.Month,
+                    Year = date.Year,
+                    Outgoing = outgoing
+                }, res.ID);
+        }
+        void RefreshOutgoingNumericUpDown()
+        {
+            var monthlyOutgoing = new MonthlyOutgoingsRepository().GetByDate(dtpDate.Value.Year, dtpDate.Value.Month);
+            var overtimeOutgoing = new OvertimeOutgoingsRepository().GetAll(x => x.Date.Date == dtpDate.Value.Date).FirstOrDefault();
+
+            decimal mOutgoing = monthlyOutgoing != null ? monthlyOutgoing.Outgoing : 0;
+            decimal oOutgoing = overtimeOutgoing != null ? overtimeOutgoing.Outgoing : 0;
+
+            nudOutgoing.Value = (cbIsOvertime.Enabled & cbIsOvertime.Checked) ? oOutgoing : mOutgoing;
+        }
         private void btnCreateReport_Click(object sender, EventArgs e)
         {
             (sender as Button).Enabled = false;
 
             var interval = rbDaily.Checked ? ReportInterval.Daily : (rbWeekly.Checked ? ReportInterval.Weekly : (rbMonthly.Checked ? ReportInterval.Monthly : (rbYearly.Checked ? ReportInterval.Yearly : ReportInterval.Daily)));
+
+            if (cbIsOvertime.Enabled & cbIsOvertime.Checked & rbDaily.Checked)
+                AddOrUpdateOvertimeOutgoing(dtpDate.Value, nudOutgoing.Value);
+            else if(!cbIsOvertime.Enabled | !cbIsOvertime.Checked)
+                AddOrUpdateMonthlyOutgoing(dtpDate.Value, nudOutgoing.Value);
 
             if (interval == ReportInterval.Yearly)
             {
@@ -968,7 +1009,7 @@ namespace EnezcamERP
 
             if (rbProduction.Checked)
             {
-                report = (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, cbIsOvertime.Checked);
+                report = (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, (cbIsOvertime.Enabled & cbIsOvertime.Checked));
                 FillProductionReport(dgReport, (DateRangedProductionReport)report);
             }
             else if (rbSales.Checked)
@@ -977,25 +1018,8 @@ namespace EnezcamERP
                 FillSalesReport(dgReport, (DateRangedSalesReport)report);
             }
 
-            if (!cbIsOvertime.Checked & new MonthlyOutgoingsRepository().GetByDate(dtpDate.Value.Year, dtpDate.Value.Month) != null)
-                new MonthlyOutgoingsRepository().Update(new()
-                {
-                    Year = dtpDate.Value.Year,
-                    Month = dtpDate.Value.Month,
-                    Outgoing = nudOutgoing.Value
-                }, new MonthlyOutgoingsRepository().GetByDate(dtpDate.Value.Year, dtpDate.Value.Month).ID);
-
-            else if (!cbCalculateAllInterval.Checked)
-                new MonthlyOutgoingsRepository().Add(new()
-                {
-                    Year = dtpDate.Value.Year,
-                    Month = dtpDate.Value.Month,
-                    Outgoing = nudOutgoing.Value
-                });
-
             (sender as Button).Enabled = true;
         }
-
         private void btnCopyTable_Click(object sender, EventArgs e)
         {
             if (dgReport.Rows.Count > 0)
@@ -1005,21 +1029,14 @@ namespace EnezcamERP
                 dgReport.ClearSelection();
             }
         }
-
         private void dtpDate_ValueChanged(object sender, EventArgs e)
         {
-            if (new MonthlyOutgoingsRepository().GetByDate((sender as DateTimePicker).Value.Year, (sender as DateTimePicker).Value.Month) != null)
-                nudOutgoing.Value = new MonthlyOutgoingsRepository().GetByDate((sender as DateTimePicker).Value.Year, (sender as DateTimePicker).Value.Month).Outgoing;
+            RefreshOutgoingNumericUpDown();
         }
-
         private void cbIsOvertime_CheckedChanged(object sender, EventArgs e)
         {
-            decimal outgoing = new MonthlyOutgoingsRepository().GetByDate(dtpDate.Value.Year, dtpDate.Value.Month).Outgoing;
-
-            if (!(sender as CheckBox).Checked)
-                nudOutgoing.Value = outgoing == null ? 0 : outgoing;
+            RefreshOutgoingNumericUpDown();
         }
-
         private void btnSpecQuantity_Click(object sender, EventArgs e)
         {
             if (report != null & report is DateRangedProductionReport)
@@ -1027,6 +1044,12 @@ namespace EnezcamERP
                 SpecQuantities specQuantitiesForm = new((DateRangedProductionReport)report);
                 specQuantitiesForm.ShowDialog();
             }
+        }
+        private void RadioButtonCheckedChange(object sender, EventArgs e)
+        {
+            cbIsOvertime.Enabled = (sender as RadioButton).Name == rbDaily.Name;
+
+            RefreshOutgoingNumericUpDown();
         }
         #endregion
 
