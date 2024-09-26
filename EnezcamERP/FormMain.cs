@@ -17,7 +17,6 @@ using EnezcamERP.Forms.Product_Specs_Forms;
 using EnezcamERP.Forms.Report_Forms;
 using EnezcamERP.Forms.Yearly_Report_Cost_Form;
 using System.Text;
-using System.Windows.Forms;
 
 namespace EnezcamERP
 {
@@ -972,7 +971,7 @@ namespace EnezcamERP
                     Year = date.Year,
                     Outgoing = outgoing
                 });
-            else if(res != null)
+            else if (res != null)
                 new MonthlyOutgoingsRepository().Update(res with
                 {
                     Month = date.Month,
@@ -998,7 +997,7 @@ namespace EnezcamERP
 
             if (cbIsOvertime.Enabled & cbIsOvertime.Checked & rbDaily.Checked)
                 AddOrUpdateOvertimeOutgoing(dtpDate.Value, nudOutgoing.Value);
-            else if(!cbIsOvertime.Enabled | !cbIsOvertime.Checked)
+            else if (!cbIsOvertime.Enabled | !cbIsOvertime.Checked)
                 AddOrUpdateMonthlyOutgoing(dtpDate.Value, nudOutgoing.Value);
 
             if (interval == ReportInterval.Yearly)

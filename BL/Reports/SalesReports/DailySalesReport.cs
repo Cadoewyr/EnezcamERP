@@ -74,7 +74,7 @@ namespace BL.Reports.SalesReports
                     });
                 }
             }
-            DailySalesEntries = DailySalesEntries.OrderBy(x => x.JobNo).ToList();
+            DailySalesEntries = DailySalesEntries.OrderBy(x => x.JobNo).ThenByDescending(x => x.Product.IsCounting).ToList();
         }
 
         decimal _outgoing;

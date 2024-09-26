@@ -77,7 +77,7 @@ namespace BL.Reports.ProductionReports
                     });
                 }
             }
-            DailyProductionEntries = DailyProductionEntries.OrderBy(x => x.JobNo).ToList();
+            DailyProductionEntries = DailyProductionEntries.OrderBy(x => x.JobNo).ThenByDescending(x => x.Product.IsCounting).ToList();
         }
         List<ProducedOrder> MergeProducedOrders(List<ProducedOrder> producedOrders)
         {
