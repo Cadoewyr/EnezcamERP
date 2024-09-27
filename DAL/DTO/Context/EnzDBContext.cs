@@ -1,5 +1,6 @@
 ﻿using DAL.DTO.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace DAL.DTO.Context
 {
@@ -7,13 +8,16 @@ namespace DAL.DTO.Context
     {
         public EnzDBContext()
         {
-            this.ChangeTracker.LazyLoadingEnabled = true;
-            //Database.EnsureCreated();
-            //Database.Migrate();
+            var builder = new ConfigurationBuilder();
+            builder.SetBasePath(Directory.GetCurrentDirectory())
+               .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            _config = builder.Build();
         }
 
+        IConfiguration _config;
+
         private static EnzDBContext? _context;
-        //public static EnzDBContext _context;
 
         public static EnzDBContext GetInstance
         {
@@ -38,7 +42,8 @@ namespace DAL.DTO.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=.;Database=EnezcamERP;Trusted_Connection=True;TrustServerCertificate=True;Encrypt=False;");
+            if (!optionsBuilder.IsConfigured)
+                optionsBuilder.UseSqlServer(_config["ConnectionStrings:DefaultConnection"]);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
