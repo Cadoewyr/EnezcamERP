@@ -1,5 +1,5 @@
 ﻿using BL.Report.Enums;
-using BL.Reports.ProductionReports;
+using BL.Reports.Enums;
 using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 
@@ -7,14 +7,14 @@ namespace EnezcamERP.Forms.Report_Forms
 {
     public partial class SpecQuantities : Form
     {
-        public SpecQuantities(DateRangedProductionReport report)
+        public SpecQuantities(IDateRangedReport report)
         {
             InitializeComponent();
             this.report = report;
             FillDataGridView();
         }
 
-        DateRangedProductionReport report;
+        IDateRangedReport report;
 
         void ClearDataGridView(DataGridView dataGridView)
         {

@@ -1,5 +1,6 @@
 ﻿using BL.Report.Enums;
 using BL.Reports.Enums;
+using BL.Reports.ProductionReports;
 using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
@@ -131,6 +132,19 @@ namespace BL.Reports.SalesReports
 
                 return dic;
             }
+        }
+        public Dictionary<UnitCode, decimal> GetSpecQuantity(Spec spec, ProductionType productionType)
+        {
+            Dictionary<UnitCode, decimal> dic = [];
+
+            dic.Add(UnitCode.AD, DailySalesReports.Sum(x => x.GetSpecQuantity(spec, productionType).Where(x => x.Key == UnitCode.AD).Sum(x => x.Value)));
+            dic.Add(UnitCode.M2, DailySalesReports.Sum(x => x.GetSpecQuantity(spec, productionType).Where(x => x.Key == UnitCode.M2).Sum(x => x.Value)));
+
+            return dic;
+        }
+        public string GetSpecQuantityString(Dictionary<UnitCode, decimal> dic)
+        {
+            return $"{dic.Where(x => x.Key == UnitCode.AD).First().Value.ToString("N0")} {UnitCode.AD}, {dic.Where(x => x.Key == UnitCode.M2).First().Value.ToString("N3")} {UnitCode.M2}";
         }
         public decimal Price => DailySalesReports.Sum(x => x.Price);
         public decimal PriceTax => DailySalesReports.Sum(x => x.PriceTax);

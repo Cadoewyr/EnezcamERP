@@ -124,6 +124,24 @@ namespace BL.Reports.SalesReports
                 return dic;
             }
         }
+        public Dictionary<UnitCode, decimal> GetSpecQuantity(Spec spec, ProductionType productionType)
+        {
+            Dictionary<UnitCode, decimal> dic = [];
+
+            switch (productionType)
+            {
+                case ProductionType.Produced:
+                    dic.Add(UnitCode.AD, OrderDetails.Where(x => x.Product.Type == ProcessType.ISICAM & x.Product.IsCounting & x.Specs.Any(s => s.Spec.ID == spec.ID)).Sum(x => x.Quantity));
+                    dic.Add(UnitCode.M2, OrderDetails.Where(x => x.Product.Type == ProcessType.ISICAM & x.Product.IsCounting & x.Specs.Any(s => s.Spec.ID == spec.ID)).Sum(x => x.TotalArea));
+                    break;
+                case ProductionType.Processed:
+                    dic.Add(UnitCode.AD, OrderDetails.Where(x => x.Product.Type == ProcessType.İŞLEME & x.Product.IsCounting & x.Specs.Any(s => s.Spec.ID == spec.ID)).Sum(x => x.Quantity));
+                    dic.Add(UnitCode.M2, OrderDetails.Where(x => x.Product.Type == ProcessType.İŞLEME & x.Product.IsCounting & x.Specs.Any(s => s.Spec.ID == spec.ID)).Sum(x => x.TotalArea));
+                    break;
+            }
+
+            return dic;
+        }
         public decimal Price => DailySalesEntries.Sum(x => x.FinalPrice);
         public decimal PriceTax => Price > 0 ? DailySalesEntries.Sum(x => x.FinalPrice * (x.TaxRatio / 100)) : 0;
         public decimal PriceWithTax => Price + PriceTax;
