@@ -22,7 +22,7 @@ namespace EnezcamERP.Forms.ColumnSettings
         {
             cbColumnSettings.Items.Clear();
 
-            foreach (var col in new ColumnSettingsRepository().GetAll().Where(x => x.FormName == form.Name).OrderBy(x=>x.DisplayIndex))
+            foreach (var col in new ColumnSettingsRepository().GetAll().Where(x => x.FormName == form.Name).OrderBy(x => x.DisplayIndex))
             {
                 cbColumnSettings.Items.Add(col.ColumnName, col.IsActive);
             }
@@ -54,7 +54,7 @@ namespace EnezcamERP.Forms.ColumnSettings
 
         private void cbCheckAll_CheckedChanged(object sender, EventArgs e)
         {
-            for(int i = 0;i < cbColumnSettings.Items.Count;i++)
+            for (int i = 0; i < cbColumnSettings.Items.Count; i++)
             {
                 cbColumnSettings.SetItemChecked(i, (sender as CheckBox).Checked);
             }

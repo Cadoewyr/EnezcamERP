@@ -23,7 +23,7 @@ namespace EnezcamERP.Forms
 
                 if (colSet != null && !colSet.IsActive)
                     col.Width = 0;
-                else if(colSet != null && colSet.IsActive)
+                else if (colSet != null && colSet.IsActive)
                     col.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
             }
         }

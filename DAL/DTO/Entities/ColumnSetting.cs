@@ -1,6 +1,4 @@
-﻿using Microsoft.Identity.Client;
-
-namespace DAL.DTO.Entities
+﻿namespace DAL.DTO.Entities
 {
     public record ColumnSetting : BaseEntity
     {

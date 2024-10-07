@@ -65,7 +65,7 @@ namespace BL.Reports.ProductionReports
 
             _monthlyOutgoings = new MonthlyOutgoingsRepository().GetAll(x => (x.Year >= DateRangeStart.Year & x.Month >= DateRangeStart.Month) & (x.Year <= DateRangeEnd.Year & x.Month <= DateRangeEnd.Month)).ToList();
 
-            if(_interval == ReportInterval.Daily)
+            if (_interval == ReportInterval.Daily)
             {
                 decimal outgoing = _IsOvertime ? (new OvertimeOutgoingsRepository().GetAll(x => x.Date.Date == date.Date).FirstOrDefault() != null ? new OvertimeOutgoingsRepository().GetAll(x => x.Date.Date == date.Date).FirstOrDefault().Outgoing : 0) : _monthlyOutgoings.Where(x => x.Month == date.Month & x.Year == date.Year).FirstOrDefault().Outgoing;
                 DailyProductionReports.Add(new(date, outgoing, _IsOvertime));
