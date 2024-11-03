@@ -77,7 +77,15 @@ namespace BL.Reports.ProductionReports
                     //check conditions
                     if (new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date & !x.IsOvertime).Count() > 0 || (int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5)
                     {
-                        DailyProductionReports.Add(new(date, (new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date & !x.IsOvertime).Count() > 0 || (int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5) && date.Date <= (_calculateAllInterval ? _dateRangeEnd : DateTime.Now.Date) ? (_interval == ReportInterval.Yearly ? _monthlyOutgoings.Where(x => x.Year == date.Year & x.Month >= date.Month).FirstOrDefault().Outgoing : _outgoing) : 0, false));
+                        bool hasProducedOrders = new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date & !x.IsOvertime).Count() > 0;
+                        bool isWeekday = (int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5;
+                        bool isWithinDateRange = date.Date <= (_calculateAllInterval ? _dateRangeEnd : DateTime.Now.Date);
+                        bool isYearlyReport = _interval == ReportInterval.Yearly;
+
+                        decimal res = (hasProducedOrders || isWeekday) && isWithinDateRange ?
+                                new MonthlyOutgoingsRepository().GetAll(x => x.Month == date.Month && date.Year == date.Year).FirstOrDefault().Outgoing //haftaiçi üretim varsa, rapor yıllık raporsa 
+                                : 0;
+                        DailyProductionReports.Add(new(date, res, false));
                     }
 
                     if (new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date & x.IsOvertime).Count() > 0)
