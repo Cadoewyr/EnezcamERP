@@ -123,7 +123,7 @@ namespace EnezcamERP.Forms.Order_Forms
 
                     if (cbUpdateSameProducts.Checked)
                     {
-                        var orderDetails = selectedOrderDetails.Count > 0 ? selectedOrderDetails : od.Order.OrderDetails;
+                        var orderDetails = selectedOrderDetails.Count > 1 ? selectedOrderDetails : od.Order.OrderDetails;
 
                         foreach (var item in orderDetails)
                         {
