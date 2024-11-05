@@ -6,16 +6,18 @@ namespace EnezcamERP.Forms.Order_Forms
 {
     public partial class EditOrderDetail : Form
     {
-        public EditOrderDetail(Form parentForm, OrderDetail orderDetail)
+        public EditOrderDetail(Form parentForm, OrderDetail orderDetail, List<OrderDetail> selectedOrderDetails)
         {
             InitializeComponent();
             this.parentForm = parentForm;
             this.orderDetail = orderDetail;
+            this.selectedOrderDetails = selectedOrderDetails;
             LoadForm(orderDetail);
         }
 
         Form parentForm;
         OrderDetail orderDetail;
+        List<OrderDetail> selectedOrderDetails;
         ProductRepository productRepository = new();
         OrderDetailsRepository orderDetailsRepository = new();
 
@@ -121,7 +123,9 @@ namespace EnezcamERP.Forms.Order_Forms
 
                     if (cbUpdateSameProducts.Checked)
                     {
-                        foreach (var item in od.Order.OrderDetails)
+                        var orderDetails = selectedOrderDetails.Count > 0 ? selectedOrderDetails : od.Order.OrderDetails;
+
+                        foreach (var item in orderDetails)
                         {
                             if (item.Product.ID == od.Product.ID)
                             {

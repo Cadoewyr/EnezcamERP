@@ -96,14 +96,16 @@ namespace EnezcamERP.Forms.Order_Forms
 
             foreach (var item in order.OrderDetails)
             {
+                var specs = item.Specs;
                 foreach (var prop in typeof(OrderDetail).GetProperties())
                 {
                     if (prop.GetValue(item) == null)
                         continue;
 
                     var value = prop.GetValue(item).ToString().ToLower();
+                    bool isMatchedWithSpecs = item.Specs.Any(x => x.Spec.Name.ToLower().Contains(filter.ToLower().Trim()));
 
-                    if (value.Contains(filter.ToLower().Trim()) && !results.Contains(item))
+                    if ((isMatchedWithSpecs | value.Contains(filter.ToLower().Trim())) && !results.Contains(item))
                     {
                         results.Add(item);
 
@@ -131,6 +133,7 @@ namespace EnezcamERP.Forms.Order_Forms
                         lvi.SubItems.Add(item.TotalArea.ToString("N3"));
                         lvi.SubItems.Add(item.Quantity.ToString("N0"));
                         lvi.SubItems.Add(item.UnitCode.ToString());
+                        lvi.SubItems.Add(string.Join(',', item.Specs.Select(x => x.Spec.Name.ToString())));
                         lvi.SubItems.Add(item.UnitCost.ToString("C2"));
                         lvi.SubItems.Add(item.UnitPrice.ToString("C2"));
 
@@ -413,7 +416,17 @@ namespace EnezcamERP.Forms.Order_Forms
         {
             if ((sender as ListView).SelectedItems.Count > 0)
             {
-                EditOrderDetail form = new(this, (sender as ListView).SelectedItems[0].Tag as OrderDetail);
+                List<OrderDetail> selectedOrderDetails = [];
+
+                if((sender as ListView).CheckedItems.Count > 0)
+                {
+                    foreach(ListViewItem item in (sender as ListView).CheckedItems)
+                    {
+                        selectedOrderDetails.Add(item.Tag as OrderDetail);
+                    }
+                }
+
+                EditOrderDetail form = new(this, (sender as ListView).SelectedItems[0].Tag as OrderDetail, selectedOrderDetails);
                 form.ShowDialog();
 
                 RefreshOrderDetails(order, txtSearchOrderDetail.Text, ColumnHeaderAutoResizeStyle.HeaderSize);

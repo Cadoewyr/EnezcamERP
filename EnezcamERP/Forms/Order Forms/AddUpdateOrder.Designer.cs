@@ -113,6 +113,7 @@
             checkAllToolStripMenuItem = new ToolStripMenuItem();
             checkSameProductsToolStripMenuItem = new ToolStripMenuItem();
             uncheckAllToolStripMenuItem = new ToolStripMenuItem();
+            clmProductSpecs = new ColumnHeader();
             gbOrderHeader.SuspendLayout();
             gbOrderDetails.SuspendLayout();
             gbOrderTotals.SuspendLayout();
@@ -780,7 +781,7 @@
             lvOrderDetails.AllowColumnReorder = true;
             lvOrderDetails.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lvOrderDetails.CheckBoxes = true;
-            lvOrderDetails.Columns.AddRange(new ColumnHeader[] { clmProductCode1, clmProductName1, clmSize, clmUnitArea, clmTotalArea, clmQuantity, clmProductUnitCode, clmUnitCost, clmUnitPrice, clmTaxRatio, clmProducedQuantity, clmRemainingQuantity, clmTotalCost, clmTotalPrice, clmTotalProfit, clmTotalProfitPercentage });
+            lvOrderDetails.Columns.AddRange(new ColumnHeader[] { clmProductCode1, clmProductName1, clmSize, clmUnitArea, clmTotalArea, clmQuantity, clmProductUnitCode, clmProductSpecs, clmUnitCost, clmUnitPrice, clmTaxRatio, clmProducedQuantity, clmRemainingQuantity, clmTotalCost, clmTotalPrice, clmTotalProfit, clmTotalProfitPercentage });
             lvOrderDetails.ContextMenuStrip = cmsAddUpdate;
             lvOrderDetails.FullRowSelect = true;
             lvOrderDetails.GridLines = true;
@@ -885,6 +886,10 @@
             uncheckAllToolStripMenuItem.Size = new Size(190, 24);
             uncheckAllToolStripMenuItem.Text = "Seçimleri Kaldır";
             uncheckAllToolStripMenuItem.Click += uncheckAllToolStripMenuItem_Click;
+            // 
+            // clmProductSpecs
+            // 
+            clmProductSpecs.Text = "Ürün Özellikleri";
             // 
             // AddUpdateOrder
             // 
@@ -1006,5 +1011,6 @@
         private Button btnUpdateLastCostPrice;
         private Button btnUpdateOrderDetailsSpecs;
         private Button btnColumnSettings;
+        private ColumnHeader clmProductSpecs;
     }
 }
