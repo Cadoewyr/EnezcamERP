@@ -89,6 +89,12 @@ namespace EnezcamERP.Forms.Order_Forms
                 Text = "İskonto Oranı",
                 DisplayIndex = 10
             };
+            ColumnHeader clmSpecs = new()
+            {
+                Name = "clmProductSpecs",
+                Text = "Özellikler",
+                DisplayIndex = 7
+            };
 
             ICollection<OrderDetail> results = [];
 
@@ -133,7 +139,15 @@ namespace EnezcamERP.Forms.Order_Forms
                         lvi.SubItems.Add(item.TotalArea.ToString("N3"));
                         lvi.SubItems.Add(item.Quantity.ToString("N0"));
                         lvi.SubItems.Add(item.UnitCode.ToString());
-                        lvi.SubItems.Add(string.Join(',', item.Specs.Select(x => x.Spec.Name.ToString())));
+
+                        if (order.OrderDetails.Any(x => x.Specs.Count > 0))
+                        {
+                            if (!lvOrderDetails.Columns.Contains(clmSpecs))
+                                lvOrderDetails.Columns.Insert(7, clmSpecs);
+
+                            lvi.SubItems.Add(string.Join(',', item.Specs.Select(x => x.Spec.Name.ToString())));
+                        }
+
                         lvi.SubItems.Add(item.UnitCost.ToString("C2"));
                         lvi.SubItems.Add(item.UnitPrice.ToString("C2"));
 
