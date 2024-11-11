@@ -830,6 +830,96 @@ namespace EnezcamERP
                 }
             }
         }
+        private void copyOrderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvOrders.CheckedItems.Count == 1)
+            {
+                var selectedOrder = lvOrders.CheckedItems[0].Tag as Order;
+
+                CopyOrder(selectedOrder);
+
+                RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+            }
+            else if (lvOrders.SelectedItems.Count == 1)
+            {
+                var selectedOrder = lvOrders.SelectedItems[0].Tag as Order;
+
+                CopyOrder(selectedOrder);
+
+                RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+            }
+            else
+            {
+                MessageBox.Show("Sadece kopyalanacak sipariþ seçilmelidir.");
+            }
+        }
+        void CopyOrder(Order order)
+        {
+            Order newOrder = new()
+            {
+                ID = 0,
+                Customer = order.Customer,
+                IssueDate = order.IssueDate,
+                JobNo = ordersDB.GetAll().Max(x => x.JobNo) + 1,
+                DeliveryDate = order.DeliveryDate,
+            };
+
+            List<OrderDetail> newOrderDetails = new();
+
+            foreach (OrderDetail detail in order.OrderDetails)
+            {
+                List<ProducedOrder> newProducedOrders = new();
+                List<OrderDetailSpec> newOrderDetailSpecs = new();
+
+                OrderDetail newOrderDetail = new()
+                {
+                    ID = 0,
+                    DiscountRatio = detail.DiscountRatio,
+                    Height = detail.Height,
+                    Order = newOrder,
+                    Product = detail.Product,
+                    Quantity = detail.Quantity,
+                    TaxRatio = detail.TaxRatio,
+                    UnitCode = detail.UnitCode,
+                    UnitPrice = detail.UnitPrice,
+                    UnitCost = detail.UnitCost,
+                    Width = detail.Width
+                };
+
+                foreach (ProducedOrder producedOrder in detail.ProducedOrders)
+                {
+                    newProducedOrders.Add(new()
+                    {
+                        ID = 0,
+                        IsOvertime = producedOrder.IsOvertime,
+                        IsStock = producedOrder.IsStock,
+                        OrderDetail = newOrderDetail,
+                        ProducedDate = producedOrder.ProducedDate,
+                        ProducedOrderQuantity = producedOrder.ProducedOrderQuantity
+                    });
+                }
+
+                foreach (OrderDetailSpec spec in detail.Specs)
+                {
+                    newOrderDetailSpecs.Add(new()
+                    {
+                        ID = 0,
+                        OrderDetail = newOrderDetail, // Burada yeni OrderDetail referansý kullanýlýyor
+                        Spec = spec.Spec
+                    });
+                }
+
+                newOrderDetail.Specs = newOrderDetailSpecs;
+                newOrderDetail.ProducedOrders = newProducedOrders;
+
+                newOrderDetails.Add(newOrderDetail);
+            }
+
+            newOrder.OrderDetails = newOrderDetails;
+
+            // Yeni Order nesnesini veri tabanýna ekleyebilirsiniz.
+            ordersDB.Add(newOrder);
+        }
         #endregion
 
         //Product controls

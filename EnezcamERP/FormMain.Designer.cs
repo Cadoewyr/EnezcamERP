@@ -177,6 +177,7 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
+            copyOrderToolStripMenuItem = new ToolStripMenuItem();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             gbOrdersTotals.SuspendLayout();
@@ -674,9 +675,9 @@
             // cmsOrders
             // 
             cmsOrders.ImageScalingSize = new Size(20, 20);
-            cmsOrders.Items.AddRange(new ToolStripItem[] { addOrderToolStripMenuItem, updateOrderToolStripMenuItem, deleteOrderToolStripMenuItem, productionHistoryToolStripMenuItem, kalanSiparişiTamamlaToolStripMenuItem, tümünüSeçToolStripMenuItem, aynıMüşterininSiparişleriniSeçToolStripMenuItem, seçimleriKaldırToolStripMenuItem });
+            cmsOrders.Items.AddRange(new ToolStripItem[] { addOrderToolStripMenuItem, updateOrderToolStripMenuItem, deleteOrderToolStripMenuItem, copyOrderToolStripMenuItem, productionHistoryToolStripMenuItem, kalanSiparişiTamamlaToolStripMenuItem, tümünüSeçToolStripMenuItem, aynıMüşterininSiparişleriniSeçToolStripMenuItem, seçimleriKaldırToolStripMenuItem });
             cmsOrders.Name = "cmsOrders";
-            cmsOrders.Size = new Size(289, 196);
+            cmsOrders.Size = new Size(289, 248);
             cmsOrders.Opening += cmsOrders_Opening;
             // 
             // addOrderToolStripMenuItem
@@ -1606,6 +1607,13 @@
             dgReport.Size = new Size(1275, 692);
             dgReport.TabIndex = 0;
             // 
+            // copyOrderToolStripMenuItem
+            // 
+            copyOrderToolStripMenuItem.Name = "copyOrderToolStripMenuItem";
+            copyOrderToolStripMenuItem.Size = new Size(288, 24);
+            copyOrderToolStripMenuItem.Text = "Siparişi Kopyala";
+            copyOrderToolStripMenuItem.Click += copyOrderToolStripMenuItem_Click;
+            // 
             // FormMain
             // 
             AcceptButton = btnCreateReport;
@@ -1800,5 +1808,6 @@
         private ColumnHeader clmTotalQuantity;
         private ColumnHeader clmTotalArea;
         private Button btnColumnSettings;
+        private ToolStripMenuItem copyOrderToolStripMenuItem;
     }
 }
