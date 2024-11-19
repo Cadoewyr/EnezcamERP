@@ -19,6 +19,7 @@ namespace EnezcamERP.Forms.Order_Forms
             this.orderDetails = orderDetails;
         }
 
+        public Form CallerForm { get; set; }
         OrderDetail[] orderDetails { get; set; } = null;
         OrderDetail orderDetail { get; set; } = null;
 
@@ -102,6 +103,10 @@ namespace EnezcamERP.Forms.Order_Forms
                 Update(orderDetails);
 
             (sender as Button).Enabled = false;
+
+            Order order = orderDetail != null ? orderDetail.Order : orderDetails[0].Order;
+
+            (CallerForm as AddUpdateOrder).RefreshOrderDetails(order, "", ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         private void lvOrderDetailsSpecs_ItemChecked(object sender, ItemCheckedEventArgs e)

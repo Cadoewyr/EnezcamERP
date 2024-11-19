@@ -260,20 +260,11 @@ namespace EnezcamERP.Forms.Order_Forms
 
             RefreshOrderDetails(order, txtSearchOrderDetail.Text, ColumnHeaderAutoResizeStyle.HeaderSize);
 
-            foreach (ListViewItem item in lvOrderDetails.Items)
-            {
-                if (!products.Exists(x => x.ID == (item.Tag as OrderDetail).Product.ID))
-                {
-                    selectedCount++;
-                    item.Checked = true;
-                }
-            }
-
-            MessageBox.Show($"{updatedCount} adet ürün güncellendi. Güncellenmeyen {selectedCount} adet ürün seçildi.");
+            MessageBox.Show($"{updatedCount} adet ürün güncellendi.");
         }
         void UpdateOrderDetailSpecs()
         {
-            if (lvOrderDetails.SelectedItems.Count > 0)
+            if (lvOrderDetails.CheckedItems.Count > 0)
             {
                 List<OrderDetail> orderDetails = [];
 
@@ -286,6 +277,23 @@ namespace EnezcamERP.Forms.Order_Forms
                 }
 
                 OrderDetailSpecs form = new(orderDetails.ToArray());
+                form.CallerForm = this;
+                form.ShowDialog();
+            }
+            else if (lvOrderDetails.SelectedItems.Count > 0)
+            {
+                List<OrderDetail> orderDetails = [];
+
+                foreach (ListViewItem lvi in lvOrderDetails.SelectedItems)
+                {
+                    if ((lvi.Tag as OrderDetail).Product.IsCounting)
+                        orderDetails.Add(lvi.Tag as OrderDetail);
+                    else
+                        lvi.Checked = false;
+                }
+
+                OrderDetailSpecs form = new(orderDetails.ToArray());
+                form.CallerForm = this;
                 form.ShowDialog();
             }
         }
@@ -432,9 +440,9 @@ namespace EnezcamERP.Forms.Order_Forms
             {
                 List<OrderDetail> selectedOrderDetails = [];
 
-                if((sender as ListView).CheckedItems.Count > 0)
+                if ((sender as ListView).CheckedItems.Count > 0)
                 {
-                    foreach(ListViewItem item in (sender as ListView).CheckedItems)
+                    foreach (ListViewItem item in (sender as ListView).CheckedItems)
                     {
                         selectedOrderDetails.Add(item.Tag as OrderDetail);
                     }
