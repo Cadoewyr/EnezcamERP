@@ -278,7 +278,9 @@ namespace EnezcamERP.Forms.Order_Forms
 
                 OrderDetailSpecs form = new(orderDetails.ToArray());
                 form.CallerForm = this;
-                form.ShowDialog();
+
+                if (orderDetails.Count > 0)
+                    form.ShowDialog();
             }
             else if (lvOrderDetails.SelectedItems.Count > 0)
             {
@@ -294,7 +296,9 @@ namespace EnezcamERP.Forms.Order_Forms
 
                 OrderDetailSpecs form = new(orderDetails.ToArray());
                 form.CallerForm = this;
-                form.ShowDialog();
+
+                if (orderDetails.Count > 0)
+                    form.ShowDialog();
             }
         }
 
