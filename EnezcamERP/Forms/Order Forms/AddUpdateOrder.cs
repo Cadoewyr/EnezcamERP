@@ -75,6 +75,13 @@ namespace EnezcamERP.Forms.Order_Forms
         }
         public void RefreshOrderDetails(Order order, string filter, ColumnHeaderAutoResizeStyle columnHeaderAutoResizeStyle)
         {
+            List<int> checkedOrderDetails = [];
+
+            foreach(ListViewItem item in lvOrderDetails.CheckedItems)
+            {
+                checkedOrderDetails.Add((item.Tag as OrderDetail).ID);
+            }
+
             lvOrderDetails.Items.Clear();
 
             ColumnHeader clmDiscountedUnitPrice = new()
@@ -170,6 +177,8 @@ namespace EnezcamERP.Forms.Order_Forms
                         lvi.SubItems.Add(item.FinalPrice.ToString("C2"));
                         lvi.SubItems.Add(item.Profit.ToString("C2"));
                         lvi.SubItems.Add(item.ProfitRatio.ToString("P2"));
+
+                        lvi.Checked = checkedOrderDetails.Contains(item.ID);
 
                         lvOrderDetails.Items.Add(lvi);
                     }
@@ -452,7 +461,8 @@ namespace EnezcamERP.Forms.Order_Forms
                     }
                 }
 
-                EditOrderDetail form = new(this, (sender as ListView).SelectedItems[0].Tag as OrderDetail, selectedOrderDetails);
+                EditOrderDetail form = new((sender as ListView).SelectedItems[0].Tag as OrderDetail, selectedOrderDetails);
+                form.CallerForm = this;
                 form.ShowDialog();
 
                 RefreshOrderDetails(order, txtSearchOrderDetail.Text, ColumnHeaderAutoResizeStyle.HeaderSize);

@@ -6,20 +6,19 @@ namespace EnezcamERP.Forms.Order_Forms
 {
     public partial class EditOrderDetail : Form
     {
-        public EditOrderDetail(Form parentForm, OrderDetail orderDetail, List<OrderDetail> selectedOrderDetails)
+        public EditOrderDetail(OrderDetail orderDetail, List<OrderDetail> selectedOrderDetails)
         {
             InitializeComponent();
-            this.parentForm = parentForm;
             this.orderDetail = orderDetail;
             this.selectedOrderDetails = selectedOrderDetails;
             LoadForm(orderDetail);
         }
 
-        Form parentForm;
         OrderDetail orderDetail;
         List<OrderDetail> selectedOrderDetails;
         ProductRepository productRepository = new();
         OrderDetailsRepository orderDetailsRepository = new();
+        public Form CallerForm { get; set; }
 
         void LoadProducts(Product[] products, Product selectedProduct)
         {
@@ -153,8 +152,8 @@ namespace EnezcamERP.Forms.Order_Forms
                         orderDetailsRepository.Update(od, orderDetail.ID);
 
                     LoadForm(orderDetail);
-                    (parentForm as AddUpdateOrder).RefreshOrderDetails(this.orderDetail.Order, "", ColumnHeaderAutoResizeStyle.HeaderSize);
-                    (parentForm as AddUpdateOrder).UpdateOrderTotals(orderDetail.Order);
+                    (CallerForm as AddUpdateOrder).RefreshOrderDetails(this.orderDetail.Order, "", ColumnHeaderAutoResizeStyle.HeaderSize);
+                    (CallerForm as AddUpdateOrder).UpdateOrderTotals(orderDetail.Order);
                     this.Close();
                 }
                 catch (Exception ex)
@@ -206,6 +205,7 @@ namespace EnezcamERP.Forms.Order_Forms
             if (orderDetail.Product.IsCounting)
             {
                 OrderDetailSpecs form = new(this.orderDetail);
+                form.CallerForm = CallerForm;
                 form.ShowDialog();
             }
         }

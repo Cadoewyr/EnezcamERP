@@ -38,6 +38,14 @@ namespace EnezcamERP
         public void RefreshOrders(ICollection<Order>? orders, ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
         {
             ListView listView = lvOrders;
+
+            List<int> checkedOrders = [];
+
+            foreach(ListViewItem item in listView.CheckedItems)
+            {
+                checkedOrders.Add((item.Tag as Order).ID);
+            }
+
             listView.Items.Clear();
 
             var items = orders ?? (!string.IsNullOrEmpty(txtSearchOrder.Text) ? ordersDB.GetAll(txtSearchOrder.Text.Trim().ToLower()).Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false).Skip(50 * (PageNumber - 1)).Take(50) : ordersDB.GetAll().Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false).Skip(50 * (PageNumber - 1)).Take(50));
@@ -60,7 +68,8 @@ namespace EnezcamERP
                 {
                     Text = item.JobNo.ToString(),
                     Tag = item,
-                    UseItemStyleForSubItems = false
+                    UseItemStyleForSubItems = false,
+                    Checked = checkedOrders.Contains(item.ID)
                 };
 
                 Color color;
@@ -189,9 +198,12 @@ namespace EnezcamERP
         }
         public void CheckExpiredOrders(bool checkListViewItems)
         {
-            foreach (ListViewItem item in lvOrders.CheckedItems)
+            if (checkListViewItems)
             {
-                item.Checked = false;
+                foreach (ListViewItem item in lvOrders.CheckedItems)
+                {
+                    item.Checked = false;
+                }
             }
 
             int i = 0;
