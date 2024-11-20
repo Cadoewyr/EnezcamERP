@@ -111,6 +111,14 @@ namespace EnezcamERP
         public void RefreshProducts(ICollection<Product>? products, ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
         {
             ListView listView = lvProducts;
+
+            List<int> checkedProducts = [];
+
+            foreach (ListViewItem item in listView.CheckedItems)
+            {
+                checkedProducts.Add((item.Tag as Product).ID);
+            }
+
             listView.Items.Clear();
 
             var items = products ?? productsDB.GetAll(txtSearchProduct.Text);
@@ -132,6 +140,8 @@ namespace EnezcamERP
                 lvi.SubItems.Add(item.PriceHistory.LastProfitRatio.ToString("P2"));
                 lvi.SubItems.Add(item.PriceHistory.UpdatedAt.ToShortDateString());
 
+                lvi.Checked = checkedProducts.Contains(item.ID); 
+
                 listView.Items.Add(lvi);
             }
 
@@ -141,6 +151,14 @@ namespace EnezcamERP
         public void RefreshCustomers(ICollection<Customer>? customers, ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
         {
             ListView listView = lvCustomers;
+
+            List<int> checkedCustomers = [];
+
+            foreach (ListViewItem item in listView.CheckedItems)
+            {
+                checkedCustomers.Add((item.Tag as Customer).ID);
+            }
+
             listView.Items.Clear();
 
             var items = customers ?? customersDB.GetAll(txtSearchCustomer.Text);
@@ -178,6 +196,8 @@ namespace EnezcamERP
                     lvi.SubItems.Add($"{new OrderDetailsRepository().GetAll(x => x.Order.Customer.ID == item.ID & x.Product.IsCounting).Sum(x => x.TotalArea)} M2");
                 else
                     lvi.SubItems.Add(string.Empty);
+
+                lvi.Checked = checkedCustomers.Contains(item.ID);
 
                 listView.Items.Add(lvi);
             }
