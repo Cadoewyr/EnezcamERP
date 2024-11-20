@@ -41,7 +41,7 @@ namespace EnezcamERP
 
             List<int> checkedOrders = [];
 
-            foreach(ListViewItem item in listView.CheckedItems)
+            foreach (ListViewItem item in listView.CheckedItems)
             {
                 checkedOrders.Add((item.Tag as Order).ID);
             }

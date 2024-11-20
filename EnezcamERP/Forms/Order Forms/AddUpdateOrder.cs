@@ -77,7 +77,7 @@ namespace EnezcamERP.Forms.Order_Forms
         {
             List<int> checkedOrderDetails = [];
 
-            foreach(ListViewItem item in lvOrderDetails.CheckedItems)
+            foreach (ListViewItem item in lvOrderDetails.CheckedItems)
             {
                 checkedOrderDetails.Add((item.Tag as OrderDetail).ID);
             }
