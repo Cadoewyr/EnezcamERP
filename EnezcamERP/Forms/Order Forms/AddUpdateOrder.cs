@@ -105,8 +105,6 @@ namespace EnezcamERP.Forms.Order_Forms
 
             ICollection<OrderDetail> results = [];
 
-            int index = 1;
-
             foreach (var item in order.OrderDetails)
             {
                 var specs = item.Specs;
