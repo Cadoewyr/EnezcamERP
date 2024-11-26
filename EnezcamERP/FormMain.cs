@@ -590,26 +590,7 @@ namespace EnezcamERP
         }
         void DeleteOrder()
         {
-            if (lvOrders.SelectedItems.Count > 0 & lvOrders.CheckedItems.Count == 0)
-            {
-                try
-                {
-                    if (MessageBox.Show("Sipariþ silinecek. Onaylýyor musunuz?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        foreach (ListViewItem item in lvOrders.SelectedItems)
-                        {
-                            ordersDB.Delete(item.Tag as Order);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-
-                RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
-            }
-            else if (lvOrders.CheckedItems.Count > 0 && MessageBox.Show("Seçilen sipariþler silinecektir. Onaylýyor musunuz?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (lvOrders.CheckedItems.Count > 0 && MessageBox.Show("Seçilen sipariþler silinecektir. Onaylýyor musunuz?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 try
                 {

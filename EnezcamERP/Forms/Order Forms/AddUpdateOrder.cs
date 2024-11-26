@@ -34,6 +34,28 @@ namespace EnezcamERP.Forms.Order_Forms
             RefreshUnitCode();
         }
 
+        //Global variables
+        #region
+        ColumnHeader clmDiscountedUnitPrice = new()
+        {
+            Name = "clmDiscountedUnitPrice",
+            Text = "İskontolu Birim Fiyat",
+            DisplayIndex = 9
+        };
+        ColumnHeader clmDiscountRatio = new()
+        {
+            Name = "clmDiscountRatio",
+            Text = "İskonto Oranı",
+            DisplayIndex = 10
+        };
+        ColumnHeader clmSpecs = new()
+        {
+            Name = "clmProductSpecs",
+            Text = "Özellikler",
+            DisplayIndex = 7
+        };
+        #endregion
+
         public void RefreshCustomers()
         {
             cbCustomers.Items.Clear();
@@ -83,25 +105,6 @@ namespace EnezcamERP.Forms.Order_Forms
             }
 
             lvOrderDetails.Items.Clear();
-
-            ColumnHeader clmDiscountedUnitPrice = new()
-            {
-                Name = "clmDiscountedUnitPrice",
-                Text = "İskontolu Birim Fiyat",
-                DisplayIndex = 9
-            };
-            ColumnHeader clmDiscountRatio = new()
-            {
-                Name = "clmDiscountRatio",
-                Text = "İskonto Oranı",
-                DisplayIndex = 10
-            };
-            ColumnHeader clmSpecs = new()
-            {
-                Name = "clmProductSpecs",
-                Text = "Özellikler",
-                DisplayIndex = 7
-            };
 
             ICollection<OrderDetail> results = [];
 
