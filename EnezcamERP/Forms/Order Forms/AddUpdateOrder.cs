@@ -162,10 +162,10 @@ namespace EnezcamERP.Forms.Order_Forms
                         if (order.OrderDetails.Any(x => x.DiscountRatio > 0))
                         {
                             if (!lvOrderDetails.Columns.Contains(clmDiscountedUnitPrice))
-                                lvOrderDetails.Columns.Insert(10, clmDiscountedUnitPrice);
+                                lvOrderDetails.Columns.Insert(9, clmDiscountedUnitPrice);
 
                             if (!lvOrderDetails.Columns.Contains(clmDiscountRatio))
-                                lvOrderDetails.Columns.Insert(11, clmDiscountRatio);
+                                lvOrderDetails.Columns.Insert(10, clmDiscountRatio);
 
                             lvi.SubItems.Add(item.FinalUnitPrice.ToString("C2"));
                             lvi.SubItems.Add((item.DiscountRatio / 100).ToString("P0"));
