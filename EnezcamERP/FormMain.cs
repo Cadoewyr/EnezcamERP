@@ -1143,7 +1143,7 @@ namespace EnezcamERP
         {
             if (report != null)
             {
-                SpecQuantities specQuantitiesForm = new(report);
+                SpecQuantities specQuantitiesForm = new(report); //
                 specQuantitiesForm.ShowDialog();
             }
         }
