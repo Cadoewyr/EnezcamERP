@@ -17,14 +17,11 @@ namespace DAL.DTO.Context
 
         IConfiguration _config;
 
-        private static EnzDBContext? _context;
-
         public static EnzDBContext GetInstance
         {
             get
             {
-                _context ??= new EnzDBContext();
-                return _context;
+                return new EnzDBContext();
             }
         }
 
