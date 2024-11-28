@@ -1098,7 +1098,6 @@ namespace EnezcamERP
             await Task.Run(() =>
             {
                 (sender as Button).Enabled = false;
-                btnProductSpecs.Enabled = false;
                 Cursor.Current = Cursors.WaitCursor;
 
                 var interval = rbDaily.Checked ? ReportInterval.Daily : (rbWeekly.Checked ? ReportInterval.Weekly : (rbMonthly.Checked ? ReportInterval.Monthly : (rbYearly.Checked ? ReportInterval.Yearly : ReportInterval.Daily)));
@@ -1126,7 +1125,6 @@ namespace EnezcamERP
                 }
 
                 Cursor.Current = Cursors.Default;
-                btnProductSpecs.Enabled = true;
                 (sender as Button).Enabled = true;
             });
         }
@@ -1154,14 +1152,12 @@ namespace EnezcamERP
                 await Task.Run(() =>
                 {
                     (sender as Button).Enabled = false;
-                    btnCreateReport.Enabled = false;
                     Cursor.Current = Cursors.WaitCursor;
 
                     SpecQuantities specQuantitiesForm = new(report);
                     specQuantitiesForm.ShowDialog();
 
                     Cursor.Current = Cursors.Default;
-                    btnCreateReport.Enabled = true;
                     (sender as Button).Enabled = true;
                 });
             }
