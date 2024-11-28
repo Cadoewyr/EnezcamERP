@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using Windows.Media.Capture;
 
 namespace EnezcamERP
 {

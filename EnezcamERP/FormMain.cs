@@ -25,7 +25,6 @@ namespace EnezcamERP
         public FormMain()
         {
             InitializeComponent();
-            CheckForIllegalCrossThreadCalls = false;
         }
 
         OrderRepository ordersDB = new();
@@ -1093,40 +1092,35 @@ namespace EnezcamERP
 
             nudOutgoing.Value = (cbIsOvertime.Enabled & cbIsOvertime.Checked) ? oOutgoing : mOutgoing;
         }
-        private async void btnCreateReport_Click(object sender, EventArgs e)
+        private void btnCreateReport_Click(object sender, EventArgs e)
         {
-            await Task.Run(() =>
+            (sender as Button).Enabled = false;
+
+            var interval = rbDaily.Checked ? ReportInterval.Daily : (rbWeekly.Checked ? ReportInterval.Weekly : (rbMonthly.Checked ? ReportInterval.Monthly : (rbYearly.Checked ? ReportInterval.Yearly : ReportInterval.Daily)));
+
+            if (cbIsOvertime.Enabled & cbIsOvertime.Checked & rbDaily.Checked)
+                AddOrUpdateOvertimeOutgoing(dtpDate.Value, nudOutgoing.Value);
+            else if (!cbIsOvertime.Enabled | !cbIsOvertime.Checked)
+                AddOrUpdateMonthlyOutgoing(dtpDate.Value, nudOutgoing.Value);
+
+            if (interval == ReportInterval.Yearly)
             {
-                (sender as Button).Enabled = false;
-                Cursor.Current = Cursors.WaitCursor;
+                FormYearlyReportCosts form = new(dtpDate.Value.Year);
+                form.ShowDialog();
+            }
 
-                var interval = rbDaily.Checked ? ReportInterval.Daily : (rbWeekly.Checked ? ReportInterval.Weekly : (rbMonthly.Checked ? ReportInterval.Monthly : (rbYearly.Checked ? ReportInterval.Yearly : ReportInterval.Daily)));
+            if (rbProduction.Checked)
+            {
+                report = (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, (cbIsOvertime.Enabled & cbIsOvertime.Checked));
+                FillProductionReport(dgReport, (DateRangedProductionReport)report);
+            }
+            else if (rbSales.Checked)
+            {
+                report = (DateRangedSalesReport)ReportCreator<DateRangedSalesReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, cbIsOvertime.Checked);
+                FillSalesReport(dgReport, (DateRangedSalesReport)report);
+            }
 
-                if (cbIsOvertime.Enabled & cbIsOvertime.Checked & rbDaily.Checked)
-                    AddOrUpdateOvertimeOutgoing(dtpDate.Value, nudOutgoing.Value);
-                else if (!cbIsOvertime.Enabled | !cbIsOvertime.Checked)
-                    AddOrUpdateMonthlyOutgoing(dtpDate.Value, nudOutgoing.Value);
-
-                if (interval == ReportInterval.Yearly)
-                {
-                    FormYearlyReportCosts form = new(dtpDate.Value.Year);
-                    form.ShowDialog();
-                }
-
-                if (rbProduction.Checked)
-                {
-                    report = (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, (cbIsOvertime.Enabled & cbIsOvertime.Checked));
-                    FillProductionReport(dgReport, (DateRangedProductionReport)report);
-                }
-                else if (rbSales.Checked)
-                {
-                    report = (DateRangedSalesReport)ReportCreator<DateRangedSalesReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, cbIsOvertime.Checked);
-                    FillSalesReport(dgReport, (DateRangedSalesReport)report);
-                }
-
-                Cursor.Current = Cursors.Default;
-                (sender as Button).Enabled = true;
-            });
+            (sender as Button).Enabled = true;
         }
         private void btnCopyTable_Click(object sender, EventArgs e)
         {
@@ -1145,21 +1139,12 @@ namespace EnezcamERP
         {
             RefreshOutgoingNumericUpDown();
         }
-        private async void btnSpecQuantity_Click(object sender, EventArgs e)
+        private void btnSpecQuantity_Click(object sender, EventArgs e)
         {
             if (report != null)
             {
-                await Task.Run(() =>
-                {
-                    (sender as Button).Enabled = false;
-                    Cursor.Current = Cursors.WaitCursor;
-
-                    SpecQuantities specQuantitiesForm = new(report);
-                    specQuantitiesForm.ShowDialog();
-
-                    Cursor.Current = Cursors.Default;
-                    (sender as Button).Enabled = true;
-                });
+                SpecQuantities specQuantitiesForm = new(report);
+                specQuantitiesForm.ShowDialog();
             }
         }
         private void RadioButtonCheckedChange(object sender, EventArgs e)
