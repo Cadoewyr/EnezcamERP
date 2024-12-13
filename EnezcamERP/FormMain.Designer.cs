@@ -83,6 +83,7 @@
             addOrderToolStripMenuItem = new ToolStripMenuItem();
             updateOrderToolStripMenuItem = new ToolStripMenuItem();
             deleteOrderToolStripMenuItem = new ToolStripMenuItem();
+            copyOrderToolStripMenuItem = new ToolStripMenuItem();
             productionHistoryToolStripMenuItem = new ToolStripMenuItem();
             kalanSiparişiTamamlaToolStripMenuItem = new ToolStripMenuItem();
             tümünüSeçToolStripMenuItem = new ToolStripMenuItem();
@@ -110,6 +111,9 @@
             clmLastUpdateDate = new ColumnHeader();
             tabCustomer = new TabPage();
             gbCustomers = new GroupBox();
+            lblDateRange = new Label();
+            dtpEnd = new DateTimePicker();
+            dtpStart = new DateTimePicker();
             btnColumnSettings = new Button();
             lblSearchCustomer = new Label();
             txtSearchCustomer = new TextBox();
@@ -177,7 +181,6 @@
             rbMonthly = new RadioButton();
             gbProductionReport = new GroupBox();
             dgReport = new DataGridView();
-            copyOrderToolStripMenuItem = new ToolStripMenuItem();
             tabOrders.SuspendLayout();
             gbOrders.SuspendLayout();
             gbOrdersTotals.SuspendLayout();
@@ -677,7 +680,7 @@
             cmsOrders.ImageScalingSize = new Size(20, 20);
             cmsOrders.Items.AddRange(new ToolStripItem[] { addOrderToolStripMenuItem, updateOrderToolStripMenuItem, deleteOrderToolStripMenuItem, copyOrderToolStripMenuItem, productionHistoryToolStripMenuItem, kalanSiparişiTamamlaToolStripMenuItem, tümünüSeçToolStripMenuItem, aynıMüşterininSiparişleriniSeçToolStripMenuItem, seçimleriKaldırToolStripMenuItem });
             cmsOrders.Name = "cmsOrders";
-            cmsOrders.Size = new Size(289, 248);
+            cmsOrders.Size = new Size(289, 220);
             cmsOrders.Opening += cmsOrders_Opening;
             // 
             // addOrderToolStripMenuItem
@@ -700,6 +703,13 @@
             deleteOrderToolStripMenuItem.Size = new Size(288, 24);
             deleteOrderToolStripMenuItem.Text = "Sil";
             deleteOrderToolStripMenuItem.Click += deleteOrderToolStripMenuItem_Click;
+            // 
+            // copyOrderToolStripMenuItem
+            // 
+            copyOrderToolStripMenuItem.Name = "copyOrderToolStripMenuItem";
+            copyOrderToolStripMenuItem.Size = new Size(288, 24);
+            copyOrderToolStripMenuItem.Text = "Siparişi Kopyala";
+            copyOrderToolStripMenuItem.Click += copyOrderToolStripMenuItem_Click;
             // 
             // productionHistoryToolStripMenuItem
             // 
@@ -916,6 +926,9 @@
             // gbCustomers
             // 
             gbCustomers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbCustomers.Controls.Add(lblDateRange);
+            gbCustomers.Controls.Add(dtpEnd);
+            gbCustomers.Controls.Add(dtpStart);
             gbCustomers.Controls.Add(btnColumnSettings);
             gbCustomers.Controls.Add(lblSearchCustomer);
             gbCustomers.Controls.Add(txtSearchCustomer);
@@ -931,12 +944,37 @@
             gbCustomers.TabStop = false;
             gbCustomers.Text = "Cariler";
             // 
+            // lblDateRange
+            // 
+            lblDateRange.AutoSize = true;
+            lblDateRange.Location = new Point(572, 29);
+            lblDateRange.Name = "lblDateRange";
+            lblDateRange.Size = new Size(88, 20);
+            lblDateRange.TabIndex = 8;
+            lblDateRange.Text = "Tarih Aralığı";
+            // 
+            // dtpEnd
+            // 
+            dtpEnd.Location = new Point(922, 26);
+            dtpEnd.Name = "dtpEnd";
+            dtpEnd.Size = new Size(250, 27);
+            dtpEnd.TabIndex = 7;
+            dtpEnd.ValueChanged += dtpEnd_ValueChanged;
+            // 
+            // dtpStart
+            // 
+            dtpStart.Location = new Point(666, 26);
+            dtpStart.Name = "dtpStart";
+            dtpStart.Size = new Size(250, 27);
+            dtpStart.TabIndex = 6;
+            dtpStart.ValueChanged += dtpStart_ValueChanged;
+            // 
             // btnColumnSettings
             // 
             btnColumnSettings.Location = new Point(406, 24);
             btnColumnSettings.Name = "btnColumnSettings";
             btnColumnSettings.Size = new Size(111, 29);
-            btnColumnSettings.TabIndex = 7;
+            btnColumnSettings.TabIndex = 5;
             btnColumnSettings.Text = "Sütun Ayarları";
             btnColumnSettings.UseVisualStyleBackColor = true;
             btnColumnSettings.Click += btnColumnSettings_Click;
@@ -968,7 +1006,7 @@
             btnRefreshCustomer.Location = new Point(306, 24);
             btnRefreshCustomer.Name = "btnRefreshCustomer";
             btnRefreshCustomer.Size = new Size(94, 29);
-            btnRefreshCustomer.TabIndex = 2;
+            btnRefreshCustomer.TabIndex = 4;
             btnRefreshCustomer.Text = "Yenile";
             btnRefreshCustomer.UseVisualStyleBackColor = true;
             btnRefreshCustomer.Click += btnRefreshCustomer_Click;
@@ -978,7 +1016,7 @@
             btnDeleteCustomer.Location = new Point(206, 24);
             btnDeleteCustomer.Name = "btnDeleteCustomer";
             btnDeleteCustomer.Size = new Size(94, 29);
-            btnDeleteCustomer.TabIndex = 2;
+            btnDeleteCustomer.TabIndex = 3;
             btnDeleteCustomer.Text = "Sil";
             btnDeleteCustomer.UseVisualStyleBackColor = true;
             btnDeleteCustomer.Click += btnDeleteCustomer_Click;
@@ -988,7 +1026,7 @@
             btnUpdateCustomer.Location = new Point(106, 24);
             btnUpdateCustomer.Name = "btnUpdateCustomer";
             btnUpdateCustomer.Size = new Size(94, 29);
-            btnUpdateCustomer.TabIndex = 3;
+            btnUpdateCustomer.TabIndex = 2;
             btnUpdateCustomer.Text = "Güncelle";
             btnUpdateCustomer.UseVisualStyleBackColor = true;
             btnUpdateCustomer.Click += btnUpdateCustomer_Click;
@@ -998,7 +1036,7 @@
             btnAddCustomer.Location = new Point(6, 24);
             btnAddCustomer.Name = "btnAddCustomer";
             btnAddCustomer.Size = new Size(94, 29);
-            btnAddCustomer.TabIndex = 4;
+            btnAddCustomer.TabIndex = 1;
             btnAddCustomer.Text = "Ekle";
             btnAddCustomer.UseVisualStyleBackColor = true;
             btnAddCustomer.Click += btnAddCustomer_Click;
@@ -1607,13 +1645,6 @@
             dgReport.Size = new Size(1275, 692);
             dgReport.TabIndex = 0;
             // 
-            // copyOrderToolStripMenuItem
-            // 
-            copyOrderToolStripMenuItem.Name = "copyOrderToolStripMenuItem";
-            copyOrderToolStripMenuItem.Size = new Size(288, 24);
-            copyOrderToolStripMenuItem.Text = "Siparişi Kopyala";
-            copyOrderToolStripMenuItem.Click += copyOrderToolStripMenuItem_Click;
-            // 
             // FormMain
             // 
             AcceptButton = btnCreateReport;
@@ -1809,5 +1840,8 @@
         private ColumnHeader clmTotalArea;
         private Button btnColumnSettings;
         private ToolStripMenuItem copyOrderToolStripMenuItem;
+        private Label lblDateRange;
+        private DateTimePicker dtpEnd;
+        private DateTimePicker dtpStart;
     }
 }

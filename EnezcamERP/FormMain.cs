@@ -140,7 +140,7 @@ namespace EnezcamERP
                 lvi.SubItems.Add(item.PriceHistory.LastProfitRatio.ToString("P2"));
                 lvi.SubItems.Add(item.PriceHistory.UpdatedAt.ToShortDateString());
 
-                lvi.Checked = checkedProducts.Contains(item.ID); 
+                lvi.Checked = checkedProducts.Contains(item.ID);
 
                 listView.Items.Add(lvi);
             }
@@ -183,17 +183,17 @@ namespace EnezcamERP
                 lvi.SubItems.Add(item.Address);
 
                 if (totalCustomerSalesColumn != null && totalCustomerSalesColumn.IsActive)
-                    lvi.SubItems.Add(ordersDB.GetAll(x => x.Customer.ID == item.ID).Sum(x => x.Price).ToString("C2"));
+                    lvi.SubItems.Add(ordersDB.GetAll(x => x.Customer.ID == item.ID & (x.IssueDate.Date >= dtpStart.Value.Date & x.IssueDate.Date <= dtpEnd.Value.Date)).Sum(x => x.Price).ToString("C2"));
                 else
                     lvi.SubItems.Add(string.Empty);
 
                 if (totalOrderedProductCountColumn != null && totalOrderedProductCountColumn.IsActive)
-                    lvi.SubItems.Add(new OrderDetailsRepository().GetAll(x => x.Order.Customer.ID == item.ID & x.Product.IsCounting).Sum(x => x.Quantity).ToString());
+                    lvi.SubItems.Add(new OrderDetailsRepository().GetAll(x => x.Order.Customer.ID == item.ID & x.Product.IsCounting & (x.Order.IssueDate.Date >= dtpStart.Value.Date & x.Order.IssueDate.Date <= dtpEnd.Value.Date)).Sum(x => x.Quantity).ToString());
                 else
                     lvi.SubItems.Add(string.Empty);
 
                 if (totalOrderedProductAreaColumn != null && totalOrderedProductAreaColumn.IsActive)
-                    lvi.SubItems.Add($"{new OrderDetailsRepository().GetAll(x => x.Order.Customer.ID == item.ID & x.Product.IsCounting).Sum(x => x.TotalArea)} M2");
+                    lvi.SubItems.Add($"{new OrderDetailsRepository().GetAll(x => x.Order.Customer.ID == item.ID & x.Product.IsCounting & (x.Order.IssueDate.Date >= dtpStart.Value.Date & x.Order.IssueDate.Date <= dtpEnd.Value.Date)).Sum(x => x.TotalArea)} M2");
                 else
                     lvi.SubItems.Add(string.Empty);
 
@@ -1041,6 +1041,16 @@ namespace EnezcamERP
             form.ShowDialog();
 
             RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+        private void dtpStart_ValueChanged(object sender, EventArgs e)
+        {
+            if(dtpStart.Value > dtpEnd.Value)
+                dtpStart.Value = dtpEnd.Value;
+        }
+        private void dtpEnd_ValueChanged(object sender, EventArgs e)
+        {
+            if(dtpEnd.Value < dtpStart.Value)
+                dtpEnd.Value = dtpStart.Value;
         }
         #endregion
 
