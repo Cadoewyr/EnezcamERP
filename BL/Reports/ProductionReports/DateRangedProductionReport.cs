@@ -33,7 +33,7 @@ namespace BL.Reports.ProductionReports
         }
         DateTime GetMonthEnd(DateTime date)
         {
-            return new DateTime(date.Year, date.Month + 1, 1).AddTicks(-1);
+            return new DateTime(date.Year, date.Month, 1).AddMonths(1).AddTicks(-1);
         }
         DateTime GetYearStart(DateTime date)
         {
@@ -41,7 +41,7 @@ namespace BL.Reports.ProductionReports
         }
         DateTime GetYearEnd(DateTime date)
         {
-            return new DateTime(date.Year + 1, 1, 1).AddTicks(-1);
+            return new DateTime(date.Year, 1, 1).AddYears(1).AddTicks(-1);
         }
 
         DateTime _dateRangeStart, _dateRangeEnd;
