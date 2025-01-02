@@ -73,7 +73,7 @@ namespace BL.Reports.SalesReports
                     bool isYearlyReport = _interval == ReportInterval.Yearly;
 
                     decimal res = (hasSoldOrders || isWeekday) && isWithinDateRange ?
-                                new MonthlyOutgoingsRepository().GetAll(x => x.Month == date.Month && date.Year == date.Year).FirstOrDefault().Outgoing //haftaiçi üretim varsa, rapor yıllık raporsa 
+                                new MonthlyOutgoingsRepository().GetAll(x => x.Month == date.Month && x.Year == date.Year).FirstOrDefault().Outgoing //haftaiçi üretim varsa, rapor yıllık raporsa 
                                 : 0;
 
                     DailySalesReports.Add(new(date, res));

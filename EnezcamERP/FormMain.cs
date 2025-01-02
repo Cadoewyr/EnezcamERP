@@ -1067,7 +1067,7 @@ namespace EnezcamERP
                     Outgoing = outgoing
                 });
             else if (res != null)
-                new OvertimeOutgoingsRepository().Update(res with
+                new OvertimeOutgoingsRepository().Update(new()
                 {
                     Outgoing = outgoing,
                     Date = date
@@ -1085,7 +1085,7 @@ namespace EnezcamERP
                     Outgoing = outgoing
                 });
             else if (res != null)
-                new MonthlyOutgoingsRepository().Update(res with
+                new MonthlyOutgoingsRepository().Update(new()
                 {
                     Month = date.Month,
                     Year = date.Year,
