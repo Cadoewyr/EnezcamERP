@@ -1044,12 +1044,12 @@ namespace EnezcamERP
         }
         private void dtpStart_ValueChanged(object sender, EventArgs e)
         {
-            if(dtpStart.Value > dtpEnd.Value)
+            if (dtpStart.Value > dtpEnd.Value)
                 dtpStart.Value = dtpEnd.Value;
         }
         private void dtpEnd_ValueChanged(object sender, EventArgs e)
         {
-            if(dtpEnd.Value < dtpStart.Value)
+            if (dtpEnd.Value < dtpStart.Value)
                 dtpEnd.Value = dtpStart.Value;
         }
         #endregion
