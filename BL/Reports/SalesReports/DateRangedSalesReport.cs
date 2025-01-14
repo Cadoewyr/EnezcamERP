@@ -1,5 +1,6 @@
 ﻿using BL.Report.Enums;
 using BL.Reports.Enums;
+using BL.Reports.ProductionReports;
 using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 using DAL.DTO.Entities.Enums;
@@ -77,6 +78,14 @@ namespace BL.Reports.SalesReports
                                 : 0;
 
                     DailySalesReports.Add(new(date, res));
+                }
+
+                if (new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date & x.IsOvertime).Count() > 0)
+                {
+                    OvertimeOutgoing overtimeOutgoing = new OvertimeOutgoingsRepository().GetAll(x => x.Date.Date == date.Date).FirstOrDefault();
+                    var outgoing = overtimeOutgoing != null ? overtimeOutgoing.Outgoing : 0;
+
+                    DailySalesReports.Add(new(date, outgoing));
                 }
 
                 date = date.AddDays(1);
