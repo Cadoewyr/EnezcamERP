@@ -16,6 +16,7 @@ using EnezcamERP.Forms.Product_Forms;
 using EnezcamERP.Forms.Product_Specs_Forms;
 using EnezcamERP.Forms.Report_Forms;
 using EnezcamERP.Forms.Yearly_Report_Cost_Form;
+using Newtonsoft.Json.Linq;
 using System.Text;
 
 namespace EnezcamERP
@@ -866,7 +867,7 @@ namespace EnezcamERP
                 MessageBox.Show("Sadece kopyalanacak sipariþ seçilmelidir.");
             }
         }
-        void CopyOrder(Order order)
+        private void CopyOrder(Order order)
         {
             Order newOrder = new()
             {
@@ -932,6 +933,88 @@ namespace EnezcamERP
 
             // Yeni Order nesnesini veri tabanýna ekleyebilirsiniz.
             ordersDB.Add(newOrder);
+        }
+        private void AddFromJSON_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fd = new()
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                Multiselect = false
+            };
+
+            string filePath;
+
+            if (fd.ShowDialog() == DialogResult.OK)
+            {
+                filePath = fd.FileName;
+            }
+            else
+                return;
+
+            Order tempOrder = new()
+            {
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Customer = customersDB.GetAll(x => x.Name == "PERAKENDE").First(),
+                IssueDate = DateTime.Now,
+                DeliveryDate = DateTime.Now.AddDays(1),
+                JobNo = ordersDB.GetAll().MaxBy(x => x.JobNo).JobNo + 1,
+                OrderDetails = []
+            };
+
+            string json = File.ReadAllText(filePath); // JSON dosyasýný oku
+            JObject jsonData = JObject.Parse(json);
+
+            foreach (var item in jsonData["data"])
+            {
+                decimal width = item["Width"].Value<decimal>();
+                decimal height = item["Height"].Value<decimal>();
+                int quantity = item["Quantity"].Value<int>();
+                string stockNo = item["StockNo"].ToString();
+                string stockName = item["StockName"].ToString();
+
+                Product product;
+
+                product = productsDB.GetAll(x => x.Code.Contains(stockNo.ToUpper())).FirstOrDefault();
+
+                if (product == null)
+                {
+                    productsDB.Add(new()
+                    {
+                        Code = stockNo,
+                        IsCounting = true,
+                        Name = stockName,
+                        CreatedAt = DateTime.Now,
+                        PriceHistory = new(),
+                        Type = DAL.DTO.Entities.Enums.ProcessType.ISICAM,
+                        UpdatedAt = DateTime.Now
+                    });
+                }
+
+                product = productsDB.GetAll(x => x.Code.Contains(stockNo.ToUpper())).FirstOrDefault();
+
+                tempOrder.OrderDetails.Add(new()
+                {
+                    CreatedAt = DateTime.Now,
+                    ProducedOrders = [],
+                    Specs = [],
+                    UnitCode = DAL.DTO.Entities.Enums.UnitCode.M2,
+                    Order = tempOrder,
+                    Height = (height / 1000),
+                    Width = (width / 1000),
+                    Quantity = quantity,
+                    TaxRatio = 20,
+                    DiscountRatio = 0,
+                    Product = product,
+                    UnitCost = product.PriceHistory.LastCost,
+                    UnitPrice = product.PriceHistory.LastPrice,
+                    UpdatedAt = DateTime.Now
+                });
+            }
+
+            ordersDB.Add(tempOrder);
+
+            RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         #endregion
 

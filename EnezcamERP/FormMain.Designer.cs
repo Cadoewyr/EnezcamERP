@@ -81,6 +81,7 @@
             clmCompletedDate = new ColumnHeader();
             cmsOrders = new ContextMenuStrip(components);
             addOrderToolStripMenuItem = new ToolStripMenuItem();
+            AddFromJSON = new ToolStripMenuItem();
             updateOrderToolStripMenuItem = new ToolStripMenuItem();
             deleteOrderToolStripMenuItem = new ToolStripMenuItem();
             copyOrderToolStripMenuItem = new ToolStripMenuItem();
@@ -678,9 +679,9 @@
             // cmsOrders
             // 
             cmsOrders.ImageScalingSize = new Size(20, 20);
-            cmsOrders.Items.AddRange(new ToolStripItem[] { addOrderToolStripMenuItem, updateOrderToolStripMenuItem, deleteOrderToolStripMenuItem, copyOrderToolStripMenuItem, productionHistoryToolStripMenuItem, kalanSiparişiTamamlaToolStripMenuItem, tümünüSeçToolStripMenuItem, aynıMüşterininSiparişleriniSeçToolStripMenuItem, seçimleriKaldırToolStripMenuItem });
+            cmsOrders.Items.AddRange(new ToolStripItem[] { addOrderToolStripMenuItem, AddFromJSON, updateOrderToolStripMenuItem, deleteOrderToolStripMenuItem, copyOrderToolStripMenuItem, productionHistoryToolStripMenuItem, kalanSiparişiTamamlaToolStripMenuItem, tümünüSeçToolStripMenuItem, aynıMüşterininSiparişleriniSeçToolStripMenuItem, seçimleriKaldırToolStripMenuItem });
             cmsOrders.Name = "cmsOrders";
-            cmsOrders.Size = new Size(289, 220);
+            cmsOrders.Size = new Size(289, 244);
             cmsOrders.Opening += cmsOrders_Opening;
             // 
             // addOrderToolStripMenuItem
@@ -689,6 +690,13 @@
             addOrderToolStripMenuItem.Size = new Size(288, 24);
             addOrderToolStripMenuItem.Text = "Ekle";
             addOrderToolStripMenuItem.Click += addOrderToolStripMenuItem_Click;
+            // 
+            // AddFromJSON
+            // 
+            AddFromJSON.Name = "AddFromJSON";
+            AddFromJSON.Size = new Size(288, 24);
+            AddFromJSON.Text = "JSON ile Ekle";
+            AddFromJSON.Click += AddFromJSON_Click;
             // 
             // updateOrderToolStripMenuItem
             // 
@@ -1843,5 +1851,6 @@
         private Label lblDateRange;
         private DateTimePicker dtpEnd;
         private DateTimePicker dtpStart;
+        private ToolStripMenuItem AddFromJSON;
     }
 }
