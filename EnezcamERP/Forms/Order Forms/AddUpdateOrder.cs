@@ -391,7 +391,7 @@ namespace EnezcamERP.Forms.Order_Forms
                     MessageBox.Show(ex.Message);
 
                     if (!IsUpdate)
-                        ControlCleaner.Clear(this.Controls);
+                        ControlCleaner.Clear(this.Controls, txtJobNo);
                 }
             }
         }

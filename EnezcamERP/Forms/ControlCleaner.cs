@@ -2,10 +2,13 @@
 {
     public static class ControlCleaner
     {
-        public static void Clear(Control.ControlCollection controls)
+        public static void Clear(Control.ControlCollection controls, Control? exception = null)
         {
             foreach (Control control in controls)
             {
+                if (exception != null && exception == control)
+                    continue;
+
                 if (control is TextBox)
                     control.Text = string.Empty;
 
@@ -19,7 +22,7 @@
                     (control as NumericUpDown).Value = (control as NumericUpDown).Minimum;
 
                 if (control.Controls.Count > 0)
-                    Clear(control.Controls);
+                    Clear(control.Controls, exception);
             }
 
             for (int i = 0; i < controls.Count; i++)
