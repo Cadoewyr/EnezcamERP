@@ -16,7 +16,6 @@ using EnezcamERP.Forms.Product_Forms;
 using EnezcamERP.Forms.Product_Specs_Forms;
 using EnezcamERP.Forms.Report_Forms;
 using EnezcamERP.Forms.Yearly_Report_Cost_Form;
-using EnezcamERP.Validators;
 using Newtonsoft.Json.Linq;
 using System.Text;
 
@@ -165,7 +164,7 @@ namespace EnezcamERP
 
             var items = customers ?? customersDB.GetAll(txtSearchCustomer.Text);
 
-            foreach (var item in items)
+            foreach (var item in items.OrderBy(x => x.Name))
             {
                 ListViewItem lvi = new()
                 {

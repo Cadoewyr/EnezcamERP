@@ -42,7 +42,7 @@ namespace BL.Repositories.Repositories
                 {
                     var value = prop.GetValue(entity).ToString().ToLower();
 
-                    if (value.Contains(filter.ToLower()) && !results.Contains(entity))
+                    if (value.Contains(filter.ToLower().Trim()) && !results.Contains(entity))
                     {
                         results.Add(entity);
                         continue;
