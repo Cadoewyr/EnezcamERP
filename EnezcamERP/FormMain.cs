@@ -1001,23 +1001,33 @@ namespace EnezcamERP
 
                     product = productsDB.GetAll(x => x.Code == stockNo.ToUpper()).FirstOrDefault();
 
-                    tempOrder.OrderDetails.Add(new()
+                    var tempOrderDetail = new OrderDetail()
                     {
                         CreatedAt = DateTime.Now,
                         ProducedOrders = [],
                         Specs = [],
-                        UnitCode = DAL.DTO.Entities.Enums.UnitCode.M2,
+                        UnitCode = ((int)item["PackageID"]) == 200 ? DAL.DTO.Entities.Enums.UnitCode.AD : DAL.DTO.Entities.Enums.UnitCode.M2,
                         Order = tempOrder,
-                        Height = (height / 1000),
-                        Width = (width / 1000),
+                        Height = height / 1000,
+                        Width = width / 1000,
                         Quantity = quantity,
                         TaxRatio = 20,
                         DiscountRatio = 0,
                         Product = product,
                         UnitCost = product.PriceHistory.LastCost,
-                        UnitPrice = product.PriceHistory.LastPrice,
+                        UnitPrice = (decimal)item["UnitPrice"],
                         UpdatedAt = DateTime.Now
-                    });
+                    };
+
+                    if ((bool)item["IsShape"])
+                        tempOrderDetail.Specs.Add(new OrderDetailSpec()
+                        {
+                            CreatedAt = DateTime.Now,
+                            OrderDetail = tempOrderDetail,
+                            Spec = new SpecRepository().GetAll(x => x.Name.ToUpper() == "ÞABLON").FirstOrDefault()
+                        });
+
+                    tempOrder.OrderDetails.Add(tempOrderDetail);
                 }
 
                 ordersDB.Add(tempOrder);
