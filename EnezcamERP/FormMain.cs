@@ -1015,17 +1015,23 @@ namespace EnezcamERP
                         DiscountRatio = 0,
                         Product = product,
                         UnitCost = product.PriceHistory.LastCost,
-                        UnitPrice = (decimal)item["UnitPrice"],
+                        UnitPrice = (decimal)item["UnitPrice"] == 0 ? (tempOrder.OrderDetails.Any(x => x.FinalUnitPrice > 0) ? tempOrder.OrderDetails.First(x => x.FinalUnitPrice > 0).FinalUnitPrice : (decimal)item["UnitPrice"]) : (decimal)item["UnitPrice"],
                         UpdatedAt = DateTime.Now
                     };
 
                     if ((bool)item["IsShape"])
+                    {
                         tempOrderDetail.Specs.Add(new OrderDetailSpec()
                         {
                             CreatedAt = DateTime.Now,
                             OrderDetail = tempOrderDetail,
                             Spec = new SpecRepository().GetAll(x => x.Name.ToUpper() == "ÞABLON").FirstOrDefault()
                         });
+
+                        if ((decimal)item["UnitPrice"] == 0)
+                            tempOrderDetail.UnitPrice *= (decimal)1.25;
+                    }
+
 
                     tempOrder.OrderDetails.Add(tempOrderDetail);
                 }

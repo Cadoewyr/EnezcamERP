@@ -1,4 +1,3 @@
-using EnezcamERP.Validators;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
@@ -40,13 +39,13 @@ namespace EnezcamERP
 
                 _config = builder.Build();
 
-                using(SqlConnection conn = new SqlConnection(_config["ConnectionStrings:DefaultConnection"]))
+                using (SqlConnection conn = new SqlConnection(_config["ConnectionStrings:DefaultConnection"]))
                 {
                     conn.Open();
                     return conn.State == System.Data.ConnectionState.Open;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Veritabaný baðlantý hatasý: " + ex.Message);
                 return false;
