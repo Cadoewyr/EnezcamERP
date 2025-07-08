@@ -663,6 +663,9 @@ namespace EnezcamERP
         }
         private void btnUpdateOrder_Click(object sender, EventArgs e)
         {
+            bool isChecked = (sender as ListView).SelectedItems[0].Checked;
+            (sender as ListView).SelectedItems[0].Checked = !isChecked;
+
             UpdateOrder();
         }
         private void btnDeleteOrder_Click(object sender, EventArgs e)
@@ -1028,8 +1031,8 @@ namespace EnezcamERP
                             Spec = new SpecRepository().GetAll(x => x.Name.ToUpper() == "ÞABLON").FirstOrDefault()
                         });
 
-                        if ((decimal)item["UnitPrice"] == 0)
-                            tempOrderDetail.UnitPrice *= (decimal)1.25;
+                        //if ((decimal)item["UnitPrice"] == 0)
+                        //    tempOrderDetail.UnitPrice *= (decimal)1.25;
                     }
 
 
