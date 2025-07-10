@@ -606,6 +606,7 @@
             // 
             // lvOrders
             // 
+            lvOrders.AllowDrop = true;
             lvOrders.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             lvOrders.CheckBoxes = true;
             lvOrders.Columns.AddRange(new ColumnHeader[] { clmJobNo, clmCustomer, clmIssueDate, clmDeliveryDate, clmQuantity, clmProducedQuantity, clmRemainingQuantity, clmPrice, clmPriceWithTax, clmProfit, clmProfitRatio, clmIsDone, clmCompletedDate });
@@ -621,6 +622,8 @@
             lvOrders.View = View.Details;
             lvOrders.ItemChecked += lvOrders_ItemChecked;
             lvOrders.SelectedIndexChanged += lvOrders_SelectedIndexChanged;
+            lvOrders.DragDrop += lvOrders_DragDrop;
+            lvOrders.DragEnter += lvOrders_DragEnter;
             lvOrders.DoubleClick += btnUpdateOrder_Click;
             lvOrders.KeyDown += ListView_KeyDown;
             // 

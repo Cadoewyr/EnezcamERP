@@ -264,6 +264,101 @@ namespace EnezcamERP
 
             return sb.ToString();
         }
+        public void AddFromJSONFile(string context)
+        {
+            try
+            {
+                Order tempOrder = new()
+                {
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
+                    Customer = customersDB.GetAll(x => x.Name == "PERAKENDE").First(),
+                    IssueDate = DateTime.Now,
+                    DeliveryDate = DateTime.Now.AddDays(1),
+                    JobNo = ordersDB.GetAll().MaxBy(x => x.JobNo).JobNo + 1,
+                    OrderDetails = []
+                };
+
+                JObject jsonData = JObject.Parse(context);
+
+                foreach (var item in jsonData["data"])
+                {
+                    decimal width = item["Width"].Value<decimal>();
+                    decimal height = item["Height"].Value<decimal>();
+                    int quantity = item["Quantity"].Value<int>();
+                    string stockNo = item["StockNo"].ToString();
+                    string stockName = item["StockName"].ToString();
+
+                    Product product;
+
+                    product = productsDB.GetAll(x => x.Code == stockNo.ToUpper()).FirstOrDefault();
+
+                    if (product == null)
+                    {
+                        productsDB.Add(new()
+                        {
+                            Code = stockNo,
+                            IsCounting = true,
+                            Name = stockName,
+                            CreatedAt = DateTime.Now,
+                            PriceHistory = new()
+                            {
+                                LastCost = 1,
+                                LastPrice = 1,
+                                CreatedAt = DateTime.Now,
+                                UpdatedAt = DateTime.Now
+                            },
+                            Type = DAL.DTO.Entities.Enums.ProcessType.ISICAM,
+                            UpdatedAt = DateTime.Now
+                        });
+                    }
+
+                    product = productsDB.GetAll(x => x.Code == stockNo.ToUpper()).FirstOrDefault();
+
+                    var tempOrderDetail = new OrderDetail()
+                    {
+                        CreatedAt = DateTime.Now,
+                        ProducedOrders = [],
+                        Specs = [],
+                        UnitCode = ((int)item["PackageID"]) == 200 ? DAL.DTO.Entities.Enums.UnitCode.AD : DAL.DTO.Entities.Enums.UnitCode.M2,
+                        Order = tempOrder,
+                        Height = height / 1000,
+                        Width = width / 1000,
+                        Quantity = quantity,
+                        TaxRatio = 20,
+                        DiscountRatio = 0,
+                        Product = product,
+                        UnitCost = product.PriceHistory.LastCost,
+                        UnitPrice = (decimal)item["UnitPrice"] == 0 ? (tempOrder.OrderDetails.Any(x => x.FinalUnitPrice > 0) ? tempOrder.OrderDetails.First(x => x.FinalUnitPrice > 0).FinalUnitPrice : (decimal)item["UnitPrice"]) : (decimal)item["UnitPrice"],
+                        UpdatedAt = DateTime.Now
+                    };
+
+                    if ((bool)item["IsShape"])
+                    {
+                        tempOrderDetail.Specs.Add(new OrderDetailSpec()
+                        {
+                            CreatedAt = DateTime.Now,
+                            OrderDetail = tempOrderDetail,
+                            Spec = new SpecRepository().GetAll(x => x.Name.ToUpper() == "ÞABLON").FirstOrDefault()
+                        });
+
+                        //if ((decimal)item["UnitPrice"] == 0)
+                        //    tempOrderDetail.UnitPrice *= (decimal)1.25;
+                    }
+
+
+                    tempOrder.OrderDetails.Add(tempOrderDetail);
+                }
+
+                ordersDB.Add(tempOrder);
+
+                RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
         void FillProductionReport(DataGridView dataGrid, DateRangedProductionReport report)
         {
@@ -939,114 +1034,24 @@ namespace EnezcamERP
         }
         private void AddFromJSON_Click(object sender, EventArgs e)
         {
-            try
+            OpenFileDialog fd = new()
             {
-                OpenFileDialog fd = new()
-                {
-                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                    Multiselect = false
-                };
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                Multiselect = false
+            };
 
-                string filePath;
+            string filePath;
 
-                if (fd.ShowDialog() == DialogResult.OK)
-                {
-                    filePath = fd.FileName;
-                }
-                else
-                    return;
-
-                Order tempOrder = new()
-                {
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now,
-                    Customer = customersDB.GetAll(x => x.Name == "PERAKENDE").First(),
-                    IssueDate = DateTime.Now,
-                    DeliveryDate = DateTime.Now.AddDays(1),
-                    JobNo = ordersDB.GetAll().MaxBy(x => x.JobNo).JobNo + 1,
-                    OrderDetails = []
-                };
-
-                string json = File.ReadAllText(filePath); // JSON dosyasýný oku
-                JObject jsonData = JObject.Parse(json);
-
-                foreach (var item in jsonData["data"])
-                {
-                    decimal width = item["Width"].Value<decimal>();
-                    decimal height = item["Height"].Value<decimal>();
-                    int quantity = item["Quantity"].Value<int>();
-                    string stockNo = item["StockNo"].ToString();
-                    string stockName = item["StockName"].ToString();
-
-                    Product product;
-
-                    product = productsDB.GetAll(x => x.Code == stockNo.ToUpper()).FirstOrDefault();
-
-                    if (product == null)
-                    {
-                        productsDB.Add(new()
-                        {
-                            Code = stockNo,
-                            IsCounting = true,
-                            Name = stockName,
-                            CreatedAt = DateTime.Now,
-                            PriceHistory = new()
-                            {
-                                LastCost = 1,
-                                LastPrice = 1,
-                                CreatedAt = DateTime.Now,
-                                UpdatedAt = DateTime.Now
-                            },
-                            Type = DAL.DTO.Entities.Enums.ProcessType.ISICAM,
-                            UpdatedAt = DateTime.Now
-                        });
-                    }
-
-                    product = productsDB.GetAll(x => x.Code == stockNo.ToUpper()).FirstOrDefault();
-
-                    var tempOrderDetail = new OrderDetail()
-                    {
-                        CreatedAt = DateTime.Now,
-                        ProducedOrders = [],
-                        Specs = [],
-                        UnitCode = ((int)item["PackageID"]) == 200 ? DAL.DTO.Entities.Enums.UnitCode.AD : DAL.DTO.Entities.Enums.UnitCode.M2,
-                        Order = tempOrder,
-                        Height = height / 1000,
-                        Width = width / 1000,
-                        Quantity = quantity,
-                        TaxRatio = 20,
-                        DiscountRatio = 0,
-                        Product = product,
-                        UnitCost = product.PriceHistory.LastCost,
-                        UnitPrice = (decimal)item["UnitPrice"] == 0 ? (tempOrder.OrderDetails.Any(x => x.FinalUnitPrice > 0) ? tempOrder.OrderDetails.First(x => x.FinalUnitPrice > 0).FinalUnitPrice : (decimal)item["UnitPrice"]) : (decimal)item["UnitPrice"],
-                        UpdatedAt = DateTime.Now
-                    };
-
-                    if ((bool)item["IsShape"])
-                    {
-                        tempOrderDetail.Specs.Add(new OrderDetailSpec()
-                        {
-                            CreatedAt = DateTime.Now,
-                            OrderDetail = tempOrderDetail,
-                            Spec = new SpecRepository().GetAll(x => x.Name.ToUpper() == "ÞABLON").FirstOrDefault()
-                        });
-
-                        //if ((decimal)item["UnitPrice"] == 0)
-                        //    tempOrderDetail.UnitPrice *= (decimal)1.25;
-                    }
-
-
-                    tempOrder.OrderDetails.Add(tempOrderDetail);
-                }
-
-                ordersDB.Add(tempOrder);
-
-                RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
-            }
-            catch (Exception ex)
+            if (fd.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show(ex.Message);
+                filePath = fd.FileName;
             }
+            else
+                return;
+
+            string json = File.ReadAllText(filePath); // JSON dosyasýný oku
+
+            AddFromJSONFile(json);
         }
         #endregion
 
@@ -1335,6 +1340,48 @@ namespace EnezcamERP
                 RefreshCustomers(null, ColumnHeaderAutoResizeStyle.HeaderSize);
 
             customerTabLoaded = true;
+        }
+
+        private void lvOrders_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                if (files != null && files.Length > 0)
+                {
+                    foreach (var file in files)
+                    {
+                        if (Path.GetExtension(file).Equals(".json", StringComparison.OrdinalIgnoreCase) ||
+                            Path.GetExtension(file).Equals(".js", StringComparison.OrdinalIgnoreCase))
+                        {
+                            string content = File.ReadAllText(file);
+                            AddFromJSONFile(content);
+                        }
+                    }
+                }
+            }
+            else if (e.Data.GetDataPresent(DataFormats.UnicodeText) || e.Data.GetDataPresent(DataFormats.Text))
+            {
+                string droppedText = (string)(e.Data.GetData(DataFormats.UnicodeText) ?? e.Data.GetData(DataFormats.Text));
+                AddFromJSONFile(droppedText);
+            }
+        }
+        private void lvOrders_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                if (files.Length > 0 && (Path.GetExtension(files[0]).Equals(".json", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(files[0]).Equals(".js", StringComparison.OrdinalIgnoreCase)))
+                    e.Effect = DragDropEffects.Copy;
+                else
+                    e.Effect = DragDropEffects.None;
+            }
+            else if (e.Data.GetDataPresent(DataFormats.UnicodeText) || e.Data.GetDataPresent(DataFormats.Text))
+                e.Effect = DragDropEffects.Copy;
+            else
+                e.Effect = DragDropEffects.None;
         }
         #endregion
     }
