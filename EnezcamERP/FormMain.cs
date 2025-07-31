@@ -365,6 +365,8 @@ namespace EnezcamERP
             dataGrid.Rows.Clear();
             dataGrid.Columns.Clear();
 
+            bool isOvervalued = false;
+
             switch (report.Interval)
             {
                 case ReportInterval.Daily:
@@ -393,6 +395,11 @@ namespace EnezcamERP
                                 r.Profit.ToString("C2"),
                                 r.ProfitRatio.ToString("P0")
                                 );
+
+                            isOvervalued = r.ProfitRatio >= 200;
+
+                            if (isOvervalued)
+                                dataGrid.Rows[dataGrid.Rows.Count - 1].Cells[dataGrid.Columns["clmProfitRatio"].Index].Style.BackColor = Color.PaleVioletRed;
                         }
                     }
                     break;
@@ -479,6 +486,8 @@ namespace EnezcamERP
             dataGrid.Rows.Clear();
             dataGrid.Columns.Clear();
 
+            bool isOvervalued = false;
+
             switch (report.Interval)
             {
                 case ReportInterval.Daily:
@@ -507,6 +516,11 @@ namespace EnezcamERP
                                 r.Profit.ToString("C2"),
                                 r.ProfitRatio.ToString("P0")
                                 );
+
+                            isOvervalued = r.ProfitRatio >= 200;
+
+                            if (isOvervalued)
+                                dataGrid.Rows[dataGrid.Rows.Count - 1].Cells[dataGrid.Columns["clmProfitRatio"].Index].Style.BackColor = Color.PaleVioletRed;
                         }
                     }
                     break;
