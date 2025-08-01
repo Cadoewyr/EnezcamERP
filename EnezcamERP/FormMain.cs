@@ -396,7 +396,7 @@ namespace EnezcamERP
                                 r.ProfitRatio.ToString("P0")
                                 );
 
-                            isOvervalued = r.ProfitRatio >= 200;
+                            isOvervalued = r.ProfitRatio >= 2;
 
                             if (isOvervalued)
                                 dataGrid.Rows[dataGrid.Rows.Count - 1].Cells[dataGrid.Columns["clmProfitRatio"].Index].Style.BackColor = Color.PaleVioletRed;
@@ -517,7 +517,7 @@ namespace EnezcamERP
                                 r.ProfitRatio.ToString("P0")
                                 );
 
-                            isOvervalued = r.ProfitRatio >= 200;
+                            isOvervalued = r.ProfitRatio >= 2;
 
                             if (isOvervalued)
                                 dataGrid.Rows[dataGrid.Rows.Count - 1].Cells[dataGrid.Columns["clmProfitRatio"].Index].Style.BackColor = Color.PaleVioletRed;
