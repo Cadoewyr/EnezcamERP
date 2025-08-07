@@ -2,7 +2,6 @@
 using BL.Reports.Enums;
 using BL.Reports.ProductionReports;
 using BL.Reports.SalesReports;
-using BL.Repositories.Repositories;
 using DAL.DTO.Entities;
 
 namespace BL.Reports
