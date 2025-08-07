@@ -7,13 +7,19 @@ namespace BL.Reports.ProductionReports
 {
     public class DailyProductionReport
     {
-        public DailyProductionReport(DateTime date, decimal outgoing, bool IsOvertime)
+        public DailyProductionReport(DateTime date, IEnumerable<Order> orders, decimal outgoing, bool IsOvertime)
         {
             _date = date.Date;
             _outgoing = outgoing;
             _IsOvertime = IsOvertime;
+            _orders = orders;
 
             ProducedOrders.AddRange(producedOrdersDB.GetAll(x => x.ProducedDate.Date == date.Date & !x.IsStock & x.IsOvertime == _IsOvertime));
+
+            if (_orders != null && _orders.Any())
+                ProducedOrders.AddRange(_orders.Where(x => x.IssueDate.Date == date.Date).SelectMany(x => x.OrderDetails.SelectMany(y => y.ProducedOrders.Where(z => !z.IsStock & z.IsOvertime == _IsOvertime))));
+            else
+                ProducedOrders.AddRange(producedOrdersDB.GetAll(x => x.ProducedDate.Date == date.Date & !x.IsStock & x.IsOvertime == _IsOvertime));
 
             ProducedOrders = MergeProducedOrders(ProducedOrders);
             CreateEntries(ProducedOrders);
@@ -98,6 +104,8 @@ namespace BL.Reports.ProductionReports
 
             return mergedProducedOrders.ToList();
         }
+
+        IEnumerable<Order> _orders;
 
         decimal _outgoing;
         public decimal Outgoing => _outgoing;

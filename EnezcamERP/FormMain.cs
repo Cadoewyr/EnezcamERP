@@ -1067,6 +1067,10 @@ namespace EnezcamERP
 
             AddFromJSONFile(json);
         }
+        private void createCustomReport_Click(object sender, EventArgs e)
+        {
+
+        }
         #endregion
 
         //Product controls
@@ -1266,6 +1270,65 @@ namespace EnezcamERP
 
             (sender as Button).Enabled = true;
         }
+        private void btnCreateCustomReport_Click(object sender, EventArgs e)
+        {
+            (sender as Button).Enabled = false;
+
+            var interval = rbDaily.Checked ? ReportInterval.Daily : (rbWeekly.Checked ? ReportInterval.Weekly : (rbMonthly.Checked ? ReportInterval.Monthly : (rbYearly.Checked ? ReportInterval.Yearly : ReportInterval.Daily)));
+
+            if (cbIsOvertime.Enabled & cbIsOvertime.Checked & rbDaily.Checked)
+                AddOrUpdateOvertimeOutgoing(dtpDate.Value, nudOutgoing.Value);
+            else if (!cbIsOvertime.Enabled | !cbIsOvertime.Checked)
+                AddOrUpdateMonthlyOutgoing(dtpDate.Value, nudOutgoing.Value);
+
+            if (interval == ReportInterval.Yearly)
+            {
+                FormYearlyReportCosts form = new(dtpDate.Value.Year);
+                form.ShowDialog();
+            }
+
+            IEnumerable<Order> orders = null;
+
+            if (lvOrders.CheckedItems.Count > 0)
+            {
+                orders = lvOrders.CheckedItems.Cast<ListViewItem>().Select(x => x.Tag as Order);
+            }
+
+            if (rbProduction.Checked)
+            {
+                if (cbSameDateForCustomReport.Checked)
+                {
+                    orders = orders.Select(o => o with
+                    {
+                        OrderDetails = o.OrderDetails.Select(od => od with
+                        {
+                            ProducedOrders = od.ProducedOrders.Select(po => po with
+                            {
+                                ProducedDate = dtpDate.Value.Date
+                            }).ToList()
+                        }).ToList()
+                    }).ToList();
+                }
+
+                report = (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.CreateCustomReport(dtpDate.Value.Date, orders, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, (cbIsOvertime.Enabled & cbIsOvertime.Checked));
+                FillProductionReport(dgReport, (DateRangedProductionReport)report);
+            }
+            else if (rbSales.Checked)
+            {
+                if (cbSameDateForCustomReport.Checked)
+                {
+                    orders = orders.Select(o => o with
+                    {
+                        IssueDate = dtpDate.Value.Date
+                    }).ToList();
+                }
+
+                report = (DateRangedSalesReport)ReportCreator<DateRangedSalesReport>.CreateCustomReport(dtpDate.Value.Date, orders, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, cbIsOvertime.Checked);
+                FillSalesReport(dgReport, (DateRangedSalesReport)report);
+            }
+
+            (sender as Button).Enabled = true;
+        }
         private void btnCopyTable_Click(object sender, EventArgs e)
         {
             if (dgReport.Rows.Count > 0)
@@ -1397,6 +1460,7 @@ namespace EnezcamERP
             else
                 e.Effect = DragDropEffects.None;
         }
+
         #endregion
     }
 }

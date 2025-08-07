@@ -165,6 +165,8 @@
             txtPrice = new TextBox();
             lbPrice = new Label();
             gbProductionReportDetails = new GroupBox();
+            cbSameDateForCustomReport = new CheckBox();
+            btnCreateCustomReport = new Button();
             cbIsOvertime = new CheckBox();
             cbCalculateAllInterval = new CheckBox();
             lblDailyCost = new Label();
@@ -1166,7 +1168,7 @@
             btnSpecQuantity.Location = new Point(1301, 18);
             btnSpecQuantity.Name = "btnSpecQuantity";
             btnSpecQuantity.Size = new Size(223, 29);
-            btnSpecQuantity.TabIndex = 26;
+            btnSpecQuantity.TabIndex = 13;
             btnSpecQuantity.Text = "Ürün Özelliklerine Göre Miktar";
             btnSpecQuantity.UseVisualStyleBackColor = true;
             btnSpecQuantity.Click += btnSpecQuantity_Click;
@@ -1440,6 +1442,8 @@
             // gbProductionReportDetails
             // 
             gbProductionReportDetails.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            gbProductionReportDetails.Controls.Add(cbSameDateForCustomReport);
+            gbProductionReportDetails.Controls.Add(btnCreateCustomReport);
             gbProductionReportDetails.Controls.Add(cbIsOvertime);
             gbProductionReportDetails.Controls.Add(cbCalculateAllInterval);
             gbProductionReportDetails.Controls.Add(lblDailyCost);
@@ -1456,13 +1460,35 @@
             gbProductionReportDetails.TabStop = false;
             gbProductionReportDetails.Text = "Rapor Detayları";
             // 
+            // cbSameDateForCustomReport
+            // 
+            cbSameDateForCustomReport.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            cbSameDateForCustomReport.AutoSize = true;
+            cbSameDateForCustomReport.Location = new Point(6, 635);
+            cbSameDateForCustomReport.Name = "cbSameDateForCustomReport";
+            cbSameDateForCustomReport.Size = new Size(144, 24);
+            cbSameDateForCustomReport.TabIndex = 13;
+            cbSameDateForCustomReport.Text = "Aynı Tarihi Kullan";
+            cbSameDateForCustomReport.UseVisualStyleBackColor = true;
+            // 
+            // btnCreateCustomReport
+            // 
+            btnCreateCustomReport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnCreateCustomReport.Location = new Point(6, 600);
+            btnCreateCustomReport.Name = "btnCreateCustomReport";
+            btnCreateCustomReport.Size = new Size(223, 29);
+            btnCreateCustomReport.TabIndex = 11;
+            btnCreateCustomReport.Text = "Seçili Siparişden Rapor Oluştur";
+            btnCreateCustomReport.UseVisualStyleBackColor = true;
+            btnCreateCustomReport.Click += btnCreateCustomReport_Click;
+            // 
             // cbIsOvertime
             // 
             cbIsOvertime.AutoSize = true;
             cbIsOvertime.Location = new Point(6, 383);
             cbIsOvertime.Name = "cbIsOvertime";
             cbIsOvertime.Size = new Size(122, 24);
-            cbIsOvertime.TabIndex = 11;
+            cbIsOvertime.TabIndex = 9;
             cbIsOvertime.Text = "Mesai Raporu";
             cbIsOvertime.UseVisualStyleBackColor = true;
             cbIsOvertime.CheckedChanged += cbIsOvertime_CheckedChanged;
@@ -1512,7 +1538,7 @@
             rbSales.Location = new Point(119, 27);
             rbSales.Name = "rbSales";
             rbSales.Size = new Size(61, 24);
-            rbSales.TabIndex = 4;
+            rbSales.TabIndex = 5;
             rbSales.Text = "Satış";
             rbSales.UseVisualStyleBackColor = true;
             // 
@@ -1523,7 +1549,7 @@
             rbProduction.Location = new Point(21, 27);
             rbProduction.Name = "rbProduction";
             rbProduction.Size = new Size(75, 24);
-            rbProduction.TabIndex = 5;
+            rbProduction.TabIndex = 4;
             rbProduction.TabStop = true;
             rbProduction.Text = "Üretim";
             rbProduction.UseVisualStyleBackColor = true;
@@ -1542,7 +1568,7 @@
             btnCopyTable.Location = new Point(6, 693);
             btnCopyTable.Name = "btnCopyTable";
             btnCopyTable.Size = new Size(223, 29);
-            btnCopyTable.TabIndex = 10;
+            btnCopyTable.TabIndex = 12;
             btnCopyTable.Text = "Tabloyu Kopyala";
             btnCopyTable.UseVisualStyleBackColor = true;
             btnCopyTable.Click += btnCopyTable_Click;
@@ -1550,10 +1576,10 @@
             // btnCreateReport
             // 
             btnCreateReport.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCreateReport.Location = new Point(6, 657);
+            btnCreateReport.Location = new Point(6, 565);
             btnCreateReport.Name = "btnCreateReport";
             btnCreateReport.Size = new Size(223, 29);
-            btnCreateReport.TabIndex = 9;
+            btnCreateReport.TabIndex = 10;
             btnCreateReport.Text = "Oluştur";
             btnCreateReport.UseVisualStyleBackColor = true;
             btnCreateReport.Click += btnCreateReport_Click;
@@ -1855,5 +1881,7 @@
         private DateTimePicker dtpEnd;
         private DateTimePicker dtpStart;
         private ToolStripMenuItem AddFromJSON;
+        private Button btnCreateCustomReport;
+        private CheckBox cbSameDateForCustomReport;
     }
 }

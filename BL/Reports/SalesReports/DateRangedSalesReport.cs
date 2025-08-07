@@ -8,11 +8,12 @@ namespace BL.Reports.SalesReports
 {
     public class DateRangedSalesReport : IDateRangedReport
     {
-        public DateRangedSalesReport(DateTime date, ReportInterval interval, decimal outgoing, bool calculateAllInterval)
+        public DateRangedSalesReport(DateTime date, IEnumerable<Order> orders, ReportInterval interval, decimal outgoing, bool calculateAllInterval)
         {
             _interval = interval;
             _outgoing = outgoing;
             _calculateAllInterval = calculateAllInterval;
+            _orders = orders;
 
             SetDateRange(date, interval);
             CreateReport();
@@ -47,6 +48,8 @@ namespace BL.Reports.SalesReports
         public DateTime DateRangeStart => _dateRangeStart;
         public DateTime DateRangeEnd => _dateRangeEnd;
 
+        IEnumerable<Order> _orders;
+
         decimal _outgoing;
         List<MonthlyOutgoing> _monthlyOutgoings;
 
@@ -76,7 +79,7 @@ namespace BL.Reports.SalesReports
                                 new MonthlyOutgoingsRepository().GetAll(x => x.Month == date.Month && x.Year == date.Year).FirstOrDefault().Outgoing //haftaiçi üretim varsa, rapor yıllık raporsa 
                                 : 0;
 
-                    DailySalesReports.Add(new(date, res));
+                    DailySalesReports.Add(new(date, _orders, res));
                 }
 
                 if (new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date & x.IsOvertime).Count() > 0)
@@ -84,7 +87,7 @@ namespace BL.Reports.SalesReports
                     OvertimeOutgoing overtimeOutgoing = new OvertimeOutgoingsRepository().GetAll(x => x.Date.Date == date.Date).FirstOrDefault();
                     var outgoing = overtimeOutgoing != null ? overtimeOutgoing.Outgoing : 0;
 
-                    DailySalesReports.Add(new(date, outgoing));
+                    DailySalesReports.Add(new(date, _orders, outgoing));
                 }
 
                 date = date.AddDays(1);

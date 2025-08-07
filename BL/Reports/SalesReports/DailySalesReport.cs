@@ -7,15 +7,19 @@ namespace BL.Reports.SalesReports
 {
     public class DailySalesReport
     {
-        public DailySalesReport(DateTime date, decimal outgoing)
+        public DailySalesReport(DateTime date, IEnumerable<Order> orders, decimal outgoing)
         {
             if (date == null | outgoing == null)
                 throw new ArgumentNullException("null");
 
             _date = date.Date;
             _outgoing = outgoing;
+            _orders = orders;
 
-            OrderDetails.AddRange(orderDetailsDB.GetAll(x => x.Order.IssueDate.Date == date.Date));
+            if (orders != null && orders.Any())
+                OrderDetails.AddRange(orders.Where(x => x.IssueDate.Date == date.Date).SelectMany(x => x.OrderDetails));
+            else
+                OrderDetails.AddRange(orderDetailsDB.GetAll(x => x.Order.IssueDate.Date == date.Date));
 
             CreateEntries(OrderDetails);
         }
@@ -79,6 +83,8 @@ namespace BL.Reports.SalesReports
 
         decimal _outgoing;
         public decimal Outgoing => _outgoing;
+
+        IEnumerable<Order> _orders;
 
         public ReportInterval Interval => ReportInterval.Daily;
         public ReportType Type => ReportType.Production;
