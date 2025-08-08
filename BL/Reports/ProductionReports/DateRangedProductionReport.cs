@@ -22,7 +22,10 @@ namespace BL.Reports.ProductionReports
 
         DateTime GetWeekStart(DateTime date)
         {
-            return date.Date.AddDays(-(int)date.Date.DayOfWeek + 1);
+            // Pazartesi başlangıçlı hafta: Pazar (0) için 6 gün geri git
+            int dow = (int)date.DayOfWeek; // Sunday=0 ... Saturday=6
+            int diff = (7 + (dow - 1)) % 7; // Mon=0, Tue=1, ... Sun=6
+            return date.Date.AddDays(-diff);
         }
         DateTime GetWeekEnd(DateTime date)
         {
@@ -66,7 +69,7 @@ namespace BL.Reports.ProductionReports
 
             DateTime date = DateRangeStart;
 
-            _monthlyOutgoings = new MonthlyOutgoingsRepository().GetAll(x => (x.Year >= DateRangeStart.Year & x.Month >= DateRangeStart.Month) & (x.Year <= DateRangeEnd.Year & x.Month <= DateRangeEnd.Month)).ToList();
+            _monthlyOutgoings = new MonthlyOutgoingsRepository().GetAll(x => (x.Year >= DateRangeStart.Year && x.Month >= DateRangeStart.Month) & (x.Year <= DateRangeEnd.Year && x.Month <= DateRangeEnd.Month)).ToList();
 
             if (_interval == ReportInterval.Daily)
             {
@@ -75,28 +78,44 @@ namespace BL.Reports.ProductionReports
             }
             else
             {
+                var producedOrdersRepo = new ProducedOrdersRepository();
+                var monthlyOutRepo = new MonthlyOutgoingsRepository();
+                var overtimeOutRepo = new OvertimeOutgoingsRepository();
+
                 while (date <= DateRangeEnd)
                 {
-                    //check conditions
-                    if (new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date & !x.IsOvertime).Count() > 0 || (int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5)
-                    {
-                        bool hasProducedOrders = new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date & !x.IsOvertime).Count() > 0;
-                        bool isWeekday = (int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5;
-                        bool isWithinDateRange = date.Date <= (_calculateAllInterval ? _dateRangeEnd : DateTime.Now.Date);
-                        bool isYearlyReport = _interval == ReportInterval.Yearly;
+                    bool isWeekday = (int)date.DayOfWeek >= 1 && (int)date.DayOfWeek <= 5; // Pazartesi–Cuma
+                    bool isWithinDateRange = date.Date <= (_calculateAllInterval ? _dateRangeEnd.Date : DateTime.Now.Date);
 
-                        decimal res = (hasProducedOrders || isWeekday) && isWithinDateRange ?
-                                new MonthlyOutgoingsRepository().GetAll(x => x.Month == date.Month && x.Year == date.Year).FirstOrDefault().Outgoing //haftaiçi üretim varsa, rapor yıllık raporsa 
-                                : 0;
-                        DailyProductionReports.Add(new(date, _orders, res, false));
+                    bool hasNormal = producedOrdersRepo
+                        .GetAll(x => x.ProducedDate.Date == date.Date && !x.IsStock && !x.IsOvertime)
+                        .Any();
+
+                    bool hasOvertime = producedOrdersRepo
+                        .GetAll(x => x.ProducedDate.Date == date.Date && !x.IsStock && x.IsOvertime)
+                        .Any();
+
+                    if (isWeekday || (!isWeekday && hasNormal))
+                    {
+                        var mo = monthlyOutRepo
+                            .GetAll(x => x.Month == date.Month && x.Year == date.Year)
+                            .FirstOrDefault();
+
+                        bool shouldApplyOutgoing = isWithinDateRange && (isWeekday || (!isWeekday && hasNormal));
+                        decimal normalOutgoing = shouldApplyOutgoing ? (mo?.Outgoing ?? 0) : 0;
+
+                        DailyProductionReports.Add(new(date, _orders, normalOutgoing, false));
                     }
 
-                    if (new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date & x.IsOvertime).Count() > 0)
+                    if (hasOvertime)
                     {
-                        OvertimeOutgoing overtimeOutgoing = new OvertimeOutgoingsRepository().GetAll(x => x.Date.Date == date.Date).FirstOrDefault();
-                        var outgoing = overtimeOutgoing != null ? overtimeOutgoing.Outgoing : 0;
+                        var overtime = overtimeOutRepo
+                            .GetAll(x => x.Date.Date == date.Date)
+                            .FirstOrDefault();
 
-                        DailyProductionReports.Add(new(date, _orders, outgoing, true));
+                        decimal overtimeOutgoing = overtime?.Outgoing ?? 0;
+
+                        DailyProductionReports.Add(new(date, _orders, overtimeOutgoing, true));
                     }
 
                     date = date.AddDays(1);

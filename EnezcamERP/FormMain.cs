@@ -1290,27 +1290,14 @@ namespace EnezcamERP
             IEnumerable<Order> orders = null;
 
             if (lvOrders.CheckedItems.Count > 0)
-            {
                 orders = lvOrders.CheckedItems.Cast<ListViewItem>().Select(x => x.Tag as Order);
-            }
 
             if (rbProduction.Checked)
             {
                 if (cbSameDateForCustomReport.Checked)
-                {
-                    orders = orders.Select(o => o with
-                    {
-                        OrderDetails = o.OrderDetails.Select(od => od with
-                        {
-                            ProducedOrders = od.ProducedOrders.Select(po => po with
-                            {
-                                ProducedDate = dtpDate.Value.Date
-                            }).ToList()
-                        }).ToList()
-                    }).ToList();
-                }
+                    orders = orders.DeepCloneForReport(dtpDate.Value.Date);
 
-                report = (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.CreateCustomReport(dtpDate.Value.Date, orders, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, (cbIsOvertime.Enabled & cbIsOvertime.Checked));
+                    report = (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.CreateCustomReport(dtpDate.Value.Date, orders, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, (cbIsOvertime.Enabled & cbIsOvertime.Checked));
                 FillProductionReport(dgReport, (DateRangedProductionReport)report);
             }
             else if (rbSales.Checked)

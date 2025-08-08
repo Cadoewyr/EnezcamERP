@@ -14,12 +14,20 @@ namespace BL.Reports.ProductionReports
             _IsOvertime = IsOvertime;
             _orders = orders;
 
-            ProducedOrders.AddRange(producedOrdersDB.GetAll(x => x.ProducedDate.Date == date.Date & !x.IsStock & x.IsOvertime == _IsOvertime));
-
             if (_orders != null && _orders.Any())
-                ProducedOrders.AddRange(_orders.Where(x => x.IssueDate.Date == date.Date).SelectMany(x => x.OrderDetails.SelectMany(y => y.ProducedOrders.Where(z => !z.IsStock & z.IsOvertime == _IsOvertime))));
+            {
+                var res = _orders
+                    .SelectMany(o => o.OrderDetails ?? Enumerable.Empty<OrderDetail>())
+                    .SelectMany(od => od.ProducedOrders ?? Enumerable.Empty<ProducedOrder>())
+                    .Where(po => po.ProducedDate.Date == date.Date
+                                 && !po.IsStock
+                                 && po.IsOvertime == _IsOvertime)
+                    .ToList();
+
+                ProducedOrders.AddRange(res);
+            }
             else
-                ProducedOrders.AddRange(producedOrdersDB.GetAll(x => x.ProducedDate.Date == date.Date & !x.IsStock & x.IsOvertime == _IsOvertime));
+                ProducedOrders.AddRange(producedOrdersDB.GetAll(x => x.ProducedDate.Date == date.Date && !x.IsStock & x.IsOvertime == _IsOvertime));
 
             ProducedOrders = MergeProducedOrders(ProducedOrders);
             CreateEntries(ProducedOrders);
@@ -34,34 +42,34 @@ namespace BL.Reports.ProductionReports
                 DailyProductionEntry entry = null;
 
                 if (DailyProductionEntries.Any(x =>
-                    x.JobNo == item.OrderDetail.Order.JobNo &
-                    x.ProductType == item.OrderDetail.Product.Type &
-                    x.UnitPrice == item.OrderDetail.UnitPrice &
-                    x.UnitCost == item.OrderDetail.UnitCost &
-                    x.UnitCode == item.OrderDetail.UnitCode &
-                    x.DiscountRatio == item.OrderDetail.DiscountRatio &
-                    //x.TaxRatio == item.OrderDetail.TaxRatio &
-                    x.FinalUnitPrice == item.OrderDetail.FinalUnitPrice &
-                    x.DiscountRatio == item.OrderDetail.DiscountRatio &
-                    x.Product == item.OrderDetail.Product &
+                    x.JobNo == item.OrderDetail.Order.JobNo &&
+                    x.ProductType == item.OrderDetail.Product.Type &&
+                    x.UnitPrice == item.OrderDetail.UnitPrice &&
+                    x.UnitCost == item.OrderDetail.UnitCost &&
+                    x.UnitCode == item.OrderDetail.UnitCode &&
+                    x.DiscountRatio == item.OrderDetail.DiscountRatio &&
+                    //x.TaxRatio == item.OrderDetail.TaxRatio &&
+                    x.FinalUnitPrice == item.OrderDetail.FinalUnitPrice &&
+                    x.DiscountRatio == item.OrderDetail.DiscountRatio &&
+                    x.Product == item.OrderDetail.Product &&
                     x.IsOvertime == item.IsOvertime
                 ))
                     entry = DailyProductionEntries.First(x =>
-                    x.JobNo == item.OrderDetail.Order.JobNo &
-                    x.ProductType == item.OrderDetail.Product.Type &
-                    x.UnitPrice == item.OrderDetail.UnitPrice &
-                    x.UnitCost == item.OrderDetail.UnitCost &
-                    x.UnitCode == item.OrderDetail.UnitCode &
-                    x.DiscountRatio == item.OrderDetail.DiscountRatio &
-                    //x.TaxRatio == item.OrderDetail.TaxRatio &
-                    x.FinalUnitPrice == item.OrderDetail.FinalUnitPrice &
-                    x.DiscountRatio == item.OrderDetail.DiscountRatio &
-                    x.Product == item.OrderDetail.Product &
+                    x.JobNo == item.OrderDetail.Order.JobNo &&
+                    x.ProductType == item.OrderDetail.Product.Type &&
+                    x.UnitPrice == item.OrderDetail.UnitPrice &&
+                    x.UnitCost == item.OrderDetail.UnitCost &&
+                    x.UnitCode == item.OrderDetail.UnitCode &&
+                    x.DiscountRatio == item.OrderDetail.DiscountRatio &&
+                    //x.TaxRatio == item.OrderDetail.TaxRatio &&
+                    x.FinalUnitPrice == item.OrderDetail.FinalUnitPrice &&
+                    x.DiscountRatio == item.OrderDetail.DiscountRatio &&
+                    x.Product == item.OrderDetail.Product &&
                     x.IsOvertime == item.IsOvertime
                 );
 
                 if (entry != null)
-                    entry.Quantity += item.OrderDetail.UnitCode == UnitCode.AD ? item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date & !x.IsStock & x.IsOvertime == _IsOvertime).Sum(x => x.ProducedOrderQuantity) : item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date & !x.IsStock & x.IsOvertime == _IsOvertime).Sum(x => x.ProducedOrderArea);
+                    entry.Quantity += item.OrderDetail.UnitCode == UnitCode.AD ? item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date && !x.IsStock && x.IsOvertime == _IsOvertime).Sum(x => x.ProducedOrderQuantity) : item.OrderDetail.ProducedOrders.Where(x => x.ProducedDate.Date == Date && !x.IsStock && x.IsOvertime == _IsOvertime).Sum(x => x.ProducedOrderArea);
                 else
                 {
                     DailyProductionEntries.Add(new()
@@ -93,9 +101,9 @@ namespace BL.Reports.ProductionReports
             {
                 var currentProducedOrder = producedOrders[i] with { };
 
-                if (mergedProducedOrders.Any(x => x.OrderDetail.ID == currentProducedOrder.OrderDetail.ID & x.IsOvertime == currentProducedOrder.IsOvertime))
+                if (mergedProducedOrders.Any(x => x.OrderDetail.ID == currentProducedOrder.OrderDetail.ID && x.IsOvertime == currentProducedOrder.IsOvertime))
                 {
-                    var producedOrder = mergedProducedOrders.Where(x => x.OrderDetail.ID == currentProducedOrder.OrderDetail.ID & x.IsOvertime == currentProducedOrder.IsOvertime).First();
+                    var producedOrder = mergedProducedOrders.Where(x => x.OrderDetail.ID == currentProducedOrder.OrderDetail.ID && x.IsOvertime == currentProducedOrder.IsOvertime).First();
                     producedOrder.ProducedOrderQuantity += currentProducedOrder.ProducedOrderQuantity;
                 }
                 else if (currentProducedOrder.IsOvertime == _IsOvertime)
