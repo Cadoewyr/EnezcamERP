@@ -36,6 +36,9 @@ namespace EnezcamERP
 
         IDateRangedReport report = null;
 
+        static (DateTime Start, DateTime End) DaySpan(DateTime d) => (d.Date, d.Date.AddDays(1).AddTicks(-1));
+        static bool IsWeekday(DateTime d) => d.DayOfWeek >= DayOfWeek.Monday && d.DayOfWeek <= DayOfWeek.Friday;
+
         public void RefreshOrders(ICollection<Order>? orders, ColumnHeaderAutoResizeStyle? columnHeaderAutoResizeStyle)
         {
             ListView listView = lvOrders;
@@ -49,19 +52,36 @@ namespace EnezcamERP
 
             listView.Items.Clear();
 
-            var items = orders ?? (!string.IsNullOrEmpty(txtSearchOrder.Text) ? ordersDB.GetAll(txtSearchOrder.Text.Trim().ToLower()).Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false).Skip(50 * (PageNumber - 1)).Take(50) : ordersDB.GetAll().Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false).Skip(50 * (PageNumber - 1)).Take(50));
+            IEnumerable<Order> items;
 
-            if (cbDateFilter.Checked)
+            if (orders != null)
             {
-                if (rbOrderDate.Checked)
-                    items = ordersDB.GetAll().AsEnumerable().Where(x => (!x.IsDone | x.IsDone == cbIsDone.Checked) && x.IssueDate >= mcDateFilter.SelectionStart.Date & x.IssueDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1)).Skip(50 * (PageNumber - 1)).Take(50);
-                else if (rbCompletedDate.Checked)
-                    items = ordersDB.GetAll().AsEnumerable().Where(x => x.IsDone && x.CompletedDate >= mcDateFilter.SelectionStart.Date && x.CompletedDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1)).Skip(50 * (PageNumber - 1)).Take(50).ToList();
-                else if (rbDeliveryDate.Checked)
-                    items = ordersDB.GetAll(x => x.DeliveryDate >= mcDateFilter.SelectionStart.Date & x.DeliveryDate <= mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1)).Skip(50 * (PageNumber - 1)).Take(50);
+                items = orders;
+            }
+            else
+            {
+                string search = txtSearchOrder.Text?.Trim().ToLower() ?? string.Empty;
+
+                if (!string.IsNullOrEmpty(search))
+                    items = ordersDB.GetAll(search).Where(x => x.IsDone == cbIsDone.Checked || x.IsDone == false);
+                else
+                    items = ordersDB.GetAll().Where(x => x.IsDone == cbIsDone.Checked || x.IsDone == false);
+
+                if (cbDateFilter.Checked)
+                {
+                    var (ds, de) = (mcDateFilter.SelectionStart.Date, mcDateFilter.SelectionEnd.Date.AddDays(1).AddTicks(-1));
+                    if (rbOrderDate.Checked)
+                        items = ordersDB.GetAll().AsEnumerable().Where(x => (!x.IsDone || x.IsDone == cbIsDone.Checked) && x.IssueDate >= ds && x.IssueDate <= de);
+                    else if (rbCompletedDate.Checked)
+                        items = ordersDB.GetAll().AsEnumerable().Where(x => x.IsDone && x.CompletedDate >= ds && x.CompletedDate <= de);
+                    else if (rbDeliveryDate.Checked)
+                        items = ordersDB.GetAll(x => x.DeliveryDate >= ds && x.DeliveryDate <= de);
+                }
+
+                items = items.Skip(50 * (PageNumber - 1)).Take(50);
             }
 
-            List<ListViewItem> lviList = [];
+            List<ListViewItem> lviList = new();
 
             foreach (var item in items)
             {
@@ -74,12 +94,11 @@ namespace EnezcamERP
                 };
 
                 Color color;
-
-                if (item.ProducedProductQuantity.Sum(x => x.Value) == 0 & item.ProductQuantity.Sum(x => x.Value) > 0)
+                if (item.ProducedProductQuantity.Sum(x => x.Value) == 0 && item.ProductQuantity.Sum(x => x.Value) > 0)
                     color = Color.MediumVioletRed;
                 else if (item.ProducedProductQuantity.Sum(x => x.Value) > 0 && !item.IsDone)
                     color = Color.MediumPurple;
-                else if (item.ProducedProductQuantity.Sum(x => x.Value) == 0 & item.ProductQuantity.Sum(x => x.Value) == 0)
+                else if (item.ProducedProductQuantity.Sum(x => x.Value) == 0 && item.ProductQuantity.Sum(x => x.Value) == 0)
                     color = Color.Green;
                 else if (item.IsDone)
                     color = Color.Green;
@@ -97,7 +116,7 @@ namespace EnezcamERP
                 lvi.SubItems.Add(item.Profit.ToString("C2"));
                 lvi.SubItems.Add(item.ProfitRatio.ToString("P2"));
                 lvi.SubItems.Add(item.IsDone ? "Tamamlandý" : "Üretimde");
-                lvi.SubItems.Add(item.IsDone & item.CompletedDate.HasValue ? item.CompletedDate.Value.ToShortDateString() : string.Empty);
+                lvi.SubItems.Add(item.IsDone && item.CompletedDate.HasValue ? item.CompletedDate.Value.ToShortDateString() : string.Empty);
 
                 lviList.Add(lvi);
             }
@@ -134,7 +153,7 @@ namespace EnezcamERP
 
                 lvi.SubItems.Add(item.Code);
                 lvi.SubItems.Add(item.Type.ToString());
-                lvi.SubItems.Add(item.IsCounting == true ? "Evet" : "Hayýr");
+                lvi.SubItems.Add(item.IsCounting ? "Evet" : "Hayýr");
                 lvi.SubItems.Add(item.PriceHistory.LastCost.ToString("C2"));
                 lvi.SubItems.Add(item.PriceHistory.LastPrice.ToString("C2"));
                 lvi.SubItems.Add(item.PriceHistory.LastProfit.ToString("C2"));
@@ -184,17 +203,17 @@ namespace EnezcamERP
                 lvi.SubItems.Add(item.Address);
 
                 if (totalCustomerSalesColumn != null && totalCustomerSalesColumn.IsActive)
-                    lvi.SubItems.Add(ordersDB.GetAll(x => x.Customer.ID == item.ID & (x.IssueDate.Date >= dtpStart.Value.Date & x.IssueDate.Date <= dtpEnd.Value.Date)).Sum(x => x.Price).ToString("C2"));
+                    lvi.SubItems.Add(ordersDB.GetAll(x => x.Customer.ID == item.ID && (x.IssueDate.Date >= dtpStart.Value.Date && x.IssueDate.Date <= dtpEnd.Value.Date)).Sum(x => x.Price).ToString("C2"));
                 else
                     lvi.SubItems.Add(string.Empty);
 
                 if (totalOrderedProductCountColumn != null && totalOrderedProductCountColumn.IsActive)
-                    lvi.SubItems.Add(new OrderDetailsRepository().GetAll(x => x.Order.Customer.ID == item.ID & x.Product.IsCounting & (x.Order.IssueDate.Date >= dtpStart.Value.Date & x.Order.IssueDate.Date <= dtpEnd.Value.Date)).Sum(x => x.Quantity).ToString());
+                    lvi.SubItems.Add(new OrderDetailsRepository().GetAll(x => x.Order.Customer.ID == item.ID && x.Product.IsCounting && (x.Order.IssueDate.Date >= dtpStart.Value.Date && x.Order.IssueDate.Date <= dtpEnd.Value.Date)).Sum(x => x.Quantity).ToString());
                 else
                     lvi.SubItems.Add(string.Empty);
 
                 if (totalOrderedProductAreaColumn != null && totalOrderedProductAreaColumn.IsActive)
-                    lvi.SubItems.Add($"{new OrderDetailsRepository().GetAll(x => x.Order.Customer.ID == item.ID & x.Product.IsCounting & (x.Order.IssueDate.Date >= dtpStart.Value.Date & x.Order.IssueDate.Date <= dtpEnd.Value.Date)).Sum(x => x.TotalArea)} M2");
+                    lvi.SubItems.Add($"{new OrderDetailsRepository().GetAll(x => x.Order.Customer.ID == item.ID && x.Product.IsCounting && (x.Order.IssueDate.Date >= dtpStart.Value.Date && x.Order.IssueDate.Date <= dtpEnd.Value.Date)).Sum(x => x.TotalArea)} M2");
                 else
                     lvi.SubItems.Add(string.Empty);
 
@@ -203,19 +222,15 @@ namespace EnezcamERP
                 listView.Items.Add(lvi);
             }
 
-            //if (columnHeaderAutoResizeStyle != null)
-            //    listView.AutoResizeColumns(columnHeaderAutoResizeStyle.Value);
-
             ColumnSettingsManager.SetColumns(this, listView);
         }
         public void InitialReportForm()
         {
             MonthlyOutgoingsRepository monthlyOutgoingsRepository = new();
 
-            if (monthlyOutgoingsRepository.GetByDate(dtpDate.Value.Year, dtpDate.Value.Month) != null)
-                nudOutgoing.Value = monthlyOutgoingsRepository.GetByDate(dtpDate.Value.Year, dtpDate.Value.Month).Outgoing;
-
-
+            var mo = monthlyOutgoingsRepository.GetByDate(dtpDate.Value.Year, dtpDate.Value.Month);
+            if (mo != null)
+                nudOutgoing.Value = mo.Outgoing;
         }
         public void CheckExpiredOrders(bool checkListViewItems)
         {
@@ -289,9 +304,7 @@ namespace EnezcamERP
                     string stockNo = item["StockNo"].ToString();
                     string stockName = item["StockName"].ToString();
 
-                    Product product;
-
-                    product = productsDB.GetAll(x => x.Code == stockNo.ToUpper()).FirstOrDefault();
+                    Product product = productsDB.GetAll(x => x.Code == stockNo.ToUpper()).FirstOrDefault();
 
                     if (product == null)
                     {
@@ -341,11 +354,7 @@ namespace EnezcamERP
                             OrderDetail = tempOrderDetail,
                             Spec = new SpecRepository().GetAll(x => x.Name.ToUpper() == "ÞABLON").FirstOrDefault()
                         });
-
-                        //if ((decimal)item["UnitPrice"] == 0)
-                        //    tempOrderDetail.UnitPrice *= (decimal)1.25;
                     }
-
 
                     tempOrder.OrderDetails.Add(tempOrderDetail);
                 }
@@ -403,6 +412,7 @@ namespace EnezcamERP
                         }
                     }
                     break;
+
                 case ReportInterval.Yearly:
                     string[] months = ["Ocak", "Þubat", "Mart", "Nisan", "Mayýs", "Haziran", "Temmuz", "Aðustos", "Eylül", "Ekim", "Kasým", "Aralýk"];
 
@@ -419,10 +429,10 @@ namespace EnezcamERP
                         decimal profit = 0, profitRatioWithOutgoing = 0;
                         decimal gProfit = group.Sum(x => x.Profit), gCost = group.Sum(x => x.Cost), gPrice = group.Sum(x => x.Price), gCostWithoutOutgoing = group.Sum(x => x.CostWithOutgoing);
 
-                        if (gProfit > 0 & gCost > 0)
+                        if (gProfit > 0 && gCost > 0)
                             profit = gProfit / gCost;
 
-                        if (gPrice > 0 & gCostWithoutOutgoing > 0)
+                        if (gPrice > 0 && gCostWithoutOutgoing > 0)
                             profitRatioWithOutgoing = (gPrice - gCostWithoutOutgoing) / gCostWithoutOutgoing;
 
                         dataGrid.Rows.Add(
@@ -439,6 +449,7 @@ namespace EnezcamERP
                     }
 
                     break;
+
                 default:
                     foreach (var item in Template.DateRangedProduction)
                     {
@@ -524,6 +535,7 @@ namespace EnezcamERP
                         }
                     }
                     break;
+
                 case ReportInterval.Yearly:
                     string[] months = ["Ocak", "Þubat", "Mart", "Nisan", "Mayýs", "Haziran", "Temmuz", "Aðustos", "Eylül", "Ekim", "Kasým", "Aralýk"];
 
@@ -540,17 +552,16 @@ namespace EnezcamERP
                         decimal profit = 0, profitRatioWithOutgoing = 0;
                         decimal gProfit = group.Sum(x => x.Profit), gCost = group.Sum(x => x.Cost), gPrice = group.Sum(x => x.Price), gCostWithoutOutgoing = group.Sum(x => x.CostWithOutgoing);
 
-                        if (gProfit > 0 & gCost > 0)
+                        if (gProfit > 0 && gCost > 0)
                             profit = gProfit / gCost;
 
-                        if (gPrice > 0 & gCostWithoutOutgoing > 0)
+                        if (gPrice > 0 && gCostWithoutOutgoing > 0)
                             profitRatioWithOutgoing = (gPrice - gCostWithoutOutgoing) / gCostWithoutOutgoing;
 
-
-                        if (group.Sum(x => x.Profit) > 0 & group.Sum(x => x.Cost) > 0)
+                        if (group.Sum(x => x.Profit) > 0 && group.Sum(x => x.Cost) > 0)
                             profit = group.Sum(x => x.Profit) / group.Sum(x => x.Cost);
 
-                        if (group.Sum(x => x.Price) > 0 & group.Sum(x => x.CostWithOutgoing) > 0)
+                        if (group.Sum(x => x.Price) > 0 && group.Sum(x => x.CostWithOutgoing) > 0)
                             profitRatioWithOutgoing = (group.Sum(x => x.Price) - group.Sum(x => x.CostWithOutgoing)) / group.Sum(x => x.CostWithOutgoing);
 
                         dataGrid.Rows.Add(
@@ -567,6 +578,7 @@ namespace EnezcamERP
                     }
 
                     break;
+
                 default:
                     foreach (var item in Template.DateRangedSales)
                     {
@@ -621,39 +633,27 @@ namespace EnezcamERP
             bool isEndOfWeek = now.DayOfWeek == DayOfWeek.Friday;
 
             DateTime lastDayOfMonth = new DateTime(now.Year, now.Month, DateTime.DaysInMonth(now.Year, now.Month));
-
             if (lastDayOfMonth.DayOfWeek == DayOfWeek.Saturday || lastDayOfMonth.DayOfWeek == DayOfWeek.Sunday)
                 lastDayOfMonth = lastDayOfMonth.AddDays(-(lastDayOfMonth.DayOfWeek == DayOfWeek.Saturday ? 1 : 2));
-
             bool isEndOfMonth = now.Date == lastDayOfMonth.Date;
 
             DateTime lastDayOfYear = new DateTime(now.Year, 12, 31);
-
             if (lastDayOfYear.DayOfWeek == DayOfWeek.Saturday || lastDayOfYear.DayOfWeek == DayOfWeek.Sunday)
                 lastDayOfYear = lastDayOfYear.AddDays(-(lastDayOfYear.DayOfWeek == DayOfWeek.Saturday ? 1 : 2));
-
             bool isEndOfYear = now.Date == lastDayOfYear.Date;
 
             string[] reports = { "Yýllýk", "Aylýk", "Haftalýk" };
+            List<string> selectedStrings = new();
 
-            List<string> selectedStrings = [];
-            string questionString = " rapor almak ister misiniz?";
-            string message = string.Empty;
+            if (isEndOfWeek) selectedStrings.Add(reports[2]);
+            if (isEndOfMonth) selectedStrings.Add(reports[1]);
+            if (isEndOfYear) selectedStrings.Add(reports[0]);
 
-            if (isEndOfWeek)
-                selectedStrings.Add(reports[2]);
-            if (isEndOfMonth)
-                selectedStrings.Add(reports[1]);
-            if (isEndOfYear)
-                selectedStrings.Add(reports[0]);
-
-            message = string.Join(", ", selectedStrings.ToArray()).ToString() + questionString;
-
-            //Capitalize first letter
-            message = char.ToUpper(message[0]) + message.Substring(1).ToLower();
-
-            if (isEndOfYear || isEndOfMonth || isEndOfWeek)
+            if (selectedStrings.Count > 0)
             {
+                string message = string.Join(", ", selectedStrings) + " rapor almak ister misiniz?";
+                message = char.ToUpper(message[0]) + message.Substring(1);
+
                 DialogResult result = MessageBox.Show(message, "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
@@ -669,13 +669,10 @@ namespace EnezcamERP
         int _pageNumber = 1;
         int PageNumber
         {
-            get
-            {
-                return _pageNumber;
-            }
+            get => _pageNumber;
             set
             {
-                if (value >= 1 & value <= 999)
+                if (value >= 1 && value <= 999)
                 {
                     _pageNumber = value;
                     lblPageNumber.Text = value.ToString();
@@ -724,7 +721,7 @@ namespace EnezcamERP
         }
         void FillOrdersTotal()
         {
-            if (lvOrders.SelectedItems.Count > 0 & lvOrders.CheckedItems.Count == 0)
+            if (lvOrders.SelectedItems.Count > 0 && lvOrders.CheckedItems.Count == 0)
             {
                 txtTotalQuantity.Text = (lvOrders.SelectedItems[0].Tag as Order).GetQuantityString();
                 txtTotalProducedQuantity.Text = (lvOrders.SelectedItems[0].Tag as Order).GetProducedQuantityString();
@@ -751,7 +748,7 @@ namespace EnezcamERP
                 txtTotalPrice.Text = tempOrder.Price.ToString("C2");
                 txtTotalPriceWithTax.Text = tempOrder.PriceWithTax.ToString("C2");
             }
-            else if (lvOrders.SelectedItems.Count == 0 & lvOrders.CheckedItems.Count == 0)
+            else if (lvOrders.SelectedItems.Count == 0 && lvOrders.CheckedItems.Count == 0)
             {
                 txtTotalQuantity.Text =
                 txtTotalProducedQuantity.Text =
@@ -764,7 +761,7 @@ namespace EnezcamERP
         private void checkDateFilter()
         {
             if (!cbIsDone.Checked)
-                cbIsDone.Checked = cbDateFilter.Checked & rbCompletedDate.Checked;
+                cbIsDone.Checked = cbDateFilter.Checked && rbCompletedDate.Checked;
         }
         private void btnAddOrder_Click(object sender, EventArgs e)
         {
@@ -772,9 +769,6 @@ namespace EnezcamERP
         }
         private void btnUpdateOrder_Click(object sender, EventArgs e)
         {
-            bool isChecked = (sender as ListView).SelectedItems[0].Checked;
-            (sender as ListView).SelectedItems[0].Checked = !isChecked;
-
             UpdateOrder();
         }
         private void btnDeleteOrder_Click(object sender, EventArgs e)
@@ -783,7 +777,7 @@ namespace EnezcamERP
         }
         private void btnRefreshOrder_Click(object sender, EventArgs e)
         {
-            RefreshOrders(ordersDB.GetAll(txtSearchOrder.Text.Trim().ToLower()).Where(x => x.IsDone == cbIsDone.Checked | x.IsDone == false).Skip(50 * (PageNumber - 1)).Take(50).ToArray(), ColumnHeaderAutoResizeStyle.HeaderSize);
+            RefreshOrders(ordersDB.GetAll(txtSearchOrder.Text.Trim().ToLower()).Where(x => x.IsDone == cbIsDone.Checked || x.IsDone == false).Skip(50 * (PageNumber - 1)).Take(50).ToArray(), ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         private void cbIsDone_CheckedChanged(object sender, EventArgs e)
         {
@@ -808,6 +802,7 @@ namespace EnezcamERP
             if (cbDateFilter.Checked)
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
+
         private void DateFilterSettingsChanged(object sender, EventArgs e)
         {
             checkDateFilter();
@@ -815,14 +810,17 @@ namespace EnezcamERP
             if (cbDateFilter.Checked)
                 RefreshOrders(null, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
+
         private void lvOrders_SelectedIndexChanged(object sender, EventArgs e)
         {
             FillOrdersTotal();
         }
+
         private void lvOrders_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
             FillOrdersTotal();
         }
+
         private void txtSearchOrder_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -831,6 +829,7 @@ namespace EnezcamERP
                 e.Handled = true;
             }
         }
+
         private void btnExpiredOrders_Click(object sender, EventArgs e)
         {
             CheckExpiredOrders(true);
@@ -884,7 +883,7 @@ namespace EnezcamERP
         }
         private void completeOrderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if ((lvOrders.SelectedItems.Count > 0 & lvOrders.CheckedItems.Count == 0) && MessageBox.Show("Seçilen sipariþler tamamlanacak. Onaylýyor musunuz?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if ((lvOrders.SelectedItems.Count > 0 && lvOrders.CheckedItems.Count == 0) && MessageBox.Show("Seçilen sipariþler tamamlanacak. Onaylýyor musunuz?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 foreach (ListViewItem item in lvOrders.SelectedItems)
                 {
@@ -1030,7 +1029,7 @@ namespace EnezcamERP
                     newOrderDetailSpecs.Add(new()
                     {
                         ID = 0,
-                        OrderDetail = newOrderDetail, // Burada yeni OrderDetail referansý kullanýlýyor
+                        OrderDetail = newOrderDetail,
                         Spec = spec.Spec
                     });
                 }
@@ -1043,7 +1042,6 @@ namespace EnezcamERP
 
             newOrder.OrderDetails = newOrderDetails;
 
-            // Yeni Order nesnesini veri tabanýna ekleyebilirsiniz.
             ordersDB.Add(newOrder);
         }
         private void AddFromJSON_Click(object sender, EventArgs e)
@@ -1198,7 +1196,7 @@ namespace EnezcamERP
         {
             var res = new OvertimeOutgoingsRepository().GetAll(x => x.Date.Date == date.Date).FirstOrDefault();
 
-            if (res == null & outgoing > 0)
+            if (res == null && outgoing > 0)
                 new OvertimeOutgoingsRepository().Add(new()
                 {
                     Date = date,
@@ -1215,7 +1213,7 @@ namespace EnezcamERP
         {
             var res = new MonthlyOutgoingsRepository().GetByDate(date.Year, date.Month);
 
-            if (res == null & outgoing > 0)
+            if (res == null && outgoing > 0)
                 new MonthlyOutgoingsRepository().Add(new()
                 {
                     Month = date.Month,
@@ -1238,7 +1236,7 @@ namespace EnezcamERP
             decimal mOutgoing = monthlyOutgoing != null ? monthlyOutgoing.Outgoing : 0;
             decimal oOutgoing = overtimeOutgoing != null ? overtimeOutgoing.Outgoing : 0;
 
-            nudOutgoing.Value = (cbIsOvertime.Enabled & cbIsOvertime.Checked) ? oOutgoing : mOutgoing;
+            nudOutgoing.Value = (cbIsOvertime.Enabled && cbIsOvertime.Checked) ? oOutgoing : mOutgoing;
         }
         private void btnCreateReport_Click(object sender, EventArgs e)
         {
@@ -1246,9 +1244,9 @@ namespace EnezcamERP
 
             var interval = rbDaily.Checked ? ReportInterval.Daily : (rbWeekly.Checked ? ReportInterval.Weekly : (rbMonthly.Checked ? ReportInterval.Monthly : (rbYearly.Checked ? ReportInterval.Yearly : ReportInterval.Daily)));
 
-            if (cbIsOvertime.Enabled & cbIsOvertime.Checked & rbDaily.Checked)
+            if (cbIsOvertime.Enabled && cbIsOvertime.Checked && rbDaily.Checked)
                 AddOrUpdateOvertimeOutgoing(dtpDate.Value, nudOutgoing.Value);
-            else if (!cbIsOvertime.Enabled | !cbIsOvertime.Checked)
+            else if (!cbIsOvertime.Enabled || !cbIsOvertime.Checked)
                 AddOrUpdateMonthlyOutgoing(dtpDate.Value, nudOutgoing.Value);
 
             if (interval == ReportInterval.Yearly)
@@ -1259,7 +1257,7 @@ namespace EnezcamERP
 
             if (rbProduction.Checked)
             {
-                report = (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, (cbIsOvertime.Enabled & cbIsOvertime.Checked));
+                report = (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.Create(dtpDate.Value.Date, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, (cbIsOvertime.Enabled && cbIsOvertime.Checked));
                 FillProductionReport(dgReport, (DateRangedProductionReport)report);
             }
             else if (rbSales.Checked)
@@ -1276,9 +1274,9 @@ namespace EnezcamERP
 
             var interval = rbDaily.Checked ? ReportInterval.Daily : (rbWeekly.Checked ? ReportInterval.Weekly : (rbMonthly.Checked ? ReportInterval.Monthly : (rbYearly.Checked ? ReportInterval.Yearly : ReportInterval.Daily)));
 
-            if (cbIsOvertime.Enabled & cbIsOvertime.Checked & rbDaily.Checked)
+            if (cbIsOvertime.Enabled && cbIsOvertime.Checked && rbDaily.Checked)
                 AddOrUpdateOvertimeOutgoing(dtpDate.Value, nudOutgoing.Value);
-            else if (!cbIsOvertime.Enabled | !cbIsOvertime.Checked)
+            else if (!cbIsOvertime.Enabled || !cbIsOvertime.Checked)
                 AddOrUpdateMonthlyOutgoing(dtpDate.Value, nudOutgoing.Value);
 
             if (interval == ReportInterval.Yearly)
@@ -1294,23 +1292,27 @@ namespace EnezcamERP
 
             if (rbProduction.Checked)
             {
-                if (cbSameDateForCustomReport.Checked)
+                if (cbSameDateForCustomReport.Checked && orders != null)
+                {
                     orders = orders.DeepCloneForReport(dtpDate.Value.Date);
+                }
 
-                    report = (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.CreateCustomReport(dtpDate.Value.Date, orders, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, (cbIsOvertime.Enabled & cbIsOvertime.Checked));
+                report = (DateRangedProductionReport)ReportCreator<DateRangedProductionReport>.CreateCustomReport(
+                    dtpDate.Value.Date, orders, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, (cbIsOvertime.Enabled && cbIsOvertime.Checked));
+
                 FillProductionReport(dgReport, (DateRangedProductionReport)report);
             }
             else if (rbSales.Checked)
             {
-                if (cbSameDateForCustomReport.Checked)
+                if (cbSameDateForCustomReport.Checked && orders != null)
                 {
-                    orders = orders.Select(o => o with
-                    {
-                        IssueDate = dtpDate.Value.Date
-                    }).ToList();
+                    // Satýþta sadece IssueDate'i ayný güne çekmek istiyorsun
+                    orders = orders.Select(o => o with { IssueDate = dtpDate.Value.Date }).ToList();
                 }
 
-                report = (DateRangedSalesReport)ReportCreator<DateRangedSalesReport>.CreateCustomReport(dtpDate.Value.Date, orders, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, cbIsOvertime.Checked);
+                report = (DateRangedSalesReport)ReportCreator<DateRangedSalesReport>.CreateCustomReport(
+                    dtpDate.Value.Date, orders, interval, nudOutgoing.Value, cbCalculateAllInterval.Checked, cbIsOvertime.Checked);
+
                 FillSalesReport(dgReport, (DateRangedSalesReport)report);
             }
 
@@ -1337,14 +1339,13 @@ namespace EnezcamERP
         {
             if (report != null)
             {
-                SpecQuantities specQuantitiesForm = new(report); //
+                SpecQuantities specQuantitiesForm = new(report);
                 specQuantitiesForm.ShowDialog();
             }
         }
         private void RadioButtonCheckedChange(object sender, EventArgs e)
         {
             cbIsOvertime.Enabled = (sender as RadioButton).Name == rbDaily.Name;
-
             RefreshOutgoingNumericUpDown();
         }
         #endregion
@@ -1447,7 +1448,6 @@ namespace EnezcamERP
             else
                 e.Effect = DragDropEffects.None;
         }
-
         #endregion
     }
 }

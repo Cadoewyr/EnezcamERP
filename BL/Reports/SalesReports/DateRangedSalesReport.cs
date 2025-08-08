@@ -68,9 +68,9 @@ namespace BL.Reports.SalesReports
 
             while (date <= DateRangeEnd)
             {
-                if (new OrderRepository().GetAll(x => x.IssueDate.Date == date.Date).Count() > 0 || (int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5)
+                if (new OrderRepository().GetAll(x => x.IssueDate.Date == date.Date).Any() || (int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5)
                 {
-                    bool hasSoldOrders = new OrderRepository().GetAll(x => x.IssueDate.Date == date.Date).Count() > 0;
+                    bool hasSoldOrders = new OrderRepository().GetAll(x => x.IssueDate.Date == date.Date).Any();
                     bool isWeekday = (int)date.DayOfWeek >= 1 & (int)date.DayOfWeek <= 5;
                     bool isWithinDateRange = date.Date <= (_calculateAllInterval ? _dateRangeEnd : DateTime.Now.Date);
                     bool isYearlyReport = _interval == ReportInterval.Yearly;
@@ -82,7 +82,7 @@ namespace BL.Reports.SalesReports
                     DailySalesReports.Add(new(date, _orders, res));
                 }
 
-                if (new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date & x.IsOvertime).Count() > 0)
+                if (new ProducedOrdersRepository().GetAll(x => x.ProducedDate.Date == date.Date & x.IsOvertime).Any())
                 {
                     OvertimeOutgoing overtimeOutgoing = new OvertimeOutgoingsRepository().GetAll(x => x.Date.Date == date.Date).FirstOrDefault();
                     var outgoing = overtimeOutgoing != null ? overtimeOutgoing.Outgoing : 0;
