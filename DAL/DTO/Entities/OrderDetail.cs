@@ -25,7 +25,30 @@ namespace DAL.DTO.Entities
         public virtual ICollection<OrderDetailSpec> Specs { get; set; } = [];
 
         [NotMapped]
-        public decimal UnitArea => decimal.Round((Width * Height) < (decimal)0.25 ? (decimal)0.25 : Width * Height, 3, MidpointRounding.AwayFromZero);
+        public decimal UnitArea
+        {
+            get
+            {
+                // Order null olursa bugünkü tarihi baz al
+                var issueDate = Order.IssueDate;
+
+                // Milat tarihi
+                var cutoffDate = new DateTime(2025, 8, 13);
+
+                decimal minSqm;
+
+                if (issueDate <= cutoffDate)
+                    minSqm = 0.25m;
+                else
+                    minSqm = 0.3m;
+
+                    return decimal.Round(
+                        Math.Max(Width * Height, minSqm),
+                        3,
+                        MidpointRounding.AwayFromZero
+                    );
+            }
+        }
         [NotMapped]
         public decimal TotalArea => decimal.Round(UnitArea * Quantity, 3);
 
