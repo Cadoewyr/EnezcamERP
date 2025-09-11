@@ -16,7 +16,7 @@ namespace BL.Repositories.Repositories
 
             if (result.IsValid)
             {
-                if (!table.Any(x => x.Name == entity.Name & x.Type == entity.Type & x.Code == entity.Code))
+                if (!table.Any(x => x.Name == entity.Name && x.Type == entity.Type && x.Code == entity.Code))
                     base.Add(entity);
                 else
                     throw new Exception("Aynı üründen birden fazla oluşturulamaz.");
@@ -28,9 +28,10 @@ namespace BL.Repositories.Repositories
         }
         public override IEnumerable<Product> GetAll()
         {
-            return table.
-                Include(x => x.PriceHistory)
-                .ToList().OrderBy(x => x.Name);
+            return table
+                .Include(x => x.PriceHistory)
+                .OrderBy(x => x.Name)
+                .ToList();
         }
         public override IEnumerable<Product> GetAll(string filter)
         {
@@ -57,7 +58,8 @@ namespace BL.Repositories.Repositories
             return table
                 .Include(x => x.PriceHistory)
                 .Where(predicate)
-                .ToList().OrderBy(x => x.Name);
+                .OrderBy(x => x.Name)
+                .ToList();
         }
         public override bool Update(Product entity, int id)
         {
@@ -67,7 +69,7 @@ namespace BL.Repositories.Repositories
             {
                 var oldEntity = Get(id);
 
-                if (table.Where(x => (x.Code == entity.Code & x.Name == entity.Name) & x.ID != id).FirstOrDefault() == null)
+                if (table.Where(x => (x.Code == entity.Code && x.Name == entity.Name) && x.ID != id).FirstOrDefault() == null)
                 {
                     var entityType = typeof(Product);
 

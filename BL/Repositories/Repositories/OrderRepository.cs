@@ -98,7 +98,9 @@ namespace BL.Repositories.Repositories
                 }
             }
 
-            return results.ToList().OrderByDescending(x => x.JobNo);
+            return results
+                .OrderByDescending(x => x.JobNo)
+                .ToList();
         }
         public IEnumerable<Order> GetAll(string filter, int pageNumber, int pageSize = 50)
         {

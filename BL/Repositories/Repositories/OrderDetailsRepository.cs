@@ -23,7 +23,8 @@ namespace BL.Repositories.Repositories
                 .Include(x => x.ProducedOrders)
                 .Include(x => x.Product).ThenInclude(x => x.PriceHistory)
                 .Include(x => x.Specs).ThenInclude(x => x.Spec)
-                .ToList().OrderBy(x => x.CreatedAt);
+                .OrderBy(x => x.CreatedAt)
+                .ToList();
         }
         public override IEnumerable<OrderDetail> GetAll(string filter)
         {
