@@ -37,16 +37,16 @@ namespace DAL.DTO.Entities
 
                 decimal minSqm;
 
-                if (issueDate <= cutoffDate)
-                    minSqm = 0.25m;
-                else
+                if (issueDate > cutoffDate && this.Product.Type == ProcessType.ISICAM)
                     minSqm = 0.3m;
+                else
+                    minSqm = 0.25m;
 
-                    return decimal.Round(
-                        Math.Max(Width * Height, minSqm),
-                        3,
-                        MidpointRounding.AwayFromZero
-                    );
+                return decimal.Round(
+                    Math.Max(Width * Height, minSqm),
+                    3,
+                    MidpointRounding.AwayFromZero
+                );
             }
         }
         [NotMapped]
